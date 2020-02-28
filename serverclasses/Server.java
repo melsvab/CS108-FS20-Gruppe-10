@@ -27,13 +27,7 @@ class Server {
             while ((c = in.read()) != -1) {
                 out.write((char) c);
                 
-<<<<<<< HEAD
-                System.out.println((char) c); //Nein Dennis es ist mein neuer Code
-=======
                 System.out.println((char) c); //Dennis sein neuer Code nicht Rohail!!!!!!
->>>>>>> efc29b2695afb244accd64ef806bf62cb1fd76ff
-
-                
 
             }
 
