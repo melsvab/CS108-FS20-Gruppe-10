@@ -26,7 +26,7 @@ class Server {
 
             while ((c = in.read()) != -1) {
                 out.write((char) c);
-                System.out.println((char) c);
+                System.out.println((char) c); //NEUER KOMMENTAR
             }
 
             System.out.println("Connection terminated");
