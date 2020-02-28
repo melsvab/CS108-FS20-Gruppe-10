@@ -18,15 +18,15 @@ class Server {
             Socket socket = echo.accept();
 
             System.out.println("Connected");
-
+            
             InputStream in = socket.getInputStream();
             OutputStream out = socket.getOutputStream();
-
+    
             int c;
 
             while ((c = in.read()) != -1) {
                 out.write((char) c);
-                System.out.print((char) c);
+                System.out.println((char) c);
             }
 
             System.out.println("Connection terminated");
