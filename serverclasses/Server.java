@@ -26,7 +26,11 @@ class Server {
 
             while ((c = in.read()) != -1) {
                 out.write((char) c);
+<<<<<<< HEAD
                 System.out.println((char) c); // mein kommentar ist besser
+=======
+                System.out.println((char) c); //NEUER KOMMENTAR Nein meiner ist mir lieer
+>>>>>>> 9a0fcfd8d4829aa808bd17890fe787fab92c0709
             }
 
             System.out.println("Connection terminated");
