@@ -29,6 +29,8 @@ class Server {
                 
                 System.out.println((char) c); //Rohail sein neuer Code
 
+                //Dennis Sein Neuer Code
+
             }
 
             System.out.println("Connection terminated"); 
