@@ -7,14 +7,19 @@ class Server {
 
     static final int port = 1111;
 
+    public static int clientID = 1; //every Client gets an ID.
+    public static int playersOnline = 0; //for a correct ID if a client reconnects to Server
+
+    public static String serverIP;
+
     public static void main(String[] args) {
 
         try {
 
-            String serverIP = Inet4Address.getLocalHost().getHostAddress();
+            serverIP = Inet4Address.getLocalHost().getHostAddress();
+            
             //get IP of server printed out.
-
-            System.out.println("\n\nWaiting for a connection to IP: " + serverIP + " on port " + port + " ...\n");
+            System.out.println("\n\nWaiting for a connection to IP: " + serverIP + " on port " + port + "...\n\n\n");
 
             ServerSocket iWaitForRequests = new ServerSocket(port); 
             /**A server socket waits for requests to come in 
@@ -24,51 +29,26 @@ class Server {
              * Here: Server socke is bound to the specified port.
              */
 
-            Socket endpoint = iWaitForRequests.accept(); 
-            /**Server socket "iWaitForRequests" now listens 
-             * for a connection to be made to this socket and accepts it.
-             * This is stored in a socket.
-             * A socket is an endpoint for communication between two machines
-             */
+            do {
+                Socket endpoint = iWaitForRequests.accept(); 
+                /**Server socket "iWaitForRequests" now listens 
+                 * for a connection to be made to this socket and accepts it.
+                 * This is stored in a socket.
+                 * A socket is an endpoint for communication between two machines
+                 */
 
-            //after the connection is made:
-            System.out.println("Connected\n\nWaiting for Input\n");
-            
-            InputStream in = endpoint.getInputStream();
-            OutputStream out = endpoint.getOutputStream();
-            
-            /**Messages form Server to Client need to be
-             * converted to byte-streams. Therefore, let client know, 
-             * that connection was made and give instructions via byte[]
-             */ 
-            byte[] connected = ("\nConnected\n").getBytes();
-            byte[] messageToClient = ("\nPlease type in your echo: ").getBytes();
-            for(int i = 0; i < connected.length; i++) {
-                out.write(connected[i]);
-            }
-            for(int i = 0; i < messageToClient.length; i++) {
-                out.write(messageToClient[i]);
-            }
-    
-            /**Same for output-stream: Byte is read as a int.
-             * As long as int is not -1 (no byte) write bytes to client
-             * and repeat what was written on console.
-             */ 
-            int byteCode; //TO DO: How to change output to client and on console? Strings? no bytes?
+                //Start a Thread for a Client and give correct ID
+                ClientThread clientThread = new ClientThread(clientID, endpoint); //don't understand this.
+                Thread thread = new Thread(clientThread); 
+                thread.start();
 
-            while ((byteCode = in.read()) != -1) {
-                out.write((char) byteCode);
-                System.out.print((char) byteCode);
-            }
+                //For correct IDs after (re-)connections
+                playersOnline += 1;
+                clientID = playersOnline + 1;
 
-            /**At this point, inputStream is still
-             * waiting for input...
-             * 
-             * After that:
-             */ 
-            System.out.println("\n\nConnection terminated by Client\n"); 
-            endpoint.close();
-            iWaitForRequests.close();
+            } while (playersOnline != 0); //If last Client terminated his connection, leave loop...
+
+            iWaitForRequests.close(); //..and close Server //DOES NOT WORK - STUCK IN ACCEPT();
 
         } catch (IOException e) {
             System.err.println(e.toString());
@@ -78,3 +58,21 @@ class Server {
     }
 
 }
+            /* UPDATE: Code from below moved to ClientTread.
+            
+            InputStream in = endpoint.getInputStream();
+            OutputStream out = endpoint.getOutputStream();
+            
+            out.write(("\nConnected\n\nPlease type in your echo: ").getBytes());
+    
+            int byteCode;
+
+            while ((byteCode = in.read()) != -1) {
+                out.write((char) byteCode);
+                System.out.print((char) byteCode);
+            }
+
+            System.out.println("\n\nConnection terminated by Client\n"); 
+            endpoint.close();
+
+            */

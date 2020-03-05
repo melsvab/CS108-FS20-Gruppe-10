@@ -9,7 +9,7 @@ class Client {
 
         try {
 
-            System.out.println("Stelle Verbindung her");
+            System.out.println("\n\nconnecting...");
 
             Socket sock = new Socket(args[0], Integer.parseInt(args[1]));
 
