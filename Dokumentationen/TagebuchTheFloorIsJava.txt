@@ -1,0 +1,34 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2511
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\ri-340\partightenfactor0
+
+\f0\b\fs32 \cf0 Tagebuch f\'fcr das Spiel \'93The Floor is Java\'94\
+\pard\pardeftab720\ri-340\partightenfactor0
+
+\f1\b0\fs24 \cf0 \
+von Melanie Svab, Dennis Grunenberg, Rohail Gondal and Natasha Dudler\
+\
+\
+27. Februar 2020: Treffen zur Besprechung unserer Game-Idee.\
+Anwesende: Melanie, Dennis, Rohail, Natasha\
+\
+Jeder brachte jeweils drei Ideen mit, die wir ausf\'fchrlich besprachen. Nun haben wir uns f\'fcr ein Schildkr\'f6tenspiel namens \'abThe Floor is Java\'bb entschieden, zu dem wir s\'e4mtliche Regeln und Details festlegten.\
+\
+\
+28. Februar 2020: Beginn des Programmierens von Server und Client\
+Anwesende: Dennis Grunenberg, Rohail Gondal\
+\
+Die Basics sind nun programmiert. Der Server l\'e4uft. Sendet der Client eine Nachricht, so bekommt er eine Antwort vom Server.\
+\
+\
+4. M\'e4rz 2020: Erstellen von Mockups\
+Anwesende: Melanie Svab\
+\
+5. M\'e4rz 2020: Kreieren des Timetables mit GanttProjekt, sowie des Tagebuches\
+Anwesende: Natasha Dudler\
+Nach etlichen Stunden des Termine-Verschiebens und des Verzweifelns steht nun der Terminkalender fest. Jetzt m\'fcssen wir uns nur noch daran halten\'85\
+}
