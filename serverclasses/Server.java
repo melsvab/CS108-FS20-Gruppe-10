@@ -38,15 +38,15 @@ class Server {
                  */
 
                 //Start a Thread for a Client and give correct ID
-                ClientThread clientThread = new ClientThread(clientID, endpoint); //don't understand this.
-                Thread thread = new Thread(clientThread); 
+                HelloThread helloThread = new HelloThread(clientID, endpoint);
+                Thread thread = new Thread(helloThread);
                 thread.start();
 
                 //For correct IDs after (re-)connections
                 playersOnline += 1;
                 clientID = playersOnline + 1;
 
-            } while (playersOnline != 0); //If last Client terminated his connection, leave loop...
+            } while (playersOnline != 0); //TO DO different Bedingung
 
             iWaitForRequests.close(); //..and close Server //DOES NOT WORK - STUCK IN ACCEPT();
 
@@ -58,21 +58,3 @@ class Server {
     }
 
 }
-            /* UPDATE: Code from below moved to ClientTread.
-            
-            InputStream in = endpoint.getInputStream();
-            OutputStream out = endpoint.getOutputStream();
-            
-            out.write(("\nConnected\n\nPlease type in your echo: ").getBytes());
-    
-            int byteCode;
-
-            while ((byteCode = in.read()) != -1) {
-                out.write((char) byteCode);
-                System.out.print((char) byteCode);
-            }
-
-            System.out.println("\n\nConnection terminated by Client\n"); 
-            endpoint.close();
-
-            */

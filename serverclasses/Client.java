@@ -5,6 +5,8 @@ import java.io.*;
 
 class Client {
 
+    public static boolean serverConnection = false;
+
     public static void main(String[] args) {
 
         try {
@@ -21,6 +23,12 @@ class Client {
             Thread iT = new Thread(th);
             iT.start();
 
+            /*PongThread pong = new PongThread(out);
+            Thread pongThread = new Thread(pong);
+            pongThread.start();*/
+
+
+
             //stream input
             BufferedReader conin = new BufferedReader(new InputStreamReader(System.in));
 
@@ -29,9 +37,12 @@ class Client {
             while (true) {
                 //reading input stream
                 line = conin.readLine();
+
+                //if (in.read.equals("PONG")) 
                 if (line.equalsIgnoreCase("QUIT")) {
+                    
                     break;
-                }
+                } //if (in.read())
 
                 //writing to ECHO server
                 out.write(line.getBytes());
