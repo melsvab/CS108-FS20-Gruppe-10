@@ -7,13 +7,15 @@ import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import threads.echothreads.EchoThreadServer;
+import threads.echothreads.ServerThreadForClient;
 import threads.pingpongthreads.PingReaderThread;
 import threads.pingpongthreads.PongSenderThread;
 
 public class Server {
 
     static final int port = 1111;
+
+    public static String message = ""; //TO DO DURCH QUEUE ERSETZEN: Objecte mit String und nickname + ID 
 
     public static void main(String[] args) {
 
@@ -47,8 +49,8 @@ public class Server {
                 /**Now Start all Threds for this Client */
 
                 /**Echo Threads */
-                EchoThreadServer echoThreadServer = new EchoThreadServer(dataInputStream, dataOutputStream);
-                Thread echoThread = new Thread(echoThreadServer);
+                ServerThreadForClient serverThreadForClient = new ServerThreadForClient(dataInputStream, dataOutputStream);
+                Thread echoThread = new Thread(serverThreadForClient);
                 echoThread.start();
 
                 /**PingPong Threads */
