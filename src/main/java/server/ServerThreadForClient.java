@@ -2,7 +2,6 @@ package server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 
 public class ServerThreadForClient implements Runnable {
 
@@ -39,17 +38,30 @@ public class ServerThreadForClient implements Runnable {
 
             System.out.println("\nNickname client #" + this.client_ID + ": " + this.client_nickname);
 
-            /**
-             * Now start chatmode.
-             */
+            String helloMessage = dataInputStream.readUTF();
+            System.out.println(helloMessage);
+
             while (true) {
 
-                Server.message += dataInputStream.readUTF(); //TO DO NICHT MESSAGE SONDER QUEUE 
-                System.out.println(Server.message); // LAST IN FIRTS OUT 
+                synchronized (Server.message) {
+
+                    String input = dataInputStream.readUTF();
+
+                    if (input.equalsIgnoreCase("QUIT")) {
+                        break;
+                    } else {
+                        Server.message += this.client_nickname + ": " + input; //TO DO NICHT MESSAGE SONDER QUEUE 
+                        System.out.println(Server.message); // LAST IN FIRTS OUT 
+                    }
                 
+                }
+
             }
 
-        } catch (IOException exception) {
+            dataInputStream.close();
+            dataOutputStream.close();
+            
+        } catch (Exception exception) {
             System.err.println(exception.toString());
         }
 

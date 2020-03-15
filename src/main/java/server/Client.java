@@ -43,16 +43,19 @@ public class Client {
              */
             System.out.print(dataInputStream.readUTF());
             /**
-             * Send nickname to Server.
+             * Send nickname to Server and show it to client
              */
             String nickname = readKeyBoard.readLine();
-
             dataOutputStream.writeUTF(nickname);
-
             System.out.println("\n\nYour nickname is: " + nickname);
 
-            while (true) {
+            /**
+             * Now start ChatThread.
+             */
+            dataOutputStream.writeUTF("\n\n" + nickname + " has joined the chat!\n");
 
+            while (true) {
+    
                 /**
                  * Leave loop if client enters QUIT.
                  * Else, send String entered to Server.
@@ -60,11 +63,12 @@ public class Client {
                 String input = readKeyBoard.readLine();
 
                 if (input.equalsIgnoreCase("QUIT")) {
+                    dataOutputStream.writeUTF(input);
                     break;
                 } else {
-                    dataOutputStream.writeUTF(input);
+                    dataOutputStream.writeUTF(input + "\n");
                 }
-        
+
             }
 
             dataInputStream.close();
