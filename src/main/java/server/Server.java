@@ -7,63 +7,68 @@ import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import threads.echothreads.ServerThreadForClient;
-import threads.pingpongthreads.PingReaderThread;
-import threads.pingpongthreads.PongSenderThread;
-
 public class Server {
 
-    static final int port = 1111;
+    public static String message = "";
 
-    public static String message = ""; //TO DO DURCH QUEUE ERSETZEN: Objecte mit String und nickname + ID 
+    /**
+     * Static variables for the server.
+     */
+    public static boolean serverIsOnline = true;
+    public static final int port = 1111;
+
+    /**
+     * Variables for identify clients.
+     */
+    public static int playersOnline = 0;
+    public static int clientConnections = 0;
+
+    //public static String message = ""; //TO DO DURCH QUEUE ERSETZEN: Objecte mit String und nickname + ID 
 
     public static void main(String[] args) {
 
         try {
 
             /**
-             * Build a Server and wait for a connection.
+             * Build a Server and give feedback, when server is online.
              */
             String serverIP = Inet4Address.getLocalHost().getHostAddress();
             String serverName = Inet4Address.getLocalHost().getHostName();
 
             ServerSocket serverSocket = new ServerSocket(port);
 
-            System.out.println("\n\n\nServerSocket at port " + port + " successfully build\n\n" + 
+            System.out.println("\n\n\nServerSocket at port " + port + " successfully build.\n\n" + 
                 "Server IP-Adrdress: " + serverIP + "\n" + 
                 "Servername: " + serverName + "\n\n\n" +                
-                "Now waiting for a connection to this IP (or name) by a Client...\n\n\n");
+                "Now waiting for a connection to this IP/name by a Client...\n\n\n");
 
-            do {
+            while (serverIsOnline) {
 
+                /**
+                 * Wait for a connection to the server by a Client
+                 */              
                 Socket socket = serverSocket.accept();
 
-                System.out.println("A Client has successfully connected to this server on port " + port + "\n\n");
-    
-                /**Connection to a Client established */
-
-                /**For every Thread, we use Streams (In- & Output). */
+                System.out.println("\nClient #" + ++clientConnections + " is connected to the server.\n\n");
+                /** Connection to one client established */
+            
+                /**
+                 * Create In- & Ouputstreams for reading and sending Strings
+                 */
                 DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-                /**Now Start all Threds for this Client */
+                /**
+                 * Start ServerThread for client who has connected.
+                 * In this Thread, this client and the server can
+                 * communicate with eacc other
+                 */
+                ServerThreadForClient serverThreadForClient = new ServerThreadForClient(
+                    ++playersOnline, dataInputStream, dataOutputStream);
+                Thread serverThread = new Thread(serverThreadForClient);
+                serverThread.start();
 
-                /**Echo Threads */
-                ServerThreadForClient serverThreadForClient = new ServerThreadForClient(dataInputStream, dataOutputStream);
-                Thread echoThread = new Thread(serverThreadForClient);
-                echoThread.start();
-
-                /**PingPong Threads */
-                /*PingReaderThread pingReaderThread = new PingReaderThread(dataInputStream);
-                Thread newthread = new Thread(pingReaderThread);
-                newthread.start();
-    
-                PongSenderThread pongsenderThread = new PongSenderThread(dataOutputStream);
-                Thread pongThread = new Thread(pongsenderThread);
-                pongThread.start();
-                /** */
-
-            } while (true);
+            }
             
         } catch (IOException exception) {
             System.err.println(exception.toString());
