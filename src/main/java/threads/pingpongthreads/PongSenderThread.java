@@ -1,14 +1,14 @@
 package threads.pingpongthreads;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 public class PongSenderThread implements Runnable {
 
-    OutputStream outputStream;
+    DataOutputStream dataOutputStream;
 
-    public PongSenderThread(OutputStream outputStream) {
-        this.outputStream = outputStream;
+    public PongSenderThread(DataOutputStream dataOutputStream) {
+        this.dataOutputStream = dataOutputStream;
     }
 
     public void run () {
@@ -19,7 +19,7 @@ public class PongSenderThread implements Runnable {
                         
             try {
 
-                outputStream.write(("PONG ").getBytes());
+                dataOutputStream.writeUTF("PONG ");
                 Thread.sleep(1000);
 
             } catch (Exception exception) {

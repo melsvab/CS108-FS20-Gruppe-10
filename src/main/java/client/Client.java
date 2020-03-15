@@ -1,10 +1,10 @@
 package client;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.Socket;
 
 import threads.echothreads.EchoThreadClient;
@@ -39,19 +39,24 @@ public class Client {
              * Therefore, we have to give them to each Thread!
             */
 
-            OutputStream outputStream = socket.getOutputStream();
-            InputStream inputStream = socket.getInputStream();
+            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 
             /**
              * Now Start all Threads 
             */
 
+            /**Echo Threads */
+            EchoThreadClient echoThreadClient = new EchoThreadClient(dataInputStream, dataOutputStream);
+            Thread echoThread = new Thread(echoThreadClient);
+            echoThread.start();
+
             /**PingPong Threads */
-            PingSenderThread pingsenderThread = new PingSenderThread(outputStream);
+            /*PingSenderThread pingsenderThread = new PingSenderThread(dataOutputStream);
             Thread pingThread = new Thread(pingsenderThread);
             pingThread.start();
 
-            PongReaderThread pongsenderThread = new PongReaderThread(inputStream);
+            PongReaderThread pongsenderThread = new PongReaderThread(dataInputStream);
             Thread pongThread = new Thread(pongsenderThread);
             pongThread.start();
             /** */

@@ -1,36 +1,42 @@
 package threads.echothreads;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 
 public class EchoThreadClient implements Runnable {
 
-    InputStream inputStream;
-    OutputStream outputStream;
+    DataInputStream dataInputStream;
+    DataOutputStream dataOutputStream;
 
-    public EchoThreadClient(InputStream inputStream, OutputStream outputStream) {
-        this.inputStream = inputStream;
-        this.outputStream = outputStream;
+    public EchoThreadClient(DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
+        this.dataInputStream = dataInputStream;
+        this.dataOutputStream = dataOutputStream;
     }
 
     public void run () {
         
         try {
 
+            Object lock = new Object();
+
             InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
             BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
-                
-            while (true) {
 
-                outputStream.write(readKeyBoard.readLine().getBytes());
-                System.out.print((char) inputStream.read());
+            synchronized (lock) {
+                
+                while (true) {
+
+                    dataOutputStream.writeUTF(readKeyBoard.readLine());
+                    System.out.println(dataInputStream.readUTF());
+                    Thread.sleep(100);
+    
+                }
 
             }
 
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             System.err.println(exception.toString());
         }
 

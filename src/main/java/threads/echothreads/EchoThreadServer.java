@@ -1,33 +1,39 @@
 package threads.echothreads;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 
 public class EchoThreadServer implements Runnable {
 
-    InputStream inputStream;
-    OutputStream outputStream;
+    DataInputStream dataInputStream;
+    DataOutputStream dataOutputStream;
 
-    public EchoThreadServer(InputStream inputStream, OutputStream outputStream) {
-        this.inputStream = inputStream;
-        this.outputStream = outputStream;
+    public EchoThreadServer(DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
+        this.dataInputStream = dataInputStream;
+        this.dataOutputStream = dataOutputStream;
     }
 
     public void run () {
         
         try {
-                
-            while (true) {
 
-                outputStream.write((char) inputStream.read());
-                System.out.print((char) inputStream.read());
+            Object lock = new Object();
+
+            synchronized (lock) {
+
+                while (true) {
+
+                    dataOutputStream.writeUTF(dataInputStream.readUTF()); //Send Back
+                    System.out.println(dataInputStream.readUTF()); //Output Console
+                    Thread.sleep(100);
+    
+                }
 
             }
 
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             System.err.println(exception.toString());
         }
 

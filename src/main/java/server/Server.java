@@ -1,8 +1,8 @@
 package server;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -41,17 +41,22 @@ public class Server {
                 /**Connection to a Client established */
 
                 /**For every Thread, we use Streams (In- & Output). */
-                InputStream inputStream = socket.getInputStream();
-                OutputStream outputStream = socket.getOutputStream();
+                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+                DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
                 /**Now Start all Threds for this Client */
 
+                /**Echo Threads */
+                EchoThreadServer echoThreadServer = new EchoThreadServer(dataInputStream, dataOutputStream);
+                Thread echoThread = new Thread(echoThreadServer);
+                echoThread.start();
+
                 /**PingPong Threads */
-                PingReaderThread pingReaderThread = new PingReaderThread(inputStream);
+                /*PingReaderThread pingReaderThread = new PingReaderThread(dataInputStream);
                 Thread newthread = new Thread(pingReaderThread);
                 newthread.start();
     
-                PongSenderThread pongsenderThread = new PongSenderThread(outputStream);
+                PongSenderThread pongsenderThread = new PongSenderThread(dataOutputStream);
                 Thread pongThread = new Thread(pongsenderThread);
                 pongThread.start();
                 /** */
