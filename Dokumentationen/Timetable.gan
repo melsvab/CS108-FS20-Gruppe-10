@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="The Floor is Java" company="" webLink="http://" view-date="2020-02-03" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="2.8.10" locale="en_GB">
+<?xml version="1.0" encoding="UTF-8"?><project name="The Floor is Java" company="" webLink="http://" view-date="2020-03-16" view-index="0" gantt-divider-location="460" resource-divider-location="300" version="2.8.10" locale="en_GB">
     <description/>
-    <view zooming-state="default:6" id="gantt-chart">
-        <field id="tpd3" name="Name" width="166" order="0"/>
-        <field id="tpd4" name="Begin date" width="64" order="1"/>
-        <field id="tpd5" name="End date" width="64" order="2"/>
+    <view zooming-state="default:5" id="gantt-chart">
+        <field id="tpd3" name="Name" width="205" order="0"/>
+        <field id="tpd4" name="Begin date" width="117" order="1"/>
+        <field id="tpd5" name="End date" width="117" order="2"/>
         <timeline>
-            <![CDATA[6,7,57]]>
+            <![CDATA[6,57,7]]>
         </timeline>
         <option id="color.recent">
             <![CDATA[#ccffff #cccccc]]>
@@ -55,34 +55,95 @@
         <task id="0" name="Create Timetable, Presentations &amp; Plans" color="#8cb6ce" meeting="false" start="2020-02-29" duration="12" complete="100" thirdDate="2020-03-05" thirdDate-constraint="0" expand="true">
             <depend id="6" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="6" name="Milestone 1" color="#ccffff" meeting="false" start="2020-03-12" duration="2" complete="100" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
-            <depend id="79" type="2" difference="0" hardness="Strong"/>
-            <depend id="82" type="2" difference="0" hardness="Strong"/>
-        </task>
         <task id="44" name="Übung: Gradle, &quot;Best Practices&quot;" color="#ccffff" meeting="false" start="2020-03-11" duration="1" complete="100" thirdDate="2020-02-17" thirdDate-constraint="0" expand="true">
             <depend id="6" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="79" name="Server (Complete Basics)" color="#8cb6ce" meeting="false" start="2020-03-14" duration="9" complete="0" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
-            <notes>
-                <![CDATA[To achive: 
-- check for connection to client regularly
-- players can change nicknames (server changes dublicates)
-- many clients can log in
-- server handles logout of a client ]]>
-            </notes>
-            <depend id="84" type="2" difference="0" hardness="Strong"/>
+        <task id="6" name="Milestone 1" color="#ccffff" meeting="false" start="2020-03-12" duration="2" complete="100" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
+            <depend id="112" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="82" name="Client (Complete Basics)" color="#8cb6ce" meeting="false" start="2020-03-14" duration="9" complete="0" thirdDate="2020-02-28" thirdDate-constraint="0" expand="true">
+        <task id="112" name="Understand Code for Server Client" color="#8cb6ce" meeting="false" start="2020-03-14" duration="2" complete="100" thirdDate="2020-02-03" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[Group Meeting:
+
+- Explain Code to our members
+- Discuss ways to complete tasks and decide who will do what task]]>
+            </notes>
+            <depend id="82" type="2" difference="0" hardness="Strong"/>
+            <depend id="119" type="2" difference="0" hardness="Strong"/>
+            <depend id="120" type="2" difference="0" hardness="Strong"/>
+            <depend id="163" type="2" difference="0" hardness="Strong"/>
+            <depend id="186" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="82" name="Client (Complete Basics)" color="#8cb6ce" meeting="false" start="2020-03-16" duration="4" complete="100" thirdDate="2020-02-28" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[To achive: 
 - Chatroom between Clients
 - Client suggests a nickname based on the system user name
-- Client checks connection to server regularly
+- Client can change nickname
+(- Client checks connection to server regularly)
 ]]>
             </notes>
             <depend id="84" type="2" difference="0" hardness="Strong"/>
+            <task id="119" name="Username Settings: first login" color="#8cb6ce" meeting="false" start="2020-03-16" duration="2" complete="100" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[first login: Users will be asked if they want to use their system username]]>
+                </notes>
+                <depend id="123" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="130" name="Username Settings: after first login" color="#8cb6ce" meeting="false" start="2020-03-18" duration="2" complete="100" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[After login: Users can change password by sending "NAME"]]>
+                </notes>
+                <depend id="115" type="2" difference="0" hardness="Strong"/>
+            </task>
         </task>
-        <task id="84" name="Puffer(1)" color="#cccccc" meeting="false" start="2020-03-23" duration="2" complete="0" thirdDate="2020-03-18" thirdDate-constraint="0" expand="true">
+        <task id="79" name="Server (Complete Basics)" color="#8cb6ce" meeting="false" start="2020-03-18" duration="5" complete="100" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[To achive: 
+(- check for connection to client regularly)
+- players can change nicknames (server changes dublicates)
+- many clients can log in
+- server handles logout of a client 
+]]>
+            </notes>
+            <depend id="84" type="2" difference="0" hardness="Strong"/>
+            <task id="123" name="React to Client's First Decision" color="#8cb6ce" meeting="false" start="2020-03-18" duration="2" complete="100" thirdDate="2020-03-14" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Reaction: First login of a Client
+- If Client respondes "NOPE", ask for name
+- If Client respondes "YEAH" use system name
+- Check for Duplicates]]>
+                </notes>
+            </task>
+            <task id="115" name="React to Client's Name Change" color="#8cb6ce" meeting="false" start="2020-03-20" duration="3" complete="100" thirdDate="2020-03-14" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[- if Client says "NAME", save next words as new name.
+- check for duplicates]]>
+                </notes>
+                <depend id="84" type="2" difference="0" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="120" name="Network Protocol" color="#8cb6ce" meeting="false" start="2020-03-16" duration="7" complete="100" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- First: create document with all commands
+- Second: put them into actual code]]>
+            </notes>
+            <depend id="84" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="186" name="Chatroom between Clients" color="#8cb6ce" meeting="false" start="2020-03-16" duration="7" complete="100" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <depend id="84" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="163" name="Documentation (1)" color="#8cb6ce" meeting="false" start="2020-03-16" duration="7" complete="100" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- Update Timetable regularly
+- check for entries in our project diary]]>
+            </notes>
+            <depend id="84" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="84" name="Puffer (1)" color="#cccccc" meeting="false" start="2020-03-23" duration="2" complete="0" thirdDate="2020-03-18" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- Time to organize for Milestone 3]]>
+            </notes>
             <depend id="53" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="48" name="Übung: &quot;Liraries&quot;" color="#ccffff" meeting="false" start="2020-03-18" duration="1" complete="0" thirdDate="2020-02-17" thirdDate-constraint="0" expand="true">
@@ -93,12 +154,29 @@
         </task>
         <task id="53" name="Milestone 2 (In Übungen)" color="#ccffff" meeting="false" start="2020-03-25" duration="1" complete="0" thirdDate="2020-03-25" thirdDate-constraint="0" expand="true">
             <depend id="87" type="2" difference="0" hardness="Strong"/>
-            <depend id="89" type="2" difference="0" hardness="Strong"/>
+            <depend id="232" type="2" difference="0" hardness="Strong"/>
+            <depend id="261" type="2" difference="0" hardness="Strong"/>
+            <depend id="285" type="2" difference="0" hardness="Strong"/>
+            <depend id="287" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="89" name="Rules of the Game" color="#8cb6ce" meeting="false" start="2020-03-26" duration="13" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+        <task id="285" name="Game State" color="#8cb6ce" meeting="false" start="2020-03-26" duration="9" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
             <notes>
                 <![CDATA[Make all the methodes and classes for the game
-- create Manual
+
+create Methods like: 
+-Erdbeben, Überschwemmung, Zusatzleistung (Apfel)
+sowie Reaktionen der Schildkröten
+
+Methods for turtles:
+- Punktesammeln
+- Bewegen (rechts, links, oben, unten)
+
+Goal: Game is playable
+]]>
+            </notes>
+            <task id="287" name="Create Basic Classes and Methods for Game State" color="#8cb6ce" meeting="false" start="2020-03-26" duration="4" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Make all the methodes and classes for the game
 
 create Methods like: 
 -Erdbeben, Überschwemmung, Zusatzleistung (Apfel)
@@ -109,10 +187,17 @@ Methods for turtles:
 - Bewegen (rechts, links, oben, unten)
 
 ]]>
-            </notes>
-            <depend id="55" type="2" difference="0" hardness="Strong"/>
+                </notes>
+                <depend id="265" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="291" name="Finish Basic Rules of The Game" color="#8cb6ce" meeting="false" start="2020-04-01" duration="3" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Goal: Game is playable]]>
+                </notes>
+                <depend id="251" type="2" difference="0" hardness="Strong"/>
+            </task>
         </task>
-        <task id="87" name="Server &amp; Client (Chatroom, etc)" color="#8cb6ce" meeting="false" start="2020-03-26" duration="13" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+        <task id="87" name="Code for Server &amp; Client" color="#8cb6ce" meeting="false" start="2020-03-26" duration="9" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[Create:
 - Whisper chatroom
@@ -122,9 +207,67 @@ Methods for turtles:
 - list of all players that are current connected to the server
 - Chatrooms with GUI (Graphic)]]>
             </notes>
+            <depend id="251" type="2" difference="0" hardness="Strong"/>
+            <task id="261" name="Chatrooms (Server &amp; Client)" color="#8cb6ce" meeting="false" start="2020-03-26" duration="4" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Create:
+- Whisper chatroom
+- Broadcast
+- have support for multiple lobbies (one per game) with their respektive internal chats]]>
+                </notes>
+                <depend id="317" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="265" name="Lists and Other Tasks" color="#8cb6ce" meeting="false" start="2020-03-30" duration="2" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Create:
+- Game list (list of ongoing and finished games)
+- list of all players that are current connected to the server]]>
+                </notes>
+                <depend id="291" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="317" name="Basic Chatrooms with GUI" color="#8cb6ce" meeting="false" start="2020-03-30" duration="5" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Make all chatrooms graphical
+
+if possible: help with finishing Game State]]>
+                </notes>
+                <depend id="251" type="2" difference="0" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="251" name="Presentation for Milestone 3" color="#8cb6ce" meeting="false" start="2020-04-04" duration="2" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[Make slides with these subjects:
+
+- Outline of the game with its goals, rules and mechanics
+
+- Present a working prototype of our game
+
+- Progress report: How things are going - project timeline and responsibilities, changes and problems
+
+- Describe tools, libraries and processes which you use that are not introduced in the lecture and why you use them
+
+- Rules to Code: How is the gamestate and game logic represented in the code
+
+]]>
+            </notes>
             <depend id="55" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="55" name="Übung: Milestone 3" color="#ccffff" meeting="false" start="2020-04-08" duration="1" complete="0" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
+        <task id="232" name="Documentation (2)" color="#8cb6ce" meeting="false" start="2020-03-26" duration="11" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <notes>
+                <![CDATA[- check for entries in project diary
+
+- keep timetable up to date
+- put more detail into plans for milestone 4 & 5
+
+- create and write manual]]>
+            </notes>
+            <depend id="55" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="55" name="Milestone 3: Deadline + Übung" color="#ccffff" meeting="false" start="2020-04-06" duration="3" complete="0" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[Check-in: 06.04.2020 7:00
+Übung: 08.04.2020]]>
+            </notes>
             <depend id="91" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="91" name="Puffer(2)" color="#cccccc" meeting="false" start="2020-04-09" duration="7" complete="0" thirdDate="2020-04-01" thirdDate-constraint="0" expand="true">
@@ -174,19 +317,25 @@ Server:
         <allocation task-id="6" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
         <allocation task-id="27" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="46" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
-        <allocation task-id="53" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
-        <allocation task-id="55" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
+        <allocation task-id="53" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="55" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="57" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
         <allocation task-id="60" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
-        <allocation task-id="82" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="84" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="48" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
-        <allocation task-id="89" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
-        <allocation task-id="87" resource-id="0" function="Default:1" responsible="true" load="20.0"/>
         <allocation task-id="91" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="102" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="104" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="110" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="112" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="119" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
+        <allocation task-id="130" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
+        <allocation task-id="163" resource-id="0" function="Default:1" responsible="true" load="20.0"/>
+        <allocation task-id="115" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
+        <allocation task-id="232" resource-id="0" function="Default:1" responsible="true" load="20.0"/>
+        <allocation task-id="251" resource-id="0" function="Default:1" responsible="false" load="80.0"/>
+        <allocation task-id="287" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
+        <allocation task-id="317" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
         <allocation task-id="7" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="15" resource-id="1" function="Default:0" responsible="false" load="0.0"/>
         <allocation task-id="6" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
@@ -195,18 +344,24 @@ Server:
         <allocation task-id="44" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="46" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="48" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="53" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="55" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
+        <allocation task-id="53" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="55" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="57" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="60" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="79" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="84" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="87" resource-id="1" function="Default:0" responsible="true" load="80.0"/>
-        <allocation task-id="89" resource-id="1" function="Default:0" responsible="true" load="20.0"/>
         <allocation task-id="91" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="104" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="110" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="111" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="112" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="119" resource-id="1" function="Default:0" responsible="false" load="40.0"/>
+        <allocation task-id="186" resource-id="1" function="Default:0" responsible="true" load="60.0"/>
+        <allocation task-id="115" resource-id="1" function="Default:0" responsible="true" load="40.0"/>
+        <allocation task-id="251" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="261" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="265" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="291" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="123" resource-id="1" function="Default:0" responsible="true" load="40.0"/>
         <allocation task-id="7" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="15" resource-id="2" function="Default:0" responsible="false" load="0.0"/>
         <allocation task-id="6" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
@@ -215,19 +370,21 @@ Server:
         <allocation task-id="44" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="46" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="48" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="53" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="55" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
+        <allocation task-id="53" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="55" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="57" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="60" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="79" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="84" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="89" resource-id="2" function="Default:0" responsible="true" load="80.0"/>
-        <allocation task-id="87" resource-id="2" function="Default:0" responsible="true" load="20.0"/>
         <allocation task-id="91" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="102" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="104" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="110" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="111" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="112" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="120" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="251" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="287" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="317" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="7" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="15" resource-id="3" function="Default:0" responsible="false" load="0.0"/>
         <allocation task-id="6" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
@@ -236,19 +393,22 @@ Server:
         <allocation task-id="44" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="46" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="48" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="53" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="55" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
+        <allocation task-id="53" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="55" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="57" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="60" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="82" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="84" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="87" resource-id="3" function="Default:0" responsible="true" load="80.0"/>
-        <allocation task-id="89" resource-id="3" function="Default:0" responsible="true" load="20.0"/>
         <allocation task-id="91" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="102" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="104" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="110" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="111" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="112" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="186" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="251" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="265" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="291" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="261" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
     </allocations>
     <vacations/>
     <previous/>
