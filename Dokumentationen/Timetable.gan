@@ -220,8 +220,13 @@ Methods for turtles:
             <task id="265" name="Lists and Other Tasks" color="#8cb6ce" meeting="false" start="2020-03-30" duration="2" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[Create:
-- Game list (list of ongoing and finished games)
-- list of all players that are current connected to the server]]>
+- Game list (list of ongoing and finished games, their status is indicated)
+- list of all players that are current connected to the server
+
+
+Make sure that:
+- Build Script: The build script succeeds and produces an executable jar & javadoc for the task "build-cs108"
+- Command Line: Command line parameters are parsed correctly: (client <hostadress>:<port> [<username>] | server <port>)]]>
                 </notes>
                 <depend id="291" type="2" difference="0" hardness="Strong"/>
             </task>
