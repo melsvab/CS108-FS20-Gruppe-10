@@ -9,6 +9,8 @@ import java.net.Socket;
 
 public class Client {
 
+    public static State state;
+
     public static void main(String[] args) {
 
         try {
@@ -43,15 +45,19 @@ public class Client {
              */
             System.out.print(dataInputStream.readUTF());
             /**
-             * Send nickname to Server and show it to client
+             * Send nickname to Server and show it to Client
              */
             String nickname = readKeyBoard.readLine();
+            if (nickname.equalsIgnoreCase("YEAH")) {
+                nickname = System.getProperty("user.name");
+            }
             dataOutputStream.writeUTF(nickname);
-            System.out.println("\n\nYour nickname is: " + nickname);
+            System.out.println("\n\nYour asked server for nickname: " + nickname);
 
             /**
              * Now start ChatThread.
              */
+            state = new State();
             dataOutputStream.writeUTF("\n\n" + nickname + " has joined the chat!\n");
 
             while (true) {
@@ -66,7 +72,7 @@ public class Client {
                     dataOutputStream.writeUTF(input);
                     break;
                 } else {
-                    dataOutputStream.writeUTF(input + "\n");
+                dataOutputStream.writeUTF(input + "\n");
                 }
 
             }

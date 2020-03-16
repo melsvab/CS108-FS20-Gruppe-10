@@ -12,13 +12,18 @@ public class ServerThreadForClient implements Runnable {
     /**
      * All attributes a Client requires
      */
-    int client_ID;
-    String client_nickname;
-    String client_message;
+
+    Profil profil;
+    State state;
+
+    //int client_ID;
+    //String client_nickname; //was used before
+    //String client_message;
 
     public ServerThreadForClient(
         int client_ID, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
-            this.client_ID = client_ID;
+            profil = new Profil(client_ID);
+            state = new State();
             this.dataInputStream = dataInputStream;
             this.dataOutputStream = dataOutputStream;
     }
@@ -30,13 +35,14 @@ public class ServerThreadForClient implements Runnable {
             /**
              * Let client choose his nickname.
              */
-            dataOutputStream.writeUTF("\nPlease type in your nickname: ");
+            dataOutputStream.writeUTF("\nWould you like to use the username of your system?\n");
+            dataOutputStream.writeUTF("If yes, type in >YEAH<. Otherwise type in your new nickname\n");
             /**
-             * Receive Nickname by Client and save it.
+             * Receives nickname by Client and save it.
              */
-            this.client_nickname = dataInputStream.readUTF();
+            profil.nickname = dataInputStream.readUTF(); //to do: Server checks for duplicate
 
-            System.out.println("\nNickname client #" + this.client_ID + ": " + this.client_nickname);
+            System.out.println("\nNickname client #" + profil.client_ID + ": " + profil.nickname);
 
             String helloMessage = dataInputStream.readUTF();
             System.out.println(helloMessage);
@@ -48,10 +54,22 @@ public class ServerThreadForClient implements Runnable {
                     String input = dataInputStream.readUTF();
 
                     if (input.equalsIgnoreCase("QUIT")) {
+                        //end stream
                         break;
+                    } else if (input.equalsIgnoreCase("CHAT")) {
+                        //go into general chatroom
+                        state.generalChat = true;
+                    } else if (state.generalChat) {
+                        //to do: synchronize message for chat - print chat at Client's terminal
+                        Server.message += profil.nickname + ": " + input; //TO DO NICHT MESSAGE SONDER QUEUE
+                        System.out.println(Server.message); // LAST IN FIRTS OUt
+                        if (input.equalsIgnoreCase("BACK")) {
+                            state.generalChat = false;
+                        }
                     } else {
-                        Server.message += this.client_nickname + ": " + input; //TO DO NICHT MESSAGE SONDER QUEUE 
-                        System.out.println(Server.message); // LAST IN FIRTS OUT 
+                        //Should be: Echo chat between one Client and Server only
+                        dataOutputStream.writeUTF(input);
+
                     }
                 
                 }
