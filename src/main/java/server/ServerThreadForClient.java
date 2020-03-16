@@ -10,20 +10,14 @@ public class ServerThreadForClient implements Runnable {
     DataOutputStream dataOutputStream;
 
     /**
-     * All attributes a Client requires
+     * Every Thread gets a client Profile
      */
-
-    Profil profil;
-    State state;
-
-    //int client_ID;
-    //String client_nickname; //was used before
-    //String client_message;
+    ClientProfil client_profil;
 
     public ServerThreadForClient(
         int client_ID, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
-            profil = new Profil(client_ID);
-            state = new State();
+
+            this.client_profil = new ClientProfil(client_ID);
             this.dataInputStream = dataInputStream;
             this.dataOutputStream = dataOutputStream;
     }
@@ -35,43 +29,80 @@ public class ServerThreadForClient implements Runnable {
             /**
              * Let client choose his nickname.
              */
-            dataOutputStream.writeUTF("\nWould you like to use the username of your system?\n");
-            dataOutputStream.writeUTF("If yes, type in >YEAH<. Otherwise type in your new nickname\n");
+            dataOutputStream.writeUTF("Would you like to use the username of your system?\n" + 
+                "If so, please type in >YEAH<. Otherwise type in your new nickname:\n");
+
             /**
-             * Receives nickname by Client and save it.
+             * Receive nickname by Client and save it.
              */
-            profil.nickname = dataInputStream.readUTF(); //to do: Server checks for duplicate
+            client_profil.nickname = dataInputStream.readUTF(); /**TO DO: Server checks for duplicates */
 
-            System.out.println("\nNickname client #" + profil.client_ID + ": " + profil.nickname);
+            System.out.println("\nNickname of client #" + client_profil.client_ID + ": " + client_profil.nickname);
 
-            String helloMessage = dataInputStream.readUTF();
-            System.out.println(helloMessage);
+            /**
+             * Ask client what he wants to do.
+             */           
+            String helpMessage = ("What would you like to do?\n\n" +
+                "enter >CHAT< to join the global chat.\n" +
+                "enter >START< to start the game.\n" +
+                "enter >IDK< to do something else.\n" +
+                "enter >QUIT< to end this program.\n");
 
-            while (true) {
+            dataOutputStream.writeUTF(helpMessage);
 
-                synchronized (Server.message) {
+            while (client_profil.clientIsOnline) {
 
-                    String input = dataInputStream.readUTF();
+                String clientchoice = dataInputStream.readUTF();
 
-                    if (input.equalsIgnoreCase("QUIT")) {
-                        //end stream
-                        break;
-                    } else if (input.equalsIgnoreCase("CHAT")) {
-                        //go into general chatroom
-                        state.generalChat = true;
-                    } else if (state.generalChat) {
-                        //to do: synchronize message for chat - print chat at Client's terminal
-                        Server.message += profil.nickname + ": " + input; //TO DO NICHT MESSAGE SONDER QUEUE
-                        System.out.println(Server.message); // LAST IN FIRTS OUt
-                        if (input.equalsIgnoreCase("BACK")) {
-                            state.generalChat = false;
-                        }
-                    } else {
-                        //Should be: Echo chat between one Client and Server only
-                        dataOutputStream.writeUTF(input);
+                switch (clientchoice) {
 
-                    }
+                    case "CHAT": /**TO DO: synchronize message for chat - print chat at Client's terminal */
+
+                        //DataOutputStream chatMessageOut = dataOutputStream;
+                        
+                        client_profil.isInGlobalChat = true;
+                        
+                        System.out.println("\n\n" + client_profil.nickname + " has joined the chat!\n");
+
+                        /*ChatSender chatsender = new ChatSender(chatMessageOut);
+                        Thread chatsenderthread = new Thread(chatsender);
+                        chatsenderthread.start();*/
+                        
+                        while (client_profil.isInGlobalChat) {
+
+                            synchronized (Server.chatHistory) {
                 
+                                String input = dataInputStream.readUTF();
+
+                                if (input.equalsIgnoreCase("QUIT")) {
+                                    System.out.println("\n\n" + client_profil.nickname + " has left the chat!\n");
+                                    dataOutputStream.writeUTF(helpMessage);
+                                    client_profil.isInGlobalChat = false;
+                                    break;
+                                }
+
+                                Server.chatHistory += client_profil.nickname + ": " + input; //TO DO NICHT MESSAGE SONDER QUEUE
+
+                                //dataOutputStream.writeUTF(Server.latestChatMessage);
+
+                                Server.latestChatMessage = client_profil.nickname + ": " + input;
+                                
+                                System.out.println(Server.chatHistory); // LAST IN FIRTS OUt
+
+                            }
+                            
+                        }
+
+                        break;
+
+                    case "QUIT": 
+                        client_profil.clientIsOnline = false;
+                        break;
+
+                    default: 
+
+                        dataOutputStream.writeUTF("\nInput unknown...\n\n" + helpMessage);
+            
                 }
 
             }

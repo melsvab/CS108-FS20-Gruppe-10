@@ -9,8 +9,6 @@ import java.net.Socket;
 
 public class Client {
 
-    public static State state;
-
     public static void main(String[] args) {
 
         try {
@@ -41,38 +39,73 @@ public class Client {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 
             /**
-             * Get message from server to choose nickname
+             * Get message from server to choose nickname,
+             * send nickname to Server and show it to Client
              */
             System.out.print(dataInputStream.readUTF());
-            /**
-             * Send nickname to Server and show it to Client
-             */
+
             String nickname = readKeyBoard.readLine();
+            
             if (nickname.equalsIgnoreCase("YEAH")) {
                 nickname = System.getProperty("user.name");
             }
+
             dataOutputStream.writeUTF(nickname);
-            System.out.println("\n\nYour asked server for nickname: " + nickname);
+
+            System.out.println("\n\nYour nickname is: " + nickname + "\n\n");
+            /**Nickname chosen. */
 
             /**
-             * Now start ChatThread.
+             * Get messages from server
              */
-            state = new State();
-            dataOutputStream.writeUTF("\n\n" + nickname + " has joined the chat!\n");
+            System.out.println(dataInputStream.readUTF());
 
-            while (true) {
-    
-                /**
-                 * Leave loop if client enters QUIT.
-                 * Else, send String entered to Server.
-                 */
-                String input = readKeyBoard.readLine();
+            boolean playerActive = true;
+            
+            while (playerActive) {
+                
+                String clientchoice = readKeyBoard.readLine();
+                clientchoice = clientchoice.toUpperCase();
+                dataOutputStream.writeUTF(clientchoice);
 
-                if (input.equalsIgnoreCase("QUIT")) {
-                    dataOutputStream.writeUTF(input);
-                    break;
-                } else {
-                dataOutputStream.writeUTF(input + "\n");
+                switch (clientchoice) {
+
+                    case "CHAT":
+
+                        //DataInputStream chatMessageIn = dataInputStream;
+
+                        System.out.println("\nYou have joined the global chat.\n");
+
+                        /*ChatReader chatreader = new ChatReader(chatMessageIn);
+                        Thread chatReaderThread = new Thread(chatreader);
+                        chatReaderThread.start();*/
+
+                        while (true) {
+                            
+                            String input = readKeyBoard.readLine();
+
+                            if (input.equalsIgnoreCase("QUIT")) {
+                                dataOutputStream.writeUTF(input);
+                                System.out.println("\nYou have left the chat...\n");
+                                System.out.println(dataInputStream.readUTF());
+                                break;
+                            } else {
+                            dataOutputStream.writeUTF(input + "\n");
+                            }    
+
+                        } 
+                        
+                        break;
+
+                    case "QUIT":
+
+                        playerActive = false;
+                        break;
+
+                    default: 
+
+                        System.out.println(dataInputStream.readUTF());
+
                 }
 
             }

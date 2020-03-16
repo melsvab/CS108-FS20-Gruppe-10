@@ -9,7 +9,11 @@ import java.net.Socket;
 
 public class Server {
 
-    public static String message = "";
+    /**TODO:
+     * Add a queue with generics with messages (Strings), nicknames, IDs, ...
+     */
+    public static String chatHistory = "GLOBAL CHAT HISTORY:\n";
+    public static String latestChatMessage = "";
 
     /**
      * Static variables for the server.
@@ -22,8 +26,7 @@ public class Server {
      */
     public static int playersOnline = 0;
     public static int clientConnections = 0;
-
-    //public static String message = ""; //TO DO DURCH QUEUE ERSETZEN: Objecte mit String und nickname + ID 
+   
 
     public static void main(String[] args) {
 
@@ -65,6 +68,7 @@ public class Server {
                  */
                 ServerThreadForClient serverThreadForClient = new ServerThreadForClient(
                     ++playersOnline, dataInputStream, dataOutputStream);
+
                 Thread serverThread = new Thread(serverThreadForClient);
                 serverThread.start();
 
