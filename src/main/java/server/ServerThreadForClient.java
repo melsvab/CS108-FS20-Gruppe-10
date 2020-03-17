@@ -95,6 +95,7 @@ public class ServerThreadForClient implements Runnable {
                         break;
 
                     case "QUIT": 
+                        System.out.println("\nClient #" + client_profil.client_ID + " \"" + client_profil.nickname + "\" has disconnected.");
                         client_profil.clientIsOnline = false;
                         break;
 

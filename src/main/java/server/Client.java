@@ -103,6 +103,7 @@ public class Client {
 
                     case "QUIT":
 
+                        System.out.println("\nClosing program...\n");
                         playerActive = false;
                         break;
 
