@@ -58,7 +58,7 @@ public class ServerThreadForClient implements Runnable {
 
                     case "CHAT": /**TO DO: synchronize message for chat - print chat at Client's terminal */
 
-                        //DataOutputStream chatMessageOut = dataOutputStream;
+                        //DataOutputStream chatMessageOut = dataOutputStream; /**If no new Outpustream is generated, server crashes... */
                         
                         client_profil.isInGlobalChat = true;
                         
@@ -83,11 +83,10 @@ public class ServerThreadForClient implements Runnable {
 
                                 Server.chatHistory += client_profil.nickname + ": " + input; //TO DO NICHT MESSAGE SONDER QUEUE
 
-                                //dataOutputStream.writeUTF(Server.latestChatMessage);
-
                                 Server.latestChatMessage = client_profil.nickname + ": " + input;
                                 
                                 System.out.println(Server.chatHistory); // LAST IN FIRTS OUt
+                                System.out.println("LATEST CHAT MESSAGE: " + Server.latestChatMessage);
 
                             }
                             

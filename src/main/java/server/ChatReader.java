@@ -23,7 +23,13 @@ public class ChatReader implements Runnable {
 
             try {
 
-                //System.out.println(dataInputStream.readUTF());
+                synchronized (Server.latestChatMessage) {
+
+                    String message = dataInputStream.readUTF();
+
+                    System.out.println(message);
+
+                }
 
             } catch (IOException exception) {
                 System.err.println(exception.toString());

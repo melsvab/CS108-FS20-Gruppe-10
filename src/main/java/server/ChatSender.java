@@ -8,7 +8,7 @@ public class ChatSender implements Runnable {
     DataOutputStream dataOutputStream;
 
     /**
-     * This Thread is for the client reading the newest message
+     * This Thread is for the server sending the newest message
      */
     public ChatSender(DataOutputStream dataOutputStream) {
         this.dataOutputStream = dataOutputStream;
@@ -20,9 +20,9 @@ public class ChatSender implements Runnable {
 
             while (true) {
 
-                synchronized (Server.latestChatMessage) {
-
-                    dataOutputStream.writeUTF(Server.latestChatMessage);
+                synchronized (Server.chatHistory) {
+                    
+                    dataOutputStream.writeUTF(Server.chatHistory);
     
                 }
     

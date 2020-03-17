@@ -20,15 +20,15 @@ public class Client {
             InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
             BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
 
-            System.out.println("\n\nPlease type in the IP-Address or the name of the Server: ");
+            /*System.out.println("\n\nPlease type in the IP-Address or the name of the Server: ");
             String serverIP_serverName = readKeyBoard.readLine();
 
             System.out.println("\nPlease type in the port to be connected to: ");
             int serverPort = Integer.parseInt(readKeyBoard.readLine());
 
-            System.out.println("\nConnection to Server \"" + serverIP_serverName + "\", to port " + serverPort + "...");
+            System.out.println("\nConnection to Server \"" + serverIP_serverName + "\", to port " + serverPort + "...");*/
 
-            Socket socket = new Socket(serverIP_serverName, serverPort);
+            Socket socket = new Socket(/*serverIP_serverName, serverPort*/"localhost", 1111);
             System.out.println("\n\nConnected!\n\n\n");
             /**Connection established. */
 
@@ -76,8 +76,8 @@ public class Client {
 
                         System.out.println("\nYou have joined the global chat.\n");
 
-                        /*ChatReader chatreader = new ChatReader(chatMessageIn);
-                        Thread chatReaderThread = new Thread(chatreader);
+                        /*ChatReader chatReader = new ChatReader(chatMessageIn);
+                        Thread chatReaderThread = new Thread(chatReader);
                         chatReaderThread.start();*/
 
                         while (true) {
@@ -85,12 +85,16 @@ public class Client {
                             String input = readKeyBoard.readLine();
 
                             if (input.equalsIgnoreCase("QUIT")) {
+
                                 dataOutputStream.writeUTF(input);
                                 System.out.println("\nYou have left the chat...\n");
                                 System.out.println(dataInputStream.readUTF());
                                 break;
+
                             } else {
-                            dataOutputStream.writeUTF(input + "\n");
+
+                                dataOutputStream.writeUTF(input + "\n");
+
                             }    
 
                         } 
