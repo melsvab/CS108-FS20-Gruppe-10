@@ -51,8 +51,9 @@ public class Client {
             }
 
             dataOutputStream.writeUTF(nickname);
+            //TO DO: Change this part to new thread that reads Server messages!!
 
-            System.out.println("\n\nYour nickname is: " + nickname + "\n\n");
+            System.out.println(dataInputStream.readUTF());
             /**Nickname chosen. */
 
             /**

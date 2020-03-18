@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
 
 public class Server {
 
@@ -14,6 +15,7 @@ public class Server {
      */
     public static String chatHistory = "GLOBAL CHAT HISTORY:\n";
     public static String latestChatMessage = "";
+    public static LinkedList<String> namesOfAllClients = new LinkedList<String>();
 
     /**
      * Static variables for the server.

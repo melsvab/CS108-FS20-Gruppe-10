@@ -22,6 +22,22 @@ public class ServerThreadForClient implements Runnable {
             this.dataOutputStream = dataOutputStream;
     }
 
+    public String checkForDublicates (String desiredName) {
+
+        String newName;
+        //checks if there is a String in the list that equals desired name
+        if (Server.namesOfAllClients.contains(desiredName)) {
+            System.out.println("There is someone with this name already!");
+            newName = desiredName + "_0";
+
+        } else {
+            newName = desiredName;
+        }
+        //adds name to the list of all clients
+        Server.namesOfAllClients.addFirst(newName);
+        return newName;
+    }
+
     public void run () {
         
         try {
@@ -33,9 +49,12 @@ public class ServerThreadForClient implements Runnable {
                 "If so, please type in >YEAH<. Otherwise type in your new nickname:\n");
 
             /**
-             * Receive nickname by Client and save it.
+             * Receiving nickname by Client and checking for duplicates
              */
-            client_profil.nickname = dataInputStream.readUTF(); /**TO DO: Server checks for duplicates */
+            String desiredName = dataInputStream.readUTF();
+            synchronized (this) {
+                client_profil.nickname = checkForDublicates(desiredName);
+            }
 
             System.out.println("\nNickname of client #" + client_profil.client_ID + ": " + client_profil.nickname);
 
@@ -94,12 +113,31 @@ public class ServerThreadForClient implements Runnable {
 
                         break;
 
-                    case "QUIT": 
+                    case "NAME":
+                        //reads next line
+                        String changedName = dataInputStream.readUTF();
+                        //checks for duplicates
+                        synchronized (this) {
+                            changedName = checkForDublicates(changedName);
+                            Server.namesOfAllClients.remove(client_profil.nickname);
+                        }
+                        System.out.println(client_profil + " changes his/her name to " + changedName);
+                        client_profil.nickname = changedName;
+                        //outprints new name
+                        dataOutputStream.writeUTF("Your nickname has been changed to: " + changedName);
+
+
+                    case "QUIT":
+                        //removes name of the client from the list for online clients
+                        synchronized (this) {
+                            Server.namesOfAllClients.remove(client_profil.nickname);
+                        }
                         System.out.println("\nClient #" + client_profil.client_ID + " \"" + client_profil.nickname + "\" has disconnected.");
                         client_profil.clientIsOnline = false;
                         break;
 
-                    default: 
+
+                    default:
 
                         dataOutputStream.writeUTF("\nInput unknown...\n\n" + helpMessage);
             
