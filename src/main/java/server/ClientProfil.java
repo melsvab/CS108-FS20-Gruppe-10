@@ -15,10 +15,16 @@ public class ClientProfil {
     boolean isInBroadcast; //example for later
     boolean isInGame; //example for later
     boolean clientIsOnline;
+    boolean changeNameNow;
 
-    public ClientProfil (int client_ID) {
+    public ClientProfil(int client_ID) {
         this.client_ID = client_ID;
         this.clientIsOnline = true;
+    }  
+
+    public ClientProfil() {
+        this.clientIsOnline = true;
+        this.changeNameNow = true;
     }  
 
 }

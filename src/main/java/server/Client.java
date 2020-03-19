@@ -14,6 +14,11 @@ public class Client {
         try {
 
             /**
+             * Create Client Profil
+             */
+            ClientProfil profil = new ClientProfil();
+
+            /**
              * Let client choose a server and port
              * and build up a connection
              */
@@ -39,32 +44,32 @@ public class Client {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 
             /**
-             * Get message from server to choose nickname,
-             * send nickname to Server and show it to Client
+             * Start ClientReaderThread for reading input from Server 
              */
-            System.out.print(dataInputStream.readUTF());
-
+            ClientReaderThread clientReaderThread = new ClientReaderThread(
+                dataInputStream, dataOutputStream, profil);
+            Thread client_thread = new Thread(clientReaderThread);
+            client_thread.start();
+    
+            /**
+             * Choose Nickname 
+             */
             String nickname = readKeyBoard.readLine();
-            
+
             if (nickname.equalsIgnoreCase("YEAH")) {
                 nickname = System.getProperty("user.name");
             }
 
             dataOutputStream.writeUTF(nickname);
-            //TO DO: Change this part to new thread that reads Server messages!!
-
-            System.out.println(dataInputStream.readUTF());
             /**Nickname chosen. */
 
             /**
-             * Get messages from server
-             */
-            System.out.println(dataInputStream.readUTF());
-
+             * Start 
+             */           
             boolean playerActive = true;
             
             while (playerActive) {
-                
+
                 String clientchoice = readKeyBoard.readLine();
                 clientchoice = clientchoice.toUpperCase();
                 dataOutputStream.writeUTF(clientchoice);
@@ -102,15 +107,33 @@ public class Client {
                         
                         break;
 
+                    case "NAME":
+
+                        try {
+
+                            System.out.print(Message.changeName);
+                            String newNickname = readKeyBoard.readLine();
+                            dataOutputStream.writeUTF(newNickname);
+                            Thread.sleep(50);
+                            System.out.println(Message.helpMessage);
+                            break;
+
+                        } catch (InterruptedException exception) {
+                            System.err.println(exception.toString());
+                        }
+
+                        
+
                     case "QUIT":
 
+                        dataOutputStream.writeUTF(clientchoice);
                         System.out.println("\nClosing program...\n");
                         playerActive = false;
                         break;
 
                     default: 
 
-                        System.out.println(dataInputStream.readUTF());
+                        System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
 
                 }
 
@@ -118,7 +141,6 @@ public class Client {
 
             dataInputStream.close();
             dataOutputStream.close();
-            socket.close();
             
         } catch (IOException exception) {
             System.err.println(exception.toString());

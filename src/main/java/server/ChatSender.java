@@ -6,28 +6,37 @@ import java.io.IOException;
 public class ChatSender implements Runnable {
 
     DataOutputStream dataOutputStream;
+    ClientProfil client_profil;
 
     /**
      * This Thread is for the server sending the newest message
      */
-    public ChatSender(DataOutputStream dataOutputStream) {
+    public ChatSender(DataOutputStream dataOutputStream, ClientProfil client_profil) {
         this.dataOutputStream = dataOutputStream;
+        this.client_profil = client_profil;
     }
 
     public void run() {       
 
         try {
 
-            while (true) {
+            while (client_profil.isInGlobalChat) {
 
-                synchronized (Server.chatHistory) {
+                //synchronized (this) {
+
+                    while (!ServerThreadForClient.newChatMessage) {
+
+                    }
+
+                    dataOutputStream.writeUTF(Server.latestChatMessage);
+                    System.out.println("HABE GESENDET");
+
+                    ServerThreadForClient.newChatMessage = false;
                     
-                    dataOutputStream.writeUTF(Server.chatHistory);
-    
-                }
-    
+                //}
+
             }
-            
+                     
         } catch (IOException exception) {
             System.err.println(exception.toString());
         }

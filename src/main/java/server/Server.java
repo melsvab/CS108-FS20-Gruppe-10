@@ -10,21 +10,27 @@ import java.util.LinkedList;
 
 public class Server {
 
-    /**TODO:
-     * Add a queue with generics with messages (Strings), nicknames, IDs, ...
+    /**
+     * The main function of this class is to genereate a server.
+     * After that this Thread waits for new connections and starts
+     * a Thread for this each new connection made.
+     */
+
+    /**
+     * Global variables also used by clients.
      */
     public static String chatHistory = "GLOBAL CHAT HISTORY:\n";
     public static String latestChatMessage = "";
     public static LinkedList<String> namesOfAllClients = new LinkedList<String>();
 
     /**
-     * Static variables for the server.
+     * Static variables with server infromation.
      */
     public static boolean serverIsOnline = true;
     public static final int port = 1111;
 
     /**
-     * Variables for identify clients.
+     * Variables to identify clients.
      */
     public static int playersOnline = 0;
     public static int clientConnections = 0;
@@ -70,11 +76,12 @@ public class Server {
                  */
                 ServerThreadForClient serverThreadForClient = new ServerThreadForClient(
                     ++playersOnline, dataInputStream, dataOutputStream);
-
                 Thread serverThread = new Thread(serverThreadForClient);
                 serverThread.start();
 
             }
+
+            serverSocket.close();
             
         } catch (IOException exception) {
             System.err.println(exception.toString());
