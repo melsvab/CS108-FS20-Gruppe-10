@@ -14,28 +14,36 @@ public class ServerThreadForClient implements Runnable {
      */
     ClientProfil client_profil;
 
+    public static boolean newChatMessage = false;
+
+    /**
+     * Constructor
+     */
     public ServerThreadForClient(
         int client_ID, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
 
             this.client_profil = new ClientProfil(client_ID);
             this.dataInputStream = dataInputStream;
             this.dataOutputStream = dataOutputStream;
+
     }
 
-    public String checkForDublicates (String desiredName) {
+    /**
+     * Function checks if there is a String in the list that is equal to the desired name
+     */
+    public synchronized String checkForDublicates (String desiredName) {
 
-        String newName;
-        //checks if there is a String in the list that equals desired name
         if (Server.namesOfAllClients.contains(desiredName)) {
-            System.out.println("There is someone with this name already!");
-            newName = desiredName + "_0";
 
-        } else {
-            newName = desiredName;
+            String nameIsUsedAlready = "There is someone with this name already!";
+            System.out.println(nameIsUsedAlready);
+
+            desiredName += "_0";
         }
-        //adds name to the list of all clients
-        Server.namesOfAllClients.addFirst(newName);
-        return newName;
+        
+        Server.namesOfAllClients.addFirst(desiredName); ////Add name to the namesOfAllClients-List
+        return desiredName;
+
     }
 
     public void run () {
@@ -43,31 +51,22 @@ public class ServerThreadForClient implements Runnable {
         try {
             
             /**
-             * Let client choose his nickname.
+             * Say Hello to client and let him choose his nickname.
              */
-            dataOutputStream.writeUTF("Would you like to use the username of your system?\n" + 
-                "If so, please type in >YEAH<. Otherwise type in your new nickname:\n");
+            dataOutputStream.writeUTF("WELC");
 
             /**
              * Receiving nickname by Client and checking for duplicates
              */
-            String desiredName = dataInputStream.readUTF();
-            synchronized (this) {
-                client_profil.nickname = checkForDublicates(desiredName);
-            }
+            String nickname = dataInputStream.readUTF();
+            client_profil.nickname = checkForDublicates(nickname);
 
             System.out.println("\nNickname of client #" + client_profil.client_ID + ": " + client_profil.nickname);
 
             /**
              * Ask client what he wants to do.
-             */           
-            String helpMessage = ("What would you like to do?\n\n" +
-                "enter >CHAT< to join the global chat.\n" +
-                "enter >START< to start the game.\n" +
-                "enter >IDK< to do something else.\n" +
-                "enter >QUIT< to end this program.\n");
-
-            dataOutputStream.writeUTF(helpMessage);
+             */
+            dataOutputStream.writeUTF("HELP");
 
             while (client_profil.clientIsOnline) {
 
@@ -76,26 +75,24 @@ public class ServerThreadForClient implements Runnable {
                 switch (clientchoice) {
 
                     case "CHAT": /**TO DO: synchronize message for chat - print chat at Client's terminal */
-
-                        //DataOutputStream chatMessageOut = dataOutputStream; /**If no new Outpustream is generated, server crashes... */
                         
                         client_profil.isInGlobalChat = true;
                         
                         System.out.println("\n\n" + client_profil.nickname + " has joined the chat!\n");
 
-                        /*ChatSender chatsender = new ChatSender(chatMessageOut);
+                        ChatSender chatsender = new ChatSender(dataOutputStream, client_profil);
                         Thread chatsenderthread = new Thread(chatsender);
-                        chatsenderthread.start();*/
+                        chatsenderthread.start();
                         
                         while (client_profil.isInGlobalChat) {
 
-                            synchronized (Server.chatHistory) {
+                            //synchronized (this) {
                 
                                 String input = dataInputStream.readUTF();
 
                                 if (input.equalsIgnoreCase("QUIT")) {
                                     System.out.println("\n\n" + client_profil.nickname + " has left the chat!\n");
-                                    dataOutputStream.writeUTF(helpMessage);
+                                    dataOutputStream.writeUTF(Message.helpMessage);
                                     client_profil.isInGlobalChat = false;
                                     break;
                                 }
@@ -103,11 +100,13 @@ public class ServerThreadForClient implements Runnable {
                                 Server.chatHistory += client_profil.nickname + ": " + input; //TO DO NICHT MESSAGE SONDER QUEUE
 
                                 Server.latestChatMessage = client_profil.nickname + ": " + input;
+
+                                newChatMessage = true;
                                 
                                 System.out.println(Server.chatHistory); // LAST IN FIRTS OUt
                                 System.out.println("LATEST CHAT MESSAGE: " + Server.latestChatMessage);
 
-                            }
+                           //}
                             
                         }
 
@@ -116,18 +115,20 @@ public class ServerThreadForClient implements Runnable {
                     case "NAME":
                         //reads next line
                         String changedName = dataInputStream.readUTF();
-                        //checks for duplicates
-                        synchronized (this) {
-                            changedName = checkForDublicates(changedName);
-                            Server.namesOfAllClients.remove(client_profil.nickname);
+                        if (changedName.equalsIgnoreCase("YEAH")) {
+                            changedName = System.getProperty("user.name");
                         }
-                        System.out.println(client_profil + " changes his/her name to " + changedName);
+                        //checks for duplicates
+                        Server.namesOfAllClients.remove(client_profil.nickname);
+                        changedName = checkForDublicates(changedName);
+                        System.out.println(client_profil.nickname + " changes his/her name to " + changedName);
                         client_profil.nickname = changedName;
                         //outprints new name
-                        dataOutputStream.writeUTF("Your nickname has been changed to: " + changedName);
-
+                        dataOutputStream.writeUTF("\n\nYour nickname has been changed to: " + changedName + "\n");
+                        break;
 
                     case "QUIT":
+                        dataOutputStream.writeUTF(clientchoice);
                         //removes name of the client from the list for online clients
                         synchronized (this) {
                             Server.namesOfAllClients.remove(client_profil.nickname);
@@ -139,7 +140,7 @@ public class ServerThreadForClient implements Runnable {
 
                     default:
 
-                        dataOutputStream.writeUTF("\nInput unknown...\n\n" + helpMessage);
+                        //dataOutputStream.writeUTF("\nInput unknown...\n\n" + Message.helpMessage);
             
                 }
 
