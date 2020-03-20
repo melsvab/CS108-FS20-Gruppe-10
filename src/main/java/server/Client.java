@@ -94,6 +94,9 @@ public class Client {
                             Thread.sleep(50);
                             System.out.print(Message.changeName);
                             String newNickname = readKeyBoard.readLine();
+                            if (newNickname.equalsIgnoreCase("YEAH")) {
+                                newNickname = System.getProperty("user.name");
+                            }
                             dataOutputStream.writeUTF(newNickname);
                             Thread.sleep(50);
                             if (!profil.isInGlobalChat) {

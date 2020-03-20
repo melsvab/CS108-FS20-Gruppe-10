@@ -77,7 +77,7 @@ public class ServerThreadForClient implements Runnable {
                         
                         System.out.println("\n\n" + client_profil.nickname + " has joined the chat!\n");
 
-                        String userJoined = ("[" + client_profil.nickname + "] has joined the chat!\n");
+                        String userJoined = (client_profil.nickname + " has joined the chat!\n");
                         Server.globalChat(userJoined);
 
                         break;
@@ -95,9 +95,7 @@ public class ServerThreadForClient implements Runnable {
                         dataOutputStream.writeUTF("\n\nYour current nickname is: " + client_profil.nickname + "\n");
 
                         String changedName = dataInputStream.readUTF();
-                        if (changedName.equalsIgnoreCase("YEAH")) {
-                            changedName = System.getProperty("user.name");
-                        }
+        
                         /**
                          * Check, if this name is already used
                          */
@@ -117,7 +115,7 @@ public class ServerThreadForClient implements Runnable {
                          * If in Chat, let others know
                          */
                         if (client_profil.isInGlobalChat) {
-                            String confirmation = ("[" + oldNickname + "] changd his/her nickname to [" + client_profil.nickname + "]!\n");
+                            String confirmation = (oldNickname + " changd his/her nickname to " + client_profil.nickname + "!\n");
                             Server.globalChat(confirmation);
                         }
 
