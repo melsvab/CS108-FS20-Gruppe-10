@@ -126,21 +126,24 @@ public class ServerThreadForClient implements Runnable {
 
                     default:
 
-                        //dataOutputStream.writeUTF("\nInput unknown...\n\n" + Message.helpMessage);
+                        if (client_profil.isInGlobalChat) {
+                            if (clientchoice.equals("BACK")) {
+                                System.out.println("\n\n" + client_profil.nickname + " has left the chat!\n");
+                                dataOutputStream.writeUTF(Message.helpMessage);
+                                client_profil.isInGlobalChat = false;
+                            } else {
+                                String serverMessage = "[" + client_profil.nickname + "]: " + clientchoiceOriginal;
+                                Server.globalChat(serverMessage);
+                            }
+
+                        } else {
+                            dataOutputStream.writeUTF("\nInput unknown...\n\n" + Message.helpMessage);
+                        }
+
             
                 }
 
-                if (client_profil.isInGlobalChat) {
-                    if (clientchoice.equals("BACK")) {
-                        System.out.println("\n\n" + client_profil.nickname + " has left the chat!\n");
-                        dataOutputStream.writeUTF(Message.helpMessage);
-                        client_profil.isInGlobalChat = false;
-                    } else if (!clientchoice.equals("CHAT")) {
-                        String serverMessage = "[" + client_profil.nickname + "]: " + clientchoiceOriginal;
-                        Server.globalChat(serverMessage);
-                    }
 
-                }
 
             }
 
