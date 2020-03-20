@@ -2,6 +2,7 @@ package server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.util.Arrays;
 
 public class ServerThreadForClient implements Runnable {
 
@@ -137,6 +138,30 @@ public class ServerThreadForClient implements Runnable {
                         client_profil.clientIsOnline = false;
                         break;
 
+                    case "PLL1":
+                        String listOfPlayers = Arrays.toString(Server.namesOfAllClients.toArray());
+                        dataOutputStream.writeUTF("PLL2" + listOfPlayers);
+                        break;
+
+                    case "GML1":
+                        String listOfGames = "Under Construction! Why not try something else for the moment?";
+                        dataOutputStream.writeUTF("GML2" + listOfGames);
+                        break;
+
+                    case "HSC1":
+                        String currentHighScore = "Under Construction! Why not try something else for the moment?";
+                        dataOutputStream.writeUTF("GML2" + currentHighScore);
+                        break;
+
+                    case "CRE1":
+                        String dontEvenKnowMyselfWhatShouldBeHere = "Under Construction! Why not try something else for the moment?";
+                        dataOutputStream.writeUTF("CRE1" + dontEvenKnowMyselfWhatShouldBeHere);
+                        break;
+
+                    case "JON1":
+                        String game_id = "Under Construction! Why not try something else for the moment?";
+                        dataOutputStream.writeUTF("JON2" + game_id);
+                        break;
 
                     default:
 
