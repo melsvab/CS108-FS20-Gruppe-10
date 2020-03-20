@@ -49,12 +49,15 @@ public class ServerThreadForClient implements Runnable {
             dataOutputStream.writeUTF("WELC");
 
             /**
-             * Receiving nickname by Client and checking for duplicates
+             * Receiving nickname by Client and checking for duplicates.
+             * Let Player know his nickname.
              */
             String nickname = dataInputStream.readUTF();
             client_profil.nickname = Server.checkForDublicates(nickname);
 
             System.out.println("\nNickname of client #" + client_profil.client_ID + ": " + client_profil.nickname);
+
+            dataOutputStream.writeUTF("\nYour nickname: " + client_profil.nickname + "\n");
 
             /**
              * Ask client what he wants to do.
@@ -74,28 +77,61 @@ public class ServerThreadForClient implements Runnable {
                         
                         System.out.println("\n\n" + client_profil.nickname + " has joined the chat!\n");
 
+                        String userJoined = ("[" + client_profil.nickname + "] has joined the chat!\n");
+                        Server.globalChat(userJoined);
+
                         break;
 
                     case "NAME":
-                        //reads next line
+
+                        /**
+                         * If in Chat, let others know
+                         */
+                        String oldNickname = client_profil.nickname;
+
+                        /**
+                         * Reveive new nickname from client
+                         */
+                        dataOutputStream.writeUTF("\n\nYour current nickname is: " + client_profil.nickname + "\n");
+
                         String changedName = dataInputStream.readUTF();
                         if (changedName.equalsIgnoreCase("YEAH")) {
                             changedName = System.getProperty("user.name");
                         }
-                        //checks for duplicates
+                        /**
+                         * Check, if this name is already used
+                         */
                         Server.namesOfAllClients.remove(client_profil.nickname);
                         changedName = Server.checkForDublicates(changedName);
-                        System.out.println(client_profil.nickname + " changes his/her name to " + changedName);
+                        /**
+                         * Accept new name 
+                         */
+                        System.out.println("\n" + client_profil.nickname + " changed his/her name to " + changedName);
                         client_profil.nickname = changedName;
-                        //outprints new name
+                        /**
+                         * Let Player know his new name
+                         */
                         dataOutputStream.writeUTF("\n\nYour nickname has been changed to: " + changedName + "\n");
+
+                        /**
+                         * If in Chat, let others know
+                         */
+                        if (client_profil.isInGlobalChat) {
+                            String confirmation = ("[" + oldNickname + "] changd his/her nickname to [" + client_profil.nickname + "]!\n");
+                            Server.globalChat(confirmation);
+                        }
+
                         break;
 
                     case "QUIT":
                         dataOutputStream.writeUTF(clientchoice);
-                        //removes name and thread of the client from the list for online clients
+                        /**
+                         * Remove name and thread of this client form the list on the server
+                         */
                         Server.removeUser(client_profil.nickname, this);
+                        
                         System.out.println("\nClient #" + client_profil.client_ID + " \"" + client_profil.nickname + "\" has disconnected.");
+                        
                         client_profil.clientIsOnline = false;
                         break;
 
@@ -126,20 +162,23 @@ public class ServerThreadForClient implements Runnable {
 
                     default:
 
-                        //dataOutputStream.writeUTF("\nInput unknown...\n\n" + Message.helpMessage);
+                        if (client_profil.isInGlobalChat) {
+
+                            if (clientchoice.equals("BACK")) {
+
+                                String serverMessage = ("[" + client_profil.nickname + "] has left the chat!\n");
+                                Server.globalChat(serverMessage);
+                                System.out.println("\n\n" + client_profil.nickname + " has left the chat!\n");
+                                dataOutputStream.writeUTF(Message.helpMessage);
+                                client_profil.isInGlobalChat = false;
+
+                            } else if (!clientchoice.equals("CHAT")) {
+                                String serverMessage = "[" + client_profil.nickname + "]: " + clientchoiceOriginal;
+                                Server.globalChat(serverMessage);
+                            }
+        
+                        }
             
-                }
-
-                if (client_profil.isInGlobalChat) {
-                    if (clientchoice.equals("BACK")) {
-                        System.out.println("\n\n" + client_profil.nickname + " has left the chat!\n");
-                        dataOutputStream.writeUTF(Message.helpMessage);
-                        client_profil.isInGlobalChat = false;
-                    } else if (!clientchoice.equals("CHAT")) {
-                        String serverMessage = "[" + client_profil.nickname + "]: " + clientchoiceOriginal;
-                        Server.globalChat(serverMessage);
-                    }
-
                 }
 
             }

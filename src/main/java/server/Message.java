@@ -8,7 +8,7 @@ public class Message {
     
     public static String changeName = (
         "\nWould you like to use the username of your system?\n" + 
-        "If so, please type in >YEAH<. Otherwise type in the nickname of your choice: "
+        "If so, please type in >YEAH<. Otherwise type in the nickname of your choice:\n"
     );
 
     public static String helpMessage = (

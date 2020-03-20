@@ -77,21 +77,28 @@ public class Client {
                 switch (clientchoice) {
 
                     case "CHAT":
-                        profil.isInGlobalChat = true;
-
-                        System.out.println("\nYou have joined the global chat.\n");
+                    
+                        if (profil.isInGlobalChat) {
+                            System.out.println("\nYou have already joined the global chat.\n");
+                        } else {
+                            profil.isInGlobalChat = true;
+                            System.out.println("\nYou have joined the global chat.\n");
+                        }
                         
                         break;
 
                     case "NAME":
 
                         try {
-
+                            
+                            Thread.sleep(50);
                             System.out.print(Message.changeName);
                             String newNickname = readKeyBoard.readLine();
                             dataOutputStream.writeUTF(newNickname);
                             Thread.sleep(50);
-                            System.out.println(Message.helpMessage);
+                            if (!profil.isInGlobalChat) {
+                                System.out.println(Message.helpMessage);
+                            }
                             break;
 
                         } catch (InterruptedException exception) {
@@ -122,16 +129,15 @@ public class Client {
 
                     default: 
 
-                        //System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                        if (profil.isInGlobalChat) {
+                            if (clientchoice.equalsIgnoreCase("BACK")) {
+                                profil.isInGlobalChat = false;
+                                System.out.println("\nYou have left the chat...\n");
+                            }
+                        } else {
+                            System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                        }
 
-                }
-
-                if (profil.isInGlobalChat) {
-                    if (clientchoice.equalsIgnoreCase("BACK")) {
-                        profil.isInGlobalChat = false;
-                        System.out.println("\nYou have left the chat...\n");
-
-                    }
                 }
 
             }

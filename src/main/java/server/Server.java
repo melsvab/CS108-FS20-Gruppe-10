@@ -21,7 +21,6 @@ public class Server {
     /**
      * Global variables also used by clients.
      */
-
     public static LinkedList<String> namesOfAllClients = new LinkedList<String>();
     public static Set<ServerThreadForClient> userThreads = new HashSet<>();
 
@@ -71,6 +70,7 @@ public class Server {
         }
 
         namesOfAllClients.addFirst(desiredName);
+       
         return desiredName;
 
     }
@@ -100,7 +100,7 @@ public class Server {
                  */              
                 Socket socket = serverSocket.accept();
 
-                System.out.println("\nClient #" + ++clientConnections + " is connected to the server.\n\n");
+                System.out.println("\nClient #" + ++clientConnections + " is connected to the server.\n");
                 /** Connection to one client established */
             
                 /**
