@@ -34,9 +34,10 @@ public class ClientReaderThread implements Runnable {
                  * Get message from server (in LETTERS)
                  */
                 String originalMessage = dataInputStream.readUTF();
-                String messageFromServer = originalMessage.toUpperCase();
+                String keyword = originalMessage.substring(0,4);
+                keyword = keyword.toUpperCase();
 
-                switch (messageFromServer) {
+                switch (keyword) {
 
                     case "WELC": 
 
@@ -54,6 +55,36 @@ public class ClientReaderThread implements Runnable {
 
                         threadIsRunning = false;
                         
+                        break;
+
+                    case "PLL2":
+
+                        System.out.println(originalMessage.substring(4));
+
+                        break;
+
+                    case "GML2":
+
+                        System.out.println(originalMessage.substring(4));
+
+                        break;
+
+                    case "HSC2":
+
+                        System.out.println(originalMessage.substring(4));
+
+                        break;
+
+                    case "CRE2":
+
+                        System.out.println(originalMessage.substring(4));
+
+                        break;
+
+                    case "JON2":
+
+                        System.out.println(originalMessage.substring(4));
+
                         break;
 
                     default: 
