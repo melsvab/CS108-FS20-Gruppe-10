@@ -122,13 +122,26 @@ public class Client {
                             System.err.println(exception.toString());
                         }
 
-                        
-
                     case "QUIT":
 
                         dataOutputStream.writeUTF(clientchoice);
                         System.out.println("\nClosing program...\n");
                         playerActive = false;
+                        break;
+
+                    case "PLL1":
+                        break;
+
+                    case "GML1":
+                        break;
+
+                    case "HSC1":
+                        break;
+
+                    case "CRE1":
+                        break;
+
+                    case "JON1":
                         break;
 
                     default: 
