@@ -9,15 +9,19 @@ import java.net.Socket;
 
 public class Client {
 
+    /**
+     * This class represents a Client which connects to the server.
+     * In here, client inputs will be sent to the server and will be
+     * processed.
+     */
+
     public static void main(String[] args) {
 
         try {
-
             /**
              * Create Client Profil
              */
             ClientProfil profil = new ClientProfil();
-
             /**
              * Let client choose a server and port
              * and build up a connection
@@ -42,7 +46,6 @@ public class Client {
              */
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-
             /**
              * Start ClientReaderThread for reading input from Server 
              */
@@ -50,31 +53,30 @@ public class Client {
                 dataInputStream, dataOutputStream, profil);
             Thread client_thread = new Thread(clientReaderThread);
             client_thread.start();
-    
             /**
              * Choose Nickname 
              */
             String nickname = readKeyBoard.readLine();
-
             if (nickname.equalsIgnoreCase("YEAH")) {
                 nickname = System.getProperty("user.name");
             }
-
             dataOutputStream.writeUTF(nickname);
             /**Nickname chosen. */
 
             /**
-             * Start 
+             * Start processing inputs.
              */           
             boolean playerActive = true;
             
             while (playerActive) {
-
+                /**
+                 * Read keyboardinput from client.
+                 */
                 String original = readKeyBoard.readLine();
                 String clientchoice = original.toUpperCase();
                 dataOutputStream.writeUTF(original);
 
-                switch (clientchoice) {
+                switch (clientchoice) { /**Descide what to do next */
 
                     case "CHAT":
                     
@@ -115,23 +117,25 @@ public class Client {
                         playerActive = false;
                         break;
 
-                    case "PLL1":
+                    case "PLL1": /**Under Construction */
                         break;
 
-                    case "GML1":
+                    case "GML1": /**Under Construction */
                         break;
 
-                    case "HSC1":
+                    case "HSC1": /**Under Construction */
                         break;
 
-                    case "CRE1":
+                    case "CRE1": /**Under Construction */
                         break;
 
-                    case "JON1":
+                    case "JON1": /**Under Construction */
                         break;
 
                     default: 
-
+                        /**
+                         * Let player know, if his input is unknown.
+                         */
                         if (profil.isInGlobalChat) {
                             if (clientchoice.equalsIgnoreCase("BACK")) {
                                 profil.isInGlobalChat = false;

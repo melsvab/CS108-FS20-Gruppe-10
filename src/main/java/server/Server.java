@@ -36,6 +36,10 @@ public class Server {
     public static int playersOnline = 0;
     public static int clientConnections = 0;
 
+    /**
+     * Function for global Chat. Go through each ServerThreadForClient
+     * and send message from client if a client is in global Chat.
+     */
     public static void globalChat(String message) {
         for (ServerThreadForClient aUser : userThreads) {
             if (aUser.globalChat()) {
@@ -44,13 +48,21 @@ public class Server {
         }
     }
 
+    /**
+     * Function for broadcast. Go through each ServerThreadForClient
+     * and send message (client does not have to be in the global chat).
+     */
     public static void broadcast(String message) {
         for (ServerThreadForClient aUser : userThreads) {
             aUser.sendMessage(message);
-
         }
     }
 
+    /**
+     * If a client disconnects, it´s name is removed form 
+     * the List on the server and the Thread which will be terminated,
+     * is removed from the list on the server as well.
+     */
     public static synchronized void removeUser(String nickname, ServerThreadForClient aUser) {
         namesOfAllClients.remove(nickname);
         userThreads.remove(aUser);
@@ -60,18 +72,12 @@ public class Server {
      * Function checks if there is a String in the list that is equal to the desired name
      */
     public static synchronized String checkForDublicates(String desiredName) {
-
         if (namesOfAllClients.contains(desiredName)) {
-
             System.out.println(Message.nameIsUsedAlready);
-
             desiredName += "_0";
         }
-
         namesOfAllClients.addFirst(desiredName);
-       
         return desiredName;
-
     }
    
 
@@ -91,6 +97,7 @@ public class Server {
                 "Server IP-Adrdress: " + serverIP + "\n" + 
                 "Servername: " + serverName + "\n\n\n" +                
                 "Now waiting for a connection to this IP/name by a Client...\n\n\n");
+            /**Server is now online */
 
             while (serverIsOnline) {
 
@@ -111,7 +118,7 @@ public class Server {
                 /**
                  * Start ServerThread for client who has connected.
                  * In this Thread, this client and the server can
-                 * communicate with eacc other
+                 * communicate with eacc other. Also add Thread to List on Server.
                  */
                 ServerThreadForClient serverThreadForClient = new ServerThreadForClient(
                     ++playersOnline, dataInputStream, dataOutputStream);

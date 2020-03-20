@@ -1,7 +1,11 @@
 package server;
 
 public class Message {
-
+    /**
+     * This class is a database fore text which is used
+     * more often in the program. Easy access.
+     */
+    
     public static String welcomeMessage = (
         "\nWelcome to the server!\n\n"
     );

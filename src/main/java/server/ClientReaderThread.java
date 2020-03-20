@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ClientReaderThread implements Runnable {
+    /**
+     * This Thread is for reading and processing input coming from the server.
+     */
 
     DataInputStream dataInputStream;
     DataOutputStream dataOutputStream;

@@ -6,7 +6,14 @@ import java.util.Arrays;
 
 public class ServerThreadForClient implements Runnable {
 
-    //In- & Ouputstreams for reading and sending Strings
+    /**
+     * This Thread is created for every Client which connects
+     * to the server. Represents an interface between Client & server.
+     */
+
+    /**
+     * In- & Ouputstreams for reading and sending Strings
+     */
     DataInputStream dataInputStream;
     DataOutputStream dataOutputStream;
 
@@ -16,7 +23,7 @@ public class ServerThreadForClient implements Runnable {
     ClientProfil client_profil;
 
     /**
-     * Constructor
+     * Constructor (creats a new clientProfil)
      */
     public ServerThreadForClient(
         int client_ID, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
@@ -27,10 +34,16 @@ public class ServerThreadForClient implements Runnable {
 
     }
 
+    /**
+     * Check if Client is in global Chat.
+     */
     public boolean globalChat() {
         return client_profil.isInGlobalChat;
     }
 
+    /**
+     * Chatfunction sends a message.
+     */
     void sendMessage(String message) {
         try {
             dataOutputStream.writeUTF(message);
@@ -56,8 +69,8 @@ public class ServerThreadForClient implements Runnable {
             client_profil.nickname = Server.checkForDublicates(nickname);
 
             System.out.println("\nNickname of client #" + client_profil.client_ID + ": " + client_profil.nickname);
-
             dataOutputStream.writeUTF("\nYour nickname: " + client_profil.nickname + "\n");
+            /**Nickname chosen. */
 
             /**
              * Ask client what he wants to do.
@@ -66,12 +79,15 @@ public class ServerThreadForClient implements Runnable {
 
             while (client_profil.clientIsOnline) {
 
+                /**
+                 * Get choice from Client and descide what to do.
+                 */
                 String clientchoiceOriginal = dataInputStream.readUTF();
                 String clientchoice = clientchoiceOriginal.toUpperCase();
 
                 switch (clientchoice) {
 
-                    case "CHAT": /**TO DO: synchronize message for chat - print chat at Client's terminal */
+                    case "CHAT":
                         
                         client_profil.isInGlobalChat = true;
                         
@@ -85,17 +101,15 @@ public class ServerThreadForClient implements Runnable {
                     case "NAME":
 
                         /**
-                         * If in Chat, let others know
+                         * If in Chat, let other players know.
                          */
                         String oldNickname = client_profil.nickname;
-
                         /**
                          * Reveive new nickname from client
                          */
                         dataOutputStream.writeUTF("\n\nYour current nickname is: " + client_profil.nickname + "\n");
 
-                        String changedName = dataInputStream.readUTF();
-        
+                        String changedName = dataInputStream.readUTF();       
                         /**
                          * Check, if this name is already used
                          */
@@ -110,30 +124,34 @@ public class ServerThreadForClient implements Runnable {
                          * Let Player know his new name
                          */
                         dataOutputStream.writeUTF("\n\nYour nickname has been changed to: " + changedName + "\n");
-
                         /**
                          * If in Chat, let others know
                          */
                         if (client_profil.isInGlobalChat) {
-                            String confirmation = (oldNickname + " changd his/her nickname to " + client_profil.nickname + "!\n");
+                            String confirmation = (oldNickname + " changed his/her nickname to " + client_profil.nickname + "!\n");
                             Server.globalChat(confirmation);
                         }
 
                         break;
 
                     case "QUIT":
+
                         dataOutputStream.writeUTF(clientchoice);
                         /**
                          * Remove name and thread of this client form the list on the server
                          */
                         Server.removeUser(client_profil.nickname, this);
-                        
+                        /**
+                         * Give Feedback
+                         */
                         System.out.println("\nClient #" + client_profil.client_ID + " \"" + client_profil.nickname + "\" has disconnected.");
-                        
                         client_profil.clientIsOnline = false;
                         break;
 
                     case "PLL1":
+                        /**
+                         * Take list from server and print out players name.
+                         */
                         String listOfPlayers = Arrays.toString(Server.namesOfAllClients.toArray());
                         dataOutputStream.writeUTF("PLL2" + listOfPlayers);
                         break;
@@ -142,25 +160,27 @@ public class ServerThreadForClient implements Runnable {
                         dataOutputStream.writeUTF("GML2" + Message.underConstruction);
                         break;
 
-                    case "HSC1":
+                    case "HSC1": /**Under Construction */
                         dataOutputStream.writeUTF("GML2" + Message.underConstruction); //DENNIS: Should be HSC2?
                         break;
 
-                    case "CRE1":
+                    case "CRE1": /**Under Construction */
                         //String dontEvenKnowMyselfWhatShouldBeHere = "Under Construction! Why not try something else for the moment?";
                         /**DENNIS: Hanni dinne gloh willis so luschtig find x) */
                         dataOutputStream.writeUTF("CRE1" + Message.underConstruction); //DENNIS: Should be CRE2?
                         break;
 
-                    case "JON1":
+                    case "JON1": /**Under Construction */
                         dataOutputStream.writeUTF("JON2" + Message.underConstruction);
                         break;
 
                     default:
-
+                        /**
+                         * If no keyword is received and player is in Chat,send message.
+                         */
                         if (client_profil.isInGlobalChat) {
 
-                            if (clientchoice.equals("BACK")) {
+                            if (clientchoice.equals("BACK")) { /**Player leaves chat. */
 
                                 String serverMessage = (client_profil.nickname + " has left the chat!\n");
                                 Server.globalChat(serverMessage);
@@ -168,7 +188,7 @@ public class ServerThreadForClient implements Runnable {
                                 dataOutputStream.writeUTF(Message.helpMessage);
                                 client_profil.isInGlobalChat = false;
 
-                            } else {
+                            } else { /**Send chat message */
                                 String serverMessage = "[" + client_profil.nickname + "]: " + clientchoiceOriginal;
                                 Server.globalChat(serverMessage);
 
