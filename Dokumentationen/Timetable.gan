@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="The Floor is Java" company="" webLink="http://" view-date="2020-03-16" view-index="0" gantt-divider-location="460" resource-divider-location="300" version="2.8.10" locale="en_GB">
+<?xml version="1.0" encoding="UTF-8"?><project name="The Floor is Java" company="" webLink="http://" view-date="2020-02-24" view-index="0" gantt-divider-location="460" resource-divider-location="300" version="2.8.10" locale="en_GB">
     <description/>
     <view zooming-state="default:5" id="gantt-chart">
         <field id="tpd3" name="Name" width="205" order="0"/>
         <field id="tpd4" name="Begin date" width="117" order="1"/>
         <field id="tpd5" name="End date" width="117" order="2"/>
         <timeline>
-            <![CDATA[6,57,7]]>
+            <![CDATA[57,6,7]]>
         </timeline>
         <option id="color.recent">
             <![CDATA[#ccffff #cccccc]]>
@@ -110,9 +110,8 @@
             <task id="123" name="React to Client's First Decision" color="#8cb6ce" meeting="false" start="2020-03-18" duration="2" complete="100" thirdDate="2020-03-14" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[Reaction: First login of a Client
-- If Client respondes "NOPE", ask for name
 - If Client respondes "YEAH" use system name
-- Check for Duplicates]]>
+- Check for duplicates]]>
                 </notes>
             </task>
             <task id="115" name="React to Client's Name Change" color="#8cb6ce" meeting="false" start="2020-03-20" duration="3" complete="100" thirdDate="2020-03-14" thirdDate-constraint="0" expand="true">
@@ -131,6 +130,10 @@
             <depend id="84" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="186" name="Chatroom between Clients" color="#8cb6ce" meeting="false" start="2020-03-16" duration="7" complete="100" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <notes>
+                <![CDATA[- Client enters general chatroom by writing "CHAT" to the server
+- Server takes chat message and sends it it all clients that are in the chat]]>
+            </notes>
             <depend id="84" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="163" name="Documentation (1)" color="#8cb6ce" meeting="false" start="2020-03-16" duration="7" complete="100" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
@@ -140,16 +143,16 @@
             </notes>
             <depend id="84" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="84" name="Puffer (1)" color="#cccccc" meeting="false" start="2020-03-23" duration="2" complete="0" thirdDate="2020-03-18" thirdDate-constraint="0" expand="true">
+        <task id="84" name="Puffer (1)" color="#cccccc" meeting="false" start="2020-03-23" duration="2" complete="100" thirdDate="2020-03-18" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[- Time to organize for Milestone 3]]>
             </notes>
             <depend id="53" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="48" name="Übung: &quot;Liraries&quot;" color="#ccffff" meeting="false" start="2020-03-18" duration="1" complete="0" thirdDate="2020-02-17" thirdDate-constraint="0" expand="true">
+        <task id="48" name="Übung: &quot;Liraries&quot;" color="#ccffff" meeting="false" start="2020-03-18" duration="1" complete="100" thirdDate="2020-02-17" thirdDate-constraint="0" expand="true">
             <depend id="46" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="46" name="Vorlesung" color="#ccffff" meeting="false" start="2020-03-19" duration="2" complete="0" thirdDate="2020-02-17" thirdDate-constraint="0" expand="true">
+        <task id="46" name="Vorlesung" color="#ccffff" meeting="false" start="2020-03-19" duration="2" complete="100" thirdDate="2020-02-17" thirdDate-constraint="0" expand="true">
             <depend id="53" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="53" name="Milestone 2 (In Übungen)" color="#ccffff" meeting="false" start="2020-03-25" duration="1" complete="0" thirdDate="2020-03-25" thirdDate-constraint="0" expand="true">
@@ -159,7 +162,7 @@
             <depend id="285" type="2" difference="0" hardness="Strong"/>
             <depend id="287" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="285" name="Game State" color="#8cb6ce" meeting="false" start="2020-03-26" duration="9" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+        <task id="285" name="Game State" color="#8cb6ce" meeting="false" start="2020-03-26" duration="8" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
             <notes>
                 <![CDATA[Make all the methodes and classes for the game
 
@@ -174,7 +177,7 @@ Methods for turtles:
 Goal: Game is playable
 ]]>
             </notes>
-            <task id="287" name="Create Basic Classes and Methods for Game State" color="#8cb6ce" meeting="false" start="2020-03-26" duration="4" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+            <task id="287" name="Create Basic Classes and Methods for Game State" color="#8cb6ce" meeting="false" start="2020-03-26" duration="3" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[Make all the methodes and classes for the game
 
@@ -190,14 +193,16 @@ Methods for turtles:
                 </notes>
                 <depend id="265" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="291" name="Finish Basic Rules of The Game" color="#8cb6ce" meeting="false" start="2020-04-01" duration="3" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+            <task id="291" name="Finish Basic Rules of The Game" color="#8cb6ce" meeting="false" start="2020-03-31" duration="3" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
                 <notes>
-                    <![CDATA[Goal: Game is playable]]>
+                    <![CDATA[Goal: Game is playable
+
+Rohail: works on Q/A, checks code with CheckStyle]]>
                 </notes>
                 <depend id="251" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="87" name="Code for Server &amp; Client" color="#8cb6ce" meeting="false" start="2020-03-26" duration="9" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+        <task id="87" name="Code for Server &amp; Client" color="#8cb6ce" meeting="false" start="2020-03-26" duration="8" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[Create:
 - Whisper chatroom
@@ -208,7 +213,7 @@ Methods for turtles:
 - Chatrooms with GUI (Graphic)]]>
             </notes>
             <depend id="251" type="2" difference="0" hardness="Strong"/>
-            <task id="261" name="Chatrooms (Server &amp; Client)" color="#8cb6ce" meeting="false" start="2020-03-26" duration="4" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+            <task id="261" name="Chatrooms (Server &amp; Client)" color="#8cb6ce" meeting="false" start="2020-03-26" duration="3" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[Create:
 - Whisper chatroom
@@ -217,7 +222,7 @@ Methods for turtles:
                 </notes>
                 <depend id="317" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="265" name="Lists and Other Tasks" color="#8cb6ce" meeting="false" start="2020-03-30" duration="2" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
+            <task id="265" name="Lists and Other Tasks" color="#8cb6ce" meeting="false" start="2020-03-29" duration="2" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[Create:
 - Game list (list of ongoing and finished games, their status is indicated)
@@ -230,7 +235,7 @@ Make sure that:
                 </notes>
                 <depend id="291" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="317" name="Basic Chatrooms with GUI" color="#8cb6ce" meeting="false" start="2020-03-30" duration="5" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
+            <task id="317" name="Basic Chatrooms with GUI" color="#8cb6ce" meeting="false" start="2020-03-29" duration="5" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[Make all chatrooms graphical
 
@@ -239,7 +244,7 @@ if possible: help with finishing Game State]]>
                 <depend id="251" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="251" name="Presentation for Milestone 3" color="#8cb6ce" meeting="false" start="2020-04-04" duration="2" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
+        <task id="251" name="Presentation for Milestone 3" color="#8cb6ce" meeting="false" start="2020-04-03" duration="2" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[Make slides with these subjects:
 
@@ -291,7 +296,11 @@ Server:
 - rules enforced
 - winner and win state 
 - Unit tests
-- Highscore list]]>
+- Highscore list
+
+25-26.April: 
+- update timetable, diary, manual, network protocol (doc),
+- check code with CheckSytle and take time for Q/A]]>
             </notes>
             <depend id="59" type="2" difference="0" hardness="Strong"/>
         </task>
@@ -299,6 +308,21 @@ Server:
             <depend id="110" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="110" name="Finish Game" color="#8cb6ce" meeting="false" start="2020-04-30" duration="14" complete="0" thirdDate="2020-04-28" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- Make sure game works
+
+- create Highscore list as a file
+
+- make pictures and videos of the game
+
+- Q/A is up to date and has a file with data
+
+if enough time:
+- create cheat code
+- include animation for earthquake & flood
+- make a logo/intro
+- make a trailer]]>
+            </notes>
             <depend id="60" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="60" name="Milestone 5" color="#ccffff" meeting="false" start="2020-05-14" duration="2" complete="0" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
