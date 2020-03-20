@@ -24,5 +24,13 @@ public class Message {
         "enter >QUIT< to end this program.\n"
     );
 
+    public static String nameIsUsedAlready = (
+        "There is someone with this name already!"
+    );
+
+    public static String underConstruction = (
+        "Under Construction! Why not try something else for the moment?"
+    );
+
     
 }

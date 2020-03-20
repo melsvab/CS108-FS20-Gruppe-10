@@ -140,24 +140,22 @@ public class ServerThreadForClient implements Runnable {
                         dataOutputStream.writeUTF("PLL2" + listOfPlayers);
                         break;
 
-                    case "GML1":
-                        String listOfGames = "Under Construction! Why not try something else for the moment?";
-                        dataOutputStream.writeUTF("GML2" + listOfGames);
+                    case "GML1": /**Under Construction */
+                        dataOutputStream.writeUTF("GML2" + Message.underConstruction);
                         break;
 
                     case "HSC1":
-                        String currentHighScore = "Under Construction! Why not try something else for the moment?";
-                        dataOutputStream.writeUTF("GML2" + currentHighScore);
+                        dataOutputStream.writeUTF("GML2" + Message.underConstruction); //DENNIS: Should be HSC2?
                         break;
 
                     case "CRE1":
-                        String dontEvenKnowMyselfWhatShouldBeHere = "Under Construction! Why not try something else for the moment?";
-                        dataOutputStream.writeUTF("CRE1" + dontEvenKnowMyselfWhatShouldBeHere);
+                        //String dontEvenKnowMyselfWhatShouldBeHere = "Under Construction! Why not try something else for the moment?";
+                        /**DENNIS: Hanni dinne gloh willis so luschtig find x) */
+                        dataOutputStream.writeUTF("CRE1" + Message.underConstruction); //DENNIS: Should be CRE2?
                         break;
 
                     case "JON1":
-                        String game_id = "Under Construction! Why not try something else for the moment?";
-                        dataOutputStream.writeUTF("JON2" + game_id);
+                        dataOutputStream.writeUTF("JON2" + Message.underConstruction);
                         break;
 
                     default:

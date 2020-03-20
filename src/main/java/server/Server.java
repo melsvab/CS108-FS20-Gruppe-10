@@ -63,8 +63,7 @@ public class Server {
 
         if (namesOfAllClients.contains(desiredName)) {
 
-            String nameIsUsedAlready = "There is someone with this name already!";
-            System.out.println(nameIsUsedAlready);
+            System.out.println(Message.nameIsUsedAlready);
 
             desiredName += "_0";
         }
