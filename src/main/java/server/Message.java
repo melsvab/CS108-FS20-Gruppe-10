@@ -15,8 +15,12 @@ public class Message {
         "\nWhat would you like to do?\n\n" +
         "enter >CHAT< to join the global chat.\n" +
         "enter >NAME< to change your nickname\n" +
-        "enter >START< to start the game.\n" +
         "enter >IDK< to do something else.\n" +
+        "enter >PLL1< to see a list of currently connected players.\n" +
+        "enter >GML1< to see a list of open, ongoing and finished games. \n" +
+        "enter >HSC1< to see the current highscore. \n" +
+        "enter >CRE1< to create a new game. \n" +
+        "enter >JON1< to join a already created game. \n" +
         "enter >QUIT< to end this program.\n"
     );
 
