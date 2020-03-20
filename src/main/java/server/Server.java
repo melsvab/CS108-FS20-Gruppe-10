@@ -7,6 +7,8 @@ import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Server {
 
@@ -19,9 +21,9 @@ public class Server {
     /**
      * Global variables also used by clients.
      */
-    public static String chatHistory = "GLOBAL CHAT HISTORY:\n";
-    public static String latestChatMessage = "";
+
     public static LinkedList<String> namesOfAllClients = new LinkedList<String>();
+    public static Set<ServerThreadForClient> userThreads = new HashSet<>();
 
     /**
      * Static variables with server infromation.
@@ -34,6 +36,44 @@ public class Server {
      */
     public static int playersOnline = 0;
     public static int clientConnections = 0;
+
+    public static void globalChat(String message) {
+        for (ServerThreadForClient aUser : userThreads) {
+            if (aUser.globalChat()) {
+                aUser.sendMessage(message);
+            }
+        }
+    }
+
+    public static void broadcast(String message) {
+        for (ServerThreadForClient aUser : userThreads) {
+            aUser.sendMessage(message);
+
+        }
+    }
+
+    public static synchronized void removeUser(String nickname, ServerThreadForClient aUser) {
+        namesOfAllClients.remove(nickname);
+        userThreads.remove(aUser);
+    }
+
+    /**
+     * Function checks if there is a String in the list that is equal to the desired name
+     */
+    public static synchronized String checkForDublicates(String desiredName) {
+
+        if (namesOfAllClients.contains(desiredName)) {
+
+            String nameIsUsedAlready = "There is someone with this name already!";
+            System.out.println(nameIsUsedAlready);
+
+            desiredName += "_0";
+        }
+
+        namesOfAllClients.addFirst(desiredName);
+        return desiredName;
+
+    }
    
 
     public static void main(String[] args) {
@@ -76,6 +116,7 @@ public class Server {
                  */
                 ServerThreadForClient serverThreadForClient = new ServerThreadForClient(
                     ++playersOnline, dataInputStream, dataOutputStream);
+                userThreads.add(serverThreadForClient);
                 Thread serverThread = new Thread(serverThreadForClient);
                 serverThread.start();
 

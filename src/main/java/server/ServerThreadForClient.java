@@ -15,8 +15,6 @@ public class ServerThreadForClient implements Runnable {
      */
     ClientProfil client_profil;
 
-    public static boolean newChatMessage = false;
-
     /**
      * Constructor
      */
@@ -29,22 +27,16 @@ public class ServerThreadForClient implements Runnable {
 
     }
 
-    /**
-     * Function checks if there is a String in the list that is equal to the desired name
-     */
-    public synchronized String checkForDublicates (String desiredName) {
+    public boolean globalChat() {
+        return client_profil.isInGlobalChat;
+    }
 
-        if (Server.namesOfAllClients.contains(desiredName)) {
-
-            String nameIsUsedAlready = "There is someone with this name already!";
-            System.out.println(nameIsUsedAlready);
-
-            desiredName += "_0";
+    void sendMessage(String message) {
+        try {
+            dataOutputStream.writeUTF(message);
+        } catch (Exception exception) {
+        System.err.println(exception.toString());
         }
-        
-        Server.namesOfAllClients.addFirst(desiredName); ////Add name to the namesOfAllClients-List
-        return desiredName;
-
     }
 
     public void run () {
@@ -60,7 +52,7 @@ public class ServerThreadForClient implements Runnable {
              * Receiving nickname by Client and checking for duplicates
              */
             String nickname = dataInputStream.readUTF();
-            client_profil.nickname = checkForDublicates(nickname);
+            client_profil.nickname = Server.checkForDublicates(nickname);
 
             System.out.println("\nNickname of client #" + client_profil.client_ID + ": " + client_profil.nickname);
 
@@ -71,7 +63,8 @@ public class ServerThreadForClient implements Runnable {
 
             while (client_profil.clientIsOnline) {
 
-                String clientchoice = dataInputStream.readUTF();
+                String clientchoiceOriginal = dataInputStream.readUTF();
+                String clientchoice = clientchoiceOriginal.toUpperCase();
 
                 switch (clientchoice) {
 
@@ -80,36 +73,6 @@ public class ServerThreadForClient implements Runnable {
                         client_profil.isInGlobalChat = true;
                         
                         System.out.println("\n\n" + client_profil.nickname + " has joined the chat!\n");
-
-                        ChatSender chatsender = new ChatSender(dataOutputStream, client_profil);
-                        Thread chatsenderthread = new Thread(chatsender);
-                        chatsenderthread.start();
-                        
-                        while (client_profil.isInGlobalChat) {
-
-                            //synchronized (this) {
-                
-                                String input = dataInputStream.readUTF();
-
-                                if (input.equalsIgnoreCase("QUIT")) {
-                                    System.out.println("\n\n" + client_profil.nickname + " has left the chat!\n");
-                                    dataOutputStream.writeUTF(Message.helpMessage);
-                                    client_profil.isInGlobalChat = false;
-                                    break;
-                                }
-
-                                Server.chatHistory += client_profil.nickname + ": " + input; //TO DO NICHT MESSAGE SONDER QUEUE
-
-                                Server.latestChatMessage = client_profil.nickname + ": " + input;
-
-                                newChatMessage = true;
-                                
-                                System.out.println(Server.chatHistory); // LAST IN FIRTS OUt
-                                System.out.println("LATEST CHAT MESSAGE: " + Server.latestChatMessage);
-
-                           //}
-                            
-                        }
 
                         break;
 
@@ -121,7 +84,7 @@ public class ServerThreadForClient implements Runnable {
                         }
                         //checks for duplicates
                         Server.namesOfAllClients.remove(client_profil.nickname);
-                        changedName = checkForDublicates(changedName);
+                        changedName = Server.checkForDublicates(changedName);
                         System.out.println(client_profil.nickname + " changes his/her name to " + changedName);
                         client_profil.nickname = changedName;
                         //outprints new name
@@ -130,10 +93,8 @@ public class ServerThreadForClient implements Runnable {
 
                     case "QUIT":
                         dataOutputStream.writeUTF(clientchoice);
-                        //removes name of the client from the list for online clients
-                        synchronized (this) {
-                            Server.namesOfAllClients.remove(client_profil.nickname);
-                        }
+                        //removes name and thread of the client from the list for online clients
+                        Server.removeUser(client_profil.nickname, this);
                         System.out.println("\nClient #" + client_profil.client_ID + " \"" + client_profil.nickname + "\" has disconnected.");
                         client_profil.clientIsOnline = false;
                         break;
@@ -167,6 +128,18 @@ public class ServerThreadForClient implements Runnable {
 
                         //dataOutputStream.writeUTF("\nInput unknown...\n\n" + Message.helpMessage);
             
+                }
+
+                if (client_profil.isInGlobalChat) {
+                    if (clientchoice.equals("BACK")) {
+                        System.out.println("\n\n" + client_profil.nickname + " has left the chat!\n");
+                        dataOutputStream.writeUTF(Message.helpMessage);
+                        client_profil.isInGlobalChat = false;
+                    } else if (!clientchoice.equals("CHAT")) {
+                        String serverMessage = "[" + client_profil.nickname + "]: " + clientchoiceOriginal;
+                        Server.globalChat(serverMessage);
+                    }
+
                 }
 
             }

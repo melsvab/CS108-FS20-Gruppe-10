@@ -70,40 +70,16 @@ public class Client {
             
             while (playerActive) {
 
-                String clientchoice = readKeyBoard.readLine();
-                clientchoice = clientchoice.toUpperCase();
-                dataOutputStream.writeUTF(clientchoice);
+                String original = readKeyBoard.readLine();
+                String clientchoice = original.toUpperCase();
+                dataOutputStream.writeUTF(original);
 
                 switch (clientchoice) {
 
                     case "CHAT":
-
-                        //DataInputStream chatMessageIn = dataInputStream;
+                        profil.isInGlobalChat = true;
 
                         System.out.println("\nYou have joined the global chat.\n");
-
-                        /*ChatReader chatReader = new ChatReader(chatMessageIn);
-                        Thread chatReaderThread = new Thread(chatReader);
-                        chatReaderThread.start();*/
-
-                        while (true) {
-                            
-                            String input = readKeyBoard.readLine();
-
-                            if (input.equalsIgnoreCase("QUIT")) {
-
-                                dataOutputStream.writeUTF(input);
-                                System.out.println("\nYou have left the chat...\n");
-                                System.out.println(dataInputStream.readUTF());
-                                break;
-
-                            } else {
-
-                                dataOutputStream.writeUTF(input + "\n");
-
-                            }    
-
-                        } 
                         
                         break;
 
@@ -146,8 +122,16 @@ public class Client {
 
                     default: 
 
-                        System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                        //System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
 
+                }
+
+                if (profil.isInGlobalChat) {
+                    if (clientchoice.equalsIgnoreCase("BACK")) {
+                        profil.isInGlobalChat = false;
+                        System.out.println("\nYou have left the chat...\n");
+
+                    }
                 }
 
             }
