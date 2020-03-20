@@ -170,9 +170,10 @@ public class ServerThreadForClient implements Runnable {
                                 dataOutputStream.writeUTF(Message.helpMessage);
                                 client_profil.isInGlobalChat = false;
 
-                            } else if (!clientchoice.equals("CHAT")) {
+                            } else {
                                 String serverMessage = "[" + client_profil.nickname + "]: " + clientchoiceOriginal;
                                 Server.globalChat(serverMessage);
+
                             }
         
                         }
