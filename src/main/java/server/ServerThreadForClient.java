@@ -162,9 +162,9 @@ public class ServerThreadForClient implements Runnable {
 
                             if (clientchoice.equals("BACK")) {
 
-                                String serverMessage = ("[" + client_profil.nickname + "] has left the chat!\n");
+                                String serverMessage = (client_profil.nickname + " has left the chat!\n");
                                 Server.globalChat(serverMessage);
-                                System.out.println("\n\n" + client_profil.nickname + " has left the chat!\n");
+                                System.out.println(serverMessage);
                                 dataOutputStream.writeUTF(Message.helpMessage);
                                 client_profil.isInGlobalChat = false;
 
