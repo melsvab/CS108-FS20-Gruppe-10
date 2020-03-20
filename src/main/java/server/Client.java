@@ -25,15 +25,15 @@ public class Client {
             InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
             BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
 
-            /*System.out.println("\n\nPlease type in the IP-Address or the name of the Server: ");
+            System.out.println("\n\nPlease type in the IP-Address or the name of the Server: ");
             String serverIP_serverName = readKeyBoard.readLine();
 
             System.out.println("\nPlease type in the port to be connected to: ");
             int serverPort = Integer.parseInt(readKeyBoard.readLine());
 
-            System.out.println("\nConnection to Server \"" + serverIP_serverName + "\", to port " + serverPort + "...");*/
+            System.out.println("\nConnection to Server \"" + serverIP_serverName + "\", to port " + serverPort + "...");
 
-            Socket socket = new Socket(/*serverIP_serverName, serverPort*/"localhost", 1111);
+            Socket socket = new Socket(serverIP_serverName, serverPort/*"localhost", 1111*/);
             System.out.println("\n\nConnected!\n\n\n");
             /**Connection established. */
 
