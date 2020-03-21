@@ -181,7 +181,7 @@ public class ServerThreadForClient implements Runnable {
                     case "JON1":
                         /**
                          * Under Construction: Player joins a Game with the fitting game_ID.
-                         * If there is no game with the game_ID, EJON2 is sended.
+                         * If there is no game with the game_ID or the game has already started, EJON2 is sended.
                          */
                         if (true)
                             dataOutputStream.writeUTF("JON2");
@@ -191,7 +191,8 @@ public class ServerThreadForClient implements Runnable {
 
                     case "STR1":
                         /**
-                         * Under Construction: Starts the game
+                         * Under Construction: Starts the game. Sends STR2 to all players in the
+                         * same lobby.
                          */
                         dataOutputStream.writeUTF("STR2");
                         break;
