@@ -67,32 +67,245 @@ public class ClientReaderThread implements Runnable {
                         break;
 
                     case "PLL2":
-
+                        /*
+                         * playerlist gets printed
+                         */
                         System.out.println(originalMessage.substring(4));
 
                         break;
 
                     case "GML2":
-
-                        System.out.println(originalMessage.substring(4));
+                        /*
+                         * received gamelist gets printed
+                         */
+                        System.out.println(Message.underConstruction);
 
                         break;
 
                     case "HSC2":
-
-                        System.out.println(originalMessage.substring(4));
+                        /*
+                         * received highscore gets printed
+                         */
+                        System.out.println(Message.underConstruction);
 
                         break;
 
                     case "CRE2":
 
-                        System.out.println(originalMessage.substring(4));
+                        /*
+                         *
+                         */
+                        System.out.println(Message.underConstruction);
 
                         break;
 
                     case "JON2":
 
-                        System.out.println(originalMessage.substring(4));
+                        System.out.println(Message.underConstruction);
+
+                        break;
+
+                    case "EJON":
+
+                        System.out.println("You could not join the game. Try another game_ID!");
+
+                        break;
+
+                    //game is started
+                    case "STR2":
+                        /*
+                         * gamelist gets printed
+                         */
+                        System.out.println("");
+                        System.out.println("The game has started!");
+                        System.out.println("");
+
+                        break;
+
+                    case "WHP2":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("[" + "]:##" + originalMessage.substring(4) + "##");
+
+                        break;
+
+                    case "EWHP":
+                        /*
+                         * prints an ERROR-Message if the chosen playername does not exist.
+                         */
+                        System.out.println("The playername was not found. The message could not be send.");
+
+                        break;
+
+                    //rounds are shown
+                    case "RNDS":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("RNDS");
+
+                        break;
+
+                    //server signals your turn
+                    case "YTRN":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("YTRN");
+
+                        break;
+
+                    //server will roll the dice between 1 and 6
+                    case "DICE":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("DICE");
+
+                        break;
+
+                    //error: move is invalid
+                    case "ERMO":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("ERMO");
+
+                        break;
+
+                    //points of the player for the move
+                    case "POIN":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("POIN");
+
+                        break;
+
+                    //points of the player for getting a coin
+                    case "POIC":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("POIC");
+
+                        break;
+
+                    //score of the player
+                    case "SCOR":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("SCOR");
+
+                        break;
+
+                    //server shows how many steps are left
+                    case "STPL":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("STPL");
+
+                        break;
+
+                    //server announces there are no steps
+                    case "STPX":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("STPX");
+
+                        break;
+
+                    //event is happing
+                    case "EVEN":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("EVEN");
+
+                        break;
+
+                    //player got hit by an event
+                    case "DEAD":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("DEAD");
+
+                        break;
+
+                    //minus points get substracted for being hit by an event
+                    case "MIPO":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("MIPO");
+
+                        break;
+
+                    //next turn is announced
+                    case "NTRN":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("NTRN");
+
+                        break;
+
+                    //there are no more rounds
+                    case "RNDX":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("RNDX");
+
+                        break;
+
+                    //even score between players
+                    case "SCRE":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("SCRE");
+
+                        break;
+
+                    //an extra round is added
+                    case "RNDA":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("RNDA");
+
+                        break;
+
+                    //winner is announced
+                    case "WINX":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("WINX");
+
+                        break;
+
+                    //new highscore is added
+                    case "HGHN":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("HGHN");
+
+                        break;
+
+                    //game ends
+                    case "ENDX":
+                        /*
+                         * received whisperchat is printed
+                         */
+                        System.out.println("ENDX");
 
                         break;
 
