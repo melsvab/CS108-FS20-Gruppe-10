@@ -74,12 +74,16 @@ public class Client {
                  */
                 String original = readKeyBoard.readLine();
                 String clientchoice = original.toUpperCase();
-                dataOutputStream.writeUTF(original);
+
+                clientchoice = original.toUpperCase();
+
 
                 switch (clientchoice) { /**Descide what to do next */
 
                     case "CHAT":
-                    
+
+                        dataOutputStream.writeUTF(original);
+
                         /*
                         * changes boolean <isInGlobalChat> and informs at terminal.
                         * if aleady in chatroom, terminal message about that fact will be send
@@ -94,6 +98,8 @@ public class Client {
                         break;
 
                     case "NAME":
+
+                        dataOutputStream.writeUTF(original);
 
                         try {
                             /*
@@ -132,6 +138,8 @@ public class Client {
 
                     case "IDK": /* our secret cheat code */
 
+                        dataOutputStream.writeUTF(original);
+
                         try {
                             System.out.println("\n...let me help you...\n");
                             Thread.sleep(2000);
@@ -165,6 +173,9 @@ public class Client {
                         break;
 
                     case "QUIT":
+
+                        dataOutputStream.writeUTF(original);
+
                         /*
                         * informing client about his choice.
                         * If player is not active he cannot write anymore.
@@ -174,22 +185,105 @@ public class Client {
                         playerActive = false;
                         break;
 
-                    case "PLL1": /**Under Construction */
+                    case "PLAYERLIST":
+
+                        dataOutputStream.writeUTF("PLL1");
                         break;
 
-                    case "GML1": /**Under Construction */
+                    case "GAMELIST": /**Under Construction*/
+
+                        dataOutputStream.writeUTF("GML1");
                         break;
 
-                    case "HSC1": /**Under Construction */
+
+                    case "HIGHSCORE": /**Under Construction */
+
+                        dataOutputStream.writeUTF("HSC1");
                         break;
 
-                    case "CRE1": /**Under Construction */
+                    case "CREATE": /**Under Construction */
+
+                        dataOutputStream.writeUTF("CRE1");
                         break;
 
-                    case "JON1": /**Under Construction */
+                    case "JOIN": /**Under Construction*/
+
+                        if (profil.isInGame == false) {
+                            System.out.println("Type in the GameNumber of the open game you want to join:");
+                            String game_ID = readKeyBoard.readLine();
+                            dataOutputStream.writeUTF("JON1" + game_ID);
+                        }
+                        else if (profil.isInGlobalChat == true || profil.isInBroadcast == true)
+                            dataOutputStream.writeUTF(original);
+                        else
+                            System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
                         break;
 
-                    default: 
+                    case "START": /**Under Construction*/
+
+                        if (profil.isInGame == true /*&& something like "Game has started == false"*/)
+                            dataOutputStream.writeUTF("STR1");
+                        else if (profil.isInGlobalChat == true || profil.isInBroadcast == true)
+                            dataOutputStream.writeUTF(original);
+                        else
+                            System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                        break;
+
+                    case "UP": /**Under Construction*/
+
+                        if (profil.isInGame == true /*&& something like "Game has started == true"*/)
+                            dataOutputStream.writeUTF("HXXD");
+                        else if (profil.isInGlobalChat == true || profil.isInBroadcast == true)
+                            dataOutputStream.writeUTF(original);
+                        else
+                            System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                        break;
+
+                    case "DOWN": /**Under Construction*/
+
+                        if (profil.isInGame == true /*&& something like "Game has started == true"*/)
+                            dataOutputStream.writeUTF("DXXN");
+                        else if (profil.isInGlobalChat == true || profil.isInBroadcast == true)
+                            dataOutputStream.writeUTF(original);
+                        else
+                            System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                        break;
+
+                    case "LEFT": /**Under Construction*/
+
+                        if (profil.isInGame == true /*&& something like "Game has started == true"*/)
+                            dataOutputStream.writeUTF("LXXT");
+                        else if (profil.isInGlobalChat == true || profil.isInBroadcast == true)
+                            dataOutputStream.writeUTF(original);
+                        else
+                            System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                        break;
+
+                    case "RIGHT": /**Under Construction*/
+
+                        if (profil.isInGame == true /*&& something like "Game has started == true"*/)
+                            dataOutputStream.writeUTF("RXXT");
+                        else if (profil.isInGlobalChat == true || profil.isInBroadcast == true)
+                            dataOutputStream.writeUTF(original);
+                        else
+                            System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                        break;
+
+                    case "/": /**Under Construction*/
+
+                        if (profil.isInGlobalChat == true) {
+                            String msg = original.substring(1);
+                            dataOutputStream.writeUTF("WHP1" + msg);
+                        }
+                        else
+                            System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                        break;
+
+
+                    default:
+
+                        dataOutputStream.writeUTF(original);
+
                         /*
                          * If client is in global chat, he can get out of it by sending <BACK>
                          * Also: Let player know if his input is unknown.
