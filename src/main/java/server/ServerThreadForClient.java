@@ -85,6 +85,7 @@ public class ServerThreadForClient implements Runnable {
                 String clientchoiceOriginal = dataInputStream.readUTF();
                 String clientchoice = clientchoiceOriginal.toUpperCase();
 
+
                 switch (clientchoice) {
 
                     case "CHAT":
@@ -156,27 +157,83 @@ public class ServerThreadForClient implements Runnable {
                         dataOutputStream.writeUTF("PLL2" + listOfPlayers);
                         break;
 
-                    case "GML1": /**Under Construction */
-                        dataOutputStream.writeUTF("GML2" + Message.underConstruction);
+                    case "GML1":
+                        /**
+                         * Under Construction: Sends a list of open, ongoing and finished Games including their game_ID
+                         */
+                        dataOutputStream.writeUTF("GML2");
                         break;
 
-                    case "HSC1": /**Under Construction */
-                        dataOutputStream.writeUTF("GML2" + Message.underConstruction); //DENNIS: Should be HSC2?
+                    case "HSC1":
+                        /**
+                         * Under Construction: Sends the current highscore to the player
+                         */
+                        dataOutputStream.writeUTF("HSC2" + "1000 points");
                         break;
 
-                    case "CRE1": /**Under Construction */
-                        //String dontEvenKnowMyselfWhatShouldBeHere = "Under Construction! Why not try something else for the moment?";
-                        /**DENNIS: Hanni dinne gloh willis so luschtig find x) */
-                        dataOutputStream.writeUTF("CRE1" + Message.underConstruction); //DENNIS: Should be CRE2?
+                    case "CRE1":
+                        /**
+                         * Under Construction: Creates a new game with an individual game_ID
+                         */
+                        dataOutputStream.writeUTF("CRE2");
                         break;
 
-                    case "JON1": /**Under Construction */
-                        dataOutputStream.writeUTF("JON2" + Message.underConstruction);
+                    case "JON1":
+                        /**
+                         * Under Construction: Player joins a Game with the fitting game_ID.
+                         * If there is no game with the game_ID, EJON2 is sended.
+                         */
+                        if (true)
+                            dataOutputStream.writeUTF("JON2");
+                        else
+                            dataOutputStream.writeUTF("EJON");
+                        break;
+
+                    case "STR1":
+                        /**
+                         * Under Construction: Starts the game
+                         */
+                        dataOutputStream.writeUTF("STR2");
+                        break;
+
+                    case "HXXD":
+                        /**
+                         * Under Construction: Player moves a block up ingame.
+                         */
+                        break;
+
+                    case "DXXN":
+                        /**
+                         * Under Construction: Player moves a block down ingame.
+                         */
+                        break;
+
+                    case "LXXT":
+                        /**
+                         * Under Construction: Player moves a block left ingame.
+                         */
+                        break;
+
+                    case "RXXT":
+                        /**
+                         * Under Construction: Player moves a block right ingame.
+                         */
+                        break;
+
+                    case "WHP1":
+                        /**
+                         * Under Construction: Player sends a whisperchat. Sends WHP2
+                         * when the playername exist, sends EWHP when not.
+                         */
+                        if(true)
+                            dataOutputStream.writeUTF("WHP2" + clientchoiceOriginal);
+                        else
+                            dataOutputStream.writeUTF("EWHP");
                         break;
 
                     default:
                         /**
-                         * If no keyword is received and player is in Chat,send message.
+                         * If no keyword is received and player is in Chat, send message.
                          */
                         if (client_profil.isInGlobalChat) {
 
@@ -185,7 +242,7 @@ public class ServerThreadForClient implements Runnable {
                                 String serverMessage = (client_profil.nickname + " has left the chat!\n");
                                 Server.globalChat(serverMessage);
                                 System.out.println(serverMessage);
-                                dataOutputStream.writeUTF(Message.helpMessage);
+                                dataOutputStream.writeUTF("HELP");
                                 client_profil.isInGlobalChat = false;
 
                             } else { /**Send chat message */
