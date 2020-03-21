@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="The Floor is Java" company="" webLink="http://" view-date="2020-02-24" view-index="0" gantt-divider-location="460" resource-divider-location="300" version="2.8.10" locale="en_GB">
+<?xml version="1.0" encoding="UTF-8"?><project name="The Floor is Java" company="" webLink="http://" view-date="2020-04-20" view-index="0" gantt-divider-location="460" resource-divider-location="300" version="2.8.10" locale="en_GB">
     <description/>
-    <view zooming-state="default:5" id="gantt-chart">
+    <view zooming-state="default:4" id="gantt-chart">
         <field id="tpd3" name="Name" width="205" order="0"/>
         <field id="tpd4" name="Begin date" width="117" order="1"/>
         <field id="tpd5" name="End date" width="117" order="2"/>
         <timeline>
-            <![CDATA[57,6,7]]>
+            <![CDATA[7,6,57]]>
         </timeline>
         <option id="color.recent">
-            <![CDATA[#ccffff #cccccc]]>
+            <![CDATA[#cccccc #ccffff]]>
         </option>
     </view>
     <view id="resource-table">
@@ -244,7 +244,7 @@ if possible: help with finishing Game State]]>
                 <depend id="251" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="251" name="Presentation for Milestone 3" color="#8cb6ce" meeting="false" start="2020-04-03" duration="2" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
+        <task id="251" name="Presentation for Milestone 3" color="#8cb6ce" meeting="false" start="2020-04-03" duration="3" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[Make slides with these subjects:
 
@@ -281,47 +281,158 @@ if possible: help with finishing Game State]]>
             <depend id="91" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="91" name="Puffer(2)" color="#cccccc" meeting="false" start="2020-04-09" duration="7" complete="0" thirdDate="2020-04-01" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[If we are ahead of scedule, we start with tasks for milestone 4.
+If there is a delay of some sort, we will use this time to complete everything for milestone 3.]]>
+            </notes>
             <depend id="57" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="57" name="Milestone 3" color="#ccffff" meeting="false" start="2020-04-16" duration="2" complete="0" thirdDate="2020-02-24" thirdDate-constraint="0" expand="true">
             <depend id="104" type="2" difference="0" hardness="Strong"/>
+            <depend id="319" type="2" difference="0" hardness="Strong"/>
+            <depend id="320" type="2" difference="0" hardness="Strong"/>
+            <depend id="446" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="104" name="Product: GUI &amp; rules enforced, etc" color="#8cb6ce" meeting="false" start="2020-04-18" duration="11" complete="0" thirdDate="2020-04-14" thirdDate-constraint="0" expand="true">
+        <task id="319" name="Login, Lobbies &amp; Chatroom with GUI (complete)" color="#8cb6ce" meeting="false" start="2020-04-18" duration="3" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <depend id="343" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="343" name="Create Symbols (Design)" color="#8cb6ce" meeting="false" start="2020-04-21" duration="2" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
             <notes>
-                <![CDATA[- Make everything graphical:
-Login & Chatroom, 
-Game: map, turtles (and their paths), flood, earthquake, apples
-
-Server:
-- rules enforced
-- winner and win state 
-- Unit tests
-- Highscore list
-
-25-26.April: 
-- update timetable, diary, manual, network protocol (doc),
+                <![CDATA[- design turtle, field: water/gras/earthqake ]]>
+            </notes>
+            <depend id="352" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="352" name="Design Mechanics of the Game with GUI" color="#8cb6ce" meeting="false" start="2020-04-23" duration="3" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[main focus: 
+- everyone's turn (every step of the turtle, points)
+- Cutscene: earthquake / flood]]>
+            </notes>
+            <depend id="434" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="320" name="Define Winner State (complete)" color="#8cb6ce" meeting="false" start="2020-04-18" duration="2" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- create a final round (if there are two people with the same amount of points)
+- create show off for the winner]]>
+            </notes>
+            <depend id="325" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="325" name="Highscore list (complete)" color="#8cb6ce" meeting="false" start="2020-04-20" duration="3" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <notes>
+                <![CDATA[- code with I/O that reads high score from external list]]>
+            </notes>
+            <depend id="339" type="2" difference="0" hardness="Strong"/>
+            <depend id="360" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="339" name="Enforce Rules of the Game" color="#8cb6ce" meeting="false" start="2020-04-23" duration="3" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- make sure players can only react in ways which are allowed]]>
+            </notes>
+            <depend id="434" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="360" name="Test and Quality Management" color="#8cb6ce" meeting="false" start="2020-04-23" duration="3" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <notes>
+                <![CDATA[- Unit tests
 - check code with CheckSytle and take time for Q/A]]>
             </notes>
+            <depend id="434" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="434" name="Presentation" color="#8cb6ce" meeting="false" start="2020-04-26" duration="1" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- play the game together so we are sure that it will work for milestone 4
+- discuss games of other groups]]>
+            </notes>
+            <depend id="336" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="446" name="Check out other Games" color="#8cb6ce" meeting="false" start="2020-04-18" duration="8" complete="0" thirdDate="2020-04-14" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <notes>
+                <![CDATA[- look at games from other groups and assess all MS4 achievements]]>
+            </notes>
+            <depend id="434" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="104" name="Update Documents" color="#8cb6ce" meeting="false" start="2020-04-18" duration="9" complete="0" thirdDate="2020-04-14" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- update timetable, diary, network protocol (doc),
+- create manual
+]]>
+            </notes>
+            <depend id="336" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="336" name="Deadline Milestone 4" color="#ccffff" meeting="false" start="2020-04-27" duration="2" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
             <depend id="59" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="59" name="Milestone 4 (In Übungen)" color="#ccffff" meeting="false" start="2020-04-29" duration="1" complete="0" thirdDate="2020-04-29" thirdDate-constraint="0" expand="true">
-            <depend id="110" type="2" difference="0" hardness="Strong"/>
+            <depend id="424" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="110" name="Finish Game" color="#8cb6ce" meeting="false" start="2020-04-30" duration="14" complete="0" thirdDate="2020-04-28" thirdDate-constraint="0" expand="true">
+        <task id="424" name="Puffer (3)" color="#cccccc" meeting="false" start="2020-04-30" duration="4" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
             <notes>
-                <![CDATA[- Make sure game works
-
-- create Highscore list as a file
-
-- make pictures and videos of the game
-
-- Q/A is up to date and has a file with data
-
-if enough time:
+                <![CDATA[if enough time:
 - create cheat code
-- include animation for earthquake & flood
-- make a logo/intro
-- make a trailer]]>
+- include animation for earthquake & flood (Natasha & Melanie)
+- spectator mode (Zuschauer)
+
+
+pay attention to:
+Pachydermatous Librarian: All external libraries in your project are managed by gradle via maven central]]>
+            </notes>
+            <depend id="110" type="2" difference="0" hardness="Strong"/>
+            <depend id="391" type="2" difference="0" hardness="Strong"/>
+            <depend id="425" type="2" difference="0" hardness="Strong"/>
+            <depend id="450" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="425" name="Connection Lost" color="#8cb6ce" meeting="false" start="2020-05-04" duration="6" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- make sure game can still be played if someone unexpectedly loses connection
+- make sure player can join ongoing game again after losing connection (bonus)
+]]>
+            </notes>
+            <depend id="420" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="450" name="Designs, Pictures &amp; Videos" color="#8cb6ce" meeting="false" start="2020-05-04" duration="6" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- create logo for our game / group (which we will show at our presentation)
+- make a representative screenshot of the game
+- make a representative  video (somewhere between 20 seconds and 2 minutes of gameplay)]]>
+            </notes>
+            <depend id="420" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="391" name="Q/A" color="#8cb6ce" meeting="false" start="2020-05-04" duration="6" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- QA report with goals, methods and results
+- advanced: Detailed and relevant analysis of QA measures over time, discussion of results, well-written report]]>
+            </notes>
+            <depend id="420" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="110" name="Documentation &amp; Bugs" color="#8cb6ce" meeting="false" start="2020-05-04" duration="6" complete="0" thirdDate="2020-04-28" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- fix all bugs that are found by tests
+- update timetable, diary, manual and network protocol
+
+]]>
+            </notes>
+            <depend id="420" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="420" name="Presentation" color="#8cb6ce" meeting="false" start="2020-05-10" duration="3" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- about the game:
+Outline of the game with its goals, rules and mechanics
+advanced: Have a clear introduction to your game explaining its fundamentals in such a way that a first-time listener can understand it
+
+- show our logo
+
+- Have a bugfree demo of the game in the final presentation
+- Present the working final game in the excercise slot by playing the game
+
+- technology: Describe tools, libraries and processes which you use that are not introduced in the lecture and why you use them
+advanced: Use at least two libraries besides JUnit actively for a significant / impactful task in your project. JavaFX does not count.
+
+- Lessons Learned]]>
+            </notes>
+            <depend id="399" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="399" name="Deadline Milestone 5" color="#ccffff" meeting="false" start="2020-05-13" duration="1" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <notes>
+                <![CDATA[13.05.20 17:00]]>
             </notes>
             <depend id="60" type="2" difference="0" hardness="Strong"/>
         </task>
@@ -342,20 +453,14 @@ if enough time:
     <allocations>
         <allocation task-id="0" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="7" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
-        <allocation task-id="15" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
-        <allocation task-id="6" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
         <allocation task-id="27" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="46" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
         <allocation task-id="53" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="55" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
-        <allocation task-id="57" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
-        <allocation task-id="60" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
         <allocation task-id="84" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="48" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
         <allocation task-id="91" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="102" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
-        <allocation task-id="104" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
-        <allocation task-id="110" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="112" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="119" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
         <allocation task-id="130" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
@@ -365,9 +470,24 @@ if enough time:
         <allocation task-id="251" resource-id="0" function="Default:1" responsible="false" load="80.0"/>
         <allocation task-id="287" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
         <allocation task-id="317" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
+        <allocation task-id="319" resource-id="0" function="Default:1" responsible="false" load="70.0"/>
+        <allocation task-id="336" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="343" resource-id="0" function="Default:1" responsible="false" load="70.0"/>
+        <allocation task-id="352" resource-id="0" function="Default:1" responsible="true" load="70.0"/>
+        <allocation task-id="104" resource-id="0" function="Default:1" responsible="true" load="20.0"/>
+        <allocation task-id="15" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="6" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="57" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="59" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="111" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="60" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="399" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="420" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="434" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
+        <allocation task-id="446" resource-id="0" function="Default:1" responsible="true" load="10.0"/>
+        <allocation task-id="424" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="110" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="7" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="15" resource-id="1" function="Default:0" responsible="false" load="0.0"/>
-        <allocation task-id="6" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="27" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="29" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="44" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
@@ -375,12 +495,8 @@ if enough time:
         <allocation task-id="48" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="53" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="55" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="57" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="60" resource-id="1" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="84" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="91" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="104" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="110" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="111" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="112" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="119" resource-id="1" function="Default:0" responsible="false" load="40.0"/>
@@ -391,9 +507,23 @@ if enough time:
         <allocation task-id="265" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="291" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="123" resource-id="1" function="Default:0" responsible="true" load="40.0"/>
+        <allocation task-id="320" resource-id="1" function="Default:0" responsible="true" load="90.0"/>
+        <allocation task-id="325" resource-id="1" function="Default:0" responsible="true" load="90.0"/>
+        <allocation task-id="336" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="15" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="6" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="57" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="59" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="102" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="60" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="399" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="420" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="434" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="446" resource-id="1" function="Default:0" responsible="false" load="10.0"/>
+        <allocation task-id="339" resource-id="1" function="Default:0" responsible="true" load="90.0"/>
+        <allocation task-id="424" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="425" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="7" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="15" resource-id="2" function="Default:0" responsible="false" load="0.0"/>
-        <allocation task-id="6" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="27" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="29" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="44" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
@@ -401,22 +531,31 @@ if enough time:
         <allocation task-id="48" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="53" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="55" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="57" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="60" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="84" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="91" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="102" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="104" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="110" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="111" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="112" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="120" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="251" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="287" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="317" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="319" resource-id="2" function="Default:0" responsible="true" load="90.0"/>
+        <allocation task-id="336" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="343" resource-id="2" function="Default:0" responsible="true" load="90.0"/>
+        <allocation task-id="352" resource-id="2" function="Default:0" responsible="false" load="90.0"/>
+        <allocation task-id="15" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="6" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="57" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="59" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="60" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="399" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="420" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="434" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="446" resource-id="2" function="Default:0" responsible="false" load="10.0"/>
+        <allocation task-id="424" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="450" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="7" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="15" resource-id="3" function="Default:0" responsible="false" load="0.0"/>
-        <allocation task-id="6" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="27" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="29" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="44" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
@@ -424,13 +563,9 @@ if enough time:
         <allocation task-id="48" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="53" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="55" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="57" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
-        <allocation task-id="60" resource-id="3" function="Default:0" responsible="true" load="0.0"/>
         <allocation task-id="84" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="91" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="102" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="104" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="110" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="111" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="112" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="186" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
@@ -438,6 +573,21 @@ if enough time:
         <allocation task-id="265" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="291" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="261" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="320" resource-id="3" function="Default:0" responsible="false" load="90.0"/>
+        <allocation task-id="325" resource-id="3" function="Default:0" responsible="false" load="90.0"/>
+        <allocation task-id="336" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="360" resource-id="3" function="Default:0" responsible="true" load="90.0"/>
+        <allocation task-id="15" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="6" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="57" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="59" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="60" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="391" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="399" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="420" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="434" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="446" resource-id="3" function="Default:0" responsible="false" load="10.0"/>
+        <allocation task-id="424" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
     </allocations>
     <vacations/>
     <previous/>
