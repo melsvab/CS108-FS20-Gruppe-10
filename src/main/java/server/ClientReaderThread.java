@@ -42,20 +42,26 @@ public class ClientReaderThread implements Runnable {
 
                 switch (keyword) {
 
-                    case "WELC": 
-
+                    case "WELC":
+                        /*
+                        * gets welcome message
+                        */
                         System.out.println(Message.welcomeMessage + Message.changeName);
                         
                         break;
 
-                    case "HELP": 
-
+                    case "HELP":
+                        /*
+                         * gets help message
+                         */
                         System.out.println(Message.helpMessage);
                         
                         break;
 
-                    case "QUIT": 
-
+                    case "QUIT":
+                        /*
+                         * thread stops reading messages of the server
+                         */
                         threadIsRunning = false;
                         
                         break;
@@ -90,8 +96,11 @@ public class ClientReaderThread implements Runnable {
 
                         break;
 
-                    default: 
-                        
+                    default:
+                        /*
+                         * Message might be from a chat
+                         * in any case: Client sees on terminal what the server sent him/her
+                         */
                         System.out.println(originalMessage);
 
                         break;
@@ -101,6 +110,9 @@ public class ClientReaderThread implements Runnable {
 
             }
 
+            /*
+             * thread will end soon so Input and Output will be closed
+             */
             dataInputStream.close();
             dataOutputStream.close();
 

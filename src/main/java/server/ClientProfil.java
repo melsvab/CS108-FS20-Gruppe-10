@@ -17,11 +17,17 @@ public class ClientProfil {
     boolean clientIsOnline;
     boolean changeNameNow;
 
+    /*
+    * constructor for serverthread
+    */
     public ClientProfil(int client_ID) {
         this.client_ID = client_ID;
         this.clientIsOnline = true;
-    }  
+    }
 
+    /*
+    * constructor for client
+    */
     public ClientProfil() {
         this.clientIsOnline = true;
         this.changeNameNow = true;

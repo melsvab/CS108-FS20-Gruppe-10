@@ -18,13 +18,13 @@ public class Server {
      * a Thread for this each new connection made.
      */
 
-    /**
-     * Global variables also used by clients.
+    /*
+     * Global variables also used by the ServerThreadForClient.
      */
     public static LinkedList<String> namesOfAllClients = new LinkedList<String>();
     public static Set<ServerThreadForClient> userThreads = new HashSet<>();
 
-    /**
+    /*
      * Static variables with server infromation.
      */
     public static boolean serverIsOnline = true;
@@ -97,7 +97,7 @@ public class Server {
                 "Server IP-Adrdress: " + serverIP + "\n" + 
                 "Servername: " + serverName + "\n\n\n" +                
                 "Now waiting for a connection to this IP/name by a Client...\n\n\n");
-            /**Server is now online */
+            /**Server is online now */
 
             while (serverIsOnline) {
 

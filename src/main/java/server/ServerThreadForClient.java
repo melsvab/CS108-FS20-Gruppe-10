@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class ServerThreadForClient implements Runnable {
 
     /**
-     * This Thread is created for every Client which connects
+     * This Thread is created for every Client that connects
      * to the server. Represents an interface between Client & server.
      */
 
@@ -42,7 +42,7 @@ public class ServerThreadForClient implements Runnable {
     }
 
     /**
-     * Chatfunction sends a message.
+     * Chatfunction sends a message to client.
      */
     void sendMessage(String message) {
         try {

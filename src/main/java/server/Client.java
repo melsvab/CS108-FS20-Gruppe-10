@@ -80,6 +80,10 @@ public class Client {
 
                     case "CHAT":
                     
+                        /*
+                        * changes boolean <isInGlobalChat> and informs at terminal.
+                        * if aleady in chatroom, terminal message about that fact will be send
+                        */
                         if (profil.isInGlobalChat) {
                             System.out.println("\nYou have already joined the global chat.\n");
                         } else {
@@ -92,15 +96,31 @@ public class Client {
                     case "NAME":
 
                         try {
-                            
+                            /*
+                            * gets massage that there is the option to use system username
+                            * and analyses answer from Client to this question
+                            */
                             Thread.sleep(50);
                             System.out.print(Message.changeName);
                             String newNickname = readKeyBoard.readLine();
+
+                            /*
+                            * if the answer is <YEAH> the nickname is change to the system username
+                            * if the answer is something else, this input will be used as the nickname
+                            */
                             if (newNickname.equalsIgnoreCase("YEAH")) {
                                 newNickname = System.getProperty("user.name");
                             }
+
+                            /*
+                            * sending the desired nickname to server
+                            */
                             dataOutputStream.writeUTF(newNickname);
                             Thread.sleep(50);
+
+                            /*
+                            * help message only neccessary while not be in global chat
+                            */
                             if (!profil.isInGlobalChat) {
                                 System.out.println(Message.helpMessage);
                             }
@@ -110,7 +130,7 @@ public class Client {
                             System.err.println(exception.toString());
                         }
 
-                    case "IDK": /**Sorry ha luscht kah... */
+                    case "IDK": /* our secret cheat code */
 
                         try {
                             System.out.println("\n...let me help you...\n");
@@ -145,7 +165,10 @@ public class Client {
                         break;
 
                     case "QUIT":
-
+                        /*
+                        * informing client about his choice.
+                        * If player is not active he cannot write anymore.
+                        */
                         dataOutputStream.writeUTF(clientchoice);
                         System.out.println("\nClosing program...\n");
                         playerActive = false;
@@ -167,8 +190,9 @@ public class Client {
                         break;
 
                     default: 
-                        /**
-                         * Let player know, if his input is unknown.
+                        /*
+                         * If client is in global chat, he can get out of it by sending <BACK>
+                         * Also: Let player know if his input is unknown.
                          */
                         if (profil.isInGlobalChat) {
                             if (clientchoice.equalsIgnoreCase("BACK")) {
@@ -183,6 +207,10 @@ public class Client {
 
             }
 
+            /*
+            * Client is not active anymore
+            * Input and Output will be closed
+            */
             dataInputStream.close();
             dataOutputStream.close();
             
