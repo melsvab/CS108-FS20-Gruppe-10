@@ -17,15 +17,15 @@ public class Message {
 
     public static String helpMessage = (
         "\nWhat would you like to do?\n\n" +
-        "enter >CHAT< to join the global chat.\n" +
-        "enter >NAME< to change your nickname\n" +
-        "enter >IDK< to do something else.\n" +
-        "enter >PLL1< to see a list of currently connected players.\n" +
-        "enter >GML1< to see a list of open, ongoing and finished games. \n" +
-        "enter >HSC1< to see the current highscore. \n" +
-        "enter >CRE1< to create a new game. \n" +
-        "enter >JON1< to join a already created game. \n" +
-        "enter >QUIT< to end this program.\n"
+        "enter >chat< to join the global chat.\n" +
+        "enter >name< to change your nickname\n" +
+        "enter >idk< to do something else.\n" +
+        "enter >playerlist< to see a list of currently connected players.\n" +
+        "enter >gamelist< to see a list of open, ongoing and finished games. \n" +
+        "enter >highscore< to see the current highscore. \n" +
+        "enter >create< to create a new game. \n" +
+        "enter >join< to join a already created game. \n" +
+        "enter >quit< to end this program.\n"
     );
 
     public static String nameIsUsedAlready = (
