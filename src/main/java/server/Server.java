@@ -71,16 +71,21 @@ public class Server {
     }
 
     /**
-     * Function checks if there is a String in the list that is equal to the desired name
+     * Function checks if there are Strings in the list that are equal to the desired name
      */
 
     public static synchronized String checkForDublicates(String desiredName) {
-        if (namesOfAllClients.contains(desiredName)) {
-            System.out.println(Message.nameIsUsedAlready);
-            desiredName += "_0";
+        while (true) {
+            if (namesOfAllClients.contains(desiredName)) {
+                System.out.println(Message.nameIsUsedAlready);
+                desiredName += "_0";
+            } else {
+                namesOfAllClients.addFirst(desiredName);
+                return desiredName;
+            }
+
         }
-        namesOfAllClients.addFirst(desiredName);
-        return desiredName;
+
     }
    
 
