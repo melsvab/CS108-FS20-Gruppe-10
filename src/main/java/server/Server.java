@@ -75,21 +75,20 @@ public class Server {
      */
 
     public static synchronized String checkForDublicates(String desiredName) {
-        while (true) {
-            if (namesOfAllClients.contains(desiredName)) {
-                int position = desiredName.length();
-                desiredName += "_0";
-                for (int i = 1; namesOfAllClients.contains(desiredName) == true; i++) {
-                    desiredName = desiredName.substring(0, position) ;
-                    desiredName +=  "_" + String.valueOf(i);
-                }
-                System.out.println(Message.nameIsUsedAlready);
-            } else {
-                namesOfAllClients.addFirst(desiredName);
-                return desiredName;
+        int position = desiredName.length();
+        if (namesOfAllClients.contains(desiredName)) {
+            desiredName += "_0";
+            int i = 1;
+            System.out.println(Message.nameIsUsedAlready);
+            //if there is more than just one person with the same name
+            while (namesOfAllClients.contains(desiredName)) {
+                desiredName = desiredName.substring(0, position) ;
+                desiredName +=  "_" + String.valueOf(i);
+                i++;
             }
-
         }
+        namesOfAllClients.addFirst(desiredName);
+        return desiredName;
 
     }
    
