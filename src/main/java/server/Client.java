@@ -176,7 +176,6 @@ public class Client {
                         break;
 
                     case "QUIT":
-                        dos.writeUTF(original);
                         /*
                         * informing client about his choice.
                         * If player is not active he cannot write anymore.
@@ -184,7 +183,11 @@ public class Client {
                         dos.writeUTF(clientchoice);
                         System.out.println("\nClosing program...\n");
                         playerActive = false;
-
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            System.err.println(e.toString());
+                        }
                         break;
 
                     case "PLAYERLIST":
@@ -319,6 +322,7 @@ public class Client {
 
             dis.close();
             dos.close();
+            socket.close();
             
         } catch (IOException exception) {
             System.err.println(exception.toString());

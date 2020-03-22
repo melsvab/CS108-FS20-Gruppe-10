@@ -78,7 +78,7 @@ public class Server {
         while (true) {
             if (namesOfAllClients.contains(desiredName)) {
                 System.out.println(Message.nameIsUsedAlready);
-                desiredName += "_0";
+                desiredName += "_" + clientConnections;
             } else {
                 namesOfAllClients.addFirst(desiredName);
                 return desiredName;
