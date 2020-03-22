@@ -77,8 +77,13 @@ public class Server {
     public static synchronized String checkForDublicates(String desiredName) {
         while (true) {
             if (namesOfAllClients.contains(desiredName)) {
+                int position = desiredName.length();
+                desiredName += "_0";
+                for (int i = 1; namesOfAllClients.contains(desiredName) == true; i++) {
+                    desiredName = desiredName.substring(0, position) ;
+                    desiredName +=  "_" + String.valueOf(i);
+                }
                 System.out.println(Message.nameIsUsedAlready);
-                desiredName += "_" + clientConnections;
             } else {
                 namesOfAllClients.addFirst(desiredName);
                 return desiredName;
