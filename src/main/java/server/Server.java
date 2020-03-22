@@ -21,11 +21,11 @@ public class Server {
     /*
      * Global variables also used by the ServerThreadForClient.
      */
-    public static LinkedList<String> namesOfAllClients = new LinkedList<String>();
+    public static LinkedList<String> namesOfAllClients = new LinkedList<>();
     public static Set<ServerThreadForClient> userThreads = new HashSet<>();
 
     /*
-     * Static variables with server infromation.
+     * Static variables with server information.
      */
     public static boolean serverIsOnline = true;
     public static final int port = 1111;
@@ -52,6 +52,7 @@ public class Server {
      * Function for broadcast. Go through each ServerThreadForClient
      * and send message (client does not have to be in the global chat).
      */
+
     public static void broadcast(String message) {
         for (ServerThreadForClient aUser : userThreads) {
             aUser.sendMessage(message);
@@ -63,6 +64,7 @@ public class Server {
      * the List on the server and the Thread which will be terminated,
      * is removed from the list on the server as well.
      */
+
     public static synchronized void removeUser(String nickname, ServerThreadForClient aUser) {
         namesOfAllClients.remove(nickname);
         userThreads.remove(aUser);
@@ -71,6 +73,7 @@ public class Server {
     /**
      * Function checks if there is a String in the list that is equal to the desired name
      */
+
     public static synchronized String checkForDublicates(String desiredName) {
         if (namesOfAllClients.contains(desiredName)) {
             System.out.println(Message.nameIsUsedAlready);
@@ -88,6 +91,7 @@ public class Server {
             /**
              * Build a Server and give feedback, when server is online.
              */
+
             String serverIP = Inet4Address.getLocalHost().getHostAddress();
             String serverName = Inet4Address.getLocalHost().getHostName();
 
@@ -103,17 +107,18 @@ public class Server {
 
                 /**
                  * Wait for a connection to the server by a Client
-                 */              
+                 */
+
                 Socket socket = serverSocket.accept();
 
                 System.out.println("\nClient #" + ++clientConnections + " is connected to the server.\n");
-                /** Connection to one client established */
+                //Connection to one client established
             
-                /**
-                 * Create In- & Ouputstreams for reading and sending Strings
-                 */
-                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-                DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+                //Create In- & Ouputstreams for reading and sending Strings
+
+                DataInputStream dis = new DataInputStream(socket.getInputStream());
+                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 
                 /**
                  * Start ServerThread for client who has connected.
@@ -121,7 +126,7 @@ public class Server {
                  * communicate with eacc other. Also add Thread to List on Server.
                  */
                 ServerThreadForClient serverThreadForClient = new ServerThreadForClient(
-                    ++playersOnline, dataInputStream, dataOutputStream);
+                    ++playersOnline, dis, dos);
                 userThreads.add(serverThreadForClient);
                 Thread serverThread = new Thread(serverThreadForClient);
                 serverThread.start();
@@ -134,7 +139,5 @@ public class Server {
             System.err.println(exception.toString());
             System.exit(1);
         }
-
     }
-
 }

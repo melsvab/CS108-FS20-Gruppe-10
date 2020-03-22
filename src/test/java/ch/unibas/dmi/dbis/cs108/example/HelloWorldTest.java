@@ -17,8 +17,7 @@ public class HelloWorldTest {
   
   /*
    * Streams to store system.out and system.err content
-   */
-  private ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+   private ByteArrayOutputStream outStream = new ByteArrayOutputStream();
   private ByteArrayOutputStream errStream = new ByteArrayOutputStream();
 
   /*

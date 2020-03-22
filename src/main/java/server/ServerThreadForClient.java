@@ -14,8 +14,8 @@ public class ServerThreadForClient implements Runnable {
     /**
      * In- & Ouputstreams for reading and sending Strings
      */
-    DataInputStream dataInputStream;
-    DataOutputStream dataOutputStream;
+    DataInputStream dis;
+    DataOutputStream dos;
 
     /**
      * Every Thread gets a client Profile
@@ -26,11 +26,11 @@ public class ServerThreadForClient implements Runnable {
      * Constructor (creats a new clientProfil)
      */
     public ServerThreadForClient(
-        int client_ID, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
+        int client_ID, DataInputStream dis, DataOutputStream dos) {
 
             this.client_profil = new ClientProfil(client_ID);
-            this.dataInputStream = dataInputStream;
-            this.dataOutputStream = dataOutputStream;
+            this.dis = dis;
+            this.dos = dos;
 
     }
 
@@ -38,6 +38,7 @@ public class ServerThreadForClient implements Runnable {
      * Check if Client is in global Chat.
      */
     public boolean globalChat() {
+
         return client_profil.isInGlobalChat;
     }
 
@@ -46,7 +47,7 @@ public class ServerThreadForClient implements Runnable {
      */
     void sendMessage(String message) {
         try {
-            dataOutputStream.writeUTF(message);
+            dos.writeUTF(message);
         } catch (Exception exception) {
         System.err.println(exception.toString());
         }
@@ -59,30 +60,30 @@ public class ServerThreadForClient implements Runnable {
             /**
              * Say Hello to client and let him choose his nickname.
              */
-            dataOutputStream.writeUTF("WELC");
+            dos.writeUTF("WELC");
 
             /**
              * Receiving nickname by Client and checking for duplicates.
              * Let Player know his nickname.
              */
-            String nickname = dataInputStream.readUTF();
+            String nickname = dis.readUTF();
             client_profil.nickname = Server.checkForDublicates(nickname);
 
             System.out.println("\nNickname of client #" + client_profil.client_ID + ": " + client_profil.nickname);
-            dataOutputStream.writeUTF("\nYour nickname: " + client_profil.nickname + "\n");
+            dos.writeUTF("\nYour nickname: " + client_profil.nickname + "\n");
             /**Nickname chosen. */
 
             /**
              * Ask client what he wants to do.
              */
-            dataOutputStream.writeUTF("HELP");
+            dos.writeUTF("HELP");
 
             while (client_profil.clientIsOnline) {
 
                 /**
                  * Get choice from Client and descide what to do.
                  */
-                String clientchoiceOriginal = dataInputStream.readUTF();
+                String clientchoiceOriginal = dis.readUTF();
                 String clientchoice = clientchoiceOriginal.toUpperCase();
 
 
@@ -108,9 +109,9 @@ public class ServerThreadForClient implements Runnable {
                         /**
                          * Reveive new nickname from client
                          */
-                        dataOutputStream.writeUTF("\n\nYour current nickname is: " + client_profil.nickname + "\n");
+                        dos.writeUTF("\n\nYour current nickname is: " + client_profil.nickname + "\n");
 
-                        String changedName = dataInputStream.readUTF();       
+                        String changedName = dis.readUTF();
                         /**
                          * Check, if this name is already used
                          */
@@ -124,7 +125,7 @@ public class ServerThreadForClient implements Runnable {
                         /**
                          * Let Player know his new name
                          */
-                        dataOutputStream.writeUTF("\n\nYour nickname has been changed to: " + changedName + "\n");
+                        dos.writeUTF("\n\nYour nickname has been changed to: " + changedName + "\n");
                         /**
                          * If in Chat, let others know
                          */
@@ -137,7 +138,7 @@ public class ServerThreadForClient implements Runnable {
 
                     case "QUIT":
 
-                        dataOutputStream.writeUTF(clientchoice);
+                        dos.writeUTF(clientchoice);
                         /**
                          * Remove name and thread of this client form the list on the server
                          */
@@ -154,28 +155,32 @@ public class ServerThreadForClient implements Runnable {
                          * Take list from server and print out players name.
                          */
                         String listOfPlayers = Arrays.toString(Server.namesOfAllClients.toArray());
-                        dataOutputStream.writeUTF("PLL2" + listOfPlayers);
+                        dos.writeUTF("PLL2" + listOfPlayers);
+
                         break;
 
                     case "GML1":
                         /**
                          * Under Construction: Sends a list of open, ongoing and finished Games including their game_ID
                          */
-                        dataOutputStream.writeUTF("GML2");
+                        dos.writeUTF("GML2");
+
                         break;
 
                     case "HSC1":
                         /**
                          * Under Construction: Sends the current highscore to the player
                          */
-                        dataOutputStream.writeUTF("HSC2" + "1000 points");
+                        dos.writeUTF("HSC2" + "1000 points");
+
                         break;
 
                     case "CRE1":
                         /**
                          * Under Construction: Creates a new game with an individual game_ID
                          */
-                        dataOutputStream.writeUTF("CRE2");
+                        dos.writeUTF("CRE2");
+
                         break;
 
                     case "JON1":
@@ -184,9 +189,9 @@ public class ServerThreadForClient implements Runnable {
                          * If there is no game with the game_ID or the game has already started, EJON2 is sended.
                          */
                         if (true)
-                            dataOutputStream.writeUTF("JON2");
+                            dos.writeUTF("JON2");
                         else
-                            dataOutputStream.writeUTF("EJON");
+                            dos.writeUTF("EJON");
                         break;
 
                     case "STR1":
@@ -194,7 +199,8 @@ public class ServerThreadForClient implements Runnable {
                          * Under Construction: Starts the game. Sends STR2 to all players in the
                          * same lobby.
                          */
-                        dataOutputStream.writeUTF("STR2");
+                        dos.writeUTF("STR2");
+
                         break;
 
                     case "HXXD":
@@ -227,9 +233,9 @@ public class ServerThreadForClient implements Runnable {
                          * when the playername exist, sends EWHP when not.
                          */
                         if(true)
-                            dataOutputStream.writeUTF("WHP2" + clientchoiceOriginal);
+                            dos.writeUTF("WHP2" + clientchoiceOriginal);
                         else
-                            dataOutputStream.writeUTF("EWHP");
+                            dos.writeUTF("EWHP");
                         break;
 
                     default:
@@ -243,7 +249,7 @@ public class ServerThreadForClient implements Runnable {
                                 String serverMessage = (client_profil.nickname + " has left the chat!\n");
                                 Server.globalChat(serverMessage);
                                 System.out.println(serverMessage);
-                                dataOutputStream.writeUTF("HELP");
+                                dos.writeUTF("HELP");
                                 client_profil.isInGlobalChat = false;
 
                             } else { /**Send chat message */
@@ -258,8 +264,8 @@ public class ServerThreadForClient implements Runnable {
 
             }
 
-            dataInputStream.close();
-            dataOutputStream.close();
+            dis.close();
+            dos.close();
             
         } catch (Exception exception) {
             System.err.println(exception.toString());

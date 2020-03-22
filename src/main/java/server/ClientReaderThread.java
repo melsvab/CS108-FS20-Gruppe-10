@@ -6,27 +6,25 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
 public class ClientReaderThread implements Runnable {
     /**
      * This Thread is for reading and processing input coming from the server.
      */
 
-    DataInputStream dataInputStream;
-    DataOutputStream dataOutputStream;
+    DataInputStream dis;
+    DataOutputStream dos;
     ClientProfil profil;
     
-    public ClientReaderThread(
-        DataInputStream dataInputStream, DataOutputStream dataOutputStream, ClientProfil profil) {
-            this.dataInputStream = dataInputStream;
-            this.dataOutputStream = dataOutputStream;
+    public ClientReaderThread(DataInputStream dis, DataOutputStream dos, ClientProfil profil) {
+            this.dis = dis;
+            this.dos = dos;
             this.profil = profil;
     }
 
     public void run() {
-
         InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
         BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
-
         boolean threadIsRunning = true;
 
         try {
@@ -36,7 +34,7 @@ public class ClientReaderThread implements Runnable {
                 /**
                  * Get message from server (in LETTERS)
                  */
-                String originalMessage = dataInputStream.readUTF();
+                String originalMessage = dis.readUTF();
                 String keyword = originalMessage.substring(0,4);
                 keyword = keyword.toUpperCase();
 
@@ -86,6 +84,7 @@ public class ClientReaderThread implements Runnable {
                         /*
                          * Under Construction: received highscore gets printed
                          */
+
                         System.out.println(originalMessage);
 
                         break;
@@ -95,6 +94,7 @@ public class ClientReaderThread implements Runnable {
                          * Under Construction: Informs player that the game is created
                          * and which game_ID it has
                          */
+
                         System.out.println(Message.underConstruction);
 
                         break;
@@ -104,9 +104,9 @@ public class ClientReaderThread implements Runnable {
                          * Under Construction: Informs the player that he joined the
                          * game and is in the lobby.
                          */
-                        System.out.pritnln("");
-                        System.out.println("You joined the game!");
-                        System.out.pritnln("");
+
+                        System.out.println("\nYou joined the game!\n");
+
 
                         break;
 
@@ -124,9 +124,9 @@ public class ClientReaderThread implements Runnable {
                          * Under Construction: Informs players in the lobby that the game
                          * has started
                          */
-                        System.out.println("");
-                        System.out.println("The game has started!");
-                        System.out.println("");
+
+                        System.out.println("\nThe game has started!\n");
+
 
                         break;
 
@@ -266,7 +266,6 @@ public class ClientReaderThread implements Runnable {
 
                         break;
 
-
                     case "WINX":
                         /*
                          * Under Construction: Winner is announced
@@ -303,20 +302,16 @@ public class ClientReaderThread implements Runnable {
                         break;
 
                 }
-
-
             }
 
             /*
              * thread will end soon so Input and Output will be closed
              */
-            dataInputStream.close();
-            dataOutputStream.close();
+            dis.close();
+            dos.close();
 
         } catch (IOException ioException) {
             System.err.println(ioException.toString());
         }
-
     }
-
 }
