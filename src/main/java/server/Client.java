@@ -100,7 +100,7 @@ public class Client {
                         break;
 
                     case "NAME":
-                        dos.writeUTF(original);
+                        dos.writeUTF("NAM1");
                         try {
                             /*
                             * gets message that there is the option to use system username
