@@ -100,7 +100,7 @@ public class ServerThreadForClient implements Runnable {
 
                         break;
 
-                    case "NAME":
+                    case "NAM1":
 
                         /**
                          * If in Chat, let other players know.
