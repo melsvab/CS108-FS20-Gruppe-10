@@ -7,7 +7,7 @@ public class ClientProfil {
      * information about a client.
      */
 
-    int client_ID;
+    int clientID;
     String nickname;
 
     boolean isInGlobalChat;
@@ -17,17 +17,17 @@ public class ClientProfil {
     boolean clientIsOnline;
     boolean changeNameNow;
 
-    /*
-    * constructor for serverthread
-    */
-    public ClientProfil(int client_ID) {
-        this.client_ID = client_ID;
+
+    //constructor for serverthread
+
+    public ClientProfil(int clientID) {
+        this.clientID = clientID;
         this.clientIsOnline = true;
     }
 
-    /*
-    * constructor for client
-    */
+
+    //constructor for client
+
     public ClientProfil() {
         this.clientIsOnline = true;
         this.changeNameNow = true;

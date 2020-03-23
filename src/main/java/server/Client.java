@@ -17,9 +17,8 @@ public class Client {
 
     public static void main(String[] args) {
         try {
-            /**
-             * Creates Client Profil
-             */
+
+            //Creates Client Profil
 
             ClientProfil profil = new ClientProfil();
 
@@ -32,50 +31,50 @@ public class Client {
             BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
 
             System.out.println("\n\nPlease type in the IP-Address or the name of the Server: ");
-            String serverIP_serverName = readKeyBoard.readLine();
+            String serverIpServerName = readKeyBoard.readLine();
 
             System.out.println("\nPlease type in the port to be connected to: ");
             int serverPort = Integer.parseInt(readKeyBoard.readLine());
 
-            System.out.println("\nConnection to Server \"" + serverIP_serverName + "\", to port " + serverPort + "...");
+            System.out.println("\nConnection to Server \"" + serverIpServerName
+                    + "\", to port " + serverPort + "...");
 
-            Socket socket = new Socket(serverIP_serverName, serverPort/*"localhost", 1111*/);
-            System.out.println("\n\nConnected!\n\n\n");
+            Socket socket = new Socket(serverIpServerName, serverPort/*"localhost", 1111*/);
 
             //Connection established.
 
-            /**
-             * Create In- & Ouputstreams for reading and sending Strings
-             */
+            System.out.println("\n\nConnected!\n\n\n");
+
+            //Create In- & Ouputstreams for reading and sending Strings
+
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             DataInputStream dis = new DataInputStream(socket.getInputStream());
-            /**
-             * Start ClientReaderThread for reading input from Server 
-             */
+
+            //Start ClientReaderThread for reading input from Server
+
             ClientReaderThread clientReaderThread = new ClientReaderThread(dis, dos, profil);
-            Thread client_thread = new Thread(clientReaderThread);
-            client_thread.start();
-            /**
-             * Choose nickname
-             */
+            Thread clientThread = new Thread(clientReaderThread);
+            clientThread.start();
+
+            //Choose nickname
+
             String nickname = readKeyBoard.readLine();
             if (nickname.equalsIgnoreCase("YEAH")) {
                 nickname = System.getProperty("user.name");
             }
 
             //Nickname chosen
+
             dos.writeUTF(nickname);
 
+            //Start processing inputs.
 
-            /**
-             * Start processing inputs.
-             */           
             boolean playerActive = true;
             
             while (playerActive) {
-                /**
-                 * Read keyboardinput from client.
-                 */
+
+                //Read keyboardinput from client.
+
                 String original = readKeyBoard.readLine();
                 String clientchoice = original.toUpperCase();
 
@@ -102,6 +101,7 @@ public class Client {
                     case "NAME":
                         dos.writeUTF("NAM1");
                         try {
+
                             /*
                             * gets message that there is the option to use system username
                             * and analyses answer from Client to this question
@@ -113,7 +113,8 @@ public class Client {
 
                             /*
                             * if the answer is <YEAH> the nickname is change to the system username
-                            * if the answer is something else, this input will be used as the nickname
+                            * if the answer is something else, this input will be used as the
+                            * nickname
                             */
 
                             if (newNickname.equalsIgnoreCase("YEAH")) {
@@ -149,24 +150,40 @@ public class Client {
                             System.out.println("Please type in a number:\n\n");
                             int howLong = Integer.parseInt(readKeyBoard.readLine());
                             System.out.println("\n");
-                            for(int i = 0; i < howLong; i++) {
+                            for (int i = 0; i < howLong; i++) {
                                 Thread.sleep(2000);
-                                System.out.print("This "); Thread.sleep(1000);
-                                System.out.print("is "); Thread.sleep(1000);
-                                System.out.print("gonna "); Thread.sleep(1000);
-                                System.out.print("take "); Thread.sleep(1000);
-                                System.out.print("a "); Thread.sleep(1000);
-                                System.out.print("while"); Thread.sleep(2000);
-                                System.out.print("... "); Thread.sleep(3000);
-                                System.out.print("sorry "); Thread.sleep(2000);
-                                System.out.print("not "); Thread.sleep(10);
-                                System.out.print("sorry"); Thread.sleep(10);
-                                System.out.print("... "); Thread.sleep(3000);
-                                System.out.print(i+1); Thread.sleep(1000);
-                                System.out.print(" out "); Thread.sleep(1000);
-                                System.out.print("of "); Thread.sleep(1000);
-                                System.out.print(howLong); Thread.sleep(1000);
-                                System.out.print("... "); Thread.sleep(2000);
+                                System.out.print("This ");
+                                Thread.sleep(1000);
+                                System.out.print("is ");
+                                Thread.sleep(1000);
+                                System.out.print("gonna ");
+                                Thread.sleep(1000);
+                                System.out.print("take ");
+                                Thread.sleep(1000);
+                                System.out.print("a ");
+                                Thread.sleep(1000);
+                                System.out.print("while");
+                                Thread.sleep(2000);
+                                System.out.print("... ");
+                                Thread.sleep(3000);
+                                System.out.print("sorry ");
+                                Thread.sleep(2000);
+                                System.out.print("not ");
+                                Thread.sleep(10);
+                                System.out.print("sorry");
+                                Thread.sleep(10);
+                                System.out.print("... ");
+                                Thread.sleep(3000);
+                                System.out.print(i+1);
+                                Thread.sleep(1000);
+                                System.out.print(" out ");
+                                Thread.sleep(1000);
+                                System.out.print("of ");
+                                Thread.sleep(1000);
+                                System.out.print(howLong);
+                                Thread.sleep(1000);
+                                System.out.print("... ");
+                                Thread.sleep(2000);
                             }
                             System.out.println("\n" + Message.helpMessage);
                         } catch (InterruptedException e) {
@@ -193,106 +210,105 @@ public class Client {
                     case "PLAYERLIST":
 
                         dos.writeUTF("PLL1");
-
                         break;
 
                     case "GAMELIST": /**Under Construction*/
 
                         dos.writeUTF("GML1");
-
                         break;
 
 
                     case "HIGHSCORE": /**Under Construction */
 
                         dos.writeUTF("HSC1");
-
                         break;
 
                     case "CREATE": /**Under Construction */
 
                         dos.writeUTF("CRE1");
-
                         break;
 
                     case "JOIN": /**Under Construction*/
 
                         if (!profil.isInGame) {
                             System.out.println("Type in the GameNumber of the open game you want to join:");
-                            String game_ID = readKeyBoard.readLine();
-                            dos.writeUTF("JON1" + game_ID);
-                        }
-                        else if (profil.isInGlobalChat || profil.isInBroadcast)
+                            String gameID = readKeyBoard.readLine();
+                            dos.writeUTF("JON1" + gameID);
+                        } else if (profil.isInGlobalChat || profil.isInBroadcast) {
                             dos.writeUTF(original);
-                        else
+                        } else {
                             System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                        break;
+                            break;
+                        }
 
 
                     case "START": /**Under Construction*/
 
-                        if (profil.isInGame /*&& something like "Game has started == false"*/)
+                        if (profil.isInGame /*&& something like "Game has started == false"*/) {
                             dos.writeUTF("STR1");
-                        else if (profil.isInGlobalChat || profil.isInBroadcast)
+                        } else if (profil.isInGlobalChat || profil.isInBroadcast) {
                             dos.writeUTF(original);
-                        else
+                        } else {
                             System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-
-                        break;
+                            break;
+                        }
 
 
                     case "UP": /**Under Construction*/
 
-                        if (profil.isInGame /*&& something like "Game has started == true"*/)
+                        if (profil.isInGame /*&& something like "Game has started == true"*/) {
                             dos.writeUTF("HXXD");
-                        else if (profil.isInGlobalChat || profil.isInBroadcast)
+                        } else if (profil.isInGlobalChat || profil.isInBroadcast) {
                             dos.writeUTF(original);
-                        else
+                        } else {
                             System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-
-                        break;
+                            break;
+                        }
 
 
                     case "DOWN": /**Under Construction*/
 
-                        if (profil.isInGame/*&& something like "Game has started == true"*/)
+                        if (profil.isInGame/*&& something like "Game has started == true"*/) {
                             dos.writeUTF("DXXN");
-                        else if (profil.isInGlobalChat || profil.isInBroadcast)
+                        } else if (profil.isInGlobalChat || profil.isInBroadcast) {
                             dos.writeUTF(original);
-                        else
+                        } else {
                             System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                        break;
-
+                            break;
+                        }
 
                     case "LEFT": /**Under Construction*/
 
-                        if (profil.isInGame /*&& something like "Game has started == true"*/)
+                        if (profil.isInGame /*&& something like "Game has started == true"*/) {
                             dos.writeUTF("LXXT");
-                        else if (profil.isInGlobalChat || profil.isInBroadcast)
+                        } else if (profil.isInGlobalChat || profil.isInBroadcast) {
                             dos.writeUTF(original);
-                        else
+                        } else {
                             System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                        break;
+                            break;
+                        }
 
 
                     case "RIGHT": /**Under Construction*/
 
-                        if (profil.isInGame/*&& something like "Game has started == true"*/)
+                        if (profil.isInGame/*&& something like "Game has started == true"*/) {
                             dos.writeUTF("RXXT");
-                        else if (profil.isInGlobalChat || profil.isInBroadcast)
+                        } else if (profil.isInGlobalChat || profil.isInBroadcast) {
                             dos.writeUTF(original);
-                        else
+                        } else {
                             System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                        break;
+                            break;
+                        }
 
                     case "/": /**Under Construction*/
 
                         if (profil.isInGlobalChat) {
                             String msg = original.substring(1);
                             dos.writeUTF("WHP1" + msg);
-                        } else
+                        } else {
                             System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                        break;
+                            break;
+                        }
 
 
                     default:

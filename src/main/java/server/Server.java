@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 public class Server {
@@ -21,18 +21,21 @@ public class Server {
     /*
      * Global variables also used by the ServerThreadForClient.
      */
+
     public static LinkedList<String> namesOfAllClients = new LinkedList<>();
     public static Set<ServerThreadForClient> userThreads = new HashSet<>();
 
     /*
      * Static variables with server information.
      */
+
     public static boolean serverIsOnline = true;
     public static final int port = 1111;
 
     /**
      * Variables to identify clients.
      */
+
     public static int playersOnline = 0;
     public static int clientConnections = 0;
 
@@ -40,6 +43,7 @@ public class Server {
      * Function for global Chat. Go through each ServerThreadForClient
      * and send message from client if a client is in global Chat.
      */
+
     public static void globalChat(String message) {
         for (ServerThreadForClient aUser : userThreads) {
             if (aUser.globalChat()) {
@@ -82,8 +86,8 @@ public class Server {
             System.out.println(Message.nameIsUsedAlready);
             //if there is more than just one person with the same name
             while (namesOfAllClients.contains(desiredName)) {
-                desiredName = desiredName.substring(0, position) ;
-                desiredName +=  "_" + String.valueOf(i);
+                desiredName = desiredName.substring(0, position);
+                desiredName +=  "_" + i;
                 i++;
             }
         }
@@ -91,37 +95,41 @@ public class Server {
         return desiredName;
 
     }
-   
+
+    /**
+     * Build a Server and give feedback, when server is online.
+     */
 
     public static void main(String[] args) {
 
         try {
 
-            /**
-             * Build a Server and give feedback, when server is online.
-             */
+
 
             String serverIP = Inet4Address.getLocalHost().getHostAddress();
             String serverName = Inet4Address.getLocalHost().getHostName();
 
             ServerSocket serverSocket = new ServerSocket(port);
 
-            System.out.println("\n\n\nServerSocket at port " + port + " successfully build.\n\n" + 
-                "Server IP-Adrdress: " + serverIP + "\n" + 
-                "Servername: " + serverName + "\n\n\n" +                
-                "Now waiting for a connection to this IP/name by a Client...\n\n\n");
-            /**Server is online now */
+            System.out.println("\n\n\nServerSocket at port " + port + " successfully build.\n\n"
+                    + "Server IP-Adrdress: " + serverIP + "\n"
+                    + "Servername: " + serverName + "\n\n\n"
+                    + "Now waiting for a connection to this IP/name by a Client...\n\n\n");
+
+            //Server is online now
 
             while (serverIsOnline) {
 
-                /**
-                 * Wait for a connection to the server by a Client
-                 */
+                //Wait for a connection to the server by a Client
+
 
                 Socket socket = serverSocket.accept();
 
-                System.out.println("\nClient #" + ++clientConnections + " is connected to the server.\n");
                 //Connection to one client established
+
+                System.out.println("\nClient #" + ++clientConnections + " is connected to the Server.\n");
+
+
             
 
                 //Create In- & Ouputstreams for reading and sending Strings
@@ -134,6 +142,7 @@ public class Server {
                  * In this Thread, this client and the server can
                  * communicate with eacc other. Also add Thread to List on Server.
                  */
+
                 ServerThreadForClient serverThreadForClient = new ServerThreadForClient(
                     ++playersOnline, dis, dos);
                 userThreads.add(serverThreadForClient);
