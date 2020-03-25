@@ -35,6 +35,7 @@ public class ClientReaderThread implements Runnable {
                 //Get message from server (in LETTERS)
 
                 String originalMessage = dis.readUTF();
+                int lengthOriginalMessage = originalMessage.length();
                 String keyword = originalMessage.substring(0,4);
                 keyword = keyword.toUpperCase();
 

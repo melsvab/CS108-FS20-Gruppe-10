@@ -78,12 +78,19 @@ public class Server {
      * Function checks if there are Strings in the list that are equal to the desired name
      */
 
-    public static synchronized String checkForDublicates(String desiredName) {
+    public static synchronized String checkForDublicates(String desiredName, ServerThreadForClient client) {
         int position = desiredName.length();
         if (namesOfAllClients.contains(desiredName)) {
-            desiredName += "_0";
+            client.sendMessage(Message.nameIsUsedAlready);
             int i = 1;
-            System.out.println(Message.nameIsUsedAlready);
+
+            if (!desiredName.endsWith("_0")) {
+                desiredName += "_0";
+
+            } else {
+                position = position - 2;
+            }
+
             //if there is more than just one person with the same name
             while (namesOfAllClients.contains(desiredName)) {
                 desiredName = desiredName.substring(0, position);

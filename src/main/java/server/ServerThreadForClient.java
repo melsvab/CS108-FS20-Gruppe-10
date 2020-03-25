@@ -66,7 +66,7 @@ public class ServerThreadForClient implements Runnable {
              */
             
             String nickname = dis.readUTF();
-            clientProfil.nickname = Server.checkForDublicates(nickname);
+            clientProfil.nickname = Server.checkForDublicates(nickname, this);
 
             System.out.println("\nNickname of client #" + clientProfil.clientID + ": "
                     + clientProfil.nickname);
@@ -117,7 +117,7 @@ public class ServerThreadForClient implements Runnable {
                          * Check, if this name is already used
                          */
                         Server.namesOfAllClients.remove(clientProfil.nickname);
-                        changedName = Server.checkForDublicates(changedName);
+                        changedName = Server.checkForDublicates(changedName, this);
 
                         //Accept new name
 
