@@ -7,24 +7,17 @@ public class Field {
      * This class represents a filed on the board and
      * includes several attributes.
      */
-    boolean isFlood, hasCoin, hasApple, isQuake;
-    boolean steppedOn, isTaken;
-
+    boolean isFlood, hasCoin, isQuake;
+    boolean steppedOn, isTaken, isBoundary;
     /**
      * Every field has a pointer to the filed next to it.
      */
     Field up, right, down, left;
 
-    /**
-     * Constructor empty for now.
-     */
-    public Field(boolean createRandomField) {
-        if (createRandomField) {
+    public Field(boolean hasCoinMaybe) {
+        if (hasCoinMaybe) {
             Random random = new Random();
             this.hasCoin = random.nextBoolean();
-            this.hasApple = random.nextBoolean();
-            //this.isFlood = random.nextBoolean();
-            //this.isQuake = random.nextBoolean();
         }
     }
 
@@ -33,6 +26,7 @@ public class Field {
      */
     public void resetField() {
         this.isFlood = false;
+        this.hasCoin = false;
         this.isQuake = false;
         this.steppedOn = false;
         this.isTaken = false;

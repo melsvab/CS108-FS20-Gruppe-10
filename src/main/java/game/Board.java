@@ -7,40 +7,37 @@ public class Board {  //This class represents the board and is made of Fields
     int boardSize;
     Field[][] board;
 
-    int maxCoins;
-    int maxApples;
-    int applesOnField = 0;
-    int coinsOnField = 0;
+    int maxCoinsinGame;
+    int coinsOnBoard = 0;
 
 
     //Constructor creates a new board and links fields to each other.
-    public Board(int boardSize, int maxApples, int maxCoins) {
+    public Board(int boardSize, int maxCoinsinGame) {
+
+        Random random = new Random();
 
         //Create a new board out of fields.
         this.boardSize = boardSize;
-        this.maxApples = maxApples;
-        this.maxCoins = maxCoins;
-        this.board = new Field[boardSize][boardSize];
-        for (int x = 0; x < this.boardSize; x++) {
-            for (int y = 0; y < this.boardSize; y++) {
-                Random random = new Random();
-                boolean truefalse = random.nextBoolean();
-                board[x][y] = new Field(truefalse);
-                if (board[x][y].hasApple && board[x][y].hasCoin) {
-                    board[x][y].hasCoin = false;
-                }
-                if (board[x][y].hasApple) {
-                    applesOnField++;
-                    if (applesOnField > maxApples) {
-                        board[x][y].hasApple = false;
-                        applesOnField--;
-                    }
-                }
-                if (board[x][y].hasCoin) {
-                    coinsOnField++;
-                    if (coinsOnField > maxCoins) {
-                        board[x][y].hasCoin = false;
-                        coinsOnField--;
+        this.maxCoinsinGame = maxCoinsinGame;
+        this.board = new Field[boardSize + 1][boardSize + 1];
+
+        //Generate random fields and an island (flooded around)
+        for (int x = 0; x < boardSize + 1; x++) {
+            for (int y = 0; y < boardSize + 1; y++) {
+                if (x == 0 || x == boardSize || y == 0 || y == boardSize) {
+                    board[x][y] = new Field(false);
+                    board[x][y].isFlood = true;
+                    board[x][y].isBoundary = true;
+                } else {
+                    //every Field is either empty or randomly generated.
+                    board[x][y] = new Field(random.nextBoolean());
+                    //make sure, not too much coins on one board
+                    if (board[x][y].hasCoin) {
+                        coinsOnBoard++;
+                        if (coinsOnBoard > maxCoinsinGame) {
+                            board[x][y].hasCoin = false;
+                            coinsOnBoard--;
+                        }
                     }
                 }
             }
@@ -50,7 +47,7 @@ public class Board {  //This class represents the board and is made of Fields
         for (int x = 0; x < this.boardSize; x++) {
             for (int y = 0; y < this.boardSize; y++) {
                  //Link UP
-                if ((y+1) >= this.boardSize){
+                if (y+1 >= this.boardSize){
                     this.board[x][y].up = null;
                 } else {
                     this.board[x][y].up = this.board[x][y+1];
@@ -62,19 +59,18 @@ public class Board {  //This class represents the board and is made of Fields
                     this.board[x][y].right = this.board[x+1][y];
                 }
                 //Link DOWN
-                if (y-1 <= this.boardSize){
+                if (y-1 <= 0){
                     this.board[x][y].down = null;
                 } else {
                     this.board[x][y].down = this.board[x][y-1];
                 }
                 //Link LEFT
-                if (x-1 <= this.boardSize){
+                if (x-1 <= 0){
                     this.board[x][y].left = null;
                 } else {
                     this.board[x][y].left = this.board[x-1][y];
                 }
-
-        //All fields connected to eachother.
+        //All fields connected to eachother (up, down, left, right).
             }
         }
     }
@@ -82,35 +78,44 @@ public class Board {  //This class represents the board and is made of Fields
     //Funtion to Randomly flood areas
     public void floodBoard() {
         Random randomFlood = new Random();
-        int floodStartXY = randomFlood.nextInt(this.boardSize);
-        int floodStartYX = randomFlood.nextInt(1);
-        boolean xORy = randomFlood.nextBoolean();
-        int floodStartX = 0;
-        int floodStartY = 0;
-        if (xORy) {
-            floodStartX = floodStartXY;
-            floodStartY = floodStartYX;
+        boolean takeX = randomFlood.nextBoolean();
+        boolean takeBottom = randomFlood.nextBoolean();
+        boolean takeLeft = randomFlood.nextBoolean();
+        int floodHere = randomFlood.nextInt(this.boardSize - 2);
+
+        if (takeX) {
+            if (takeBottom) {
+                for (int i = 0; i < randomFlood.nextInt(this.boardSize - 3) + 3; i++) {
+                    this.board[floodHere][0 + i].isFlood = true;
+                }
+            } else {
+                for (int i = this.boardSize; i >= randomFlood.nextInt(this.boardSize - 3) + 3; i--) {
+                    this.board[floodHere][this.boardSize - i].isFlood = true;
+                }
+            }
         } else {
-            floodStartX = floodStartYX;
-            floodStartY = floodStartXY;
+            if (takeLeft) {
+                for (int i = 0; i < randomFlood.nextInt(this.boardSize - 3) + 3; i++) {
+                    this.board[0 + i][floodHere].isFlood = true;
+                }
+            } else {
+                for (int i = this.boardSize; i >= randomFlood.nextInt(this.boardSize - 3) + 3; i--) {
+                    this.board[this.boardSize - i][floodHere].isFlood = true;
+                }
+            }
         }
-
-        this.board[floodStartX][floodStartY].isFlood = true;
-
     }
 
     public void printBoard() {
-        System.out.println("__________________________________________________");
-        for (int y = this.boardSize-1; y >= 0; y--) {
+        System.out.println("#####################################################");
+        for (int y = this.boardSize; y >= 0; y--) {
             System.out.print("   ");
-            for (int x = 0; x < this.boardSize; x++) {
+            for (int x = 0; x <= this.boardSize; x++) {
                 if (board[x][y].isFlood) {
-                    System.out.print("~~~");
+                    System.out.print("WTR");
                 } else if (board[x][y].isQuake) {
                     System.out.print("xxx");
-                } else if (board[x][y].hasApple) {
-                    System.out.print("Apl");
-                } else if (board[x][y].hasCoin) {
+                } else if (board[x][y].hasCoin && !board[x][y].isFlood) {
                     System.out.print("$$$");
                 } else {
                     System.out.print("___");
@@ -119,23 +124,17 @@ public class Board {  //This class represents the board and is made of Fields
             }
             System.out.println("\n");
         }
-        System.out.println("__________________________________________________");
+        System.out.println("#####################################################");
     }
 
     // TESTING CODE:
     public static void main(String[] args) {
-        Board testBoard = new Board(10, 5, 4);
-
+        Board testBoard = new Board(10, 5);
         testBoard.printBoard();
-
-        testBoard.floodBoard();
-
-        testBoard.printBoard();
-
-        testBoard.floodBoard();
-
-        testBoard.printBoard();
-
+        for(int i = 0; i < 10; i++) {
+            testBoard.floodBoard();
+            testBoard.printBoard();
+        }
     }
 
 

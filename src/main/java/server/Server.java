@@ -112,7 +112,7 @@ public class Server {
      */
     public void startNewGame(int boardSize, int maxApples, int maxCoins) {
         if (gamesRunningCounter >= gamesRunningList.length) { return; }
-        gamesRunningList[gamesRunningCounter] = new Board(boardSize, maxApples, maxCoins);
+        gamesRunningList[gamesRunningCounter] = new Board(boardSize, maxCoins);
     }
 
     /**
