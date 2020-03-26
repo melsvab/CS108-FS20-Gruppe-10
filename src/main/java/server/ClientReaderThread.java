@@ -22,6 +22,17 @@ public class ClientReaderThread implements Runnable {
             this.profil = profil;
     }
 
+    public static boolean contains(String keyword) {
+
+        for (Protocol p : Protocol.values()) {
+            if (p.name().equals(keyword)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void run() {
         InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
         BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
@@ -30,258 +41,285 @@ public class ClientReaderThread implements Runnable {
         try {
 
             while (threadIsRunning) {
-    
+
 
                 //Get message from server (in LETTERS)
 
-                String originalMessage = dis.readUTF();
-                int lengthOriginalMessage = originalMessage.length();
-                String keyword = originalMessage.substring(0,4);
-                keyword = keyword.toUpperCase();
+                String original = dis.readUTF();
+                int lenghtInput = original.length();
+                String clientchoice = original.toUpperCase().substring(0, 4);
 
-                switch (keyword) {
+                if (contains(clientchoice)) {
+                    switch (Protocol.valueOf(clientchoice)) {
 
-                    case "WELC":
-                        //gets welcome message
+                        case WELC:
+                            //gets welcome message
 
-                        System.out.println(Message.welcomeMessage + Message.changeName);
-                        break;
+                            System.out.println(Message.welcomeMessage + Message.changeName);
+                            break;
 
-                    case "HELP":
+                        case NAM2:
+                            //gets welcome message
 
-                        //gets help message
+                            System.out.println("Your desired name exists already!");
+                            break;
 
-                        System.out.println(Message.helpMessage);
-                        break;
+                        case NAM1:
+                            //gets answer for a name change
+                            String message = original.substring(5,lenghtInput);
+                            System.out.println(message);
+                            break;
 
-                    case "QUIT":
+                        case HELP:
 
-                        //thread stops reading messages of the server
+                            //gets help message
 
-                        threadIsRunning = false;
-                        break;
+                            System.out.println(Message.helpMessage);
+                            break;
 
-                    case "PLL2":
+                        case QUIT:
 
-                        //playerlist gets printed
+                            //thread stops reading messages of the server
 
-                        System.out.println(originalMessage.substring(4));
-                        break;
+                            threadIsRunning = false;
+                            break;
 
-                    case "GML2":
+                        case ENDE:
 
-                        //Under Construction: received gamelist gets printed
+                            //thread stops reading messages of the server
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            threadIsRunning = false;
+                            break;
 
-                    case "HSC2":
+                        case PLL1:
 
-                        //Under Construction: received highscore gets printed
+                            //playerlist gets printed
 
-                        System.out.println(originalMessage);
-                        break;
+                            System.out.println(original.substring(4));
+                            break;
 
-                    case "CRE2":
-                        /*
-                         * Under Construction: Informs player that the game is created
-                         * and which game_ID it has
-                         */
+                        case GML1:
 
-                        System.out.println(Message.underConstruction);
+                            //Under Construction: received gamelist gets printed
 
-                        break;
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                    case "JON2":
-                        /*
-                         * Under Construction: Informs the player that he joined the
-                         * game and is in the lobby.
-                         */
+                        case HSC1:
 
-                        System.out.println("\nYou joined the game!\n");
-                        break;
+                            //Under Construction: received highscore gets printed
 
-                    case "EJON":
-                        /*
-                         * Under Construction: Informs the player that he could not join
-                         * the game.
-                         */
+                            System.out.println(original);
+                            break;
 
-                        System.out.println("You could not join the game. Try another game_ID!");
-                        break;
+                        case CRE1:
+                            /*
+                             * Under Construction: Informs player that the game is created
+                             * and which game_ID it has
+                             */
 
-                    case "STR2":
-                        /*
-                         * Under Construction: Informs players in the lobby that the game
-                         * has started
-                         */
+                            System.out.println(Message.underConstruction);
 
-                        System.out.println("\nThe game has started!\n");
-                        break;
+                            break;
 
-                    case "WHP2":
+                        case JOIN:
+                            /*
+                             * Under Construction: Informs the player that he joined the
+                             * game and is in the lobby.
+                             */
 
-                        //Under Construction: received whisperchat is printed
+                            System.out.println("\nYou joined the game!\n");
+                            break;
 
-                        System.out.println("[" + "]:##" + originalMessage.substring(4) + "##");
-                        break;
+                        case EJON:
+                            /*
+                             * Under Construction: Informs the player that he could not join
+                             * the game.
+                             */
 
-                    case "EWHP":
-                        /*
-                         * Under Construction: prints an ERROR-Message if the chosen playername
-                         * does not exist.
-                         */
+                            System.out.println("You could not join the game. Try another game_ID!");
+                            break;
 
-                        System.out.println("The playername was not found. The message could not be send.");
-                        break;
+                        case STR1:
+                            /*
+                             * Under Construction: Informs players in the lobby that the game
+                             * has started
+                             */
 
-                    case "RNDS":
+                            System.out.println("\nThe game has started!\n");
+                            break;
 
-                        //Under Construction: prints the number of rounds (left)
+                        case WHP1:
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            //Under Construction: received whisperchat is printed
 
-                    case "YTRN":
+                            System.out.println("[" + "]:##" + original.substring(4) + "##");
+                            break;
 
-                        //Under Construction: Informs the player that it's his turn
+                        case EWHP:
+                            /*
+                             * Under Construction: prints an ERROR-Message if the chosen playername
+                             * does not exist.
+                             */
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            System.out.println("The playername was not found. The message could not be send.");
+                            break;
 
-                    case "DICE":
-                        /*
-                         * Under Construction: Shows how many
-                         * moves the player got (left) this round
-                         */
+                        case RNDS:
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            //Under Construction: prints the number of rounds (left)
 
-                    case "ERMO":
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                        //Under Construction: Informs the player that the move is invalid.
+                        case YTRN:
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            //Under Construction: Informs the player that it's his turn
 
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                    case "POIN":
-                        /*
-                         * Under Construction: Show the player how many points he got for
-                         * this move
-                         */
+                        case DICE:
+                            /*
+                             * Under Construction: Shows how many
+                             * moves the player got (left) this round
+                             */
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                    case "POIC":
-                        /*
-                         * Under Construction: Shows the player that he got extra points
-                         * for getting a coin
-                         */
+                        case ERMO:
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            //Under Construction: Informs the player that the move is invalid.
 
-                    case "SCOR":
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                        //Under Construction: shows the score of the player
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                        case POIN:
+                            /*
+                             * Under Construction: Show the player how many points he got for
+                             * this move
+                             */
 
-                    case "STPX":
-                        /*
-                         * Under Construction: Prints that there are
-                         * no more moves left
-                         */
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                        case POIC:
+                            /*
+                             * Under Construction: Shows the player that he got extra points
+                             * for getting a coin
+                             */
 
-                    case "EVEN":
-                        /*
-                         * Under Construction: Server announces that
-                         * an event is happening (flood/earthquake)
-                         */
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                        case SCOR:
 
-                    case "DEAD":
-                        /*
-                         * Under Construction: Informs the player that he was hit by an event.
-                         */
+                            //Under Construction: shows the score of the player
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                    case "MIPO":
-                        /*
-                         * Under Construction: Player gets minus points.
-                         */
+                        case STPX:
+                            /*
+                             * Under Construction: Prints that there are
+                             * no more moves left
+                             */
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                    case "NTRN":
-                        /*
-                         * Under Construction: Informs the players that the next round starts
-                         */
+                        case EVEN:
+                            /*
+                             * Under Construction: Server announces that
+                             * an event is happening (flood/earthquake)
+                             */
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                    case "RNDX":
-                        /*
-                         * Under Construction: Informs the players that no more rounds are left
-                         */
+                        case DEAD:
+                            /*
+                             * Under Construction: Informs the player that he was hit by an event.
+                             */
 
-                        System.out.println(Message.underConstruction);
-                        break;
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                    case "RNDA":
-                        /*
-                         * Under Construction: extra round is added if a even score
-                         * exists between two or more players at the end.
-                         */
-                        System.out.println(Message.underConstruction);
-                        break;
+                        case MIPO:
+                            /*
+                             * Under Construction: Player gets minus points.
+                             */
 
-                    case "WINX":
-                        /*
-                         * Under Construction: Winner is announced
-                         */
-                        System.out.println(Message.underConstruction);
-                        break;
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                    //new highscore is added
-                    case "HGHN":
-                        /*
-                         * Under Construction: Message that a new highscore was added
-                         */
-                        System.out.println(Message.underConstruction);
-                        break;
+                        case NTRN:
+                            /*
+                             * Under Construction: Informs the players that the next round starts
+                             */
 
-                    case "ENDX":
-                        /*
-                         * Under Construction: Informs the player that the game closed
-                         *
-                         */
-                        System.out.println(Message.underConstruction);
-                        break;
+                            System.out.println(Message.underConstruction);
+                            break;
 
-                    default:
-                        /*
-                         * Message might be from a chat
-                         * in any case: Client sees on terminal what the server sent him/her
-                         */
-                        System.out.println(originalMessage);
-                        break;
+                        case RNDX:
+                            /*
+                             * Under Construction: Informs the players that no more rounds are left
+                             */
 
+                            System.out.println(Message.underConstruction);
+                            break;
+
+                        case RNDA:
+                            /*
+                             * Under Construction: extra round is added if a even score
+                             * exists between two or more players at the end.
+                             */
+                            System.out.println(Message.underConstruction);
+                            break;
+
+                        case WINX:
+                            /*
+                             * Under Construction: Winner is announced
+                             */
+                            System.out.println(Message.underConstruction);
+                            break;
+
+                        //new highscore is added
+                        case HGHN:
+                            /*
+                             * Under Construction: Message that a new highscore was added
+                             */
+                            System.out.println(Message.underConstruction);
+                            break;
+
+                        case ENDX:
+                            /*
+                             * Under Construction: Informs the player that the game closed
+                             *
+                             */
+                            System.out.println(Message.underConstruction);
+                            break;
+
+                        default:
+                            //It should be impossible to get here
+                            System.out.println("How did this end up here?" + "\n" + original);
+
+
+                            break;
+
+                    }
+
+                } else {
+                    /*
+                     * Message might be from a chat
+                     * in any case: Client sees on terminal what the server sent him/her
+                     */
+                    System.out.println(original);
                 }
             }
+
 
 
             //thread will end soon so Input and Output will be closed

@@ -61,8 +61,8 @@ public class Server {
      * and send message (client does not have to be in the global chat).
      */
 
-    public static void broadcast(String message) {
-        for (ServerThreadForClient aUser : userThreads) {
+    public static void broadcast(String message, Set<ServerThreadForClient> group) {
+        for (ServerThreadForClient aUser : group) {
             aUser.sendMessage(message);
         }
     }
@@ -82,10 +82,10 @@ public class Server {
      * Function checks if there are Strings in the list that are equal to the desired name
      */
 
-    public static synchronized String checkForDublicates(String desiredName, ServerThreadForClient client) {
+    public static synchronized String checkForDublicates(String desiredName, ServerThreadForClient aUser) {
         int position = desiredName.length();
         if (namesOfAllClients.contains(desiredName)) {
-            client.sendMessage(Message.nameIsUsedAlready);
+            aUser.sendMessage("NAM2");
             int i = 1;
 
             if (!desiredName.endsWith("_0")) {
