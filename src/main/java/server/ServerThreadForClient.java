@@ -43,7 +43,7 @@ public class ServerThreadForClient implements Runnable {
     /**
      * Chatfunction sends a message to client.
      */
-    void sendMessage(String message) {
+    public void sendMessage(String message) {
         try {
             dos.writeUTF(message);
         } catch (Exception exception) {
@@ -161,7 +161,7 @@ public class ServerThreadForClient implements Runnable {
                              * Under Construction: Can stop server
                              */
                             dos.writeUTF(clientchoice);
-                            Server.broadcast("Our server goes to sleep", Server.userThreads);
+                            Server.chat("Our server goes to sleep", Server.userThreads);
                             Server.serverIsOnline = false;
                             break;
 

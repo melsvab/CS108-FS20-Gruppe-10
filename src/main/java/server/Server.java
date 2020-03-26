@@ -1,6 +1,6 @@
 package server;
 
-import game.Board;
+import game.*;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -26,6 +26,7 @@ public class Server {
 
     public static LinkedList<String> namesOfAllClients = new LinkedList<>();
     public static Set<ServerThreadForClient> userThreads = new HashSet<>();
+    public static Set<Lobby> games = new HashSet<>();
     public static Board[] gamesRunningList = new Board[10]; /**TO DO: CREATE LIST TO ADD GAMES*/
     public static int gamesRunningCounter = 0;
 
@@ -57,15 +58,20 @@ public class Server {
     }
 
     /**
-     * Function for broadcast. Go through each ServerThreadForClient
-     * and send message (client does not have to be in the global chat).
+     * Function for broadcast and other chats.
+     * Goes through each ServerThreadForClient in the group / sends message to a person
      */
 
-    public static void broadcast(String message, Set<ServerThreadForClient> group) {
+    public static void chat(String message, Set<ServerThreadForClient> group) {
         for (ServerThreadForClient aUser : group) {
             aUser.sendMessage(message);
         }
     }
+
+    public static void chatSingle(String message, ServerThreadForClient aPerson) {
+            aPerson.sendMessage(message);
+    }
+
 
     /**
      * If a client disconnects, it´s name is removed form 
