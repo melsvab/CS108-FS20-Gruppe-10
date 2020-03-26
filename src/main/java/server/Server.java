@@ -110,9 +110,9 @@ public class Server {
     /**
      * Function to create a new game.
      */
-    public void startNewGame(int boardSize) {
+    public void startNewGame(int boardSize, int maxApples, int maxCoins) {
         if (gamesRunningCounter >= gamesRunningList.length) { return; }
-        gamesRunningList[gamesRunningCounter] = new Board(boardSize);
+        gamesRunningList[gamesRunningCounter] = new Board(boardSize, maxApples, maxCoins);
     }
 
     /**
