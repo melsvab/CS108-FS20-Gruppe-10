@@ -1,5 +1,7 @@
 package server;
 
+import game.Board;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -24,6 +26,8 @@ public class Server {
 
     public static LinkedList<String> namesOfAllClients = new LinkedList<>();
     public static Set<ServerThreadForClient> userThreads = new HashSet<>();
+    public static Board[] gamesRunningList = new Board[10]; /**TO DO: CREATE LIST TO ADD GAMES*/
+    public static int gamesRunningCounter = 0;
 
     /*
      * Static variables with server information.
@@ -101,6 +105,14 @@ public class Server {
         namesOfAllClients.addFirst(desiredName);
         return desiredName;
 
+    }
+
+    /**
+     * Function to create a new game.
+     */
+    public void startNewGame(int boardSize) {
+        if (gamesRunningCounter >= gamesRunningList.length) { return; }
+        gamesRunningList[gamesRunningCounter] = new Board(boardSize);
     }
 
     /**
