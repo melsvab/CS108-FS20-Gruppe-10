@@ -66,8 +66,7 @@ public class ClientReaderThread implements Runnable {
 
                         case NAM1:
                             //gets answer for a name change
-                            String message = original.substring(5,lenghtInput);
-                            System.out.println(message);
+                            System.out.println(original.substring(5));
                             break;
 
                         case HELP:

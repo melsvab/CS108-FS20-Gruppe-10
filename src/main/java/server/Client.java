@@ -116,30 +116,31 @@ public class Client {
                              * and analyses answer from Client to this question
                              */
 
-                            System.out.print(Message.changeName);
-                            String newNickname = original.substring(5, lenghtInput);
+                            if(lenghtInput > 5) {
+                                String newNickname = original.substring(5);
 
-                            /*
-                             * if the answer is <YEAH> the nickname is change to the system username
-                             * if the answer is something else, this input will be used as the
-                             * nickname
-                             */
+                                /*
+                                 * if the answer is <YEAH> the nickname is change to the system username
+                                 * if the answer is something else, this input will be used as the
+                                 * nickname
+                                 */
 
-                            if (newNickname.equalsIgnoreCase("YEAH")) {
-                                newNickname = System.getProperty("user.name");
-                            }
+                                if (newNickname.equalsIgnoreCase("YEAH")) {
+                                    newNickname = System.getProperty("user.name");
+                                }
 
-                            /*
-                             * sending the desired nickname to server
-                             */
+                                /*
+                                 * sending the desired nickname to server
+                                 */
 
-                            dos.writeUTF("NAME:" + newNickname);
+                                dos.writeUTF(Protocol.NAME.name() + ":" + newNickname);
 
-                            /*
-                             * help message only necessary while not be in global chat
-                             */
-                            if (!profil.isInGlobalChat) {
-                                System.out.println(Message.helpMessage);
+                                /*
+                                 * help message only necessary while not be in global chat
+                                 */
+                                if (!profil.isInGlobalChat) {
+                                    System.out.println(Message.helpMessage);
+                                }
                             }
 
                             break;
@@ -285,7 +286,7 @@ public class Client {
                                 break;
                             }
 
-                        case IDK: /* our secret cheat code */
+                        case IDKW: /* our secret cheat code */
                             dos.writeUTF(original);
 
                             try {

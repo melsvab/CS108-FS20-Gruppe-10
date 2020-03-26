@@ -3,7 +3,7 @@ package server;
 public enum Protocol {
 
     CHAT("chat" ),
-    NAME("desired name from client"),
+    NAME("desired name from client (name:nickname)"),
     NAM1("checked name from server"),
     NAM2("username exists already"),
     QUIT("quit"),
@@ -20,7 +20,7 @@ public enum Protocol {
     RIGT("right"),
     WHP1("whisperchat"),
     BACK("back after chat"),
-    IDK("idk"),
+    IDKW("idkw"),
     HELP("help"),
     WELC("Welcome Message"),
     EJON("Client can't join a game"),

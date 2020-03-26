@@ -81,7 +81,7 @@ public class Board {  //This class represents the board and is made of Fields
         boolean takeX = randomFlood.nextBoolean();
         boolean takeBottom = randomFlood.nextBoolean();
         boolean takeLeft = randomFlood.nextBoolean();
-        int floodHere = randomFlood.nextInt(this.boardSize - 2);
+        int floodHere = randomFlood.nextInt(this.boardSize);
 
         if (takeX) {
             if (takeBottom) {
@@ -131,7 +131,7 @@ public class Board {  //This class represents the board and is made of Fields
     public static void main(String[] args) {
         Board testBoard = new Board(10, 5);
         testBoard.printBoard();
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 5; i++) {
             testBoard.floodBoard();
             testBoard.printBoard();
         }

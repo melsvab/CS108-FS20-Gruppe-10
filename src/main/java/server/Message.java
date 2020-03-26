@@ -15,8 +15,8 @@ public class Message {
     public static String helpMessage = (
         "\nWhat would you like to do?\n\n"
                 + "enter >chat< to join the global chat.\n"
-                + "enter >name< to change your nickname\n"
-                + "enter >idk< to do something else.\n"
+                + "enter >name:desiredName< to change your nickname to desiredName\n"
+                + "enter >idkw< to do something else.\n"
                 + "enter >playerlist< to see a list of currently connected players.\n"
                 + "enter >gamelist< to see a list of open, ongoing and finished games. \n"
                 + "enter >highscore< to see the current highscore. \n"

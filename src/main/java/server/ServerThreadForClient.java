@@ -118,19 +118,18 @@ public class ServerThreadForClient implements Runnable {
                             //old name will be removed from the server list, new name is checked for dublicates
                             String oldNickname = clientProfil.nickname;
                             Server.namesOfAllClients.remove(clientProfil.nickname);
-                            String desiredName = original.substring(5,lenghtInput);
-                            String answerToClient = Protocol.NAM1.name();
+                            String desiredName = original.substring(5);
                             desiredName = Server.checkForDublicates(desiredName, this);
-                            answerToClient += ":Your name has been changed from " + oldNickname;
-                            answerToClient += " to " + desiredName + "\n";
+                            String answerToClient = Protocol.NAM1.name() +
+                                    ":Your name has been changed from " + oldNickname +
+                                    " to " + desiredName + "\n";
+                            //write decision to Client
+                            dos.writeUTF(answerToClient);
 
                             //server has accepted new name
                             System.out.println(
                                     "\n" + clientProfil.nickname + " changed his/her name to " + desiredName);
                             clientProfil.nickname = desiredName;
-
-                            //write decision to Client
-                            dos.writeUTF(answerToClient);
 
                             //If in Chat, let others know - TO DO: change to enum friendly version
                             if (clientProfil.isInGlobalChat) {
