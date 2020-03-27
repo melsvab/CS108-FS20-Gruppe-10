@@ -2,7 +2,9 @@ package server;
 
 public enum Protocol {
 
-    CHAT("chat" ),
+    CHAT("sends message in lobby chat (chat:message)"),
+    BRC1("player sends broadcast message (brc1:message)"),
+    BRC2("user gets broadcast message"),
     NAME("desired name from client (name:nickname)"),
     NAM1("checked name from server"),
     NAM2("username exists already"),
@@ -11,9 +13,11 @@ public enum Protocol {
     PLL1("playerlist"),
     GML1("gamelist"),
     HSC1("highscore"),
-    CRE1("create a new lobby"),
-    JOIN("join game"),
-    STR1("sdfkj"),
+    CRE1("client wants to create a new lobby"),
+    CRE2("server informs client that he created a lobby"),
+    JOIN("join a lobby/game"),
+    SPEC("user wants to watch a game = spectator"),
+    STR1("start a game"),
     UPPR("up"),
     DOWN("down"),
     LEFT("left"),
@@ -51,7 +55,9 @@ public enum Protocol {
         this.keyword = s.toUpperCase();
     }
 
-
+    public String getKeyword() {
+        return keyword;
+    }
 
 
 

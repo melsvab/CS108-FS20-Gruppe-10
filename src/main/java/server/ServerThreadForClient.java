@@ -3,6 +3,7 @@ package server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.Arrays;
+import game.*;
 
 public class ServerThreadForClient implements Runnable {
 
@@ -63,6 +64,7 @@ public class ServerThreadForClient implements Runnable {
     }
 
     public void run() {
+
         try {
             
             /**
@@ -113,29 +115,43 @@ public class ServerThreadForClient implements Runnable {
 
                             break;
 
+                        case BRC1:
+                            /*
+                            * message will be send to all clients that are online
+                            * (and therefore in our list of ServerThreadForClient called userThreads)
+                            */
+                            if(lenghtInput > 5) {
+                                String message = Protocol.BRC2.name() + ":This is a message from the broadcast: \n"
+                                        + "[" + clientProfil.nickname + "] " + original.substring(5);
+
+                                Server.chat(message, Server.userThreads);
+                            } else {
+                                System.out.println(Message.garbage);
+                            }
+
+                            break;
+
                         case NAME:
 
-                            //old name will be removed from the server list, new name is checked for dublicates
-                            String oldNickname = clientProfil.nickname;
-                            Server.namesOfAllClients.remove(clientProfil.nickname);
-                            String desiredName = original.substring(5);
-                            desiredName = Server.checkForDublicates(desiredName, this);
-                            String answerToClient = Protocol.NAM1.name() +
-                                    ":Your name has been changed from " + oldNickname +
-                                    " to " + desiredName + "\n";
-                            //write decision to Client
-                            dos.writeUTF(answerToClient);
+                            if (lenghtInput > 5) {
+                                //old name will be removed from the server list, new name is checked for dublicates
+                                String oldNickname = clientProfil.nickname;
+                                Server.namesOfAllClients.remove(clientProfil.nickname);
+                                String desiredName = original.substring(5);
+                                desiredName = Server.checkForDublicates(desiredName, this);
+                                String answerToClient = Protocol.NAM1.name() +
+                                        ":Your name has been changed from " + oldNickname +
+                                        " to " + desiredName + "\n";
+                                //write decision to Client
+                                dos.writeUTF(answerToClient);
 
-                            //server has accepted new name
-                            System.out.println(
-                                    "\n" + clientProfil.nickname + " changed his/her name to " + desiredName);
-                            clientProfil.nickname = desiredName;
+                                //server has accepted new name
+                                System.out.println(
+                                        "\n" + clientProfil.nickname + " changed his/her name to " + desiredName);
+                                clientProfil.nickname = desiredName;
 
-                            //If in Chat, let others know - TO DO: change to enum friendly version
-                            if (clientProfil.isInGlobalChat) {
-                                String confirmation = (
-                                        oldNickname + " changed his/her nickname to " + clientProfil.nickname + "!\n");
-                                Server.globalChat(confirmation);
+                            } else {
+                                System.out.println(Message.garbage);
                             }
 
                             break;
@@ -190,9 +206,27 @@ public class ServerThreadForClient implements Runnable {
 
                         case CRE1:
 
-                            //Under Construction: Creates a new game with an individual game_ID
+                            if (clientProfil.checkForTwoInt(original)) {
+                                int posDot =  original.indexOf('.');
+                                int boardsize;
+                                if(5 - (posDot-1) == 0) {
+                                    String s = "" + original.charAt(5);
+                                    boardsize = Integer.parseInt(s);
+                                } else {
+                                    boardsize = Integer.parseInt(original.substring(5, posDot - 1));
+                                }
 
-                            dos.writeUTF("CRE2");
+                                int maxPoints = Integer.parseInt(original.substring(posDot + 1));
+                                int lobbynumber = Server.countGame();
+                                Lobby lobby = new Lobby(
+                                        this, boardsize, maxPoints, lobbynumber);
+                                Server.games.add(lobby);
+                                dos.writeUTF(Protocol.CRE2.name() + ":" + lobbynumber);
+                            } else {
+                                System.out.println(Message.garbage);
+                            }
+
+
                             break;
 
                         case JOIN:

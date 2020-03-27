@@ -62,13 +62,13 @@ public class Server {
      * Goes through each ServerThreadForClient in the group / sends message to a person
      */
 
-    public static void chat(String message, Set<ServerThreadForClient> group) {
+    public static synchronized void chat(String message, Set<ServerThreadForClient> group) {
         for (ServerThreadForClient aUser : group) {
             aUser.sendMessage(message);
         }
     }
 
-    public static void chatSingle(String message, ServerThreadForClient aPerson) {
+    public static synchronized void chatSingle(String message, ServerThreadForClient aPerson) {
             aPerson.sendMessage(message);
     }
 
@@ -111,6 +111,11 @@ public class Server {
         namesOfAllClients.addFirst(desiredName);
         return desiredName;
 
+    }
+
+    public static synchronized int countGame() {
+        gamesRunningCounter++;
+        return gamesRunningCounter;
     }
 
     /**

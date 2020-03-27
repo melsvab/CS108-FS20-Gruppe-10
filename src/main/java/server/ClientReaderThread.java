@@ -61,11 +61,17 @@ public class ClientReaderThread implements Runnable {
                         case NAM2:
                             //gets welcome message
 
-                            System.out.println("Your desired name exists already!");
+                            System.out.println(Message.nameIsUsedAlready);
                             break;
 
                         case NAM1:
+                            if (lenghtInput > 5)
                             //gets answer for a name change
+                            System.out.println(original.substring(5));
+                            break;
+
+                        case BRC2:
+                            //prints broadcast message
                             System.out.println(original.substring(5));
                             break;
 

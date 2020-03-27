@@ -110,6 +110,16 @@ public class Client {
 
                             break;
 
+                        case BRC1:
+                            //in case clients forgets to send a message
+                            if (lenghtInput > 5) {
+                                dos.writeUTF(original);
+                            } else {
+                                System.out.println(Message.youAreDoingItWrong + "BRC1:message");
+                            }
+
+                            break;
+
                         case NAME:
                             /*
                              * gets message that there is the option to use system username
@@ -141,6 +151,9 @@ public class Client {
                                 if (!profil.isInGlobalChat) {
                                     System.out.println(Message.helpMessage);
                                 }
+                            } else {
+                                //in case client forgets to send his/her desired name
+                                System.out.println(Message.youAreDoingItWrong + "NAME:desiredName");
                             }
 
                             break;
@@ -188,9 +201,16 @@ public class Client {
                             dos.writeUTF("HSC1");
                             break;
 
-                        case CRE1: /**Under Construction */
+                        case CRE1: /* check if input is correct for a new lobby */
 
-                            dos.writeUTF("CRE1");
+                            if (profil.checkForTwoInt(original)) {
+                                dos.writeUTF(original);
+
+                            } else {
+                                System.out.println(Message.youAreDoingItWrong
+                                        + "CRE1:boardsize.maximumNumberOfPoints");
+                            }
+
                             break;
 
                         case JOIN: /**Under Construction*/
