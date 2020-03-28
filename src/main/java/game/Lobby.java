@@ -9,7 +9,7 @@ import java.lang.System.*;
 
 import server.*;
 
-public class Lobby implements Runnable {
+public class Lobby extends Thread {
 
 
     /*
@@ -17,23 +17,25 @@ public class Lobby implements Runnable {
     * two for ongoing game
     * three for finished game
      */
-    public static int gamestate;
+    public int gamestate;
 
-    public static Set<ServerThreadForClient> players = new HashSet<>();
-    public static Set<ServerThreadForClient> spectators = new HashSet<>();
+    public Set<ServerThreadForClient> players = new HashSet<>();
+    public Set<ServerThreadForClient> spectators = new HashSet<>();
 
     Board board;
-    int lobbynumber;
+    public int lobbynumber;
     
     public Lobby(ServerThreadForClient aUser, int boardsize, int maxPoints, int number) {
+        setDaemon(true);
         players.add(aUser);
         board = new Board(boardsize,maxPoints);
         gamestate = 1;
         lobbynumber = number;
+        start();
 
     }
 
-    public static void writeToAll (String message) {
+    public synchronized void writeToAll(String message) {
         Server.chat(message,players);
         //if there are spectators, they will get the message as well
         if (!spectators.isEmpty()) {
@@ -42,23 +44,28 @@ public class Lobby implements Runnable {
 
     }
 
-    public static void writeToPlayer(String message, ServerThreadForClient aPerson) {
+    public synchronized void writeToPlayer(String message, ServerThreadForClient aPerson) {
         Server.chatSingle(message, aPerson);
 
     }
 
-    public static void addPlayers(ServerThreadForClient aUser) {
+    public synchronized void addPlayers(ServerThreadForClient aUser) {
         players.add(aUser);
 
     }
 
-    public static void addSpectators(ServerThreadForClient aUser) {
+    public synchronized void addSpectators(ServerThreadForClient aUser) {
        spectators.add(aUser);
 
     }
 
-    public static void changeGameState(int state) {
+    public synchronized void changeGameState(int state) {
         gamestate = state;
+
+    }
+
+    public synchronized int getLobbyNumber() {
+        return lobbynumber;
 
     }
 
@@ -75,7 +82,7 @@ public class Lobby implements Runnable {
 
                 elapsedTime = System.currentTimeMillis() - startTime;
                 seconds = elapsedTime * 1000;
-                if (seconds > 20) {
+                if (seconds > 600) {
                     writeToAll("Lobby is waiting for players");
                     break;
                 }
