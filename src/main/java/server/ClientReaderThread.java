@@ -311,6 +311,13 @@ public class ClientReaderThread implements Runnable {
                             System.out.println(Message.underConstruction);
                             break;
 
+                        case MSG0:
+                            /*
+                             *Client sees message in Chat
+                             */
+                            profil.ccg.receiveMsg(original.substring(4));
+                            break;
+
                         default:
                             //It should be impossible to get here
                             System.out.println("How did this end up here?" + "\n" + original);
@@ -322,10 +329,10 @@ public class ClientReaderThread implements Runnable {
 
                 } else {
                     /*
-                     * Message might be from a chat
-                     * in any case: Client sees on terminal what the server sent him/her
+                     * Message in Terminal
                      */
                     System.out.println(original);
+
                 }
             }
 
