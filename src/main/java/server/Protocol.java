@@ -2,7 +2,7 @@ package server;
 
 public enum Protocol {
 
-    CHAT("client: sends message in lobby chat (chat:message); clientReaderThread: gets message"),
+    CHAT("client: sends message in lobby chat; clientReaderThread: gets message"),
     BRC1("player sends broadcast message (brc1:message)"),
     BRC2("user gets broadcast message"),
     NAME("desired name from client (name:nickname)"),
@@ -45,6 +45,7 @@ public enum Protocol {
     RNDA("extra round begins"),
     WINX("Winner is anncounced"),
     HGHN("There is a new highscore"),
+    MSG0("Message in Chat is written in Chat"),
     ENDX("informs player that the game has finished");
 
 
