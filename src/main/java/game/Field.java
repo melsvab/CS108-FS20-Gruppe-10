@@ -8,16 +8,20 @@ public class Field {
      * includes several attributes.
      */
     boolean isFlood, hasCoin, isQuake;
-    boolean steppedOn, isTaken, isBoundary;
+    boolean steppedOn, isTaken, isBoundary, isStartPosition; //TO DO !!
+
+    PlayerTurtle turtle;
+
     /**
      * Every field has a pointer to the filed next to it.
      */
     Field up, right, down, left;
 
-    public Field(boolean hasCoinMaybe) {
-        if (hasCoinMaybe) {
-            Random random = new Random();
-            this.hasCoin = random.nextBoolean();
+    public Field(int probabilityForCoin) {
+        Random random = new Random();
+        int x = random.nextInt(100);
+        if (x <= probabilityForCoin) {
+            this.hasCoin = true;
         }
     }
 
@@ -30,6 +34,23 @@ public class Field {
         this.isQuake = false;
         this.steppedOn = false;
         this.isTaken = false;
+    }
+
+    public static Field copyField(Field copyThis) {
+        Field copy = new Field(-1);
+        copy.isFlood = copyThis.isFlood;
+        copy.hasCoin = copyThis.hasCoin;
+        copy.isQuake = copyThis.isQuake;
+        copy.steppedOn = copyThis.steppedOn;
+        copy.isTaken = copyThis.isTaken;
+        copy.isBoundary = copyThis.isBoundary;
+        copy.turtle = copyThis.turtle;
+        copy.up = copyThis.up;
+        copy.right = copyThis.right;
+        copy.down = copyThis.down;
+        copy.left = copyThis.left;
+
+        return copy;
     }
 
     //TESTCODE

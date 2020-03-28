@@ -19,8 +19,8 @@ public class Lobby extends Thread {
      */
     public int gamestate;
 
-    public Set<ServerThreadForClient> players = new HashSet<>();
-    public Set<ServerThreadForClient> spectators = new HashSet<>();
+    public static Set<ServerThreadForClient> players = new HashSet<>(); /**SHOULD NOT BE STATIC BOTH!*/
+    public static Set<ServerThreadForClient> spectators = new HashSet<>();
 
     Board board;
     public int lobbynumber;
@@ -35,7 +35,7 @@ public class Lobby extends Thread {
 
     }
 
-    public synchronized void writeToAll(String message) {
+    public static synchronized void writeToAll(String message) {
         Server.chat(message,players);
         //if there are spectators, they will get the message as well
         if (!spectators.isEmpty()) {
@@ -73,22 +73,23 @@ public class Lobby extends Thread {
 
     public void run() {
 
-        for (int i = 0; i < 10; i++) {
+        writeToAll("You have joined the lobby #" + lobbynumber);
+
+        for (int i = 0; i < 5; i++) {
 
             long startTime = System.currentTimeMillis();
             long elapsedTime;
             double seconds;
-            while (gamestate == 1) {
 
+            while (gamestate == 1) {
                 elapsedTime = System.currentTimeMillis() - startTime;
-                seconds = elapsedTime * 1000;
-                if (seconds > 600) {
-                    writeToAll("Lobby is waiting for players");
+                seconds = elapsedTime / 1000;
+                if (seconds > 2) {
+                    writeToAll("Lobby #" + lobbynumber + " is waiting for players");
                     break;
                 }
-
-
             }
+
             if (gamestate != 1) {
                 //Game starts
                 i += 10;
@@ -101,7 +102,18 @@ public class Lobby extends Thread {
             writeToAll("The Games starts!");
         }
 
+        for (ServerThreadForClient aPlayer : players) {
+            aPlayer.clientProfil.myTurtle = new PlayerTurtle(aPlayer.clientProfil.nickname + "-Junior");
+            Server.chatSingle("You have adopted a turtle baby and named it " + aPlayer.clientProfil.myTurtle.turtlename, aPlayer);
+        }
 
+        board.setPlayerStartpositions(players.size());
+        writeToAll(Protocol.STR1.name() + ":" + board.printBoard());
+
+        /**
+         * WHILE SCHLAUFE ADDEN MIT INPUT PLAYER 1? Player 2? ETC:
+         * DANN EVENT!
+         */
     }
     
 }

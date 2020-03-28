@@ -1,6 +1,7 @@
 package server;
 
 import game.Lobby;
+import game.PlayerTurtle;
 
 public class ClientProfil {
 
@@ -10,8 +11,9 @@ public class ClientProfil {
      */
 
     int clientID;
-    String nickname;
+    public String nickname;
     Lobby lobby;
+    public PlayerTurtle myTurtle;
 
     boolean isInWhisperChat; //example for later
     boolean isInGame; //example for later

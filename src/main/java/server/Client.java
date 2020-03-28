@@ -41,7 +41,7 @@ public class Client {
             InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
             BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
 
-            System.out.println("\n\nPlease type in the IP-Address or the name of the Server: ");
+        /*  System.out.println("\n\nPlease type in the IP-Address or the name of the Server: ");
             String serverIpServerName = readKeyBoard.readLine();
 
             System.out.println("\nPlease type in the port to be connected to: ");
@@ -49,8 +49,8 @@ public class Client {
 
             System.out.println("\nConnection to Server \"" + serverIpServerName
                     + "\", to port " + serverPort + "...");
-
-            Socket socket = new Socket(serverIpServerName, serverPort/*"localhost", 1111*/);
+        */
+            Socket socket = new Socket(/*serverIpServerName, serverPort*/"localhost", 1111);
 
             //Connection established.
 
@@ -87,6 +87,11 @@ public class Client {
 
                 String original = readKeyBoard.readLine();
                 int lenghtInput = original.length();
+                while (lenghtInput < 4) {
+                    System.out.println("YOU HAVE NOT DONE THIS RIGHT");
+                    original = readKeyBoard.readLine();
+                    lenghtInput = original.length();
+                }
                 String clientchoice = original.toUpperCase().substring(0, 4);
 
                 if (contains(clientchoice)) {
@@ -239,9 +244,8 @@ public class Client {
                                 dos.writeUTF("STR1");
                             } else {
                                 System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                                break;
                             }
-
+                            break;
 
                         case UPPR: /**Under Construction*/
 
@@ -249,9 +253,8 @@ public class Client {
                                 dos.writeUTF("UPPR");
                             } else {
                                 System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                                break;
                             }
-
+                            break;
 
                         case DOWN: /**Under Construction*/
 
@@ -259,8 +262,8 @@ public class Client {
                                 dos.writeUTF("DOWN");
                             } else {
                                 System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                                break;
                             }
+                            break;
 
                         case LEFT: /**Under Construction*/
 
@@ -268,9 +271,8 @@ public class Client {
                                 dos.writeUTF("LEFT");
                             } else {
                                 System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                                break;
                             }
-
+                            break;
 
                         case RIGT: /**Under Construction*/
 
@@ -278,8 +280,8 @@ public class Client {
                                 dos.writeUTF("RIGT");
                             } else {
                                 System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                                break;
                             }
+                            break;
 
                         case BACK: /**Under Construction*/
                             //will be used for to end e whisperchat
@@ -292,13 +294,17 @@ public class Client {
                                 dos.writeUTF("WHP1" + msg);
                             } else {
                                 System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                                break;
                             }
+                            break;
 
-                        case IDKW: /* our secret cheat code */
-                            dos.writeUTF(original);
+                        case IDKW:
 
-                            try {
+                            System.out.println("STOP BULLSHITTING");
+
+                            /* our secret cheat code */
+                            //dos.writeUTF(original);
+
+                            /*try {
                                 System.out.println("\n...let me help you...\n");
                                 Thread.sleep(2000);
                                 System.out.println("Please type in a number:\n\n");
@@ -342,7 +348,7 @@ public class Client {
                                 System.out.println("\n" + Message.helpMessage);
                             } catch (InterruptedException e) {
                                 System.err.println(e.toString());
-                            }
+                            }*/
 
                             break;
 
@@ -354,7 +360,7 @@ public class Client {
                     }
 
                 } else {
-                    dos.writeUTF("This keyword does not exist.");
+                    System.out.println("This keyword does not exist.");
                 }
             }
 

@@ -1,5 +1,7 @@
 package server;
 
+import game.PlayerTurtle;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -151,6 +153,9 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             System.out.println("\nThe game has started!\n");
+
+                            System.out.println(original.substring(5));
+
                             break;
 
                         case WHP1:

@@ -23,7 +23,7 @@ public class ServerThreadForClient implements Runnable {
      * Every Thread gets a client Profile
      */
 
-    ClientProfil clientProfil;
+    public ClientProfil clientProfil;
     
     //Constructor (creats a new clientProfil)
     
@@ -107,6 +107,10 @@ public class ServerThreadForClient implements Runnable {
                  */
                 String original = dis.readUTF();
                 int lenghtInput = original.length();
+                while (lenghtInput < 4) {
+                    original = dis.readUTF();
+                    lenghtInput = original.length();
+                }
                 String clientchoice = original.toUpperCase().substring(0, 4);
 
                 if (contains(clientchoice)) {
