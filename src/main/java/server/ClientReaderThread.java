@@ -70,6 +70,11 @@ public class ClientReaderThread implements Runnable {
                             System.out.println(original.substring(5));
                             break;
 
+                        case CHAT:
+                            //prints broadcast message
+                            System.out.println(original.substring(5));
+                            break;
+
                         case BRC2:
                             //prints broadcast message
                             System.out.println(original.substring(5));
@@ -83,13 +88,6 @@ public class ClientReaderThread implements Runnable {
                             break;
 
                         case QUIT:
-
-                            //thread stops reading messages of the server
-
-                            threadIsRunning = false;
-                            break;
-
-                        case ENDE:
 
                             //thread stops reading messages of the server
 
@@ -117,13 +115,14 @@ public class ClientReaderThread implements Runnable {
                             System.out.println(original);
                             break;
 
-                        case CRE1:
+                        case CRE2:
                             /*
                              * Under Construction: Informs player that the game is created
                              * and which game_ID it has
                              */
+                            profil.isInGame = true;
 
-                            System.out.println(Message.underConstruction);
+                            System.out.println("You entered a lobby!");
 
                             break;
 

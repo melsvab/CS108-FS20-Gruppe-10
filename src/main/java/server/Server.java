@@ -27,7 +27,6 @@ public class Server {
     public static LinkedList<String> namesOfAllClients = new LinkedList<>();
     public static Set<ServerThreadForClient> userThreads = new HashSet<>();
     public static Set<Lobby> games = new HashSet<>();
-    public static Board[] gamesRunningList = new Board[10]; /**TO DO: CREATE LIST TO ADD GAMES*/
     public static int gamesRunningCounter = 0;
 
     /*
@@ -44,18 +43,6 @@ public class Server {
     public static int playersOnline = 0;
     public static int clientConnections = 0;
 
-    /**
-     * Function for global Chat. Go through each ServerThreadForClient
-     * and send message from client if a client is in global Chat.
-     */
-
-    public static void globalChat(String message) {
-        for (ServerThreadForClient aUser : userThreads) {
-            if (aUser.globalChat()) {
-                aUser.sendMessage(message);
-            }
-        }
-    }
 
     /**
      * Function for broadcast and other chats.
@@ -71,6 +58,34 @@ public class Server {
     public static synchronized void chatSingle(String message, ServerThreadForClient aPerson) {
             aPerson.sendMessage(message);
     }
+
+    public static synchronized void sendClientsToSleep() {
+        for (ServerThreadForClient aUser : userThreads) {
+            aUser.suddenEnding();
+        }
+    }
+
+    public static synchronized boolean checkOutGames() {
+        if (games.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static synchronized boolean checkLobbies(int lobbynumber, ServerThreadForClient aUser) {
+
+        for (Lobby lobby : games) {
+            if (lobby.getLobbyNumber() == lobbynumber) {
+                lobby.addPlayers(aUser);
+                aUser.clientProfil.lobby = lobby;
+                return true;
+            }
+        }
+        return false;
+
+    }
+
 
 
     /**
@@ -118,13 +133,6 @@ public class Server {
         return gamesRunningCounter;
     }
 
-    /**
-     * Function to create a new game.
-     */
-    public void startNewGame(int boardSize, int maxApples, int maxCoins) {
-        if (gamesRunningCounter >= gamesRunningList.length) { return; }
-        gamesRunningList[gamesRunningCounter] = new Board(boardSize, maxCoins);
-    }
 
     /**
      * Build a Server and give feedback, when server is online.
@@ -182,7 +190,7 @@ public class Server {
             }
 
             serverSocket.close();
-            
+
         } catch (IOException exception) {
             System.err.println(exception.toString());
             System.exit(1);

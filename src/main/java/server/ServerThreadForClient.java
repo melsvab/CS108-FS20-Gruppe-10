@@ -37,8 +37,17 @@ public class ServerThreadForClient implements Runnable {
     /**
      * Check if Client is in global Chat.
      */
-    public boolean globalChat() {
-        return clientProfil.isInGlobalChat;
+    public boolean inGame() {
+        return clientProfil.isInGame;
+    }
+
+
+    /*
+    *
+     */
+    public void suddenEnding() {
+        clientProfil.goesToSleep();
+        sendMessage(Protocol.QUIT.name());
     }
 
     /**
@@ -106,12 +115,18 @@ public class ServerThreadForClient implements Runnable {
 
                         case CHAT:
 
-                            clientProfil.isInGlobalChat = true;
+                            if (clientProfil.checkForWord(original)
+                                    && clientProfil.isInGame && clientProfil.lobby != null) {
 
-                            System.out.println("\n\n" + clientProfil.nickname + " has joined the chat!\n");
+                                String message = Protocol.CHAT.name()
+                                        + ":[" + clientProfil.nickname + "]: "
+                                        + original.substring(5);
 
-                            String userJoined = (clientProfil.nickname + " has joined the chat!\n");
-                            Server.globalChat(userJoined);
+                                Lobby.writeToAll(message);
+
+                            } else {
+                                System.out.println(Message.garbage);
+                            }
 
                             break;
 
@@ -133,7 +148,7 @@ public class ServerThreadForClient implements Runnable {
 
                         case NAME:
 
-                            if (lenghtInput > 5) {
+                            if (clientProfil.checkForName(original)) {
                                 //old name will be removed from the server list, new name is checked for dublicates
                                 String oldNickname = clientProfil.nickname;
                                 Server.namesOfAllClients.remove(clientProfil.nickname);
@@ -169,15 +184,25 @@ public class ServerThreadForClient implements Runnable {
 
                             System.out.println("\nClient #" + clientProfil.clientID + " \""
                                     + clientProfil.nickname + "\" has disconnected.");
-                            clientProfil.clientIsOnline = false;
+
+                            clientProfil.goesToSleep();
                             break;
 
                         case ENDE:
                             /**
                              * Under Construction: Can stop server
                              */
-                            dos.writeUTF(clientchoice);
+                            dos.writeUTF(Protocol.QUIT.name());
+                            Server.removeUser(clientProfil.nickname, this);
+                            clientProfil.goesToSleep();
+                            System.out.println(clientProfil.nickname + " wants to end the whole program.");
                             Server.chat("Our server goes to sleep", Server.userThreads);
+                            Server.sendClientsToSleep();
+                            try {
+                                Thread.sleep(200);
+                            } catch (InterruptedException e) {
+                                System.err.println(e.toString());
+                            }
                             Server.serverIsOnline = false;
                             break;
 
@@ -207,42 +232,50 @@ public class ServerThreadForClient implements Runnable {
                         case CRE1:
 
                             if (clientProfil.checkForTwoInt(original)) {
-                                int posDot =  original.indexOf('.');
-                                int boardsize;
-                                if(5 - (posDot-1) == 0) {
-                                    String s = "" + original.charAt(5);
-                                    boardsize = Integer.parseInt(s);
-                                } else {
-                                    boardsize = Integer.parseInt(original.substring(5, posDot - 1));
-                                }
+                                String[] words = original.split(":");
+                                //check if it is possible to transfer the words into numbers
 
-                                int maxPoints = Integer.parseInt(original.substring(posDot + 1));
+                                int boardsize = Integer.parseInt(words[1]);
+                                int maxPoints = Integer.parseInt(words[2]);
                                 int lobbynumber = Server.countGame();
                                 Lobby lobby = new Lobby(
                                         this, boardsize, maxPoints, lobbynumber);
                                 Server.games.add(lobby);
-                                dos.writeUTF(Protocol.CRE2.name() + ":" + lobbynumber);
+                                clientProfil.lobby = lobby;
+                                clientProfil.isInGame = true;
+                                dos.writeUTF(Protocol.CRE2.name());
                             } else {
                                 System.out.println(Message.garbage);
                             }
-
-
                             break;
 
                         case JOIN:
 
                             /**
                              * Under Construction: Player joins a Game with the fitting game_ID.
-                             * If there is no game with the game_ID or the game has already started,
-                             * EJON2 is sended.
+                             * If there is no game with the game_ID EJON will be sent.
                              */
 
-                            if (true) {
-                                dos.writeUTF("JON2");
+                            if (clientProfil.checkForNumber(original)) {
+                                //check if there are any games at all
+                                if (Server.checkOutGames()) {
+
+                                    String[] words = original.split(":");
+                                    int lobbynumber = Integer.parseInt(words[1]);
+                                    //checks for the lobbynumber and adds client if possible
+                                    if (Server.checkLobbies(lobbynumber, this)) {
+                                        clientProfil.isInGame = true;
+                                        dos.writeUTF(Protocol.CRE2.name());
+                                    } else {
+                                        dos.writeUTF(Protocol.EJON.name());
+                                    }
+                                } else {
+                                    dos.writeUTF(Protocol.EJON.name());
+                                }
                             } else {
-                                dos.writeUTF("EJON");
-                                break;
+                                System.out.println(Message.garbage);
                             }
+                            break;
 
                         case STR1:
                             /**
@@ -289,26 +322,14 @@ public class ServerThreadForClient implements Runnable {
                             }
 
                         case BACK:
-
-                            //Under Construction: Player moves a block right ingame.
-                            if (clientProfil.isInGlobalChat) {
-
-                                //Player leaves chat.
-                                String serverMessage = (clientProfil.nickname + " has left the chat!\n");
-                                Server.globalChat(serverMessage);
-                                System.out.println(serverMessage);
-                                dos.writeUTF(Protocol.HELP.name());
-                                clientProfil.isInGlobalChat = false;
-
-
-                            }
+                            //TO DO: might be used for whisperchat
 
                             break;
 
                         default:
 
                             //This should be impossible
-                            System.out.println("How did this happen?");
+                            System.out.println(Message.garbage);
                             break;
 
 
@@ -316,14 +337,7 @@ public class ServerThreadForClient implements Runnable {
                     }
 
                 } else {
-                    //send chat message
-                    if (clientProfil.isInGlobalChat) {
-                        String serverMessage = "[" + clientProfil.nickname + "]: "
-                                + original;
-                        Server.globalChat(serverMessage);
-                    } else {
-                        dos.writeUTF(original);
-                    }
+                    System.out.println(Message.garbage);
                 }
 
             }

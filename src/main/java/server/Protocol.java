@@ -2,7 +2,7 @@ package server;
 
 public enum Protocol {
 
-    CHAT("sends message in lobby chat (chat:message)"),
+    CHAT("client: sends message in lobby chat (chat:message); clientReaderThread: gets message"),
     BRC1("player sends broadcast message (brc1:message)"),
     BRC2("user gets broadcast message"),
     NAME("desired name from client (name:nickname)"),
@@ -27,9 +27,9 @@ public enum Protocol {
     IDKW("idkw"),
     HELP("help"),
     WELC("Welcome Message"),
-    EJON("Client can't join a game"),
+    EJON("client can't join a game"),
     EWHP("Whisperchat:Playername does not exist"),
-    RNDS("Number of rounds left"),
+    RNDS("number of rounds left"),
     YTRN("It's your turn!"),
     DICE("shows player how many moves are left"),
     ERMO("invalid move"),
