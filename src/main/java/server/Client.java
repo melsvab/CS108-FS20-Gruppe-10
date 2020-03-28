@@ -7,8 +7,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class Client {
+public class Client implements Runnable {
+    String serverIpServerName;
+    int serverPort;
 
+    public Client(String ip, int serverPort){
+        this.serverIpServerName = ip;
+        this.serverPort = serverPort;
+    }
     /**
      * This class represents a Client which connects to the server.
      * In here, client inputs will be sent to the server and will be
@@ -26,7 +32,7 @@ public class Client {
         return false;
     }
 
-    public static void main(String[] args) {
+    public void run(){
         try {
 
             //Creates Client Profil
@@ -50,7 +56,7 @@ public class Client {
             System.out.println("\nConnection to Server \"" + serverIpServerName
                     + "\", to port " + serverPort + "...");
         */
-            Socket socket = new Socket(/*serverIpServerName, serverPort*/"localhost", 1111);
+            Socket socket = new Socket(serverIpServerName, serverPort);
 
             //Connection established.
 
@@ -80,7 +86,7 @@ public class Client {
 
             //Start processing inputs.
 
-            
+
             while (profil.clientIsOnline) {
 
                 //Read keyboardinput from client.
@@ -365,14 +371,14 @@ public class Client {
             }
 
             /*
-            * Client is not active anymore
-            * Input and Output will be closed
-            */
+             * Client is not active anymore
+             * Input and Output will be closed
+             */
 
             dis.close();
             dos.close();
             socket.close();
-            
+
         } catch (IOException exception) {
             System.err.println(exception.toString());
             System.exit(1);

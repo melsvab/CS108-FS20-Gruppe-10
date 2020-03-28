@@ -12,7 +12,12 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-public class Server {
+public class Server  implements Runnable {
+    int port;
+
+    public Server(int port) {
+        this.port = port;
+    }
 
     /**
      * The main function of this class is to genereate a server.
@@ -34,7 +39,7 @@ public class Server {
      */
 
     public static boolean serverIsOnline = true;
-    public static final int port = 1111;
+
 
     /**
      * Variables to identify clients.
@@ -56,7 +61,7 @@ public class Server {
     }
 
     public static synchronized void chatSingle(String message, ServerThreadForClient aPerson) {
-            aPerson.sendMessage(message);
+        aPerson.sendMessage(message);
     }
 
     public static synchronized void sendClientsToSleep() {
@@ -87,9 +92,8 @@ public class Server {
     }
 
 
-
     /**
-     * If a client disconnects, it´s name is removed form 
+     * If a client disconnects, it´s name is removed form
      * the List on the server and the Thread which will be terminated,
      * is removed from the list on the server as well.
      */
@@ -119,7 +123,7 @@ public class Server {
             //if there is more than just one person with the same name
             while (namesOfAllClients.contains(desiredName)) {
                 desiredName = desiredName.substring(0, position);
-                desiredName +=  "_" + i;
+                desiredName += "_" + i;
                 i++;
             }
         }
@@ -138,10 +142,9 @@ public class Server {
      * Build a Server and give feedback, when server is online.
      */
 
-    public static void main(String[] args) {
+    public void run() {
 
         try {
-
 
 
             String serverIP = Inet4Address.getLocalHost().getHostAddress();
@@ -168,8 +171,6 @@ public class Server {
                 System.out.println("\nClient #" + ++clientConnections + " is connected to the Server.\n");
 
 
-            
-
                 //Create In- & Ouputstreams for reading and sending Strings
 
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
@@ -182,7 +183,7 @@ public class Server {
                  */
 
                 ServerThreadForClient serverThreadForClient = new ServerThreadForClient(
-                    ++playersOnline, dis, dos);
+                        ++playersOnline, dis, dos);
                 userThreads.add(serverThreadForClient);
                 Thread serverThread = new Thread(serverThreadForClient);
                 serverThread.start();
