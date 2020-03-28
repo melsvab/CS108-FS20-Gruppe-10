@@ -126,7 +126,7 @@ public class ServerThreadForClient implements Runnable {
                                         + ":[" + clientProfil.nickname + "]: "
                                         + original.substring(4);
 
-                                Lobby.writeToAll(msg);
+                                clientProfil.lobby.writeToAll(msg);
 
                             /*} else {
                                 System.out.println(Message.garbage);
@@ -216,7 +216,7 @@ public class ServerThreadForClient implements Runnable {
 
 
                             String listOfPlayers = Arrays.toString(Server.namesOfAllClients.toArray());
-                            dos.writeUTF(Protocol.PLL1 + listOfPlayers);
+                            dos.writeUTF(Protocol.PLL1.name() + ":" + listOfPlayers);
                             break;
 
                         case GML1:
@@ -235,22 +235,13 @@ public class ServerThreadForClient implements Runnable {
 
                         case CRE1:
 
-                            if (clientProfil.checkForTwoInt(original)) {
-                                String[] words = original.split(":");
-                                //check if it is possible to transfer the words into numbers
+                            int lobbyNumber = Server.countGame();
+                            Lobby lobby = new Lobby(this, lobbyNumber);
+                            Server.games.add(lobby);
+                            clientProfil.lobby = lobby;
+                            clientProfil.isInGame = true;
+                            dos.writeUTF(Protocol.CRE2.name() + ":" + lobbyNumber);
 
-                                int boardsize = Integer.parseInt(words[1]);
-                                int maxPoints = Integer.parseInt(words[2]);
-                                int lobbynumber = Server.countGame();
-                                Lobby lobby = new Lobby(
-                                        this, boardsize, maxPoints, lobbynumber);
-                                Server.games.add(lobby);
-                                clientProfil.lobby = lobby;
-                                clientProfil.isInGame = true;
-                                dos.writeUTF(Protocol.CRE2.name());
-                            } else {
-                                System.out.println(Message.garbage);
-                            }
                             break;
 
                         case JOIN:
@@ -269,7 +260,7 @@ public class ServerThreadForClient implements Runnable {
                                     //checks for the lobbynumber and adds client if possible
                                     if (Server.checkLobbies(lobbynumber, this)) {
                                         clientProfil.isInGame = true;
-                                        dos.writeUTF(Protocol.CRE2.name());
+                                        dos.writeUTF(Protocol.CRE2.name() + ":" + lobbynumber);
                                     } else {
                                         dos.writeUTF(Protocol.EJON.name());
                                     }
@@ -282,11 +273,18 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case STR1:
-                            /**
-                             * Under Construction: Starts the game. Sends STR2 to all players in the
-                             * same lobby.
-                             */
-                            dos.writeUTF("STR2");
+                            if (clientProfil.checkForTwoInt(original)) {
+                                String[] words = original.split(":");
+                                //check if it is possible to transfer the words into numbers
+
+                                int boardsize = Integer.parseInt(words[1]);
+                                int maxPoints = Integer.parseInt(words[2]);
+                                clientProfil.lobby.createGame(boardsize,maxPoints);
+                                clientProfil.lobby.start();
+                                clientProfil.lobby.writeToAll(Protocol.STR1.name());
+                            } else {
+                                System.out.println(Message.garbage);
+                            }
                             break;
 
                         case UPPR:

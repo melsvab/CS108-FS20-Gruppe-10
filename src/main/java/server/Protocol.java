@@ -18,6 +18,7 @@ public enum Protocol {
     JOIN("join a lobby/game"),
     SPEC("user wants to watch a game = spectator"),
     STR1("start a game"),
+    LOBY("client gets message from lobby"),
     UPPR("up"),
     DOWN("down"),
     LEFT("left"),

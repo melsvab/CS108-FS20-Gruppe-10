@@ -35,6 +35,14 @@ public class ClientReaderThread implements Runnable {
         return false;
     }
 
+    public static void getMessage(String original) {
+        if (original.length() > 5) {
+            System.out.println(original.substring(5));
+        } else {
+            System.out.println(Message.garbage);
+        }
+    }
+
     public void run() {
         InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
         BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
@@ -49,6 +57,10 @@ public class ClientReaderThread implements Runnable {
 
                 String original = dis.readUTF();
                 int lenghtInput = original.length();
+                while (lenghtInput < 4) {
+                    original = dis.readUTF();
+                    lenghtInput = original.length();
+                }
                 String clientchoice = original.toUpperCase().substring(0, 4);
 
                 if (contains(clientchoice)) {
@@ -67,19 +79,19 @@ public class ClientReaderThread implements Runnable {
                             break;
 
                         case NAM1:
-                            if (lenghtInput > 5)
+
                             //gets answer for a name change
-                            System.out.println(original.substring(5));
+                            getMessage(original);
                             break;
 
                         case CHAT:
                             //prints broadcast message
-                            System.out.println(original.substring(5));
+                            getMessage(original);
                             break;
 
                         case BRC2:
                             //prints broadcast message
-                            System.out.println(original.substring(5));
+                            getMessage(original);
                             break;
 
                         case HELP:
@@ -100,7 +112,7 @@ public class ClientReaderThread implements Runnable {
 
                             //playerlist gets printed
 
-                            System.out.println(original.substring(4));
+                            getMessage(original);
                             break;
 
                         case GML1:
@@ -122,9 +134,15 @@ public class ClientReaderThread implements Runnable {
                              * Under Construction: Informs player that the game is created
                              * and which game_ID it has
                              */
-                            profil.isInGame = true;
+                            if (profil.checkForNumber(original)) {
+                                profil.isInGame = true;
+                                String[] words = original.split(":");
+                                int lobbyNumber = Integer.parseInt(words[1]);
 
-                            System.out.println("You entered a lobby!");
+                                System.out.println("You entered lobby number " + lobbyNumber + "!");
+                            } else {
+                                System.out.println(Message.garbage);
+                            }
 
                             break;
 
@@ -154,7 +172,6 @@ public class ClientReaderThread implements Runnable {
 
                             System.out.println("\nThe game has started!\n");
 
-                            System.out.println(original.substring(5));
 
                             break;
 
@@ -186,6 +203,11 @@ public class ClientReaderThread implements Runnable {
                             //Under Construction: Informs the player that it's his turn
 
                             System.out.println(Message.underConstruction);
+                            break;
+
+                        case LOBY:
+                            //prints out messages from the lobby
+                            getMessage(original);
                             break;
 
                         case DICE:

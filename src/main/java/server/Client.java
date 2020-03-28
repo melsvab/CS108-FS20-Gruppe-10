@@ -222,14 +222,7 @@ public class Client implements Runnable {
 
                         case CRE1: /* check if input is correct for a new lobby */
 
-                            if (profil.checkForTwoInt(original)) {
-                                dos.writeUTF(original);
-                                profil.ccg.setVisible(true);
-                            } else {
-                                System.out.println(Message.youAreDoingItWrong
-                                        + Protocol.CRE1.name()
-                                        + ":boardsize:maximumNumberOfPoints");
-                            }
+                            dos.writeUTF(original);
 
                             break;
 
@@ -251,10 +244,13 @@ public class Client implements Runnable {
 
                         case STR1: /**Under Construction*/
 
-                            if (profil.isInGame /*&& something like "Game has started == false"*/) {
-                                dos.writeUTF("STR1");
+                            if (profil.checkForTwoInt(original) && profil.isInGame) {
+                                dos.writeUTF(original);
+
                             } else {
-                                System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                                System.out.println(Message.youAreDoingItWrong
+                                        + Protocol.CRE1.name()
+                                        + ":boardsize:maximumNumberOfPoints and you must be in a lobby");
                             }
                             break;
 

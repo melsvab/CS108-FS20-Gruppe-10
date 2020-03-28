@@ -29,8 +29,9 @@ public class Message {
                 + "enter >PLL1< to see a list of currently connected players.\n"
                 + "enter >GML1< to see a list of open, ongoing and finished games. \n"
                 + "enter >HSC1< to see the current highscore. \n"
-                + "enter >CRE1:boardsize:maximumNumberOfPoints< to create a lobby for a new game. \n"
-                + "enter >JOIN< to join a lobby. \n"
+                + "enter >CRE1< to create a lobby for a new game. \n"
+                + "enter >STR1:boardsize:maxCoins< to start a game with its personalized board. \n"
+                + "enter >JOIN:lobbyNumber< to join a lobby. \n"
                 + "enter >QUIT< to end this program.\n");
 
     public static String nameIsUsedAlready = "Your desired name exists already!";
