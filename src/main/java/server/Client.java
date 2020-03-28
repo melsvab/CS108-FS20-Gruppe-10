@@ -223,7 +223,8 @@ public class Client implements Runnable {
                         case CRE1: /* check if input is correct for a new lobby */
 
                             dos.writeUTF(original);
-
+                            profil.ccg.setVisible(true);
+                            dos.writeUTF("CHAT" + profil.nickname + " has joined the Lobby!");
                             break;
 
                         case JOIN: /**Under Construction*/
@@ -234,6 +235,7 @@ public class Client implements Runnable {
                             } else if (profil.checkForNumber(original)) {
                                 dos.writeUTF(original);
                                 profil.ccg.setVisible(true);
+                                dos.writeUTF("CHAT" + profil.nickname + " has joined the Lobby!");
                             } else {
                                 System.out.println(Message.youAreDoingItWrong
                                         + Protocol.JOIN.name()
@@ -376,6 +378,7 @@ public class Client implements Runnable {
              * Input and Output will be closed
              */
 
+            profil.ccg.closeChat();
             dis.close();
             dos.close();
             socket.close();
