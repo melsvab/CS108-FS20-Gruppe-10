@@ -18,6 +18,7 @@ public class ClientProfil {
     boolean isInWhisperChat; //example for later
     boolean isInGame; //example for later
     boolean clientIsOnline;
+    ClientChatGUI ccg;
 
 
     //constructor for serverthread
@@ -34,6 +35,7 @@ public class ClientProfil {
     public ClientProfil() {
         this.clientIsOnline = true;
         lobby = null;
+        this.ccg = new ClientChatGUI();
     }
 
     public void goesToSleep() {
