@@ -7,8 +7,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class Client {
+public class Client implements Runnable {
+    String serverIpServerName;
+    int serverPort;
 
+    public Client(String ip, int serverPort){
+        this.serverIpServerName = ip;
+        this.serverPort = serverPort;
+    }
     /**
      * This class represents a Client which connects to the server.
      * In here, client inputs will be sent to the server and will be
@@ -26,7 +32,7 @@ public class Client {
         return false;
     }
 
-    public static void main(String[] args) {
+    public void run(){
         try {
 
             //Creates Client Profil
@@ -50,7 +56,7 @@ public class Client {
             System.out.println("\nConnection to Server \"" + serverIpServerName
                     + "\", to port " + serverPort + "...");
         */
-            Socket socket = new Socket(/*serverIpServerName, serverPort*/"localhost", 1111);
+            Socket socket = new Socket(serverIpServerName, serverPort);
 
             //Connection established.
 
@@ -60,6 +66,10 @@ public class Client {
 
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             DataInputStream dis = new DataInputStream(socket.getInputStream());
+
+            //sets DataOutputStream for the ChatGUI and creates an invisible chat
+            profil.ccg.setDos(dos);
+            profil.ccg.createChat();
 
             //Start ClientReaderThread for reading input from Server
 
@@ -80,7 +90,7 @@ public class Client {
 
             //Start processing inputs.
 
-            
+
             while (profil.clientIsOnline) {
 
                 //Read keyboardinput from client.
@@ -99,12 +109,13 @@ public class Client {
                     switch (Protocol.valueOf(clientchoice)) {
                         //Descide what to do next
 
-                        case CHAT:
+
+                        /*case CHAT: //Not needed anymore because of JFrame
 
 
-                            /*
-                             * checks for appropriate input and if client is in a lobby
-                             */
+                            /
+                              checks for appropriate input and if client is in a lobby
+                             /
 
                             if (lenghtInput > 5 && profil.isInGame) {
                                 dos.writeUTF(original);
@@ -116,8 +127,7 @@ public class Client {
                                         + ":message");
                             }
 
-
-                            break;
+                            break; */
 
                         case BRC1:
                             //in case clients forgets to send a message
@@ -214,7 +224,7 @@ public class Client {
 
                             if (profil.checkForTwoInt(original)) {
                                 dos.writeUTF(original);
-
+                                profil.ccg.setVisible(true);
                             } else {
                                 System.out.println(Message.youAreDoingItWrong
                                         + Protocol.CRE1.name()
@@ -230,6 +240,7 @@ public class Client {
 
                             } else if (profil.checkForNumber(original)) {
                                 dos.writeUTF(original);
+                                profil.ccg.setVisible(true);
                             } else {
                                 System.out.println(Message.youAreDoingItWrong
                                         + Protocol.JOIN.name()
@@ -365,14 +376,14 @@ public class Client {
             }
 
             /*
-            * Client is not active anymore
-            * Input and Output will be closed
-            */
+             * Client is not active anymore
+             * Input and Output will be closed
+             */
 
             dis.close();
             dos.close();
             socket.close();
-            
+
         } catch (IOException exception) {
             System.err.println(exception.toString());
             System.exit(1);
