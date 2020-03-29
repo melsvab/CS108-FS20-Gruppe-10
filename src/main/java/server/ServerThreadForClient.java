@@ -123,8 +123,7 @@ public class ServerThreadForClient implements Runnable {
                                     && clientProfil.isInGame && clientProfil.lobby != null) {
                             */
 
-                            String msg = "MSG0" + Protocol.CHAT.name()
-                                    + ":[" + clientProfil.nickname + "]: "
+                            String msg = Protocol.MSG0.name() + "[" + clientProfil.nickname + "] "
                                     + original.substring(4);
 
                             clientProfil.lobby.writeToAll(msg);
