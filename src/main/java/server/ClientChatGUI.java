@@ -14,12 +14,14 @@ public class ClientChatGUI extends JFrame {
     JTextArea chatArea;
     JTextField message;
     DataOutputStream dos;
+    Dimension dimScroll;
 
     ClientChatGUI() {
         this.frame = new JFrame("Chat");
         this.panel = new JPanel();
         this.chatArea = new JTextArea();
         this.message = new JTextField(50);
+        this.dimScroll = new Dimension(500, 10);
     }
 
     public void setDos(DataOutputStream dos){
@@ -30,7 +32,6 @@ public class ClientChatGUI extends JFrame {
         frame.add(BorderLayout.SOUTH, panel);
         panel.setLayout(new BorderLayout());
 
-        chatArea.setPreferredSize(new Dimension(500, 500));
         chatArea.setEditable(false); //cannot write in the ChatArea anymore
         chatArea.setBackground(Color.LIGHT_GRAY);
         chatArea.setLineWrap(true); //prevents horizontal scrolling with long texts
@@ -40,10 +41,11 @@ public class ClientChatGUI extends JFrame {
         panel.add(message, BorderLayout.PAGE_END);
         message.setEditable(true);
 
-        /*JScrollPane scroll = new JScrollPane(chatArea); //chat is scrollable
-        scroll.setVerticalScrollBarPolicy(scroll.VERTICAL_SCROLLBAR_ALWAYS);
-        scroll.setPreferredSize(chatArea.getPreferredSize());
-        panel.add(scroll); */
+        JScrollPane scroll = new JScrollPane(chatArea); //chat is scrollable
+        scroll.setVerticalScrollBarPolicy(scroll.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scroll.setPreferredSize(new Dimension(500,300));
+        panel.add(scroll);
+
         message.addActionListener(this::actionPerformed);
         frame.getContentPane().add(panel);
         frame.pack();
@@ -62,6 +64,10 @@ public class ClientChatGUI extends JFrame {
 
     public void receiveMsg(String msg) {
         chatArea.append(msg + "\n");
+        dimScroll.height += 16.5;
+        chatArea.setPreferredSize(dimScroll);
+        chatArea.revalidate();
+        chatArea.setCaretPosition(chatArea.getText().length());
     }
 
     public void setVisible(boolean b) {
