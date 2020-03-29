@@ -49,4 +49,7 @@ public class Message {
 
     public static String nobodyHearsYou = (
             "\n\nNobody can hear you. Write /b yourMessage for broadcast, /w playername for whisper or join a Lobby with people!\n\n");
+
+    public static String playerDoesNotExist = (
+            "\n The message could not be sent. There is no player with this playername.");
 }

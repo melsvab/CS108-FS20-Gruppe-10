@@ -3,6 +3,8 @@ package server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.Arrays;
+import java.util.Set;
+
 import game.*;
 
 public class ServerThreadForClient implements Runnable {
@@ -141,7 +143,7 @@ public class ServerThreadForClient implements Runnable {
                             * (and therefore in our list of ServerThreadForClient called userThreads)
                             */
                             if(lenghtInput > 5) {
-                                String message = Protocol.BRC2.name() + ":This is a message from the broadcast: \n"
+                                String message = Protocol.BRC2.name() + ":Broadcast to all:"
                                         + "[" + clientProfil.nickname + "] " + original.substring(5);
 
                                 Server.chat(message, Server.userThreads);
@@ -387,16 +389,21 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case WHP1:
-                            /**
-                             * Under Construction: Player sends a whisperchat. Sends WHP2
-                             * when the playername exist, sends EWHP when not.
+                            /*
+                             * Whisperchat
                              */
-                            if (true) {
-                                dos.writeUTF("WHP2" + original);
-                            } else {
-                                dos.writeUTF("EWHP");
-                                break;
+                            int i = original.indexOf(" ");
+                            String playername = original.substring(5, i);
+                            String msg = Protocol.MSG0.name() + ":Whisper from:[" + clientProfil.nickname + "]" + original.substring(i);
+                            String msg2 = Protocol.MSG0.name() + ":Whisper to:[" + playername + "]"
+                                    + original.substring(i);
+                            dos.writeUTF(msg2);
+                            boolean f = Server.doesThePlayerExist(msg, playername, Server.userThreads);
+                            if (f == false) {
+                                dos.writeUTF(Protocol.EWHP.name());
                             }
+                            break;
+
 
                         case BACK:
                             //TO DO: might be used for whisperchat

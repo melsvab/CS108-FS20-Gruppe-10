@@ -177,20 +177,12 @@ public class ClientReaderThread implements Runnable {
 
                             break;
 
-                        case WHP1:
-
-                            //Under Construction: received whisperchat is printed
-
-                            System.out.println("[" + "]:##" + original.substring(4) + "##");
-                            break;
 
                         case EWHP:
                             /*
-                             * Under Construction: prints an ERROR-Message if the chosen playername
-                             * does not exist.
+                             *playerDoesNotExist Error printed in ChatArea
                              */
-
-                            System.out.println("The playername was not found. The message could not be send.");
+                            profil.ccg.receiveMsg(Message.playerDoesNotExist);
                             break;
 
                         case RNDS:

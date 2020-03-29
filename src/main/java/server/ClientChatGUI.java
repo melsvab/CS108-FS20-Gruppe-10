@@ -59,11 +59,11 @@ public class ClientChatGUI extends JFrame {
 
             switch (msgType.substring(0, 3)) {
                 case "/b ":
-                    dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText().substring(2));
+                    dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText().substring(3) + " ");
                     break;
-                /*case "/w ":
-                    dos.writeUTF(Protocol.WHP1.name() + ":" + message.getText().substring(2));
-                    break;*/
+                case "/w ":
+                    dos.writeUTF(Protocol.WHP1.name() + ":" + message.getText().substring(3) + " ");
+                    break;
                 default:
                     dos.writeUTF(Protocol.CHAT.name() + ":" + message.getText());
                     break;

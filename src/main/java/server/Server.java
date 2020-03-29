@@ -64,6 +64,16 @@ public class Server  implements Runnable {
         aPerson.sendMessage(message);
     }
 
+    public static synchronized boolean doesThePlayerExist(String message, String playername, Set<ServerThreadForClient> group) {
+        for (ServerThreadForClient aUser : group) {
+                if (aUser.clientProfil.nickname.equals(playername)) {
+                    aUser.sendMessage(message);
+                    return true;
+                }
+        }
+        return false;
+    }
+
     public static synchronized void sendClientsToSleep() {
         for (ServerThreadForClient aUser : userThreads) {
             aUser.suddenEnding();
