@@ -67,10 +67,6 @@ public class Client implements Runnable {
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             DataInputStream dis = new DataInputStream(socket.getInputStream());
 
-            //sets DataOutputStream for the ChatGUI and creates an invisible chat
-            profil.ccg.setDos(dos);
-            profil.ccg.createChat();
-
             //Start ClientReaderThread for reading input from Server
 
             ClientReaderThread clientReaderThread = new ClientReaderThread(dis, dos, profil);
@@ -87,6 +83,10 @@ public class Client implements Runnable {
             //Nickname chosen
 
             dos.writeUTF(nickname);
+
+            //sets DataOutputStream for the ChatGUI and creates an invisible chat
+            profil.ccg.setDos(dos);
+            profil.ccg.createChat();
 
             //Start processing inputs.
 
@@ -109,27 +109,7 @@ public class Client implements Runnable {
                     switch (Protocol.valueOf(clientchoice)) {
                         //Descide what to do next
 
-
-                        /*case CHAT: //Not needed anymore because of JFrame
-
-
-                            /
-                              checks for appropriate input and if client is in a lobby
-                             /
-
-                            if (lenghtInput > 5 && profil.isInGame) {
-                                dos.writeUTF(original);
-                            } else if(!profil.isInGame) {
-                                System.out.println("\nYou have not joined a lobby yet!\n");
-                            } else {
-                                System.out.println(Message.youAreDoingItWrong
-                                        + Protocol.CHAT.name()
-                                        + ":message");
-                            }
-
-                            break; */
-
-                        case BRC1:
+                        /*case BRC1: //not needed because of JFrame
                             //in case clients forgets to send a message
                             if (lenghtInput > 5) {
                                 dos.writeUTF(original);
@@ -139,7 +119,7 @@ public class Client implements Runnable {
                                         + ":message");
                             }
 
-                            break;
+                            break;*/
 
                         case NAME:
                             /*
@@ -223,7 +203,6 @@ public class Client implements Runnable {
                         case CRE1: /* check if input is correct for a new lobby */
 
                             dos.writeUTF(original);
-                            profil.ccg.setVisible(true);
                             dos.writeUTF(Protocol.CHAT.name() + " has joined the Lobby!");
                             break;
 
@@ -234,7 +213,6 @@ public class Client implements Runnable {
 
                             } else if (profil.checkForNumber(original)) {
                                 dos.writeUTF(original);
-                                profil.ccg.setVisible(true);
                                 dos.writeUTF(Protocol.CHAT.name() + " has joined the Lobby!");
                             } else {
                                 System.out.println(Message.youAreDoingItWrong

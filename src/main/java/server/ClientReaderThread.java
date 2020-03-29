@@ -90,8 +90,10 @@ public class ClientReaderThread implements Runnable {
                             break;
 
                         case BRC2:
-                            //prints broadcast message
-                            getMessage(original);
+                            /*
+                             *Client sees message in Chat
+                             */
+                            profil.ccg.receiveMsg(original.substring(5));
                             break;
 
                         case HELP:
@@ -337,7 +339,14 @@ public class ClientReaderThread implements Runnable {
                             /*
                              *Client sees message in Chat
                              */
-                            profil.ccg.receiveMsg(original.substring(4));
+                            profil.ccg.receiveMsg(original.substring(5));
+                            break;
+
+                        case MSG1:
+                            /*
+                             *Client sees message in Chat
+                             */
+                            profil.ccg.receiveMsg(original.substring(5) + Message.nobodyHearsYou);
                             break;
 
                         default:

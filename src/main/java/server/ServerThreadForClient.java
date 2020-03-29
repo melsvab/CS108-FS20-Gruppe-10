@@ -119,14 +119,14 @@ public class ServerThreadForClient implements Runnable {
 
                         case CHAT:
 
-                            /*if (clientProfil.checkForWord(original)
-                                    && clientProfil.isInGame && clientProfil.lobby != null) {
-                            */
-
-                            String msg = Protocol.MSG0.name() + "[" + clientProfil.nickname + "] "
-                                    + original.substring(4);
-
-                            clientProfil.lobby.writeToAll(msg);
+                            if (clientProfil.lobby != null) {
+                                String msg = Protocol.MSG0.name() + ":[" + clientProfil.nickname + "] "
+                                        + original.substring(5);
+                                clientProfil.lobby.writeToAll(msg);
+                            }
+                            else {
+                                dos.writeUTF(Protocol.MSG1.name() + ":" + original.substring(5));
+                            }
 
 
                             /*} else {

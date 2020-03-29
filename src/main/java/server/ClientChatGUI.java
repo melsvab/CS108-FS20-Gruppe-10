@@ -49,12 +49,25 @@ public class ClientChatGUI extends JFrame {
         frame.getContentPane().add(panel);
         frame.pack();
         message.requestFocusInWindow();
-        frame.setVisible(false);
+        frame.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
         try {
-            dos.writeUTF(Protocol.CHAT.name() + message.getText());
+
+            String msgType = message.getText() + "000"; //000 is professional bug fixing
+
+            switch (msgType.substring(0, 3)) {
+                case "/b ":
+                    dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText().substring(2));
+                    break;
+                /*case "/w ":
+                    dos.writeUTF(Protocol.WHP1.name() + ":" + message.getText().substring(2));
+                    break;*/
+                default:
+                    dos.writeUTF(Protocol.CHAT.name() + ":" + message.getText());
+                    break;
+            }
         } catch (IOException f) {
             System.out.println(f);
         }

@@ -47,6 +47,7 @@ public enum Protocol {
     WINX("Winner is anncounced"),
     HGHN("There is a new highscore"),
     MSG0("Message in Chat is written in Chat"),
+    MSG1("Message in Chat that nobody heres the player"),
     ENDX("informs player that the game has finished");
 
 

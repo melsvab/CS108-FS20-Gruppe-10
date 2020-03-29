@@ -46,4 +46,7 @@ public class Message {
     public static String youAreDoingItWrong = (
             "It seems as if you used this keyword wrongly. \n"
                     + "This keyword is used like this: ");
+
+    public static String nobodyHearsYou = (
+            "\n\nNobody can hear you. Write /b yourMessage for broadcast, /w playername for whisper or join a Lobby with people!\n\n");
 }
