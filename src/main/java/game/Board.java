@@ -35,7 +35,7 @@ public class Board {
     public Board(int boardSize, int maxCoinsinGame) {
         //boardSize - min = 10, max = 200
         if (boardSize < 10) { boardSize = 10; }
-        else if (boardSize > 200) { boardSize = 200; }
+        else if (boardSize > 20) { boardSize = 20; }
         this.boardSize = boardSize;
         //maxCoins possible = 500; they determine the probability for coins on the board.
         if (maxCoinsinGame > 500) { maxCoinsinGame = 500; }
@@ -50,7 +50,7 @@ public class Board {
         for (int x = 0; x < boardSize + 1; x++) {
             for (int y = 0; y < boardSize + 1; y++) {
                 //if boarder = flood area!
-                if (x == 0 || x == boardSize || y == 0 || y == boardSize) {
+                if (x == 0 || x == boardSize || y == 0 || y == boardSize) { //MAYBE STARTPOSITION HERE
                     board[x][y] = new Field(-1);
                     board[x][y].isFlood = true;
                     board[x][y].isBoundary = true;
@@ -167,7 +167,7 @@ public class Board {
 
     public String printBoard() {
         String boardAsString = "";
-        boardAsString += ("#####################################################\n");
+        boardAsString += ("#####################################################\n"); /**STEPPED ON = |||*/
         for (int y = this.boardSize; y >= 0; y--) {
             boardAsString += ("   ");
             for (int x = 0; x <= this.boardSize; x++) {
