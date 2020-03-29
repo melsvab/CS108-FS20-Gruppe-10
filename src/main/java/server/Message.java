@@ -48,7 +48,7 @@ public class Message {
                     + "This keyword is used like this: ");
 
     public static String nobodyHearsYou = (
-            "\n\nNobody can hear you. Write /b yourMessage for broadcast, /w playername for whisper or join a Lobby with people!\n\n");
+            "\n\nNobody can hear you here. Write /b yourMessage for broadcast, /w playername yourMessage for whisper or join a Lobby!\n\n");
 
     public static String playerDoesNotExist = (
             "\n The message could not be sent. There is no player with this playername.");
