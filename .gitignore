@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/git,java,macos,gradle,windows,intellij,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=git,java,macos,gradle,windows,intellij,visualstudiocode
 
@@ -146,7 +145,7 @@ Icon
 .DocumentRevisions-V100
 .fseventsd
 .Spotlight-V100
-.TemporaryItems
+.TemporaryItems 
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
