@@ -7,15 +7,15 @@ public class Field {
      * This class represents a filed on the board and
      * includes several attributes.
      */
-    boolean isFlood, hasCoin, isQuake;
-    boolean steppedOn, isTaken, isBoundary, isStartPosition; //TO DO !!
+    public boolean isFlood, hasCoin, isQuake;
+    public boolean steppedOn, isTaken, isBoundary, isStartPosition; //TO DO !!
 
     PlayerTurtle turtle;
 
     /**
      * Every field has a pointer to the filed next to it.
      */
-    Field up, right, down, left;
+    public Field up, right, down, left;
 
     public Field(int probabilityForCoin) {
         Random random = new Random();

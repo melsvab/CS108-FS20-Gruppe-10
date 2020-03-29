@@ -81,28 +81,28 @@ public class Board {
         this.board[a+1][b+1].isStartPosition = true;
 
         //Connect fields to each other. (UP, DOWN, LEFT, RIGHT)
-        for (int x = 0; x < this.boardSize; x++) {
-            for (int y = 0; y < this.boardSize; y++) {
+        for (int x = 0; x <= this.boardSize; x++) {
+            for (int y = 0; y <= this.boardSize; y++) {
                 //Link UP
-                if (y + 1 >= this.boardSize) {
+                if (y + 1 > this.boardSize) {
                     this.board[x][y].up = null;
                 } else {
                     this.board[x][y].up = this.board[x][y + 1];
                 }
                 //Link RIGHT
-                if (x + 1 >= this.boardSize) {
+                if (x + 1 > this.boardSize) {
                     this.board[x][y].right = null;
                 } else {
                     this.board[x][y].right = this.board[x + 1][y];
                 }
                 //Link DOWN
-                if (y - 1 <= 0) {
+                if (y - 1 < 0) {
                     this.board[x][y].down = null;
                 } else {
                     this.board[x][y].down = this.board[x][y - 1];
                 }
                 //Link LEFT
-                if (x - 1 <= 0) {
+                if (x - 1 < 0) {
                     this.board[x][y].left = null;
                 } else {
                     this.board[x][y].left = this.board[x - 1][y];
@@ -194,7 +194,7 @@ public class Board {
         eventboard = copyBoard(board);
     }
 
-    public void setPlayerStartpositions(int HowManyPlayers) {
+    /*public void setPlayerStartpositions(int HowManyPlayers) {
         int a = this.boardSize/2;
         int b = this.boardSize/2;
         for(int i = 0; i < HowManyPlayers; i++) {
@@ -202,7 +202,7 @@ public class Board {
             a++; b++;
         }
 
-    }
+    }*/
 
     // TESTING CODE:
     public static void main(String[] args) {

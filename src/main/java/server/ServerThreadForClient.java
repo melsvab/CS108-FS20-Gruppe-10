@@ -289,26 +289,76 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case UPPR:
-
                             //Under Construction: Player moves a block up ingame.
+                            if (clientProfil.myTurtle.turtleposition.up.isTaken ||
+                                    clientProfil.myTurtle.turtleposition.up.isFlood ||
+                                    clientProfil.myTurtle.turtleposition.up == null) {
+                                dos.writeUTF("This move is not possible");
+                            } else {
+
+                                clientProfil.myTurtle.turtleposition.isTaken = false;
+                                clientProfil.myTurtle.turtleposition = clientProfil.myTurtle.turtleposition.up;
+                                clientProfil.myTurtle.turtleposition.isTaken = true;
+                                clientProfil.myTurtle.turtleposition.steppedOn = true;
+
+                                this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
+                            }
 
                             break;
 
                         case DOWN:
 
                             //Under Construction: Player moves a block down ingame.
+                            if (clientProfil.myTurtle.turtleposition.down.isTaken ||
+                                    clientProfil.myTurtle.turtleposition.down.isFlood ||
+                                    clientProfil.myTurtle.turtleposition.down.isBoundary) {
+                                dos.writeUTF("This move is not possible");
+                            } else {
 
+                                clientProfil.myTurtle.turtleposition.isTaken = false;
+                                clientProfil.myTurtle.turtleposition = clientProfil.myTurtle.turtleposition.down;
+                                clientProfil.myTurtle.turtleposition.isTaken = true;
+                                clientProfil.myTurtle.turtleposition.steppedOn = true;
+
+                                this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
+                            }
                             break;
 
                         case LEFT:
 
                             //Under Construction: Player moves a block left ingame.
+                            if (clientProfil.myTurtle.turtleposition.left.isTaken ||
+                                    clientProfil.myTurtle.turtleposition.left.isFlood ||
+                                    clientProfil.myTurtle.turtleposition.left == null) {
+                                dos.writeUTF("This move is not possible");
+                            } else {
+
+                                clientProfil.myTurtle.turtleposition.isTaken = false;
+                                clientProfil.myTurtle.turtleposition = clientProfil.myTurtle.turtleposition.left;
+                                clientProfil.myTurtle.turtleposition.isTaken = true;
+                                clientProfil.myTurtle.turtleposition.steppedOn = true;
+
+                                this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
+                            }
 
                             break;
 
                         case RIGT:
 
                             //Under Construction: Player moves a block right ingame.
+                            if (clientProfil.myTurtle.turtleposition.right.isTaken ||
+                                    clientProfil.myTurtle.turtleposition.right.isFlood ||
+                                    clientProfil.myTurtle.turtleposition.right.isBoundary) {
+                                dos.writeUTF("This move is not possible");
+                            } else {
+
+                                clientProfil.myTurtle.turtleposition.isTaken = false;
+                                clientProfil.myTurtle.turtleposition = clientProfil.myTurtle.turtleposition.right;
+                                clientProfil.myTurtle.turtleposition.isTaken = true;
+                                clientProfil.myTurtle.turtleposition.steppedOn = true;
+
+                                this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
+                            }
 
                             break;
 

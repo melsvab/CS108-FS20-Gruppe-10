@@ -76,17 +76,22 @@ public class Lobby extends Thread {
 
     public void run() {
 
-
-
-
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.clientProfil.myTurtle = new PlayerTurtle(aPlayer.clientProfil.nickname + "-Junior");
-                Server.chatSingle(Protocol.LOBY.name()
-                        + ":You have adopted a turtle baby and named it "
-                        + aPlayer.clientProfil.myTurtle.turtlename, aPlayer);
+            Server.chatSingle(Protocol.LOBY.name()
+                + ":You have adopted a turtle baby and named it "
+                + aPlayer.clientProfil.myTurtle.turtlename, aPlayer);
+            A: for (int x = 0; x < this.board.boardSize; x++) {
+                B: for (int y = 0; y < this.board.boardSize; y++) {
+                    if (this.board.board[x][y].isStartPosition && !this.board.board[x][y].isTaken) {
+                        aPlayer.clientProfil.myTurtle.turtleposition = this.board.board[x][y];
+                        this.board.board[x][y].isTaken = true;
+                        break A;
+                    }
+                }
+            }
         }
 
-        board.setPlayerStartpositions(players.size());
         writeToAll(Protocol.LOBY.name() + ":" + board.printBoard());
 
         /**

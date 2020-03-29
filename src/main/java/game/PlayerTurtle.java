@@ -6,7 +6,8 @@ public class PlayerTurtle {
 
     Color color;
     public String turtlename;
-    int points;
+    public int points;
+    public Field turtleposition;
 
     public PlayerTurtle(String turtlename) {
         //this.color = color;
