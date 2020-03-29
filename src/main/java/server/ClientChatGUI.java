@@ -8,7 +8,6 @@ import java.io.IOException;
 
 public class ClientChatGUI extends JFrame {
 
-    ClientProfil clientProfil;
     JFrame frame;
     JPanel panel;
     JTextArea chatArea;
@@ -55,7 +54,7 @@ public class ClientChatGUI extends JFrame {
 
     public void actionPerformed(ActionEvent e) {
         try {
-            dos.writeUTF("CHAT" + message.getText());
+            dos.writeUTF(Protocol.CHAT.name() + message.getText());
         } catch (IOException f) {
             System.out.println(f);
         }
