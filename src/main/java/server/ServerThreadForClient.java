@@ -291,8 +291,7 @@ public class ServerThreadForClient implements Runnable {
                         case UPPR:
                             //Under Construction: Player moves a block up ingame.
                             if (clientProfil.myTurtle.turtleposition.up.isTaken ||
-                                    clientProfil.myTurtle.turtleposition.up.isFlood ||
-                                    clientProfil.myTurtle.turtleposition.up == null) {
+                                    clientProfil.myTurtle.turtleposition.up.isFlood) {
                                 dos.writeUTF("This move is not possible");
                             } else {
 
@@ -301,7 +300,13 @@ public class ServerThreadForClient implements Runnable {
                                 clientProfil.myTurtle.turtleposition.isTaken = true;
                                 clientProfil.myTurtle.turtleposition.steppedOn = true;
 
+                                if (clientProfil.myTurtle.turtleposition.hasCoin) {
+                                    clientProfil.myTurtle.points++;
+                                    clientProfil.myTurtle.turtleposition.hasCoin = false;
+                                }
+
                                 this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
+                                this.sendMessage("Your Points: " + this.clientProfil.myTurtle.points);
                             }
 
                             break;
@@ -310,8 +315,7 @@ public class ServerThreadForClient implements Runnable {
 
                             //Under Construction: Player moves a block down ingame.
                             if (clientProfil.myTurtle.turtleposition.down.isTaken ||
-                                    clientProfil.myTurtle.turtleposition.down.isFlood ||
-                                    clientProfil.myTurtle.turtleposition.down.isBoundary) {
+                                    clientProfil.myTurtle.turtleposition.down.isFlood) {
                                 dos.writeUTF("This move is not possible");
                             } else {
 
@@ -320,16 +324,23 @@ public class ServerThreadForClient implements Runnable {
                                 clientProfil.myTurtle.turtleposition.isTaken = true;
                                 clientProfil.myTurtle.turtleposition.steppedOn = true;
 
+                                if (clientProfil.myTurtle.turtleposition.hasCoin) {
+                                    clientProfil.myTurtle.points++;
+                                    clientProfil.myTurtle.turtleposition.hasCoin = false;
+                                }
+
                                 this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
+                                this.sendMessage("Your Points: " + this.clientProfil.myTurtle.points);
+
                             }
+
                             break;
 
                         case LEFT:
 
                             //Under Construction: Player moves a block left ingame.
                             if (clientProfil.myTurtle.turtleposition.left.isTaken ||
-                                    clientProfil.myTurtle.turtleposition.left.isFlood ||
-                                    clientProfil.myTurtle.turtleposition.left == null) {
+                                    clientProfil.myTurtle.turtleposition.left.isFlood) {
                                 dos.writeUTF("This move is not possible");
                             } else {
 
@@ -338,7 +349,14 @@ public class ServerThreadForClient implements Runnable {
                                 clientProfil.myTurtle.turtleposition.isTaken = true;
                                 clientProfil.myTurtle.turtleposition.steppedOn = true;
 
+                                if (clientProfil.myTurtle.turtleposition.hasCoin) {
+                                    clientProfil.myTurtle.points++;
+                                    clientProfil.myTurtle.turtleposition.hasCoin = false;
+                                }
+
                                 this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
+                                this.sendMessage("Your Points: " + this.clientProfil.myTurtle.points);
+
                             }
 
                             break;
@@ -347,8 +365,7 @@ public class ServerThreadForClient implements Runnable {
 
                             //Under Construction: Player moves a block right ingame.
                             if (clientProfil.myTurtle.turtleposition.right.isTaken ||
-                                    clientProfil.myTurtle.turtleposition.right.isFlood ||
-                                    clientProfil.myTurtle.turtleposition.right.isBoundary) {
+                                    clientProfil.myTurtle.turtleposition.right.isFlood) {
                                 dos.writeUTF("This move is not possible");
                             } else {
 
@@ -357,7 +374,14 @@ public class ServerThreadForClient implements Runnable {
                                 clientProfil.myTurtle.turtleposition.isTaken = true;
                                 clientProfil.myTurtle.turtleposition.steppedOn = true;
 
+                                if (clientProfil.myTurtle.turtleposition.hasCoin) {
+                                    clientProfil.myTurtle.points++;
+                                    clientProfil.myTurtle.turtleposition.hasCoin = false;
+                                }
+
                                 this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
+                                this.sendMessage("Your Points: " + this.clientProfil.myTurtle.points);
+
                             }
 
                             break;
