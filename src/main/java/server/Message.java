@@ -18,7 +18,7 @@ public class Message {
     
     public static String changeName = (
             "\nWould you like to use the username of your system?\n"
-                    + "If so, please type in >YEAH<. Otherwise type <NO>\\n");
+                    + "If so, please type in >YEAH<. Otherwise type <NO>.\n");
 
     public static String helpMessage = (
         "\nWhat would you like to do?\n\n"

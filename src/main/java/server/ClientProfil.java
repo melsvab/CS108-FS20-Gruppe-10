@@ -1,5 +1,6 @@
 package server;
 
+import game.Field;
 import game.Lobby;
 import game.PlayerTurtle;
 
@@ -142,6 +143,88 @@ public class ClientProfil {
         } else {
             return false;
         }
+    }
+
+    public void moveTurtleUp() {
+        this.myTurtle.turtleposition.isTaken = false;
+        this.myTurtle.turtleposition = this.myTurtle.turtleposition.up;
+        this.myTurtle.turtleposition.isTaken = true;
+
+        if (this.myTurtle.turtleposition.hasCoin) {
+            this.myTurtle.points += 2;
+            this.myTurtle.turtleposition.hasCoin = false;
+        }
+
+        if (!this.myTurtle.turtleposition.steppedOn &&
+                !this.myTurtle.turtleposition.isStartPosition) {
+            this.myTurtle.points++;
+            this.myTurtle.turtleposition.steppedOn = true;
+        }
+
+        this.lobby.writeToAll(this.lobby.board.printBoard() +
+                "\nYour Points: " + this.myTurtle.points);
+    }
+
+    public void moveTurtleRight() {
+        this.myTurtle.turtleposition.isTaken = false;
+        this.myTurtle.turtleposition = this.myTurtle.turtleposition.right;
+        this.myTurtle.turtleposition.isTaken = true;
+
+        if (this.myTurtle.turtleposition.hasCoin) {
+            this.myTurtle.points += 2;
+            this.myTurtle.turtleposition.hasCoin = false;
+        }
+
+        if (!this.myTurtle.turtleposition.steppedOn &&
+                !this.myTurtle.turtleposition.isStartPosition) {
+            this.myTurtle.points++;
+            this.myTurtle.turtleposition.steppedOn = true;
+        }
+
+        this.lobby.writeToAll(this.lobby.board.printBoard() +
+                "\nYour Points: " + this.myTurtle.points);
+
+    }
+
+    public void moveTurtleLeft() {
+        this.myTurtle.turtleposition.isTaken = false;
+        this.myTurtle.turtleposition = this.myTurtle.turtleposition.left;
+        this.myTurtle.turtleposition.isTaken = true;
+
+        if (this.myTurtle.turtleposition.hasCoin) {
+            this.myTurtle.points += 2;
+            this.myTurtle.turtleposition.hasCoin = false;
+        }
+
+        if (!this.myTurtle.turtleposition.steppedOn &&
+                !this.myTurtle.turtleposition.isStartPosition) {
+            this.myTurtle.points++;
+            this.myTurtle.turtleposition.steppedOn = true;
+        }
+
+        this.lobby.writeToAll(this.lobby.board.printBoard() +
+                "\nYour Points: " + this.myTurtle.points);
+
+    }
+
+    public void moveTurtleDown() {
+        this.myTurtle.turtleposition.isTaken = false;
+        this.myTurtle.turtleposition = this.myTurtle.turtleposition.down;
+        this.myTurtle.turtleposition.isTaken = true;
+
+        if (this.myTurtle.turtleposition.hasCoin) {
+            this.myTurtle.points += 2;
+            this.myTurtle.turtleposition.hasCoin = false;
+        }
+
+        if (!this.myTurtle.turtleposition.steppedOn &&
+                !this.myTurtle.turtleposition.isStartPosition) {
+            this.myTurtle.points++;
+            this.myTurtle.turtleposition.steppedOn = true;
+        }
+
+        this.lobby.writeToAll(this.lobby.board.printBoard() +
+                "\nYour Points: " + this.myTurtle.points);
     }
 
 

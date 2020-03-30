@@ -179,6 +179,8 @@ public class Board {
                     boardAsString += (":O:"); /**HEY MACH DOOO MACH DAS NO DASS DE NAME KUNND !!!!!!!!!!*/
                 } else if (board[x][y].hasCoin && !board[x][y].isFlood) {
                     boardAsString += ("$$$");
+                } else if (board[x][y].steppedOn) {
+                    boardAsString += ("~~~");
                 } else {
                     boardAsString += ("___");
                 }

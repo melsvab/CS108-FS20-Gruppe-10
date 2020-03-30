@@ -294,23 +294,10 @@ public class ServerThreadForClient implements Runnable {
                             //Under Construction: Player moves a block up ingame.
                             if (clientProfil.myTurtle.turtleposition.up.isTaken ||
                                     clientProfil.myTurtle.turtleposition.up.isFlood) {
-                                dos.writeUTF("This move is not possible");
+                                sendMessage("This move is not possible");
                             } else {
-
-                                clientProfil.myTurtle.turtleposition.isTaken = false;
-                                clientProfil.myTurtle.turtleposition = clientProfil.myTurtle.turtleposition.up;
-                                clientProfil.myTurtle.turtleposition.isTaken = true;
-                                clientProfil.myTurtle.turtleposition.steppedOn = true;
-
-                                if (clientProfil.myTurtle.turtleposition.hasCoin) {
-                                    clientProfil.myTurtle.points++;
-                                    clientProfil.myTurtle.turtleposition.hasCoin = false;
-                                }
-
-                                this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
-                                this.sendMessage("Your Points: " + this.clientProfil.myTurtle.points);
+                                clientProfil.moveTurtleUp();
                             }
-
                             break;
 
                         case DOWN:
@@ -318,24 +305,10 @@ public class ServerThreadForClient implements Runnable {
                             //Under Construction: Player moves a block down ingame.
                             if (clientProfil.myTurtle.turtleposition.down.isTaken ||
                                     clientProfil.myTurtle.turtleposition.down.isFlood) {
-                                dos.writeUTF("This move is not possible");
+                                sendMessage("This move is not possible");
                             } else {
-
-                                clientProfil.myTurtle.turtleposition.isTaken = false;
-                                clientProfil.myTurtle.turtleposition = clientProfil.myTurtle.turtleposition.down;
-                                clientProfil.myTurtle.turtleposition.isTaken = true;
-                                clientProfil.myTurtle.turtleposition.steppedOn = true;
-
-                                if (clientProfil.myTurtle.turtleposition.hasCoin) {
-                                    clientProfil.myTurtle.points++;
-                                    clientProfil.myTurtle.turtleposition.hasCoin = false;
-                                }
-
-                                this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
-                                this.sendMessage("Your Points: " + this.clientProfil.myTurtle.points);
-
+                                clientProfil.moveTurtleDown();
                             }
-
                             break;
 
                         case LEFT:
@@ -343,24 +316,10 @@ public class ServerThreadForClient implements Runnable {
                             //Under Construction: Player moves a block left ingame.
                             if (clientProfil.myTurtle.turtleposition.left.isTaken ||
                                     clientProfil.myTurtle.turtleposition.left.isFlood) {
-                                dos.writeUTF("This move is not possible");
+                                sendMessage("This move is not possible");
                             } else {
-
-                                clientProfil.myTurtle.turtleposition.isTaken = false;
-                                clientProfil.myTurtle.turtleposition = clientProfil.myTurtle.turtleposition.left;
-                                clientProfil.myTurtle.turtleposition.isTaken = true;
-                                clientProfil.myTurtle.turtleposition.steppedOn = true;
-
-                                if (clientProfil.myTurtle.turtleposition.hasCoin) {
-                                    clientProfil.myTurtle.points++;
-                                    clientProfil.myTurtle.turtleposition.hasCoin = false;
-                                }
-
-                                this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
-                                this.sendMessage("Your Points: " + this.clientProfil.myTurtle.points);
-
+                                clientProfil.moveTurtleLeft();
                             }
-
                             break;
 
                         case RIGT:
@@ -368,24 +327,10 @@ public class ServerThreadForClient implements Runnable {
                             //Under Construction: Player moves a block right ingame.
                             if (clientProfil.myTurtle.turtleposition.right.isTaken ||
                                     clientProfil.myTurtle.turtleposition.right.isFlood) {
-                                dos.writeUTF("This move is not possible");
+                                sendMessage("This move is not possible");
                             } else {
-
-                                clientProfil.myTurtle.turtleposition.isTaken = false;
-                                clientProfil.myTurtle.turtleposition = clientProfil.myTurtle.turtleposition.right;
-                                clientProfil.myTurtle.turtleposition.isTaken = true;
-                                clientProfil.myTurtle.turtleposition.steppedOn = true;
-
-                                if (clientProfil.myTurtle.turtleposition.hasCoin) {
-                                    clientProfil.myTurtle.points++;
-                                    clientProfil.myTurtle.turtleposition.hasCoin = false;
-                                }
-
-                                this.clientProfil.lobby.writeToAll(this.clientProfil.lobby.board.printBoard());
-                                this.sendMessage("Your Points: " + this.clientProfil.myTurtle.points);
-
+                                clientProfil.moveTurtleRight();
                             }
-
                             break;
 
                         case WHP1:
