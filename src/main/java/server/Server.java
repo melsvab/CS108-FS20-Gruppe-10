@@ -48,79 +48,28 @@ public class Server  implements Runnable {
     public static int playersOnline = 0;
     public static int clientConnections = 0;
 
-
-    /**
-     * Function for broadcast and other chats.
-     * Goes through each ServerThreadForClient in the group / sends message to a person
+    /*
+     * Function "checkForName" compares Strings in the list to a desired name
+     * Function "checkForDuplicates" changes duplicates in appropriate names
      */
 
-    public static synchronized void chat(String message, Set<ServerThreadForClient> group) {
-        for (ServerThreadForClient aUser : group) {
-            aUser.sendMessage(message);
-        }
-    }
+    public static synchronized boolean checkForName(String desiredName, ServerThreadForClient user) {
 
-    public static synchronized void chatSingle(String message, ServerThreadForClient aPerson) {
-        aPerson.sendMessage(message);
-    }
+        if (clientConnections <= 1) {return false;}
+        for (ServerThreadForClient aUser: userThreads) {
 
-    public static synchronized boolean doesThePlayerExist(String message, String playername, Set<ServerThreadForClient> group) {
-        for (ServerThreadForClient aUser : group) {
-                if (aUser.clientProfil.nickname.equals(playername)) {
-                    aUser.sendMessage(message);
-                    return true;
-                }
-        }
-        return false;
-    }
-
-    public static synchronized void sendClientsToSleep() {
-        for (ServerThreadForClient aUser : userThreads) {
-            aUser.suddenEnding();
-        }
-    }
-
-    public static synchronized boolean checkOutGames() {
-        if (games.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public static synchronized boolean checkLobbies(int lobbynumber, ServerThreadForClient aUser) {
-
-        for (Lobby lobby : games) {
-            if (lobby.getLobbyNumber() == lobbynumber) {
-                lobby.addPlayers(aUser);
-                aUser.clientProfil.lobby = lobby;
+            if (aUser != user && aUser.profil.nickname.equals(desiredName) ) {
                 return true;
             }
         }
-        return false;
 
+        return true;
     }
-
-
-    /**
-     * If a client disconnects, it´s name is removed form
-     * the List on the server and the Thread which will be terminated,
-     * is removed from the list on the server as well.
-     */
-
-    public static synchronized void removeUser(String nickname, ServerThreadForClient aUser) {
-        namesOfAllClients.remove(nickname);
-        userThreads.remove(aUser);
-    }
-
-    /**
-     * Function checks if there are Strings in the list that are equal to the desired name
-     */
-
     public static synchronized String checkForDublicates(String desiredName, ServerThreadForClient aUser) {
         int position = desiredName.length();
         if (namesOfAllClients.contains(desiredName)) {
-            aUser.sendMessage("NAM2");
+            aUser.sendMessage(Protocol.ERRO.name() +
+                    ":\nYour desired name exists already!\n");
             int i = 1;
 
             if (!desiredName.endsWith("_0")) {
@@ -142,10 +91,116 @@ public class Server  implements Runnable {
 
     }
 
+    /*
+     * Functions for broadcast and other chats.
+     * Goes through each ServerThreadForClient in the group / sends message to a person
+     */
+
+    public static synchronized void chat(String message, Set<ServerThreadForClient> group) {
+        for (ServerThreadForClient aUser : group) {
+            aUser.sendMessage(message);
+        }
+    }
+
+    public static synchronized void chatSingle(String message, ServerThreadForClient aPerson) {
+        aPerson.sendMessage(message);
+    }
+
+    public static synchronized boolean doesThePlayerExist(
+            String message, String playerName, Set<ServerThreadForClient> group) {
+        for (ServerThreadForClient aUser : group) {
+                if (aUser.profil.nickname.equals(playerName)) {
+                    aUser.sendMessage(message);
+                    return true;
+                }
+        }
+        return false;
+    }
+
+
+
+
     public static synchronized int countGame() {
         gamesRunningCounter++;
         return gamesRunningCounter;
     }
+
+    public static synchronized boolean checkOutGames() {
+        return !games.isEmpty();
+    }
+
+    public static synchronized boolean checkLobbies(int lobbyNumber, ServerThreadForClient aUser) {
+
+        if (checkOutGames()) {
+            for (Lobby lobby : games) {
+                if (lobby.getLobbyNumber() == lobbyNumber) {
+                    lobby.addPlayer(aUser);
+                    aUser.profil.lobby = lobby;
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return false;
+        }
+
+    }
+
+    public static synchronized boolean gameList(ServerThreadForClient aUser) {
+        if (checkOutGames()) {
+            String gameList = Protocol.MSSG.name() + ":These are the games so far: \n";
+            for (Lobby lobby: games) {
+                //undefined should be impossible
+                String status = "undefined";
+                if(lobby.gamestate == 1) {
+                    status = "open";
+                } else if (lobby.gamestate == 2) {
+                    status = "ongoing";
+                } else if (lobby.gamestate == 3) {
+                    status = "finished";
+                }
+                gameList += "lobby #" + lobby.lobbyNumber + " is " + status + "\n";
+            }
+            aUser.sendMessage(gameList);
+            return true;
+        } else {
+            return false;
+
+        }
+    }
+
+    public static synchronized void playerList(ServerThreadForClient aUser) {
+        String listOfPlayers = "Players at the server are: ";
+        for (ServerThreadForClient oneOfAllUsers: userThreads) {
+            listOfPlayers += oneOfAllUsers.profil.nickname + ", ";
+        }
+
+        aUser.sendMessage(Protocol.MSSG.name() + ":" + listOfPlayers);
+    }
+
+
+    /**
+     * If a client disconnects, it´s name is removed form
+     * the List on the server and the Thread which will be terminated,
+     * is removed from the list on the server as well.
+     */
+
+    public static synchronized void removeUser(String nickname, ServerThreadForClient aUser) {
+        userThreads.remove(aUser);
+
+        if (aUser.profil.lobby != null) {
+            aUser.profil.lobby.deletePlayer(aUser);
+            aUser.profil.isInGame = false;
+            aUser.sendMessage(Protocol.BACK.name());
+        }
+    }
+
+    public static synchronized void sendClientsToSleep() {
+        for (ServerThreadForClient aUser : userThreads) {
+            aUser.suddenEnding();
+        }
+    }
+
 
 
     /**

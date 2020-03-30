@@ -14,22 +14,22 @@ public class Lobby extends Thread {
 
     /*
     * one for an open game
-    * two for ongoing game
-    * three for finished game
-     */
+    * two for an ongoing game
+    * three for a finished game
+    */
     public int gamestate;
 
-    public Set<ServerThreadForClient> players = new HashSet<>(); /**SHOULD NOT BE STATIC BOTH!*/
+    public Set<ServerThreadForClient> players = new HashSet<>();
     public Set<ServerThreadForClient> spectators = new HashSet<>();
 
     public Board board;
-    public int lobbynumber;
+    public int lobbyNumber;
     
     public Lobby(ServerThreadForClient aUser, int number) {
         setDaemon(true);
         players.add(aUser);
         gamestate = 1;
-        lobbynumber = number;
+        lobbyNumber = number;
 
     }
 
@@ -47,8 +47,22 @@ public class Lobby extends Thread {
 
     }
 
-    public synchronized void addPlayers(ServerThreadForClient aUser) {
+    public synchronized void addPlayer(ServerThreadForClient aUser) {
         players.add(aUser);
+
+    }
+
+    public synchronized void deletePlayer(ServerThreadForClient aUser) {
+        if (aUser.profil.isSpectator) {
+            spectators.remove(aUser);
+        } else {
+
+            if (aUser.profil.myTurtle != null) {
+                aUser.profil.myTurtle = null;
+            }
+            aUser.profil.lobby = null;
+            players.remove(aUser);
+        }
 
     }
 
@@ -63,12 +77,12 @@ public class Lobby extends Thread {
     }
 
     public synchronized int getLobbyNumber() {
-        return lobbynumber;
+        return lobbyNumber;
 
     }
 
-    public synchronized void createGame(int boardsize, int maxCoins) {
-        board = new Board(boardsize,maxCoins);
+    public synchronized void createGame(int boardSize, int maxCoins) {
+        board = new Board(boardSize,maxCoins);
 
     }
 
@@ -77,14 +91,14 @@ public class Lobby extends Thread {
     public void run() {
 
         for (ServerThreadForClient aPlayer : players) {
-            aPlayer.clientProfil.myTurtle = new PlayerTurtle(aPlayer.clientProfil.nickname + "-Junior");
-            Server.chatSingle(Protocol.LOBY.name()
+            aPlayer.profil.myTurtle = new PlayerTurtle(aPlayer.profil.nickname + "-Junior");
+            Server.chatSingle(Protocol.MSSG.name()
                 + ":You have adopted a turtle baby and named it "
-                + aPlayer.clientProfil.myTurtle.turtlename, aPlayer);
+                + aPlayer.profil.myTurtle.turtlename, aPlayer);
             A: for (int x = 0; x < this.board.boardSize; x++) {
                 B: for (int y = 0; y < this.board.boardSize; y++) {
                     if (this.board.board[x][y].isStartPosition && !this.board.board[x][y].isTaken) {
-                        aPlayer.clientProfil.myTurtle.turtleposition = this.board.board[x][y];
+                        aPlayer.profil.myTurtle.turtleposition = this.board.board[x][y];
                         this.board.board[x][y].isTaken = true;
                         break A;
                     }
@@ -97,6 +111,8 @@ public class Lobby extends Thread {
         /**
          * WHILE SCHLAUFE ADDEN MIT INPUT PLAYER 1? Player 2? ETC:
          * DANN EVENT!
+         *
+         * ganz am ENDE: gamestate = 3; (gamestate wird auf >finished< geändert)
          */
 
     }

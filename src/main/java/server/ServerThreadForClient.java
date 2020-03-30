@@ -9,50 +9,43 @@ import game.*;
 
 public class ServerThreadForClient implements Runnable {
 
-    /**
+    /*
      * This Thread is created for every Client that connects
      * to the server. Represents an interface between Client & server.
      */
 
-    /**
+    /*
      * In- & Ouputstreams for reading and sending Strings.
      */
 
     DataInputStream dis;
     DataOutputStream dos;
 
-    /**
+    /*
      * Every Thread gets a client Profile
      */
 
-    public ClientProfil clientProfil;
+    public Profil profil;
     
     //Constructor (creats a new clientProfil)
     
     public ServerThreadForClient(
         int clientID, DataInputStream dis, DataOutputStream dos) {
-            this.clientProfil = new ClientProfil(clientID);
+            this.profil = new Profil(clientID);
             this.dis = dis;
             this.dos = dos;
     }
 
-    /**
-     * Check if Client is in global Chat.
-     */
-    public boolean inGame() {
-        return clientProfil.isInGame;
-    }
-
 
     /*
-    *
+     *
      */
     public void suddenEnding() {
-        clientProfil.goesToSleep();
+        profil.goesToSleep();
         sendMessage(Protocol.QUIT.name());
     }
 
-    /**
+    /*
      * Chatfunction sends a message to client.
      */
     public void sendMessage(String message) {
@@ -78,89 +71,98 @@ public class ServerThreadForClient implements Runnable {
 
         try {
             
-            /**
+            /*
              * Say Hello to client and let him choose his nickname.
              */
             
             dos.writeUTF(Protocol.WELC.name());
 
-            /**
-             * Receiving nickname by Client and checking for duplicates.
-             * Let Player know his nickname.
+            /*
+             * server receives nickname by client and checks for duplicates.
+             * player gets information about his/her nickname
              */
             
             String nickname = dis.readUTF();
-            clientProfil.nickname = Server.checkForDublicates(nickname, this);
+            profil.nickname = Server.checkForDublicates(nickname, this);
 
-            System.out.println("\nNickname of client #" + clientProfil.clientID + ": "
-                    + clientProfil.nickname);
-            dos.writeUTF("Your nickname: " + clientProfil.nickname + "\n");
-            /**Nickname chosen. */
+            System.out.println("\nNickname of client #" + profil.clientID + ": "
+                    + profil.nickname);
+            dos.writeUTF(Protocol.MSSG.name()
+                    + ":Your nickname: " + profil.nickname + "\n");
+            // Nickname is chosen.
 
-            /**
+            /*
              * Ask client what he wants to do.
              */
             dos.writeUTF(Protocol.HELP.name());
 
-            while (clientProfil.clientIsOnline) {
+            while (profil.clientIsOnline) {
 
-                /**
+                /*
                  * Get choice from Client and decide what to do.
                  */
                 String original = dis.readUTF();
                 int lenghtInput = original.length();
                 while (lenghtInput < 4) {
+                    //keyword is not long enough
                     original = dis.readUTF();
                     lenghtInput = original.length();
                 }
-                String clientchoice = original.toUpperCase().substring(0, 4);
+                String clientChoice = original.toUpperCase().substring(0, 4);
 
-                if (contains(clientchoice)) {
+                if (contains(clientChoice)) {
 
-                    switch (Protocol.valueOf(clientchoice)) {
+                    switch (Protocol.valueOf(clientChoice)) {
 
                         case CHAT:
 
-                            if (clientProfil.lobby != null) {
-                                String msg = Protocol.MSG0.name() + ":[" + clientProfil.nickname + "] "
-                                        + original.substring(5);
-                                clientProfil.lobby.writeToAll(msg);
-                            }
-                            else {
+                            if (profil.lobby != null && profil.checkForWord(original)) {
+                                String msg;
+                                if (original.substring(5).equalsIgnoreCase(Message.enterLobby)) {
+                                    msg = Protocol.MSG0.name() + ":" + profil.nickname
+                                            + Message.enterLobby;
+
+                                } else {
+                                    msg = Protocol.MSG0.name() + ":[" + profil.nickname + "] "
+                                            + original.substring(5);
+
+                                }
+
+                                profil.lobby.writeToAll(msg);
+
+                            } else {
                                 dos.writeUTF(Protocol.MSG1.name() + ":" + original.substring(5));
+
                             }
-
-
-                            /*} else {
-                                System.out.println(Message.garbage);
-                            } */
 
                             break;
 
                         case BRC1:
                             /*
-                            * message will be send to all clients that are online
-                            * (and therefore in our list of ServerThreadForClient called userThreads)
-                            */
-                            String message = Protocol.MSG0.name() + ":Broadcast to all:"
-                                    + "[" + clientProfil.nickname + "] " + original.substring(5);
+                             * message will be send to all clients that are online
+                             * (and therefore in our list of ServerThreadForClients called userThreads)
+                             */
+                            if(lenghtInput > 5) {
+                                String message = Protocol.MSG0.name() + ":Broadcast to all:"
+                                        + "[" + profil.nickname + "] " + original.substring(5);
 
-                            Server.chat(message, Server.userThreads);
-                            /*else {
-                                System.out.println(Message.garbage);
-                            }*/
+                                Server.chat(message, Server.userThreads);
+
+                            } else {
+                                System.out.println(Message.garbage + " 1");
+                            }
 
                             break;
 
                         case NAME:
 
-                            if (clientProfil.checkForName(original)) {
+                            if (profil.checkForName(original)) {
                                 //old name will be removed from the server list, new name is checked for dublicates
-                                String oldNickname = clientProfil.nickname;
-                                Server.namesOfAllClients.remove(clientProfil.nickname);
+                                String oldNickname = profil.nickname;
+                                Server.namesOfAllClients.remove(profil.nickname);
                                 String desiredName = original.substring(5);
                                 desiredName = Server.checkForDublicates(desiredName, this);
-                                String answerToClient = Protocol.NAM1.name() +
+                                String answerToClient = Protocol.MSSG.name() +
                                         ":Your name has been changed from " + oldNickname +
                                         " to " + desiredName + "\n";
                                 //write decision to Client
@@ -168,41 +170,42 @@ public class ServerThreadForClient implements Runnable {
 
                                 //server has accepted new name
                                 System.out.println(
-                                        "\n" + clientProfil.nickname + " changed his/her name to " + desiredName);
-                                clientProfil.nickname = desiredName;
+                                        "\n" + profil.nickname + " changed his/her name to " + desiredName);
+                                profil.nickname = desiredName;
 
                             } else {
                                 System.out.println(Message.garbage);
                             }
-
                             break;
+
 
                         case QUIT:
 
-                            dos.writeUTF(clientchoice);
+                            dos.writeUTF(clientChoice);
 
 
-                            //Remove name and thread of this client form the list on the server
+                            //Removes name and thread of this client form the list on the server
 
-                            Server.removeUser(clientProfil.nickname, this);
+                            Server.removeUser(profil.nickname, this);
 
-                            //Give Feedback
+                            //Gives Feedback
 
-                            System.out.println("\nClient #" + clientProfil.clientID + " \""
-                                    + clientProfil.nickname + "\" has disconnected.");
+                            System.out.println("\nClient #" + profil.clientID + " \""
+                                    + profil.nickname + "\" has disconnected.");
 
-                            clientProfil.goesToSleep();
+                            profil.goesToSleep();
                             break;
 
                         case ENDE:
-                            /**
+                            /*
                              * Under Construction: Can stop server
                              */
                             dos.writeUTF(Protocol.QUIT.name());
-                            Server.removeUser(clientProfil.nickname, this);
-                            clientProfil.goesToSleep();
-                            System.out.println(clientProfil.nickname + " wants to end the whole program.");
-                            Server.chat("Our server goes to sleep", Server.userThreads);
+                            Server.removeUser(profil.nickname, this);
+                            profil.goesToSleep();
+                            System.out.println(profil.nickname + " wants to end the whole program.");
+                            Server.chat(Protocol.MSSG.name()
+                                    + ":Our server goes to sleep\n", Server.userThreads);
                             Server.sendClientsToSleep();
                             try {
                                 Thread.sleep(200);
@@ -214,18 +217,22 @@ public class ServerThreadForClient implements Runnable {
 
                         case PLL1:
 
-                            //Take list from server and print out players name.
-
+                            //Takes list from server and prints out players name.
 
                             String listOfPlayers = Arrays.toString(Server.namesOfAllClients.toArray());
-                            dos.writeUTF(Protocol.PLL1.name() + ":" + listOfPlayers);
+                            dos.writeUTF(Protocol.MSSG.name() + ":" + listOfPlayers);
+
                             break;
 
                         case GML1:
 
-                            //Under Construction: Sends a list of open, ongoing and finished Games including their game_ID
+                            // Sends a list of open, ongoing and finished games including their game_ID
+                            if (!Server.gameList(this)) {
+                                dos.writeUTF(Protocol.MSSG.name()
+                                        + ":Nobody has created a game yet!" );
 
-                            dos.writeUTF("GML2");
+                            }
+
                             break;
 
                         case HSC1:
@@ -237,98 +244,119 @@ public class ServerThreadForClient implements Runnable {
 
                         case CRE1:
 
-                            int lobbyNumber = Server.countGame();
-                            Lobby lobby = new Lobby(this, lobbyNumber);
-                            Server.games.add(lobby);
-                            clientProfil.lobby = lobby;
-                            clientProfil.isInGame = true;
-                            dos.writeUTF(Protocol.CRE2.name() + ":" + lobbyNumber);
+                            if (!profil.isInGame) {
+                                int lobbyNumber = Server.countGame();
+                                Lobby lobby = new Lobby(this, lobbyNumber);
+                                Server.games.add(lobby);
+                                profil.lobby = lobby;
+                                profil.isInGame = true;
+                                dos.writeUTF(Protocol.CRE2.name() + ":" + lobbyNumber);
+                            } else {
+                                System.out.println(Message.garbage + " 3");
+                            }
 
                             break;
 
                         case JOIN:
 
-                            /**
-                             * Under Construction: Player joins a Game with the fitting game_ID.
-                             * If there is no game with the game_ID EJON will be sent.
+                            /*
+                             * Player joins a Game with the fitting game_ID.
+                             * If there is no game with the game_ID an error message will be sent.
                              */
 
-                            if (clientProfil.checkForNumber(original)) {
-                                //check if there are any games at all
-                                if (Server.checkOutGames()) {
+                            // checks if there are two ints and player is not in a lobby already
+                            if (profil.checkForNumber(original) && !profil.isInGame) {
+                                //checks if there are any games at all
 
-                                    String[] words = original.split(":");
-                                    int lobbynumber = Integer.parseInt(words[1]);
-                                    //checks for the lobbynumber and adds client if possible
-                                    if (Server.checkLobbies(lobbynumber, this)) {
-                                        clientProfil.isInGame = true;
-                                        dos.writeUTF(Protocol.CRE2.name() + ":" + lobbynumber);
-                                    } else {
-                                        dos.writeUTF(Protocol.EJON.name());
-                                    }
+                                String[] words = original.split(":");
+                                int lobbynumber = Integer.parseInt(words[1]);
+                                //checks for the lobbynumber and adds client if possible
+                                if (Server.checkLobbies(lobbynumber, this)) {
+                                    profil.isInGame = true;
+                                    dos.writeUTF(Protocol.CRE2.name() + ":" + lobbynumber);
                                 } else {
-                                    dos.writeUTF(Protocol.EJON.name());
-                                }
+                                    dos.writeUTF(Protocol.ERRO.name()
+                                            + ":This game ID does not exist. Try another one!\n");
+                                    }
+
                             } else {
-                                System.out.println(Message.garbage);
+                                System.out.println(Message.garbage + " 4");
                             }
                             break;
 
-                        case STR1:
-                            if (clientProfil.checkForTwoInt(original)) {
-                                String[] words = original.split(":");
-                                //check if it is possible to transfer the words into numbers
+                        case BACK:
+                            // Is used to exit a lobby
 
-                                int boardsize = Integer.parseInt(words[1]);
-                                int maxPoints = Integer.parseInt(words[2]);
-                                clientProfil.lobby.createGame(boardsize,maxPoints);
-                                clientProfil.lobby.start();
-                                clientProfil.lobby.writeToAll(Protocol.STR1.name());
+                            if (profil.isInGame) {
+
+                                profil.lobby.deletePlayer(this);
+                                profil.isInGame = false;
+                                dos.writeUTF(Protocol.BACK.name());
                             } else {
-                                System.out.println(Message.garbage);
+                                System.out.println(Message.garbage + " 6");
+                            }
+
+                            break;
+
+                        case STR1:
+                            //check if it is possible to transfer the words into numbers
+                            if (profil.checkForTwoInt(original) && profil.isInGame) {
+                                String[] words = original.split(":");
+
+                                int boardSize = Integer.parseInt(words[1]);
+                                int maxPoints = Integer.parseInt(words[2]);
+                                profil.lobby.createGame(boardSize,maxPoints);
+                                profil.lobby.gamestate = 2;
+                                profil.lobby.start();
+                                profil.lobby.writeToAll(Protocol.MSSG.name()
+                                        + ":\nThe game has started!\n");
+                            } else {
+                                System.out.println(Message.garbage + " 5");
                             }
                             break;
 
                         case UPPR:
                             //Under Construction: Player moves a block up ingame.
-                            if (clientProfil.myTurtle.turtleposition.up.isTaken ||
-                                    clientProfil.myTurtle.turtleposition.up.isFlood) {
-                                sendMessage("This move is not possible");
+                            if (profil.myTurtle.turtleposition.up.isTaken ||
+                                    profil.myTurtle.turtleposition.up.isFlood) {
+                                dos.writeUTF(Protocol.ERMO.name());
                             } else {
-                                clientProfil.moveTurtleUp();
+                                profil.moveTurtleUp();
                             }
                             break;
 
                         case DOWN:
 
                             //Under Construction: Player moves a block down ingame.
-                            if (clientProfil.myTurtle.turtleposition.down.isTaken ||
-                                    clientProfil.myTurtle.turtleposition.down.isFlood) {
-                                sendMessage("This move is not possible");
+                            if (profil.myTurtle.turtleposition.down.isTaken ||
+                                    profil.myTurtle.turtleposition.down.isFlood) {
+                                dos.writeUTF(Protocol.ERMO.name());
                             } else {
-                                clientProfil.moveTurtleDown();
+                                profil.moveTurtleDown();
                             }
+
                             break;
 
                         case LEFT:
 
                             //Under Construction: Player moves a block left ingame.
-                            if (clientProfil.myTurtle.turtleposition.left.isTaken ||
-                                    clientProfil.myTurtle.turtleposition.left.isFlood) {
-                                sendMessage("This move is not possible");
+                            if (profil.myTurtle.turtleposition.left.isTaken ||
+                                    profil.myTurtle.turtleposition.left.isFlood) {
+                                dos.writeUTF(Protocol.ERMO.name());
                             } else {
-                                clientProfil.moveTurtleLeft();
+                                profil.moveTurtleLeft();
                             }
                             break;
+
 
                         case RIGT:
 
                             //Under Construction: Player moves a block right ingame.
-                            if (clientProfil.myTurtle.turtleposition.right.isTaken ||
-                                    clientProfil.myTurtle.turtleposition.right.isFlood) {
-                                sendMessage("This move is not possible");
+                            if (profil.myTurtle.turtleposition.right.isTaken ||
+                                    profil.myTurtle.turtleposition.right.isFlood) {
+                                dos.writeUTF(Protocol.ERMO.name());
                             } else {
-                                clientProfil.moveTurtleRight();
+                                profil.moveTurtleRight();
                             }
                             break;
 
@@ -338,26 +366,22 @@ public class ServerThreadForClient implements Runnable {
                              */
                             int i = original.indexOf(" ");
                             String playername = original.substring(5, i);
-                            String msg = Protocol.MSG0.name() + ":Whisper from:[" + clientProfil.nickname + "]" + original.substring(i);
+                            String msg = Protocol.MSG0.name()
+                                    + ":Whisper from:[" + profil.nickname + "]"
+                                    + original.substring(i);
                             String msg2 = Protocol.MSG0.name() + ":Whisper to:[" + playername + "]"
                                     + original.substring(i);
                             dos.writeUTF(msg2);
                             boolean f = Server.doesThePlayerExist(msg, playername, Server.userThreads);
-                            if (f == false) {
+                            if (!f) {
                                 dos.writeUTF(Protocol.EWHP.name());
                             }
-                            break;
-
-
-                        case BACK:
-                            //TO DO: might be used for whisperchat
-
                             break;
 
                         default:
 
                             //This should be impossible
-                            System.out.println(Message.garbage);
+                            System.out.println(Message.garbage + " 7");
                             break;
 
 
@@ -365,7 +389,7 @@ public class ServerThreadForClient implements Runnable {
                     }
 
                 } else {
-                    System.out.println(Message.garbage);
+                    System.out.println(Message.garbage + " 8");
                 }
 
             }

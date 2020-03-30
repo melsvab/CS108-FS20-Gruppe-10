@@ -11,14 +11,18 @@ import java.io.InputStreamReader;
 
 public class ClientReaderThread implements Runnable {
 
-     //This Thread is for reading and processing input coming from the server.
+     /*
+      * This thread is for reading and processing input coming from the server.
+      * If a message from the ServerThreadForClient is send from different methods, there will be a specific keyword.
+      * Otherwise there are general keywords that are used by different methods that send a message only once.
+      */
 
 
     DataInputStream dis;
     DataOutputStream dos;
-    ClientProfil profil;
+    Profil profil;
     
-    public ClientReaderThread(DataInputStream dis, DataOutputStream dos, ClientProfil profil) {
+    public ClientReaderThread(DataInputStream dis, DataOutputStream dos, Profil profil) {
             this.dis = dis;
             this.dos = dos;
             this.profil = profil;
@@ -35,11 +39,11 @@ public class ClientReaderThread implements Runnable {
         return false;
     }
 
-    public static void getMessage(String original) {
+    public boolean checkMessage(String original) {
         if (original.length() > 5) {
-            System.out.println(original.substring(5));
+            return true;
         } else {
-            System.out.println(Message.garbage);
+            return false;
         }
     }
 
@@ -61,56 +65,68 @@ public class ClientReaderThread implements Runnable {
                     original = dis.readUTF();
                     lenghtInput = original.length();
                 }
-                String clientchoice = original.toUpperCase().substring(0, 4);
+                String clientChoice = original.toUpperCase().substring(0, 4);
 
-                if (contains(clientchoice)) {
-                    switch (Protocol.valueOf(clientchoice)) {
+                if (contains(clientChoice)) {
+                    switch (Protocol.valueOf(clientChoice)) {
 
                         case WELC:
-                            //gets welcome message
+                            /*
+                             * Gets welcome message
+                             *
+                             * To do: logo/intro will be shown
+                             */
 
-                            System.out.println(Message.welcomeMessage + Message.changeName);
+                            System.out.println("\nWelcome to the server!\n\n");
                             break;
 
-                        case NAM2:
-                            //gets welcome message
+                        case MSSG:
+                            /*
+                             * Prints out informational message from the server
+                             *
+                             * This will be a small text box in the future.
+                             * The text will be white or black (depends on the background).
+                             */
 
-                            System.out.println(Message.nameIsUsedAlready);
+                            if (checkMessage(original)) {
+                                System.out.println(original.substring(5));
+                            } else {
+                                System.out.println(Message.garbage + " *1");
+                            }
                             break;
 
-                        case NAM1:
+                        case ERRO:
+                            /*
+                             * Client gets a message from the server that a command
+                             * did not have the impact that is desired by the client.
+                             *
+                             * The text will be red in the future
+                             * and added to the text box for informational messages (see keyword >MSSG<).
+                             */
 
-                            //gets answer for a name change
-                            getMessage(original);
+                            if (checkMessage(original)) {
+                                String errorText = original.substring(5);
+                                System.out.println(errorText);
+                            } else {
+                                System.out.println(Message.garbage + " *2");
+                            }
+
                             break;
 
                         case HELP:
 
-                            //gets help message
+                            //Client gets a help message
 
                             System.out.println(Message.helpMessage);
                             break;
 
                         case QUIT:
 
-                            //thread stops reading messages of the server
+                            //Thread stops reading messages of the server
 
                             threadIsRunning = false;
                             break;
 
-                        case PLL1:
-
-                            //playerlist gets printed
-
-                            getMessage(original);
-                            break;
-
-                        case GML1:
-
-                            //Under Construction: received gamelist gets printed
-
-                            System.out.println(Message.underConstruction);
-                            break;
 
                         case HSC1:
 
@@ -121,7 +137,7 @@ public class ClientReaderThread implements Runnable {
 
                         case CRE2:
                             /*
-                             * Under Construction: Informs player that the game is created
+                             * Informs player that the game is created
                              * and which game_ID it has
                              */
                             if (profil.checkForNumber(original)) {
@@ -131,38 +147,23 @@ public class ClientReaderThread implements Runnable {
 
                                 System.out.println("You entered lobby number " + lobbyNumber + "!");
                             } else {
-                                System.out.println(Message.garbage);
+                                System.out.println(Message.garbage + " *3");
                             }
 
                             break;
 
-                        case JOIN:
+                        case EWHP:
                             /*
-                             * Under Construction: Informs the player that he joined the
-                             * game and is in the lobby.
+                             * playerDoesNotExist Error printed in ChatArea
                              */
-
-                            System.out.println("\nYou joined the game!\n");
+                            profil.ccg.receiveMsg(Message.playerDoesNotExist);
                             break;
 
-                        case EJON:
-                            /*
-                             * Under Construction: Informs the player that he could not join
-                             * the game.
-                             */
+                        case BACK:
+                            profil.isInGame = false;
 
-                            System.out.println("You could not join the game. Try another game_ID!");
-                            break;
-
-                        case STR1:
-                            /*
-                             * Under Construction: Informs players in the lobby that the game
-                             * has started
-                             */
-
-                            System.out.println("\nThe game has started!\n");
-
-
+                            //Client got out of a lobby / game
+                            System.out.println("You are not in a lobby anymore!");
                             break;
 
                         case RNDS:
@@ -180,8 +181,20 @@ public class ClientReaderThread implements Runnable {
                             break;
 
                         case LOBY:
-                            //prints out messages from the lobby
-                            getMessage(original);
+                            /*
+                             * Client prints out information about the board
+                             * (that will have a graphical impact later)
+                             *
+                             *
+                             * info: this is identical with case ERRO right now, but that will change soon
+                             * due to the fact that changes from the board will be analysed in the future
+                             */
+                            if (checkMessage(original)) {
+                                String message = original.substring(5);
+                                System.out.println(message);
+                            } else {
+                                System.out.println(Message.garbage + " *4");
+                            }
                             break;
 
                         case DICE:
@@ -195,9 +208,8 @@ public class ClientReaderThread implements Runnable {
 
                         case ERMO:
 
-                            //Under Construction: Informs the player that the move is invalid.
-
-                            System.out.println(Message.underConstruction);
+                            //Informs the player that the move is invalid.
+                            System.out.println("This move is not possible");
                             break;
 
 
@@ -309,39 +321,34 @@ public class ClientReaderThread implements Runnable {
 
                         case MSG0:
                             /*
-                             *Client sees message in Chat
+                             * Client sees a chat message
                              */
-                            profil.ccg.receiveMsg(original.substring(5));
+                            if(checkMessage(original)) {
+                                profil.ccg.receiveMsg(original.substring(5));
+                            }
                             break;
 
                         case MSG1:
                             /*
-                             *Client sees message in Chat
+                             * Client sees an error message in the chat
                              */
-                            profil.ccg.receiveMsg(original.substring(5) + Message.nobodyHearsYou);
-                            break;
-
-                        case EWHP:
-                            /*
-                             *playerDoesNotExist Error printed in ChatArea of original sender
-                             */
-                            profil.ccg.receiveMsg(Message.playerDoesNotExist);
+                            if (checkMessage(original)) {
+                                profil.ccg.receiveMsg(original.substring(5) + Message.nobodyHearsYou);
+                            }
                             break;
 
                         default:
                             //It should be impossible to get here
                             System.out.println("How did this end up here?" + "\n" + original);
 
-
                             break;
 
                     }
 
                 } else {
-                    /*
-                     * Message in Terminal
-                     */
-                    System.out.println(original);
+
+                    //This is only possible if the server is sending garbage
+                    System.out.println(Message.garbage + " *5");
 
                 }
             }

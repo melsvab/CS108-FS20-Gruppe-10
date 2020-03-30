@@ -1,30 +1,31 @@
 package server;
 
-import game.Field;
 import game.Lobby;
 import game.PlayerTurtle;
+import game.Field;
 
-public class ClientProfil {
+public class Profil {
 
-    /**This class is for the server and the client
+    /*
+     * This class is for the server and the client
      * to know about the states and about specific
      * information about a client.
      */
 
     int clientID;
     public String nickname;
-    Lobby lobby;
+    public Lobby lobby;
     public PlayerTurtle myTurtle;
 
-    boolean isInWhisperChat; //example for later
-    boolean isInGame; //example for later
+    boolean isInGame;
     boolean clientIsOnline;
+    public boolean isSpectator;
     ClientChatGUI ccg;
 
 
-    //constructor for serverthread
+    //constructor for the ServerThreadForClient
 
-    public ClientProfil(int clientID) {
+    public Profil(int clientID) {
         this.clientID = clientID;
         this.clientIsOnline = true;
         lobby = null;
@@ -33,7 +34,7 @@ public class ClientProfil {
 
     //constructor for client
 
-    public ClientProfil() {
+    public Profil() {
         this.clientIsOnline = true;
         lobby = null;
         this.ccg = new ClientChatGUI();
@@ -42,6 +43,9 @@ public class ClientProfil {
     public void goesToSleep() {
         isInGame = false;
         clientIsOnline = false;
+        if (lobby != null) {
+
+        }
     }
 
     public boolean checkForTwoInt(String original) {
@@ -75,11 +79,7 @@ public class ClientProfil {
 
             //check if there are two words (or at least letters) in between ":"
             if (words.length > 2) {
-               if(words[1].length() > 0 && words[2].length() > 0) {
-                   return true;
-               } else {
-                   return false;
-               }
+                return words[1].length() > 0 && words[2].length() > 0;
             } else {
                 return false;
             }
@@ -99,12 +99,7 @@ public class ClientProfil {
             //check if there is only one ":"
             // (so if you split the string at ":", there will be two substrings)
             // why? names cannot have a ":" in them.
-            if (words.length == 2) {
-                return true;
-
-            } else {
-                return false;
-            }
+            return words.length == 2;
         } else {
             return false;
         }
@@ -119,11 +114,7 @@ public class ClientProfil {
         ////check for usage of ":" and minimum input of KEYW:a
         if (lenghtInput > 5 && original.contains(":")) {
             //check if ":" is after the keyword
-            if (original.indexOf(':') == 4) {
-                return true;
-            } else {
-                return false;
-            }
+            return original.indexOf(':') == 4;
         } else {
             return false;
         }
@@ -161,7 +152,7 @@ public class ClientProfil {
             this.myTurtle.turtleposition.steppedOn = true;
         }
 
-        this.lobby.writeToAll(this.lobby.board.printBoard() +
+        this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
                 "\nYour Points: " + this.myTurtle.points);
     }
 
@@ -181,7 +172,7 @@ public class ClientProfil {
             this.myTurtle.turtleposition.steppedOn = true;
         }
 
-        this.lobby.writeToAll(this.lobby.board.printBoard() +
+        this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
                 "\nYour Points: " + this.myTurtle.points);
 
     }
@@ -202,7 +193,7 @@ public class ClientProfil {
             this.myTurtle.turtleposition.steppedOn = true;
         }
 
-        this.lobby.writeToAll(this.lobby.board.printBoard() +
+        this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
                 "\nYour Points: " + this.myTurtle.points);
 
     }
@@ -223,9 +214,8 @@ public class ClientProfil {
             this.myTurtle.turtleposition.steppedOn = true;
         }
 
-        this.lobby.writeToAll(this.lobby.board.printBoard() +
+        this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
                 "\nYour Points: " + this.myTurtle.points);
     }
-
 
 }
