@@ -10,10 +10,12 @@ import java.net.Socket;
 public class Client implements Runnable {
     String serverIpServerName;
     int serverPort;
+    String name;
 
-    public Client(String ip, int serverPort){
+    public Client(String ip, int serverPort,String name){
         this.serverIpServerName = ip;
         this.serverPort = serverPort;
+        this.name = name;
     }
     /**
      * This class represents a Client which connects to the server.
@@ -74,15 +76,15 @@ public class Client implements Runnable {
             clientThread.start();
 
             //Choose nickname
-
-            String nickname = readKeyBoard.readLine();
-            if (nickname.equalsIgnoreCase("YEAH")) {
-                nickname = System.getProperty("user.name");
+            profil.nickname = this.name;
+            String placeholder = readKeyBoard.readLine();
+            if (placeholder.equalsIgnoreCase("YEAH")) {
+                profil.nickname = System.getProperty("user.name");
             }
 
             //Nickname chosen
 
-            dos.writeUTF(nickname);
+            dos.writeUTF(profil.nickname);
 
             //sets DataOutputStream for the ChatGUI and creates an invisible chat
             profil.ccg.setDos(dos);
