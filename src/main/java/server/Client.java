@@ -193,7 +193,7 @@ public class Client implements Runnable {
                                 System.out.println(Message.inLobbyAlready);
                             } else {
                                 dos.writeUTF(original);
-                                dos.writeUTF(Protocol.CHAT.name() + ":" + Message.enterLobby;
+                                dos.writeUTF(Protocol.CHAT.name() + ":" + Message.enterLobby);
                             }
                             break;
 
