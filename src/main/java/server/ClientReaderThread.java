@@ -84,18 +84,6 @@ public class ClientReaderThread implements Runnable {
                             getMessage(original);
                             break;
 
-                        case CHAT:
-                            //prints broadcast message
-                            getMessage(original);
-                            break;
-
-                        case BRC2:
-                            /*
-                             *Client sees message in Chat
-                             */
-                            profil.ccg.receiveMsg(original.substring(5));
-                            break;
-
                         case HELP:
 
                             //gets help message
@@ -175,14 +163,6 @@ public class ClientReaderThread implements Runnable {
                             System.out.println("\nThe game has started!\n");
 
 
-                            break;
-
-
-                        case EWHP:
-                            /*
-                             *playerDoesNotExist Error printed in ChatArea
-                             */
-                            profil.ccg.receiveMsg(Message.playerDoesNotExist);
                             break;
 
                         case RNDS:
@@ -339,6 +319,13 @@ public class ClientReaderThread implements Runnable {
                              *Client sees message in Chat
                              */
                             profil.ccg.receiveMsg(original.substring(5) + Message.nobodyHearsYou);
+                            break;
+
+                        case EWHP:
+                            /*
+                             *playerDoesNotExist Error printed in ChatArea of original sender
+                             */
+                            profil.ccg.receiveMsg(Message.playerDoesNotExist);
                             break;
 
                         default:

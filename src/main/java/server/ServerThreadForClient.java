@@ -142,14 +142,13 @@ public class ServerThreadForClient implements Runnable {
                             * message will be send to all clients that are online
                             * (and therefore in our list of ServerThreadForClient called userThreads)
                             */
-                            if(lenghtInput > 5) {
-                                String message = Protocol.BRC2.name() + ":Broadcast to all:"
-                                        + "[" + clientProfil.nickname + "] " + original.substring(5);
+                            String message = Protocol.MSG0.name() + ":Broadcast to all:"
+                                    + "[" + clientProfil.nickname + "] " + original.substring(5);
 
-                                Server.chat(message, Server.userThreads);
-                            } else {
+                            Server.chat(message, Server.userThreads);
+                            /*else {
                                 System.out.println(Message.garbage);
-                            }
+                            }*/
 
                             break;
 

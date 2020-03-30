@@ -2,9 +2,8 @@ package server;
 
 public enum Protocol {
 
-    CHAT("client: sends message in lobby chat; clientReaderThread: gets message"),
+    CHAT("client: sends message in chat"),
     BRC1("player sends broadcast message (brc1:message)"),
-    BRC2("user gets broadcast message"),
     NAME("desired name from client (name:nickname)"),
     NAM1("checked name from server"),
     NAM2("username exists already"),
@@ -23,13 +22,11 @@ public enum Protocol {
     DOWN("down"),
     LEFT("left"),
     RIGT("right"),
-    WHP1("whisperchat"),
     BACK("back after chat"),
     IDKW("idkw"),
     HELP("help"),
     WELC("Welcome Message"),
     EJON("client can't join a game"),
-    EWHP("Whisperchat:Playername does not exist"),
     RNDS("number of rounds left"),
     YTRN("It's your turn!"),
     DICE("shows player how many moves are left"),
@@ -47,7 +44,9 @@ public enum Protocol {
     WINX("Winner is anncounced"),
     HGHN("There is a new highscore"),
     MSG0("Message in Chat is written in Chat"),
-    MSG1("Message in Chat that nobody heres the player"),
+    MSG1("Message in Chat is written that nobody hears the player"),
+    WHP1("whisperchat"),
+    EWHP("Playername does not exist for wisperchat"),
     ENDX("informs player that the game has finished");
 
 
