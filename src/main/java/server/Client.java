@@ -12,10 +12,15 @@ public class Client implements Runnable {
     int serverPort;
     Profil profil = new Profil();
 
-    public Client(String ip, int serverPort,String name){
-        this.serverIpServerName = ip;
-        this.serverPort = serverPort;
-        profil.nickname = name;
+    public Client(String ... name){
+        this.serverIpServerName = name[0];
+        this.serverPort = Integer.parseInt(name[1]);
+        if(name.length == 3){
+            profil.nickname = name[2];
+        }else {
+            profil.nickname = System.getProperty("user.name");
+        }
+
     }
     /**
      * This class represents a Client which connects to the server.

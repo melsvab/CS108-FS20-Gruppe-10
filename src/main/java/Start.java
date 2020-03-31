@@ -11,10 +11,20 @@ public class Start {
             serverThread.start();
             logger.info("Server started");
         } else if (args[0].equals("client")) {
-            Client client = new Client(args[1],Integer.parseInt(args[2]),args[3]);
-            Thread clientThread = new Thread(client);
-            clientThread.start();
-            logger.info("ClientThread started");
+                String[] host = args[1].split(":");
+                if(args.length == 3) {
+                    Client client = new Client(host[1],host[0],args[2]);
+                    Thread clientThread = new Thread(client);
+                    clientThread.start();
+                    logger.info("ClientThread started");
+                } else {
+                    Client client = new Client(host[0],host[1]);
+                    Thread clientThread = new Thread(client);
+                    clientThread.start();
+                    logger.info("ClientThread started");
+                }
+
+
         }
     }
 }
