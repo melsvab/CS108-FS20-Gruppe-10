@@ -6,9 +6,11 @@ import java.util.Arrays;
 import java.util.Set;
 
 import game.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ServerThreadForClient implements Runnable {
-
+    public static final Logger logger = LoggerFactory.getLogger(ServerThreadForClient.class);
     /*
      * This Thread is created for every Client that connects
      * to the server. Represents an interface between Client & server.
@@ -149,7 +151,7 @@ public class ServerThreadForClient implements Runnable {
                                 Server.chat(message, Server.userThreads);
 
                             } else {
-                                System.out.println(Message.garbage + " 1");
+                                //logger.info("\n" + "no message available");
                             }
 
                             break;
@@ -174,7 +176,7 @@ public class ServerThreadForClient implements Runnable {
                                 profil.nickname = desiredName;
 
                             } else {
-                                System.out.println(Message.garbage);
+                               // logger.info("forgot the colon");
                             }
                             break;
 
@@ -252,7 +254,7 @@ public class ServerThreadForClient implements Runnable {
                                 profil.isInGame = true;
                                 dos.writeUTF(Protocol.CRE2.name() + ":" + lobbyNumber);
                             } else {
-                                System.out.println(Message.garbage + " 3");
+                               // logger.info("the client is already in a lobby/Game");
                             }
 
                             break;
@@ -280,7 +282,12 @@ public class ServerThreadForClient implements Runnable {
                                     }
 
                             } else {
-                                System.out.println(Message.garbage + " 4");
+                                //if(profil.checkForWord(original) == false){
+                                    //logger.info("forgot to type the colon");
+                                //}else if(profil.checkForWord(original) == true && profil.checkForNumber(original) == false ){
+                                   // logger.info("typed a lobbynumber that doesnt exist");
+
+
                             }
                             break;
 
@@ -293,7 +300,7 @@ public class ServerThreadForClient implements Runnable {
                                 profil.isInGame = false;
                                 dos.writeUTF(Protocol.BACK.name());
                             } else {
-                                System.out.println(Message.garbage + " 6");
+                               // logger.info("used BACK even though he/she is not in a lobby or game");
                             }
 
                             break;
@@ -311,7 +318,9 @@ public class ServerThreadForClient implements Runnable {
                                 profil.lobby.writeToAll(Protocol.MSSG.name()
                                         + ":\nThe game has started!\n");
                             } else {
-                                System.out.println(Message.garbage + " 5");
+                                //if(profil.checkForTwoInt(original) == false){
+                                   // logger.info("forgot the colon");
+                                //}
                             }
                             break;
 
@@ -389,7 +398,7 @@ public class ServerThreadForClient implements Runnable {
                     }
 
                 } else {
-                    System.out.println(Message.garbage + " 8");
+                    //logger.info("keyword does not exist");
                 }
 
             }
