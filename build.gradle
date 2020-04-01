@@ -8,7 +8,23 @@ javafx {
     version = "11.0.2"
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.base']
 }
-
+tasks.register("build-cs108") {
+    group = 'build'
+    doLast {
+        println 'Running cs108 build task to generate a standalone jar and javadoc.'
+        jar {
+            manifest {
+                attributes(
+                        'Main-Class': 'Start'
+                )
+            }
+            from {
+                configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+                configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+            }
+        }
+    }
+}
 group 'Eiländers'
 version '0.0.1-ALPHA'
 mainClassName = 'Start'
