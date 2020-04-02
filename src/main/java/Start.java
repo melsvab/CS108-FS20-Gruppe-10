@@ -13,7 +13,7 @@ public class Start {
         } else if (args[0].equalsIgnoreCase("client")) {
                 String[] host = args[1].split(":");
                 if(args.length == 3) {
-                    Client client = new Client(host[1],host[0],args[2]);
+                    Client client = new Client(host[0],host[1],args[2]);
                     Thread clientThread = new Thread(client);
                     clientThread.start();
                     logger.info("ClientThread started");
