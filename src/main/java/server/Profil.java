@@ -155,7 +155,7 @@ public class Profil {
         }
 
         this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
-                "\nYour Points: " + this.myTurtle.points);
+                "\n" + this.nickname + " has " + this.myTurtle.points + " points!");
     }
 
     public void moveTurtleRight() {
@@ -175,7 +175,7 @@ public class Profil {
         }
 
         this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
-                "\nYour Points: " + this.myTurtle.points);
+                "\n" + this.nickname + " has " + this.myTurtle.points + " points!");
 
     }
 
@@ -196,7 +196,7 @@ public class Profil {
         }
 
         this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
-                "\nYour Points: " + this.myTurtle.points);
+                "\n" + this.nickname + " has " + this.myTurtle.points + " points!");
 
     }
 
@@ -217,7 +217,7 @@ public class Profil {
         }
 
         this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
-                "\nYour Points: " + this.myTurtle.points);
+                "\n" + this.nickname + " has " + this.myTurtle.points + " points!");
     }
 
 }
