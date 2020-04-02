@@ -20,12 +20,12 @@ public class ClientReaderThread implements Runnable {
 
     DataInputStream dis;
     DataOutputStream dos;
-    Profil profil;
+    Profil profile;
     
     public ClientReaderThread(DataInputStream dis, DataOutputStream dos, Profil profil) {
             this.dis = dis;
             this.dos = dos;
-            this.profil = profil;
+            this.profile = profil;
     }
 
     public static boolean contains(String keyword) {
@@ -40,11 +40,7 @@ public class ClientReaderThread implements Runnable {
     }
 
     public boolean checkMessage(String original) {
-        if (original.length() > 5) {
-            return true;
-        } else {
-            return false;
-        }
+        return original.length() > 5;
     }
 
     public void run() {
@@ -140,8 +136,8 @@ public class ClientReaderThread implements Runnable {
                              * Informs player that the game is created
                              * and which game_ID it has
                              */
-                            if (profil.checkForNumber(original)) {
-                                profil.isInGame = true;
+                            if (profile.checkForNumber(original)) {
+                                profile.isInGame = true;
                                 String[] words = original.split(":");
                                 int lobbyNumber = Integer.parseInt(words[1]);
 
@@ -156,11 +152,11 @@ public class ClientReaderThread implements Runnable {
                             /*
                              * playerDoesNotExist Error printed in ChatArea
                              */
-                            profil.ccg.receiveMsg(Message.playerDoesNotExist);
+                            profile.ccg.receiveMsg(Message.playerDoesNotExist);
                             break;
 
                         case BACK:
-                            profil.isInGame = false;
+                            profile.isInGame = false;
 
                             //Client got out of a lobby / game
                             System.out.println("You are not in a lobby anymore!");
@@ -324,7 +320,7 @@ public class ClientReaderThread implements Runnable {
                              * Client sees a chat message
                              */
                             if(checkMessage(original)) {
-                                profil.ccg.receiveMsg(original.substring(5));
+                                profile.ccg.receiveMsg(original.substring(5));
                             }
                             break;
 
@@ -333,7 +329,7 @@ public class ClientReaderThread implements Runnable {
                              * Client sees an error message in the chat
                              */
                             if (checkMessage(original)) {
-                                profil.ccg.receiveMsg(original.substring(5) + Message.nobodyHearsYou);
+                                profile.ccg.receiveMsg(original.substring(5) + Message.nobodyHearsYou);
                             }
                             break;
 

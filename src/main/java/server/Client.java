@@ -8,25 +8,28 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class Client implements Runnable {
-    String serverIpServerName;
-    int serverPort;
-    Profil profil = new Profil();
-
-    public Client(String ... name){
-        this.serverIpServerName = name[0];
-        this.serverPort = Integer.parseInt(name[1]);
-        if(name.length == 3){
-            profil.nickname = name[2];
-        }else {
-            profil.nickname = System.getProperty("user.name");
-        }
-
-    }
     /**
      * This class represents a Client which connects to the server.
      * In here, client inputs will be sent to the server and will be
      * processed.
      */
+
+
+    String serverIpServerName;
+    int serverPort;
+    Profil profile = new Profil();
+
+    public Client(String ... name){
+        this.serverIpServerName = name[0];
+        this.serverPort = Integer.parseInt(name[1]);
+        if(name.length == 3){
+            profile.nickname = name[2];
+        }else {
+            profile.nickname = System.getProperty("user.name");
+        }
+
+    }
+
 
     public static boolean contains(String keyword) {
 
@@ -43,8 +46,8 @@ public class Client implements Runnable {
         try {
 
 
-            /**
-             *chooses a server and port
+            /*
+             * chooses a server and port
              * and builds up a connection
              */
 
@@ -64,28 +67,28 @@ public class Client implements Runnable {
 
             //Start ClientReaderThread for reading input from Server
 
-            ClientReaderThread clientReaderThread = new ClientReaderThread(dis, dos, profil);
+            ClientReaderThread clientReaderThread = new ClientReaderThread(dis, dos, profile);
             Thread clientThread = new Thread(clientReaderThread);
             clientThread.start();
 
             //Choose nickname
 
-            if (profil.nickname.equalsIgnoreCase("YEAH")) {
-                profil.nickname = System.getProperty("user.name");
+            if (profile.nickname.equalsIgnoreCase("YEAH")) {
+                profile.nickname = System.getProperty("user.name");
             }
 
             //Nickname chosen
 
-            dos.writeUTF(profil.nickname);
+            dos.writeUTF(profile.nickname);
 
             //sets DataOutputStream for the ChatGUI and creates an invisible chat
-            profil.ccg.setDos(dos);
-            profil.ccg.createChat();
+            profile.ccg.setDos(dos);
+            profile.ccg.createChat();
 
             //Start processing inputs.
 
 
-            while (profil.clientIsOnline) {
+            while (profile.clientIsOnline) {
 
                 //Read keyboardinput from client.
 
@@ -121,7 +124,7 @@ public class Client implements Runnable {
                              * and analyses answer from Client to this question
                              */
 
-                            if(profil.checkForName(original)) {
+                            if(profile.checkForName(original)) {
                                 String newNickname = original.substring(5);
 
                                 /*
@@ -157,7 +160,7 @@ public class Client implements Runnable {
                              */
                             dos.writeUTF(clientchoice);
                             System.out.println("\nClosing program...\n");
-                            profil.clientIsOnline = false;
+                            profile.clientIsOnline = false;
                             try {
                                 Thread.sleep(100);
                             } catch (InterruptedException e) {
@@ -169,7 +172,7 @@ public class Client implements Runnable {
 
                             dos.writeUTF(clientchoice);
                             System.out.println("\nStop server...\n");
-                            profil.clientIsOnline = false;
+                            profile.clientIsOnline = false;
                             try {
                                 Thread.sleep(100);
                             } catch (InterruptedException e) {
@@ -194,7 +197,7 @@ public class Client implements Runnable {
 
                         case CRE1: /* check if input is correct for a new lobby */
 
-                            if (profil.isInGame) {
+                            if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
                             } else {
                                 dos.writeUTF(original);
@@ -204,10 +207,10 @@ public class Client implements Runnable {
 
                         case JOIN:
 
-                            if (profil.isInGame) {
+                            if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
 
-                            } else if (profil.checkForNumber(original)) {
+                            } else if (profile.checkForNumber(original)) {
                                 dos.writeUTF(original);
                                 dos.writeUTF(Protocol.CHAT.name() + ":" + Message.enterLobby);
                             } else {
@@ -218,7 +221,7 @@ public class Client implements Runnable {
                             break;
 
                         case BACK:
-                            if (profil.isInGame) {
+                            if (profile.isInGame) {
                                 dos.writeUTF(Protocol.BACK.name());
                             } else {
                                 System.out.println("You have not joined a lobby yet so there is no need to go back!");
@@ -227,19 +230,19 @@ public class Client implements Runnable {
 
                         case STR1:
 
-                            if (profil.checkForTwoInt(original) && profil.isInGame) {
+                            if (profile.checkForTwoInt(original) && profile.isInGame) {
                                 dos.writeUTF(original);
 
                             } else {
                                 System.out.println(Message.youAreDoingItWrong
-                                        + Protocol.CRE1.name()
+                                        + Protocol.STR1.name()
                                         + ":boardsize:maximumNumberOfPoints and you must be in a lobby");
                             }
                             break;
 
                         case UPPR:
 
-                            if (profil.isInGame /*&& something like "Game has started == true"*/) {
+                            if (profile.isInGame /*&& something like "Game has started == true"*/) {
                                 dos.writeUTF(Protocol.UPPR.name());
                             } else {
                                 System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
@@ -248,7 +251,7 @@ public class Client implements Runnable {
 
                         case DOWN: /*Under Construction*/
 
-                            if (profil.isInGame/*&& something like "Game has started == true"*/) {
+                            if (profile.isInGame/*&& something like "Game has started == true"*/) {
                                 dos.writeUTF(Protocol.DOWN.name());
                             } else {
                                 System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
@@ -257,7 +260,7 @@ public class Client implements Runnable {
 
                         case LEFT: /*Under Construction*/
 
-                            if (profil.isInGame /*&& something like "Game has started == true"*/) {
+                            if (profile.isInGame /*&& something like "Game has started == true"*/) {
                                 dos.writeUTF(Protocol.LEFT.name());
                             } else {
                                 System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
@@ -266,7 +269,7 @@ public class Client implements Runnable {
 
                         case RIGT: /*Under Construction*/
 
-                            if (profil.isInGame/*&& something like "Game has started == true"*/) {
+                            if (profile.isInGame/*&& something like "Game has started == true"*/) {
                                 dos.writeUTF(Protocol.RIGT.name());
                             } else {
                                 System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
@@ -276,7 +279,7 @@ public class Client implements Runnable {
                         case WHP1: /*Under Construction*/
                             //whisperchat
 
-                            if (profil.isInGame) {
+                            if (profile.isInGame) {
                                 String msg = original.substring(1);
                                 dos.writeUTF("WHP1" + msg);
                             } else {
@@ -356,7 +359,7 @@ public class Client implements Runnable {
              * Input and Output will be closed
              */
 
-            profil.ccg.closeChat();
+            profile.ccg.closeChat();
             dis.close();
             dos.close();
             socket.close();
