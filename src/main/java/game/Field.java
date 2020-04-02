@@ -33,7 +33,6 @@ public class Field {
         this.hasCoin = false;
         this.isQuake = false;
         this.steppedOn = false;
-        this.isTaken = false;
     }
 
     public static Field copyField(Field copyThis) {

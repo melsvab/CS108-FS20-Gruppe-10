@@ -129,6 +129,21 @@ public class Board {
         }
     }
 
+    public void ifTakenResetTurtle(int x, int y) {
+        if (this.board[x][y].isTaken) {
+            A: for (int i = 1; i < this.boardSize-3; i++) {
+                B: for (int j = 1; j < this.boardSize-3; j++) {
+                    if (this.board[i][j].isStartPosition && !this.board[i][j].isTaken) {
+                        this.board[x][y].turtle.turtleposition = this.board[i][j];
+                        this.board[i][j].isTaken = true;
+                        break A;
+                    }
+                }
+            }
+            this.board[x][y].isTaken = false;
+        }
+    }
+
 
     /**
      * TO DO: Change function. Less random flood!
@@ -147,6 +162,7 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][0 + i].isStartPosition) {
                             this.board[position][0 + i].isFlood = true;
+                            //ifTakenResetTurtle(position, 0 + i);
                         }
                     }
                     break;
@@ -154,6 +170,7 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][this.boardSize - i].isStartPosition) {
                             this.board[position][this.boardSize - i].isFlood = true;
+                            //ifTakenResetTurtle(position, this.boardSize - i);
                         }
                     }
                     break;
@@ -162,6 +179,7 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[0 + i][position].isStartPosition) {
                             this.board[0 + i][position].isFlood = true;
+                            //ifTakenResetTurtle(0 + i, position);
                         }
                     }
                     break;
@@ -170,6 +188,7 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[this.boardSize - i][position].isStartPosition) {
                             this.board[this.boardSize - i][position].isFlood = true;
+                            //ifTakenResetTurtle(this.boardSize - i, position);
                         }
                     }
                     break;

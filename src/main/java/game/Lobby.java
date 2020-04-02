@@ -1,9 +1,11 @@
 package game;
 
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import java.lang.System.*;
 
@@ -31,6 +33,14 @@ public class Lobby extends Thread {
         gamestate = 1;
         lobbyNumber = number;
 
+    }
+
+    public void pleaseWait(int seconds) {
+        long start = System.currentTimeMillis();
+        long now = System.currentTimeMillis();
+        while((now - start)/1000 < seconds) {
+            now = System.currentTimeMillis();
+        }
     }
 
     public synchronized void writeToAll(String message) {
@@ -115,6 +125,27 @@ public class Lobby extends Thread {
          * ganz am ENDE: gamestate = 3; (gamestate wird auf >finished< geändert)
          */
 
+        while (gamestate != 3) { //Game is still running TO DO: HOW IS GAME FINISHED?
+            pleaseWait(10);
+            Random randomEvent = new Random();
+            int whichEvent = randomEvent.nextInt(10); /* TO DO ACHTUGN EVENT MELDUNG UND DANN EVENT DANN WIEDER GO*/
+            if (whichEvent < 9) {
+                Random howOften = new Random();
+                int randomOften = howOften.nextInt(5) + 1;
+                this.board.floodBoard(randomOften);
+                writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+                pleaseWait(2);
+                this.board.afterEvent();
+                writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+            } else {
+                Random howStromng = new Random();
+                int magnitude = howStromng.nextInt(30) + 5;
+                this.board.earthquake(magnitude);
+                writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+                pleaseWait(2);
+                this.board.afterEvent();
+                writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+            }
+        }
     }
-    
 }
