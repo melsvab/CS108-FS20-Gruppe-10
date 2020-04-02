@@ -122,7 +122,7 @@ public class Board {
             for (int y = 1; y < this.boardSize; y++) { //y = 0 is border (already flooded)
                 Random random = new Random();
                 int number = random.nextInt(100);
-                if (number <= magnitude) {
+                if (number <= magnitude && !board[x][y].isStartPosition) {
                     board[x][y].isQuake = true;
                 }
             }
@@ -143,26 +143,34 @@ public class Board {
             int howStrong = randomFlood.nextInt(this.boardSize - 3 + 1) + 3; //at least three fields
 
             switch (whichSide) {
-                case 0:
+                case 0: //unten
                     for (int i = 0; i < howStrong; i++) {
-                        this.board[position][0 + i].isFlood = true;
+                        if (!this.board[position][0 + i].isStartPosition) {
+                            this.board[position][0 + i].isFlood = true;
+                        }
                     }
                     break;
-                case 1:
+                case 1: //oben
                     for (int i = 0; i < howStrong; i++) {
-                        this.board[position][this.boardSize - i].isFlood = true;
+                        if (!this.board[position][this.boardSize - i].isStartPosition) {
+                            this.board[position][this.boardSize - i].isFlood = true;
+                        }
                     }
                     break;
 
-                case 2:
+                case 2: //links
                     for (int i = 0; i < howStrong; i++) {
-                        this.board[0 + i][position].isFlood = true;
+                        if (!this.board[0 + i][position].isStartPosition) {
+                            this.board[0 + i][position].isFlood = true;
+                        }
                     }
                     break;
 
-                case 3:
+                case 3: //rechts
                     for (int i = 0; i < howStrong; i++) {
-                        this.board[this.boardSize - i][position].isFlood = true;
+                        if (!this.board[this.boardSize - i][position].isStartPosition) {
+                            this.board[this.boardSize - i][position].isFlood = true;
+                        }
                     }
                     break;
             }
@@ -172,7 +180,7 @@ public class Board {
     public void afterEvent() {
         for (int x = 1; x < this.boardSize; x++) {
             for (int y = 1; y < this.boardSize; y++) {
-                if (this.board[x][y].isFlood == true || this.board[x][y].isQuake == true) {
+                if (!this.board[x][y].isStartPosition && (board[x][y].isFlood == true || this.board[x][y].isQuake == true)) {
                     this.board[x][y].resetField();
                 }
             }
@@ -183,7 +191,7 @@ public class Board {
 
     public String printBoard() {
         String boardAsString = "";
-        boardAsString += ("#####################################################\n"); /**STEPPED ON = |||*/
+        boardAsString += ("#####################################################\n");
         for (int y = this.boardSize; y >= 0; y--) {
             boardAsString += ("   ");
             for (int x = 0; x <= this.boardSize; x++) {
@@ -192,7 +200,7 @@ public class Board {
                 } else if (board[x][y].isQuake) {
                     boardAsString += ("xxx");
                 } else if (board[x][y].isTaken) {
-                    boardAsString += (":O:"); /**HEY MACH DOOO MACH DAS NO DASS DE NAME KUNND !!!!!!!!!!*/
+                    boardAsString += (":O:");
                 } else if (board[x][y].hasCoin && !board[x][y].isFlood) {
                     boardAsString += ("$$$");
                 } else if (board[x][y].steppedOn) {
@@ -225,14 +233,15 @@ public class Board {
     // TESTING CODE:
     public static void main(String[] args) {
         Board testBoard = new Board(10, 15);
+        System.out.println("NEW BOARD CREATED: \n\n" + testBoard.printBoard());
         testBoard.floodBoard(2);
-        System.out.println(testBoard.printBoard());
+        System.out.println("BOARD WAS FLOOD TIMES 2 \n\n" + testBoard.printBoard());
         testBoard.afterEvent();
-        System.out.println(testBoard.printBoard());
+        System.out.println("BOARD WAS KINDA RESET (COINS DISAPEAR ETC) : \n\n " + testBoard.printBoard());
         testBoard.earthquake(20);
-        System.out.println(testBoard.printBoard());
+        System.out.println("BOARD WAS QUAKED MAGNITUDE 20 : \n\n " + testBoard.printBoard());
         testBoard.afterEvent();
-        System.out.println(testBoard.printBoard());
+        System.out.println("BOARD WAS KINDA RESET (COINS DISAPEAR ETC) : \n\n " + testBoard.printBoard());
     }
 
 
