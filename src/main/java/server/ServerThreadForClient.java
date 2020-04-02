@@ -3,7 +3,7 @@ package server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.Arrays;
-import java.util.Set;
+import java.util.ConcurrentModificationException;
 
 import game.*;
 import org.slf4j.Logger;
@@ -40,10 +40,10 @@ public class ServerThreadForClient implements Runnable {
 
 
     /*
-     *
+     * ends programm
      */
-    public void suddenEnding() {
-        profil.goesToSleep();
+    public void end() {
+        profil.goesToSleep(this);
         sendMessage(Protocol.QUIT.name());
     }
 
@@ -57,6 +57,11 @@ public class ServerThreadForClient implements Runnable {
         System.err.println(exception.toString());
         }
     }
+
+    public DataOutputStream testConnection() {
+        return dos;
+    }
+
 
     public static boolean contains(String keyword) {
 
@@ -72,20 +77,20 @@ public class ServerThreadForClient implements Runnable {
     public void run() {
 
         try {
-            
+
             /*
              * Say Hello to client and let him choose his nickname.
              */
-            
+
             dos.writeUTF(Protocol.WELC.name());
 
             /*
              * server receives nickname by client and checks for duplicates.
              * player gets information about his/her nickname
              */
-            
+
             String nickname = dis.readUTF();
-            profil.nickname = Server.checkForDublicates(nickname, this);
+            profil.nickname = Server.checkForDuplicate(nickname, this);
 
             System.out.println("\nNickname of client #" + profil.clientID + ": "
                     + profil.nickname);
@@ -145,7 +150,7 @@ public class ServerThreadForClient implements Runnable {
                              * (and therefore in our list of ServerThreadForClients called userThreads)
                              */
                             if(lenghtInput > 5) {
-                                String message = Protocol.MSG0.name() + ":Broadcast to all:"
+                                String message = Protocol.MSG0.name() + ":Broadcast to all: \n"
                                         + "[" + profil.nickname + "] " + original.substring(5);
 
                                 Server.chat(message, Server.userThreads);
@@ -161,9 +166,8 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.checkForName(original)) {
                                 //old name will be removed from the server list, new name is checked for dublicates
                                 String oldNickname = profil.nickname;
-                                Server.namesOfAllClients.remove(profil.nickname);
                                 String desiredName = original.substring(5);
-                                desiredName = Server.checkForDublicates(desiredName, this);
+                                desiredName = Server.checkForDuplicate(desiredName, this);
                                 String answerToClient = Protocol.MSSG.name() +
                                         ":Your name has been changed from " + oldNickname +
                                         " to " + desiredName + "\n";
@@ -183,32 +187,30 @@ public class ServerThreadForClient implements Runnable {
 
                         case QUIT:
 
-                            dos.writeUTF(clientChoice);
-
-
-                            //Removes name and thread of this client form the list on the server
-
-                            Server.removeUser(profil.nickname, this);
-
                             //Gives Feedback
 
                             System.out.println("\nClient #" + profil.clientID + " \""
                                     + profil.nickname + "\" has disconnected.");
 
-                            profil.goesToSleep();
+                            end();
+                            try {
+                                Thread.sleep(200);
+                            } catch (InterruptedException e) {
+                                System.err.println(e.toString());
+                            }
                             break;
 
                         case ENDE:
                             /*
                              * Under Construction: Can stop server
                              */
-                            dos.writeUTF(Protocol.QUIT.name());
-                            Server.removeUser(profil.nickname, this);
-                            profil.goesToSleep();
+
                             System.out.println(profil.nickname + " wants to end the whole program.");
                             Server.chat(Protocol.MSSG.name()
                                     + ":Our server goes to sleep\n", Server.userThreads);
+
                             Server.sendClientsToSleep();
+
                             try {
                                 Thread.sleep(200);
                             } catch (InterruptedException e) {
@@ -221,8 +223,8 @@ public class ServerThreadForClient implements Runnable {
 
                             //Takes list from server and prints out players name.
 
-                            String listOfPlayers = Arrays.toString(Server.namesOfAllClients.toArray());
-                            dos.writeUTF(Protocol.MSSG.name() + ":" + listOfPlayers);
+                            String listOfPlayers = Server.printPlayers();
+                            dos.writeUTF(Protocol.LIST.name() + ":" + listOfPlayers);
 
                             break;
 
@@ -230,7 +232,7 @@ public class ServerThreadForClient implements Runnable {
 
                             // Sends a list of open, ongoing and finished games including their game_ID
                             if (!Server.gameList(this)) {
-                                dos.writeUTF(Protocol.MSSG.name()
+                                dos.writeUTF(Protocol.LIST.name()
                                         + ":Nobody has created a game yet!" );
 
                             }
@@ -376,7 +378,7 @@ public class ServerThreadForClient implements Runnable {
                             int i = original.indexOf(" ");
                             String playername = original.substring(5, i);
                             String msg = Protocol.MSG0.name()
-                                    + ":Whisper from:[" + profil.nickname + "]"
+                                    + ":Whisper from:\n" + "[" + profil.nickname + "]"
                                     + original.substring(i);
                             String msg2 = Protocol.MSG0.name() + ":Whisper to:[" + playername + "]"
                                     + original.substring(i);
@@ -405,9 +407,13 @@ public class ServerThreadForClient implements Runnable {
 
             dis.close();
             dos.close();
-            
+
         } catch (Exception exception) {
             System.err.println(exception.toString());
+            Server.userThreads.remove(this);
+            if (profil.lobby != null) {
+                profil.lobby.deletePlayer(this);
+            }
         }
 
     }

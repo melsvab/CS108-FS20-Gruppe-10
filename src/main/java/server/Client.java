@@ -180,6 +180,11 @@ public class Client implements Runnable {
                             }
                             break;
 
+                        case HELP:
+
+                            System.out.println(Message.helpMessage);
+                            break;
+
                         case PLL1:
 
                             dos.writeUTF(Protocol.PLL1.name());

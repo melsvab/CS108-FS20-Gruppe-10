@@ -40,12 +40,14 @@ public class Profil {
         this.ccg = new ClientChatGUI();
     }
 
-    public void goesToSleep() {
+    public void goesToSleep(ServerThreadForClient aUser) {
         isInGame = false;
         clientIsOnline = false;
         if (lobby != null) {
-
+            lobby.deletePlayer(aUser);
+            aUser.sendMessage(Protocol.BACK.name());
         }
+        Server.userThreads.remove(aUser);
     }
 
     public boolean checkForTwoInt(String original) {

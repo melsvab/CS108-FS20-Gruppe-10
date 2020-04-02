@@ -91,6 +91,31 @@ public class ClientReaderThread implements Runnable {
                             }
                             break;
 
+                        case LIST:
+                            /*
+                             * Prints out lists
+                             *
+                             * This will be a text box in the middle of the screen soon.
+                             *
+                             */
+
+                            if (checkMessage(original)) {
+                                System.out.println(original.substring(5));
+                            } else {
+                                System.out.println(Message.garbage + " *1.5");
+                            }
+                            break;
+
+                        case TEST:
+
+                            /*
+                             * This is used in case of an connection lost.
+                             * If the message can be read, than there is no connection lost
+                             * Therefore this is only in use if we test our program!
+                             */
+
+                            break;
+
                         case ERRO:
                             /*
                              * Client gets a message from the server that a command

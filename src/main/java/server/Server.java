@@ -29,7 +29,6 @@ public class Server  implements Runnable {
      * Global variables also used by the ServerThreadForClient.
      */
 
-    public static LinkedList<String> namesOfAllClients = new LinkedList<>();
     public static Set<ServerThreadForClient> userThreads = new HashSet<>();
     public static Set<Lobby> games = new HashSet<>();
     public static int gamesRunningCounter = 0;
@@ -55,19 +54,24 @@ public class Server  implements Runnable {
 
     public static synchronized boolean checkForName(String desiredName, ServerThreadForClient user) {
 
-        if (clientConnections <= 1) {return false;}
-        for (ServerThreadForClient aUser: userThreads) {
-
-            if (aUser != user && aUser.profil.nickname.equals(desiredName) ) {
-                return true;
-            }
+        if (clientConnections <= 1) {
+            return false;
         }
+        for (ServerThreadForClient aUser: userThreads) {
+            // Do not compare with your own nickname -> NullpointerException!!
+            if (aUser != user) {
+                if ( aUser.profil.nickname.equals(desiredName) ) {
+                    return true;
+                }
+            }
 
-        return true;
+        }
+        return false;
     }
-    public static synchronized String checkForDublicates(String desiredName, ServerThreadForClient aUser) {
+
+    public static synchronized String checkForDuplicate(String desiredName, ServerThreadForClient aUser) {
         int position = desiredName.length();
-        if (namesOfAllClients.contains(desiredName)) {
+        if (checkForName(desiredName, aUser)) {
             aUser.sendMessage(Protocol.ERRO.name() +
                     ":\nYour desired name exists already!\n");
             int i = 1;
@@ -80,13 +84,13 @@ public class Server  implements Runnable {
             }
 
             //if there is more than just one person with the same name
-            while (namesOfAllClients.contains(desiredName)) {
+            while (checkForName(desiredName, aUser)) {
                 desiredName = desiredName.substring(0, position);
                 desiredName += "_" + i;
                 i++;
             }
         }
-        namesOfAllClients.addFirst(desiredName);
+
         return desiredName;
 
     }
@@ -97,6 +101,7 @@ public class Server  implements Runnable {
      */
 
     public static synchronized void chat(String message, Set<ServerThreadForClient> group) {
+        testConnectionLost(group);
         for (ServerThreadForClient aUser : group) {
             aUser.sendMessage(message);
         }
@@ -169,23 +174,39 @@ public class Server  implements Runnable {
         }
     }
 
-    public static synchronized void playerList(ServerThreadForClient aUser) {
+    public static synchronized String printPlayers() {
+        testConnectionLost(userThreads);
         String listOfPlayers = "Players at the server are: ";
         for (ServerThreadForClient oneOfAllUsers: userThreads) {
             listOfPlayers += oneOfAllUsers.profil.nickname + ", ";
         }
+        return listOfPlayers;
+    }
 
-        aUser.sendMessage(Protocol.MSSG.name() + ":" + listOfPlayers);
+    //method that checks trivial operation - if exception, then there is a connection lost
+    public static synchronized void testConnectionLost(Set<ServerThreadForClient> group) {
+        for (ServerThreadForClient aUser : group) {
+
+            try {
+                DataOutputStream test = aUser.testConnection();
+                test.writeUTF(Protocol.TEST.name());
+
+            } catch (Exception e) {
+                group.remove(aUser);
+                System.out.println("There was a connection lost!");
+
+            }
+        }
     }
 
 
     /**
-     * If a client disconnects, it´s name is removed form
+     * If a client wants to exit a lobby
      * the List on the server and the Thread which will be terminated,
      * is removed from the list on the server as well.
      */
 
-    public static synchronized void removeUser(String nickname, ServerThreadForClient aUser) {
+    public static synchronized void removeUser(ServerThreadForClient aUser) {
         userThreads.remove(aUser);
 
         if (aUser.profil.lobby != null) {
@@ -197,7 +218,7 @@ public class Server  implements Runnable {
 
     public static synchronized void sendClientsToSleep() {
         for (ServerThreadForClient aUser : userThreads) {
-            aUser.suddenEnding();
+            aUser.end();
         }
     }
 
@@ -241,10 +262,11 @@ public class Server  implements Runnable {
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 
-                /**
+                /*
                  * Start ServerThread for client who has connected.
-                 * In this Thread, this client and the server can
-                 * communicate with eacc other. Also add Thread to List on Server.
+                 * In this thread, the client and server can
+                 * communicate with each other.
+                 * The new client will be added to the list of all client threads
                  */
 
                 ServerThreadForClient serverThreadForClient = new ServerThreadForClient(
