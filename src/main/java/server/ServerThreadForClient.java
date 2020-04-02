@@ -332,7 +332,7 @@ public class ServerThreadForClient implements Runnable {
                                     profil.myTurtle.turtleposition.up.isFlood) {
                                 dos.writeUTF(Protocol.ERMO.name());
                             } else {
-                                profil.moveTurtleUp();
+                                profil.moveTurtle(0);
                             }
                             break;
 
@@ -343,7 +343,7 @@ public class ServerThreadForClient implements Runnable {
                                     profil.myTurtle.turtleposition.down.isFlood) {
                                 dos.writeUTF(Protocol.ERMO.name());
                             } else {
-                                profil.moveTurtleDown();
+                                profil.moveTurtle(2);
                             }
 
                             break;
@@ -355,7 +355,7 @@ public class ServerThreadForClient implements Runnable {
                                     profil.myTurtle.turtleposition.left.isFlood) {
                                 dos.writeUTF(Protocol.ERMO.name());
                             } else {
-                                profil.moveTurtleLeft();
+                                profil.moveTurtle(3);
                             }
                             break;
 
@@ -367,7 +367,7 @@ public class ServerThreadForClient implements Runnable {
                                     profil.myTurtle.turtleposition.right.isFlood) {
                                 dos.writeUTF(Protocol.ERMO.name());
                             } else {
-                                profil.moveTurtleRight();
+                                profil.moveTurtle(1);
                             }
                             break;
 

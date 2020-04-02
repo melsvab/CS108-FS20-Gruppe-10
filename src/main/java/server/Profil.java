@@ -138,71 +138,22 @@ public class Profil {
         }
     }
 
-    public void moveTurtleUp() {
+    public void moveTurtle(int direction) {
         this.myTurtle.turtleposition.isTaken = false;
-        this.myTurtle.turtleposition = this.myTurtle.turtleposition.up;
-        this.myTurtle.turtleposition.isTaken = true;
-
-        if (this.myTurtle.turtleposition.hasCoin) {
-            this.myTurtle.points += 2;
-            this.myTurtle.turtleposition.hasCoin = false;
+        switch (direction) {
+            case 0:
+                this.myTurtle.turtleposition = this.myTurtle.turtleposition.up;
+                break;
+            case 1:
+                this.myTurtle.turtleposition = this.myTurtle.turtleposition.right;
+                break;
+            case 2:
+                this.myTurtle.turtleposition = this.myTurtle.turtleposition.down;
+                break;
+            case 3:
+                this.myTurtle.turtleposition = this.myTurtle.turtleposition.left;
+                break;
         }
-
-        if (!this.myTurtle.turtleposition.steppedOn &&
-                !this.myTurtle.turtleposition.isStartPosition) {
-            this.myTurtle.points++;
-            this.myTurtle.turtleposition.steppedOn = true;
-        }
-
-        this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
-                "\n" + this.nickname + " has " + this.myTurtle.points + " points!");
-    }
-
-    public void moveTurtleRight() {
-        this.myTurtle.turtleposition.isTaken = false;
-        this.myTurtle.turtleposition = this.myTurtle.turtleposition.right;
-        this.myTurtle.turtleposition.isTaken = true;
-
-        if (this.myTurtle.turtleposition.hasCoin) {
-            this.myTurtle.points += 2;
-            this.myTurtle.turtleposition.hasCoin = false;
-        }
-
-        if (!this.myTurtle.turtleposition.steppedOn &&
-                !this.myTurtle.turtleposition.isStartPosition) {
-            this.myTurtle.points++;
-            this.myTurtle.turtleposition.steppedOn = true;
-        }
-
-        this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
-                "\n" + this.nickname + " has " + this.myTurtle.points + " points!");
-
-    }
-
-    public void moveTurtleLeft() {
-        this.myTurtle.turtleposition.isTaken = false;
-        this.myTurtle.turtleposition = this.myTurtle.turtleposition.left;
-        this.myTurtle.turtleposition.isTaken = true;
-
-        if (this.myTurtle.turtleposition.hasCoin) {
-            this.myTurtle.points += 2;
-            this.myTurtle.turtleposition.hasCoin = false;
-        }
-
-        if (!this.myTurtle.turtleposition.steppedOn &&
-                !this.myTurtle.turtleposition.isStartPosition) {
-            this.myTurtle.points++;
-            this.myTurtle.turtleposition.steppedOn = true;
-        }
-
-        this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
-                "\n" + this.nickname + " has " + this.myTurtle.points + " points!");
-
-    }
-
-    public void moveTurtleDown() {
-        this.myTurtle.turtleposition.isTaken = false;
-        this.myTurtle.turtleposition = this.myTurtle.turtleposition.down;
         this.myTurtle.turtleposition.isTaken = true;
 
         if (this.myTurtle.turtleposition.hasCoin) {
