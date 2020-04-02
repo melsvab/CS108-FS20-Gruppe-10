@@ -96,13 +96,13 @@ public class Board {
                     this.board[x][y].right = this.board[x + 1][y];
                 }
                 //Link DOWN
-                if (y - 1 < 0) {
+                if (y - 1 < 1) { //0 is already water
                     this.board[x][y].down = null;
                 } else {
                     this.board[x][y].down = this.board[x][y - 1];
                 }
                 //Link LEFT
-                if (x - 1 < 0) {
+                if (x - 1 < 1) { //0 is already water
                     this.board[x][y].left = null;
                 } else {
                     this.board[x][y].left = this.board[x - 1][y];
@@ -117,15 +117,13 @@ public class Board {
      * If a earthquake happens (determined by server)
      * do the following function.
      */
-    public void earthquake(int magnitude) { //magnitude = how many fields (probability for EQ on field)
-        for (int x = 0; x < this.boardSize; x++) {
-            for (int y = 0; y < this.boardSize; y++) {
-                if (!board[x][y].isFlood) {
-                    Random random = new Random();
-                    int probability = random.nextInt(500);
-                    if (probability < magnitude) {
-                        board[x][y].isQuake = true;
-                    }
+    public void earthquake(int magnitude) { //magnitude = percentage a earthquake could happen on the field.
+        for (int x = 1; x < this.boardSize; x++) { //x = 0 is border (already flooded)
+            for (int y = 1; y < this.boardSize; y++) { //y = 0 is border (already flooded)
+                Random random = new Random();
+                int number = random.nextInt(100);
+                if (number <= magnitude) {
+                    board[x][y].isQuake = true;
                 }
             }
         }
@@ -135,35 +133,53 @@ public class Board {
     /**
      * TO DO: Change function. Less random flood!
      */
-    public void floodBoard() {
+    public void floodBoard(int timesFlood) { //more than one flood for a crazy time
         Random randomFlood = new Random();
-        boolean takeX = randomFlood.nextBoolean();
-        boolean takeBottom = randomFlood.nextBoolean();
-        boolean takeLeft = randomFlood.nextBoolean();
-        int floodHere = randomFlood.nextInt(this.boardSize);
 
-        if (takeX) {
-            if (takeBottom) {
-                for (int i = 0; i < randomFlood.nextInt(this.boardSize - 3) + 3; i++) {
-                    this.board[floodHere][0 + i].isFlood = true;
-                }
-            } else {
-                for (int i = this.boardSize; i >= randomFlood.nextInt(this.boardSize - 3) + 3; i--) {
-                    this.board[floodHere][this.boardSize - i].isFlood = true;
-                }
+        for (int j = 0; j < timesFlood; j++) {
+
+            int whichSide = randomFlood.nextInt(4);
+            int position = randomFlood.nextInt(this.boardSize) + 1; //0 is water, so random does not include 0
+            int howStrong = randomFlood.nextInt(this.boardSize - 3 + 1) + 3; //at least three fields
+
+            switch (whichSide) {
+                case 0:
+                    for (int i = 0; i < howStrong; i++) {
+                        this.board[position][0 + i].isFlood = true;
+                    }
+                    break;
+                case 1:
+                    for (int i = 0; i < howStrong; i++) {
+                        this.board[position][this.boardSize - i].isFlood = true;
+                    }
+                    break;
+
+                case 2:
+                    for (int i = 0; i < howStrong; i++) {
+                        this.board[0 + i][position].isFlood = true;
+                    }
+                    break;
+
+                case 3:
+                    for (int i = 0; i < howStrong; i++) {
+                        this.board[this.boardSize - i][position].isFlood = true;
+                    }
+                    break;
             }
-        } else {
-            if (takeLeft) {
-                for (int i = 0; i < randomFlood.nextInt(this.boardSize - 3) + 3; i++) {
-                    this.board[0 + i][floodHere].isFlood = true;
-                }
-            } else {
-                for (int i = this.boardSize; i >= randomFlood.nextInt(this.boardSize - 3) + 3; i--) {
-                    this.board[this.boardSize - i][floodHere].isFlood = true;
+        }
+    }
+
+    public void afterEvent() {
+        for (int x = 1; x < this.boardSize; x++) {
+            for (int y = 1; y < this.boardSize; y++) {
+                if (this.board[x][y].isFlood == true || this.board[x][y].isQuake == true) {
+                    this.board[x][y].resetField();
                 }
             }
         }
     }
+
+
 
     public String printBoard() {
         String boardAsString = "";
@@ -209,8 +225,14 @@ public class Board {
     // TESTING CODE:
     public static void main(String[] args) {
         Board testBoard = new Board(10, 15);
+        testBoard.floodBoard(2);
         System.out.println(testBoard.printBoard());
-
+        testBoard.afterEvent();
+        System.out.println(testBoard.printBoard());
+        testBoard.earthquake(20);
+        System.out.println(testBoard.printBoard());
+        testBoard.afterEvent();
+        System.out.println(testBoard.printBoard());
     }
 
 
