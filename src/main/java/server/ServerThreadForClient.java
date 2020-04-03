@@ -187,29 +187,23 @@ public class ServerThreadForClient implements Runnable {
 
                             break;
 
-                        case NAME:
-
-                            if (profil.checkForName(original)) {
-                                //old name will be removed from the server list, new name is checked for dublicates
-                                String oldNickname = profil.nickname;
-                                String desiredName = original.substring(5);
-                                desiredName = Server.checkForDuplicate(desiredName, this);
-                                String answerToClient = Protocol.MSSG.name() +
-                                        ":Your name has been changed from " + oldNickname +
-                                        " to " + desiredName + "\n";
-                                //write decision to Client
-                                dos.writeUTF(answerToClient);
-
-                                //server has accepted new name
-                                System.out.println(
-                                        "\n" + profil.nickname + " changed his/her name to " + desiredName);
-                                profil.nickname = desiredName;
-
-                            } else {
-                               // logger.info("forgot the colon");
+                        case WHP1:
+                            /*
+                             * Whisperchat
+                             */
+                            int i = original.indexOf(" ");
+                            String playername = original.substring(5, i);
+                            String msg = Protocol.MSG0.name()
+                                    + ":Whisper from:\n" + "[" + profil.nickname + "]"
+                                    + original.substring(i);
+                            String msg2 = Protocol.MSG0.name() + ":Whisper to:[" + playername + "]"
+                                    + original.substring(i);
+                            dos.writeUTF(msg2);
+                            boolean f = Server.doesThePlayerExist(msg, playername, Server.userThreads);
+                            if (!f) {
+                                dos.writeUTF(Protocol.EWHP.name());
                             }
                             break;
-
 
                         case QUIT:
 
@@ -245,6 +239,29 @@ public class ServerThreadForClient implements Runnable {
                             Server.serverIsOnline = false;
                             break;
 
+                        case NAME:
+
+                            if (profil.checkForName(original)) {
+                                //old name will be removed from the server list, new name is checked for dublicates
+                                String oldNickname = profil.nickname;
+                                String desiredName = original.substring(5);
+                                desiredName = Server.checkForDuplicate(desiredName, this);
+                                String answerToClient = Protocol.MSSG.name() +
+                                        ":Your name has been changed from " + oldNickname +
+                                        " to " + desiredName + "\n";
+                                //write decision to Client
+                                dos.writeUTF(answerToClient);
+
+                                //server has accepted new name
+                                System.out.println(
+                                        "\n" + profil.nickname + " changed his/her name to " + desiredName);
+                                profil.nickname = desiredName;
+
+                            } else {
+                                // logger.info("forgot the colon");
+                            }
+                            break;
+
                         case PLL1:
 
                             //Takes list from server and prints out players name.
@@ -269,7 +286,7 @@ public class ServerThreadForClient implements Runnable {
 
                             //Under Construction: Sends the current highscore to the player
 
-                            dos.writeUTF("HSC2" + "1000 points");
+                            dos.writeUTF(Protocol.LIST.name() + ":This list is empty.");
                             break;
 
                         case CRE1:
@@ -350,7 +367,7 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.myTurtle.turtleposition.up.isTaken ||
                                     profil.myTurtle.turtleposition.up.isFlood ||
                                     profil.myTurtle.turtleposition.up.isBoundary) {
-                                dos.writeUTF(Protocol.ERMO.name());
+                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
                             } else if (profil.waitingForEvent) {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
                                         " cannot move.. to scared of what is gonna happen");
@@ -365,7 +382,7 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.myTurtle.turtleposition.down.isTaken ||
                                     profil.myTurtle.turtleposition.down.isFlood ||
                                     profil.myTurtle.turtleposition.down.isBoundary) {
-                                dos.writeUTF(Protocol.ERMO.name());
+                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
                             } else if (profil.waitingForEvent) {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
                                         " cannot move.. to scared of what is gonna happen");
@@ -381,7 +398,7 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.myTurtle.turtleposition.left.isTaken ||
                                     profil.myTurtle.turtleposition.left.isFlood ||
                                     profil.myTurtle.turtleposition.left.isBoundary) {
-                                dos.writeUTF(Protocol.ERMO.name());
+                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
                             } else if (profil.waitingForEvent) {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
                                         " cannot move.. to scared of what is gonna happen");
@@ -397,30 +414,12 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.myTurtle.turtleposition.right.isTaken ||
                                     profil.myTurtle.turtleposition.right.isFlood ||
                                     profil.myTurtle.turtleposition.right.isBoundary ) {
-                                dos.writeUTF(Protocol.ERMO.name());
+                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
                             } else if (profil.waitingForEvent) {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
                                         " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtleRight();
-                            }
-                            break;
-
-                        case WHP1:
-                            /*
-                             * Whisperchat
-                             */
-                            int i = original.indexOf(" ");
-                            String playername = original.substring(5, i);
-                            String msg = Protocol.MSG0.name()
-                                    + ":Whisper from:\n" + "[" + profil.nickname + "]"
-                                    + original.substring(i);
-                            String msg2 = Protocol.MSG0.name() + ":Whisper to:[" + playername + "]"
-                                    + original.substring(i);
-                            dos.writeUTF(msg2);
-                            boolean f = Server.doesThePlayerExist(msg, playername, Server.userThreads);
-                            if (!f) {
-                                dos.writeUTF(Protocol.EWHP.name());
                             }
                             break;
 

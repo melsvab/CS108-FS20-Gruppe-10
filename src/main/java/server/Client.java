@@ -104,19 +104,38 @@ public class Client implements Runnable {
                 if (contains(clientchoice)) {
 
                     switch (Protocol.valueOf(clientchoice)) {
-                        //Descide what to do next
 
-                        /*case BRC1: //not needed because of JFrame
-                            //in case clients forgets to send a message
-                            if (lenghtInput > 5) {
-                                dos.writeUTF(original);
-                            } else {
-                                System.out.println(Message.youAreDoingItWrong
-                                        + Protocol.BRC1.name()
-                                        + ":message");
+                        case HELP:
+
+                            System.out.println(Message.helpMessage);
+                            break;
+
+                        case QUIT:
+                            /*
+                             * informing client about his choice.
+                             * If player is not active he cannot write anymore.
+                             */
+                            dos.writeUTF(clientchoice);
+                            System.out.println("\nClosing program...\n");
+                            profile.clientIsOnline = false;
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                System.err.println(e.toString());
                             }
+                            break;
 
-                            break;*/
+                        case ENDE:
+
+                            dos.writeUTF(clientchoice);
+                            System.out.println("\nStop server...\n");
+                            profile.clientIsOnline = false;
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                System.err.println(e.toString());
+                            }
+                            break;
 
                         case NAME:
                             /*
@@ -153,54 +172,22 @@ public class Client implements Runnable {
 
                             break;
 
-                        case QUIT:
-                            /*
-                             * informing client about his choice.
-                             * If player is not active he cannot write anymore.
-                             */
-                            dos.writeUTF(clientchoice);
-                            System.out.println("\nClosing program...\n");
-                            profile.clientIsOnline = false;
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                System.err.println(e.toString());
-                            }
-                            break;
-
-                        case ENDE:
-
-                            dos.writeUTF(clientchoice);
-                            System.out.println("\nStop server...\n");
-                            profile.clientIsOnline = false;
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                System.err.println(e.toString());
-                            }
-                            break;
-
-                        case HELP:
-
-                            System.out.println(Message.helpMessage);
-                            break;
-
                         case PLL1:
 
                             dos.writeUTF(Protocol.PLL1.name());
                             break;
 
-                        case GML1: /*Under Construction*/
+                        case GML1:
 
                             dos.writeUTF(Protocol.GML1.name());
                             break;
 
-                        case HSC1: /*Under Construction */
+                        case HSC1:
 
-                            dos.writeUTF("HSC1");
+                            dos.writeUTF(Protocol.HSC1.name());
                             break;
 
-                        case CRE1: /* check if input is correct for a new lobby */
+                        case CRE1:
 
                             if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
@@ -249,7 +236,7 @@ public class Client implements Runnable {
                             }
                             break;
 
-                        case STR1:
+                        case STR1: /* check if input is correct for a game */
 
                             if (profile.checkForTwoInt(original) && profile.isInGame) {
                                 dos.writeUTF(original);
@@ -270,41 +257,30 @@ public class Client implements Runnable {
                             }
                             break;
 
-                        case DOWN: /*Under Construction*/
+                        case DOWN:
 
-                            if (profile.isInGame/*&& something like "Game has started == true"*/) {
+                            if (profile.isInGame && !profile.isSpectator) {
                                 dos.writeUTF(Protocol.DOWN.name());
                             } else {
-                                System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                                System.out.println(Message.youCannotDoThat);
                             }
                             break;
 
-                        case LEFT: /*Under Construction*/
+                        case LEFT:
 
-                            if (profile.isInGame /*&& something like "Game has started == true"*/) {
+                            if (profile.isInGame && !profile.isSpectator) {
                                 dos.writeUTF(Protocol.LEFT.name());
                             } else {
-                                System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                                System.out.println(Message.youCannotDoThat);
                             }
                             break;
 
-                        case RIGT: /*Under Construction*/
+                        case RIGT:
 
-                            if (profile.isInGame/*&& something like "Game has started == true"*/) {
+                            if (profile.isInGame && !profile.isSpectator) {
                                 dos.writeUTF(Protocol.RIGT.name());
                             } else {
-                                System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
-                            }
-                            break;
-
-                        case WHP1: /*Under Construction*/
-                            //whisperchat
-
-                            if (profile.isInGame) {
-                                String msg = original.substring(1);
-                                dos.writeUTF("WHP1" + msg);
-                            } else {
-                                System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                                System.out.println(Message.youCannotDoThat);
                             }
                             break;
 

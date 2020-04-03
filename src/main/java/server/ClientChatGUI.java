@@ -69,7 +69,7 @@ public class ClientChatGUI extends JFrame {
                     break;
             }
         } catch (IOException f) {
-            System.out.println(f);
+            System.err.println(f.toString());
         }
         message.setText(""); //löscht text im textfield
     }

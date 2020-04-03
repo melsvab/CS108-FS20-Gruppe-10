@@ -134,7 +134,7 @@ public class Lobby extends Thread {
 
         writeToAll(Protocol.LOBY.name() + ":" + board.printBoard());
 
-        /**
+        /*
          * WHILE SCHLAUFE ADDEN MIT INPUT PLAYER 1? Player 2? ETC:
          * DANN EVENT!
          *
@@ -146,10 +146,10 @@ public class Lobby extends Thread {
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = true;
             }
-            writeToAll(Protocol.MSSG.name() + ":OMG NOO WHAT IS HAPPENING!!! ");
+            writeToAll(Protocol.MSSG.name() + ":OMG! NOO! WHAT IS HAPPENING? ");
             pleaseWait(5);
             Random randomEvent = new Random();
-            int whichEvent = randomEvent.nextInt(10); /* TO DO ACHTUGN EVENT MELDUNG UND DANN EVENT DANN WIEDER GO*/
+            int whichEvent = randomEvent.nextInt(10); /* TO DO ACHTUNG EVENT MELDUNG UND DANN EVENT DANN WIEDER GO*/
             if (whichEvent < 9) {
                 Random howOften = new Random();
                 int randomOften = howOften.nextInt(5) + 1;

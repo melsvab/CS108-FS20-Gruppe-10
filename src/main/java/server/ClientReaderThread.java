@@ -76,6 +76,38 @@ public class ClientReaderThread implements Runnable {
                             System.out.println("\nWelcome to the server!\n\n");
                             break;
 
+                        case HELP:
+
+                            //Client gets a help message
+
+                            System.out.println(Message.helpMessage);
+                            break;
+
+                        case MSG1:
+                            /*
+                             * Client sees an error message in the chat
+                             */
+                            if (checkMessage(original)) {
+                                profile.ccg.receiveMsg(original.substring(5) + Message.nobodyHearsYou);
+                            }
+                            break;
+
+                        case EWHP:
+                            /*
+                             * playerDoesNotExist Error printed in ChatArea
+                             */
+                            profile.ccg.receiveMsg(Message.playerDoesNotExist);
+                            break;
+
+                        case MSG0:
+                            /*
+                             * Client sees a chat message
+                             */
+                            if(checkMessage(original)) {
+                                profile.ccg.receiveMsg(original.substring(5));
+                            }
+                            break;
+
                         case MSSG:
                             /*
                              * Prints out informational message from the server
@@ -89,31 +121,6 @@ public class ClientReaderThread implements Runnable {
                             } else {
                                 System.out.println(Message.garbage + " *1");
                             }
-                            break;
-
-                        case LIST:
-                            /*
-                             * Prints out lists
-                             *
-                             * This will be a text box in the middle of the screen soon.
-                             *
-                             */
-
-                            if (checkMessage(original)) {
-                                System.out.println(original.substring(5));
-                            } else {
-                                System.out.println(Message.garbage + " *1.5");
-                            }
-                            break;
-
-                        case TEST:
-
-                            /*
-                             * This is used in case of an connection lost.
-                             * If the message can be read, than there is no connection lost
-                             * Therefore this is only in use if we test our program!
-                             */
-
                             break;
 
                         case ERRO:
@@ -134,13 +141,6 @@ public class ClientReaderThread implements Runnable {
 
                             break;
 
-                        case HELP:
-
-                            //Client gets a help message
-
-                            System.out.println(Message.helpMessage);
-                            break;
-
                         case QUIT:
 
                             //Thread stops reading messages of the server
@@ -148,12 +148,24 @@ public class ClientReaderThread implements Runnable {
                             threadIsRunning = false;
                             break;
 
+                        case LIST:
+                            /*
+                             * Prints out lists
+                             *
+                             * This will be a text box in the middle of the screen soon.
+                             *
+                             */
 
-                        case HSC1:
+                            if (checkMessage(original)) {
+                                System.out.println(original.substring(5));
+                            } else {
+                                System.out.println(Message.garbage + " *1.5");
+                            }
+                            break;
 
-                            //Under Construction: received highscore gets printed
-
-                            System.out.println(original);
+                        case SPEC:
+                            //message will be send so client knows that he/she is a spectator
+                            profile.isSpectator = true;
                             break;
 
                         case CRE2:
@@ -173,33 +185,12 @@ public class ClientReaderThread implements Runnable {
 
                             break;
 
-                        case EWHP:
-                            /*
-                             * playerDoesNotExist Error printed in ChatArea
-                             */
-                            profile.ccg.receiveMsg(Message.playerDoesNotExist);
-                            break;
-
                         case BACK:
                             profile.isInGame = false;
                             profile.isSpectator = false;
 
                             //Client got out of a lobby / game
                             System.out.println("You are not in a lobby anymore!");
-                            break;
-
-                        case RNDS:
-
-                            //Under Construction: prints the number of rounds (left)
-
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case YTRN:
-
-                            //Under Construction: Informs the player that it's his turn
-
-                            System.out.println(Message.underConstruction);
                             break;
 
                         case LOBY:
@@ -219,149 +210,14 @@ public class ClientReaderThread implements Runnable {
                             }
                             break;
 
-                        case SPEC:
-                            //message will be send so client knows that he/she is a spectator
-                            profile.isSpectator = true;
-                            break;
+                        case TEST:
 
-                        case DICE:
                             /*
-                             * Under Construction: Shows how many
-                             * moves the player got (left) this round
+                             * This is used in case of an connection lost.
+                             * If the message can be read, than there is no connection lost
+                             * Therefore this is only in use if we test our program!
                              */
 
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case ERMO:
-
-                            //Informs the player that the move is invalid.
-                            System.out.println("This move is not possible");
-                            break;
-
-
-                        case POIN:
-                            /*
-                             * Under Construction: Show the player how many points he got for
-                             * this move
-                             */
-
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case POIC:
-                            /*
-                             * Under Construction: Shows the player that he got extra points
-                             * for getting a coin
-                             */
-
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case SCOR:
-
-                            //Under Construction: shows the score of the player
-
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case STPX:
-                            /*
-                             * Under Construction: Prints that there are
-                             * no more moves left
-                             */
-
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case EVEN:
-                            /*
-                             * Under Construction: Server announces that
-                             * an event is happening (flood/earthquake)
-                             */
-
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case DEAD:
-                            /*
-                             * Under Construction: Informs the player that he was hit by an event.
-                             */
-
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case MIPO:
-                            /*
-                             * Under Construction: Player gets minus points.
-                             */
-
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case NTRN:
-                            /*
-                             * Under Construction: Informs the players that the next round starts
-                             */
-
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case RNDX:
-                            /*
-                             * Under Construction: Informs the players that no more rounds are left
-                             */
-
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case RNDA:
-                            /*
-                             * Under Construction: extra round is added if a even score
-                             * exists between two or more players at the end.
-                             */
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case WINX:
-                            /*
-                             * Under Construction: Winner is announced
-                             */
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        //new highscore is added
-                        case HGHN:
-                            /*
-                             * Under Construction: Message that a new highscore was added
-                             */
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case ENDX:
-                            /*
-                             * Under Construction: Informs the player that the game closed
-                             *
-                             */
-                            System.out.println(Message.underConstruction);
-                            break;
-
-                        case MSG0:
-                            /*
-                             * Client sees a chat message
-                             */
-                            if(checkMessage(original)) {
-                                profile.ccg.receiveMsg(original.substring(5));
-                            }
-                            break;
-
-                        case MSG1:
-                            /*
-                             * Client sees an error message in the chat
-                             */
-                            if (checkMessage(original)) {
-                                profile.ccg.receiveMsg(original.substring(5) + Message.nobodyHearsYou);
-                            }
                             break;
 
                         default:
@@ -375,7 +231,7 @@ public class ClientReaderThread implements Runnable {
                 } else {
 
                     //This is only possible if the server is sending garbage
-                    System.out.println(Message.garbage + " *5");
+                    System.out.println(Message.garbage + " *5\n" + original);
 
                 }
             }

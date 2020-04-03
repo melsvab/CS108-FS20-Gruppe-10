@@ -54,4 +54,6 @@ public class Message {
             "\n The message could not be sent. There is no player with this playername.");
 
     public static String youCannotDoThat = "You cannot do that now!\"";
+
+    public static String invalidMove = "This move is not possible.";
 }
