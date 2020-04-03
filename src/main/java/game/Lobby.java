@@ -126,7 +126,12 @@ public class Lobby extends Thread {
          */
 
         while (gamestate != 3) { //Game is still running TO DO: HOW IS GAME FINISHED?
-            pleaseWait(10);
+            pleaseWait(20);
+            for (ServerThreadForClient aPlayer : players) {
+                aPlayer.profil.waitingForEvent = true;
+            }
+            writeToAll(Protocol.MSSG.name() + ":OMG NOO WHAT IS HAPPENING!!! ");
+            pleaseWait(5);
             Random randomEvent = new Random();
             int whichEvent = randomEvent.nextInt(10); /* TO DO ACHTUGN EVENT MELDUNG UND DANN EVENT DANN WIEDER GO*/
             if (whichEvent < 9) {
@@ -134,7 +139,7 @@ public class Lobby extends Thread {
                 int randomOften = howOften.nextInt(5) + 1;
                 this.board.floodBoard(randomOften);
                 writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
-                pleaseWait(2);
+                pleaseWait(4);
                 this.board.afterEvent();
                 writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
             } else {
@@ -142,9 +147,14 @@ public class Lobby extends Thread {
                 int magnitude = howStromng.nextInt(30) + 5;
                 this.board.earthquake(magnitude);
                 writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
-                pleaseWait(2);
+                pleaseWait(4);
                 this.board.afterEvent();
                 writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+            }
+            pleaseWait(4);
+            writeToAll(Protocol.MSSG.name() + ":I think its over... wait... did I lose some points?!");
+            for (ServerThreadForClient aPlayer : players) {
+                aPlayer.profil.waitingForEvent = false;
             }
         }
     }

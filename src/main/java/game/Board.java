@@ -1,5 +1,7 @@
 package game;
 
+import server.Server;
+
 import java.util.Random;
 
 public class Board {
@@ -124,24 +126,28 @@ public class Board {
                 int number = random.nextInt(100);
                 if (number <= magnitude && !board[x][y].isStartPosition) {
                     board[x][y].isQuake = true;
+                    if (this.board[x][y].isTaken) {
+                        A: for (int a = 1; a < this.boardSize-3; a++) {
+                            B: for (int b = 1; b < this.boardSize-3; b++) {
+                                if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
+                                    this.board[x][y].turtle.turtleposition = this.board[a][b];
+                                    this.board[a][b].turtle = this.board[x][y].turtle;
+                                    this.board[x][y].turtle = null;
+                                    this.board[a][b].isTaken = true;
+                                    this.board[a][b].turtle.points -= 5;
+                                    break A;
+                                }
+                            }
+                        }
+                        this.board[x][y].isTaken = false;
+                    }
                 }
             }
         }
     }
 
     public void ifTakenResetTurtle(int x, int y) {
-        if (this.board[x][y].isTaken) {
-            A: for (int i = 1; i < this.boardSize-3; i++) {
-                B: for (int j = 1; j < this.boardSize-3; j++) {
-                    if (this.board[i][j].isStartPosition && !this.board[i][j].isTaken) {
-                        this.board[x][y].turtle.turtleposition = this.board[i][j];
-                        this.board[i][j].isTaken = true;
-                        break A;
-                    }
-                }
-            }
-            this.board[x][y].isTaken = false;
-        }
+
     }
 
 
@@ -162,7 +168,21 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][0 + i].isStartPosition) {
                             this.board[position][0 + i].isFlood = true;
-                            //ifTakenResetTurtle(position, 0 + i);
+                            if (this.board[position][0 + i].isTaken) {
+                                A: for (int a = 1; a < this.boardSize-3; a++) {
+                                    B: for (int b = 1; b < this.boardSize-3; b++) {
+                                        if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
+                                            this.board[position][0 + i].turtle.turtleposition = this.board[a][b];
+                                            this.board[a][b].turtle = this.board[position][0 + i].turtle;
+                                            this.board[position][0 + i].turtle = null;
+                                            this.board[a][b].isTaken = true;
+                                            this.board[a][b].turtle.points -= 5;
+                                            break A;
+                                        }
+                                    }
+                                }
+                                this.board[position][0 + i].isTaken = false;
+                            }
                         }
                     }
                     break;
@@ -170,7 +190,21 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][this.boardSize - i].isStartPosition) {
                             this.board[position][this.boardSize - i].isFlood = true;
-                            //ifTakenResetTurtle(position, this.boardSize - i);
+                            if (this.board[position][this.boardSize - i].isTaken) {
+                                A: for (int a = 1; a < this.boardSize-3; a++) {
+                                    B: for (int b = 1; b < this.boardSize-3; b++) {
+                                        if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
+                                            this.board[position][this.boardSize - i].turtle.turtleposition = this.board[a][b];
+                                            this.board[a][b].turtle = this.board[position][this.boardSize - i].turtle;
+                                            this.board[position][this.boardSize - i].turtle = null;
+                                            this.board[a][b].isTaken = true;
+                                            this.board[a][b].turtle.points -= 5;
+                                            break A;
+                                        }
+                                    }
+                                }
+                                this.board[position][this.boardSize - i].isTaken = false;
+                            }
                         }
                     }
                     break;
@@ -179,7 +213,21 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[0 + i][position].isStartPosition) {
                             this.board[0 + i][position].isFlood = true;
-                            //ifTakenResetTurtle(0 + i, position);
+                            if (this.board[0 + i][position].isTaken) {
+                                A: for (int a = 1; a < this.boardSize-3; a++) {
+                                    B: for (int b = 1; b < this.boardSize-3; b++) {
+                                        if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
+                                            this.board[0 + i][position].turtle.turtleposition = this.board[a][b];
+                                            this.board[a][b].turtle = this.board[0 + i][position].turtle;
+                                            this.board[0 + i][position].turtle = null;
+                                            this.board[a][b].isTaken = true;
+                                            this.board[a][b].turtle.points -= 5;
+                                            break A;
+                                        }
+                                    }
+                                }
+                                this.board[0 + i][position].isTaken = false;
+                            }
                         }
                     }
                     break;
@@ -188,7 +236,21 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[this.boardSize - i][position].isStartPosition) {
                             this.board[this.boardSize - i][position].isFlood = true;
-                            //ifTakenResetTurtle(this.boardSize - i, position);
+                            if (this.board[this.boardSize - i][position].isTaken) {
+                                A: for (int a = 1; a < this.boardSize-3; a++) {
+                                    B: for (int b = 1; b < this.boardSize-3; b++) {
+                                        if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
+                                            this.board[this.boardSize - i][position].turtle.turtleposition = this.board[a][b];
+                                            this.board[a][b].turtle = this.board[this.boardSize - i][position].turtle;
+                                            this.board[this.boardSize - i][position].turtle = null;
+                                            this.board[a][b].isTaken = true;
+                                            this.board[a][b].turtle.points -= 5;
+                                            break A;
+                                        }
+                                    }
+                                }
+                                this.board[this.boardSize - i][position].isTaken = false;
+                            }
                         }
                     }
                     break;

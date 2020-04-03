@@ -18,6 +18,7 @@ public class Profil {
     public PlayerTurtle myTurtle;
 
     boolean isInGame;
+    public boolean waitingForEvent;
     boolean clientIsOnline;
     public boolean isSpectator;
     ClientChatGUI ccg;
@@ -140,8 +141,10 @@ public class Profil {
 
     public void moveTurtleUp() {
         this.myTurtle.turtleposition.isTaken = false;
+        this.myTurtle.turtleposition.turtle = null;
         this.myTurtle.turtleposition = this.myTurtle.turtleposition.up;
         this.myTurtle.turtleposition.isTaken = true;
+        this.myTurtle.turtleposition.turtle = this.myTurtle;
 
         if (this.myTurtle.turtleposition.hasCoin) {
             this.myTurtle.points += 2;
@@ -160,8 +163,10 @@ public class Profil {
 
     public void moveTurtleRight() {
         this.myTurtle.turtleposition.isTaken = false;
+        this.myTurtle.turtleposition.turtle = null;
         this.myTurtle.turtleposition = this.myTurtle.turtleposition.right;
         this.myTurtle.turtleposition.isTaken = true;
+        this.myTurtle.turtleposition.turtle = this.myTurtle;
 
         if (this.myTurtle.turtleposition.hasCoin) {
             this.myTurtle.points += 2;
@@ -181,8 +186,10 @@ public class Profil {
 
     public void moveTurtleLeft() {
         this.myTurtle.turtleposition.isTaken = false;
+        this.myTurtle.turtleposition.turtle = null;
         this.myTurtle.turtleposition = this.myTurtle.turtleposition.left;
         this.myTurtle.turtleposition.isTaken = true;
+        this.myTurtle.turtleposition.turtle = this.myTurtle;
 
         if (this.myTurtle.turtleposition.hasCoin) {
             this.myTurtle.points += 2;
@@ -202,8 +209,10 @@ public class Profil {
 
     public void moveTurtleDown() {
         this.myTurtle.turtleposition.isTaken = false;
+        this.myTurtle.turtleposition.turtle = null;
         this.myTurtle.turtleposition = this.myTurtle.turtleposition.down;
         this.myTurtle.turtleposition.isTaken = true;
+        this.myTurtle.turtleposition.turtle = this.myTurtle;
 
         if (this.myTurtle.turtleposition.hasCoin) {
             this.myTurtle.points += 2;

@@ -331,6 +331,9 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.myTurtle.turtleposition.up.isTaken ||
                                     profil.myTurtle.turtleposition.up.isFlood) {
                                 dos.writeUTF(Protocol.ERMO.name());
+                            } else if (profil.waitingForEvent) {
+                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
+                                        " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtleUp();
                             }
@@ -342,6 +345,9 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.myTurtle.turtleposition.down.isTaken ||
                                     profil.myTurtle.turtleposition.down.isFlood) {
                                 dos.writeUTF(Protocol.ERMO.name());
+                            } else if (profil.waitingForEvent) {
+                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
+                                        " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtleDown();
                             }
@@ -354,6 +360,9 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.myTurtle.turtleposition.left.isTaken ||
                                     profil.myTurtle.turtleposition.left.isFlood) {
                                 dos.writeUTF(Protocol.ERMO.name());
+                            } else if (profil.waitingForEvent) {
+                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
+                                        " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtleLeft();
                             }
@@ -366,6 +375,9 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.myTurtle.turtleposition.right.isTaken ||
                                     profil.myTurtle.turtleposition.right.isFlood) {
                                 dos.writeUTF(Protocol.ERMO.name());
+                            } else if (profil.waitingForEvent) {
+                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
+                                        " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtleRight();
                             }

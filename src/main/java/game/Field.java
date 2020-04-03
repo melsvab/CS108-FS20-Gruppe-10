@@ -10,7 +10,7 @@ public class Field {
     public boolean isFlood, hasCoin, isQuake;
     public boolean steppedOn, isTaken, isBoundary, isStartPosition; //TO DO !!
 
-    PlayerTurtle turtle;
+    public PlayerTurtle turtle;
 
     /**
      * Every field has a pointer to the filed next to it.
