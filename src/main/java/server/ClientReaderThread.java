@@ -182,6 +182,7 @@ public class ClientReaderThread implements Runnable {
 
                         case BACK:
                             profile.isInGame = false;
+                            profile.isSpectator = false;
 
                             //Client got out of a lobby / game
                             System.out.println("You are not in a lobby anymore!");
@@ -216,6 +217,11 @@ public class ClientReaderThread implements Runnable {
                             } else {
                                 System.out.println(Message.garbage + " *4");
                             }
+                            break;
+
+                        case SPEC:
+                            //message will be send so client knows that he/she is a spectator
+                            profile.isSpectator = true;
                             break;
 
                         case DICE:

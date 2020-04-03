@@ -225,6 +225,22 @@ public class Client implements Runnable {
                             }
                             break;
 
+                        case SPEC:
+
+                            if (profile.isInGame) {
+                                System.out.println(Message.inLobbyAlready);
+
+                            } else if (profile.checkForNumber(original)) {
+                                dos.writeUTF(original);
+                                dos.writeUTF(Protocol.CHAT.name() + ":" + Message.enterLobby);
+                            } else {
+                                System.out.println(Message.youAreDoingItWrong
+                                        + Protocol.SPEC.name()
+                                        + ":number");
+                            }
+
+                            break;
+
                         case BACK:
                             if (profile.isInGame) {
                                 dos.writeUTF(Protocol.BACK.name());
@@ -247,10 +263,10 @@ public class Client implements Runnable {
 
                         case UPPR:
 
-                            if (profile.isInGame /*&& something like "Game has started == true"*/) {
+                            if (profile.isInGame && !profile.isSpectator) {
                                 dos.writeUTF(Protocol.UPPR.name());
                             } else {
-                                System.out.println("\nInput unknown...\n\n" + Message.helpMessage);
+                                System.out.println("You cannot do that now!");
                             }
                             break;
 

@@ -74,6 +74,32 @@ public class ServerThreadForClient implements Runnable {
         return false;
     }
 
+    public void join (String original, boolean watch) {
+        // checks if there are two ints and player is not in a lobby already
+        if (profil.checkForNumber(original) && !profil.isInGame) {
+            //checks if there are any games at all
+
+            String[] words = original.split(":");
+            int lobbynumber = Integer.parseInt(words[1]);
+            //checks for the lobbynumber and adds client if possible
+            if (Server.checkLobbies(lobbynumber, this, watch)) {
+                profil.isInGame = true;
+                sendMessage(Protocol.CRE2.name() + ":" + lobbynumber);
+            } else {
+                sendMessage(Protocol.ERRO.name()
+                        + ":This game ID does not exist. Try another one!\n");
+            }
+
+        } else {
+            //if(profil.checkForWord(original) == false){
+            //logger.info("forgot to type the colon");
+            //}else if(profil.checkForWord(original) == true && profil.checkForNumber(original) == false ){
+            // logger.info("typed a lobbynumber that doesnt exist");
+
+
+        }
+    }
+
     public void run() {
 
         try {
@@ -264,33 +290,25 @@ public class ServerThreadForClient implements Runnable {
                         case JOIN:
 
                             /*
-                             * Player joins a Game with the fitting game_ID.
+                             * Player joins a Game with the fitting game_ID as a player.
                              * If there is no game with the game_ID an error message will be sent.
                              */
 
-                            // checks if there are two ints and player is not in a lobby already
-                            if (profil.checkForNumber(original) && !profil.isInGame) {
-                                //checks if there are any games at all
+                            join(original, false);
 
-                                String[] words = original.split(":");
-                                int lobbynumber = Integer.parseInt(words[1]);
-                                //checks for the lobbynumber and adds client if possible
-                                if (Server.checkLobbies(lobbynumber, this)) {
-                                    profil.isInGame = true;
-                                    dos.writeUTF(Protocol.CRE2.name() + ":" + lobbynumber);
-                                } else {
-                                    dos.writeUTF(Protocol.ERRO.name()
-                                            + ":This game ID does not exist. Try another one!\n");
-                                    }
+                            break;
 
-                            } else {
-                                //if(profil.checkForWord(original) == false){
-                                    //logger.info("forgot to type the colon");
-                                //}else if(profil.checkForWord(original) == true && profil.checkForNumber(original) == false ){
-                                   // logger.info("typed a lobbynumber that doesnt exist");
+                        case SPEC:
 
+                            /*
+                             * Player joins a Game with the fitting game_ID as a spectator.
+                             * If there is no game with the game_ID an error message will be sent.
+                             */
 
-                            }
+                            join(original, true);
+                            profil.isSpectator = true;
+                            dos.writeUTF(Protocol.SPEC.name());
+
                             break;
 
                         case BACK:
@@ -300,6 +318,7 @@ public class ServerThreadForClient implements Runnable {
 
                                 profil.lobby.deletePlayer(this);
                                 profil.isInGame = false;
+                                profil.isSpectator = false;
                                 dos.writeUTF(Protocol.BACK.name());
                             } else {
                                // logger.info("used BACK even though he/she is not in a lobby or game");

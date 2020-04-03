@@ -1,13 +1,8 @@
 package game;
 
-import java.awt.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.lang.System.*;
 
 import server.*;
 
@@ -26,12 +21,14 @@ public class Lobby extends Thread {
 
     public Board board;
     public int lobbyNumber;
+    public int numberOfPlayers;
     
     public Lobby(ServerThreadForClient aUser, int number) {
         setDaemon(true);
         players.add(aUser);
         gamestate = 1;
         lobbyNumber = number;
+        numberOfPlayers = 1;
 
     }
 
@@ -58,19 +55,38 @@ public class Lobby extends Thread {
     }
 
     public synchronized void addPlayer(ServerThreadForClient aUser) {
-        players.add(aUser);
+        if (gamestate > 1) {
+            aUser.sendMessage(Protocol.MSSG.name() + ":The game has started already! You are a spectator now!");
+            spectators.add(aUser);
+            aUser.sendMessage(Protocol.SPEC.name());
+            aUser.profil.isSpectator = true;
+
+        } else {
+            if (numberOfPlayers < 4) {
+                numberOfPlayers++;
+                players.add(aUser);
+            } else {
+                aUser.sendMessage(Protocol.ERRO.name()
+                        + ":This lobby has four players already! You were added as a spectator.");
+                spectators.add(aUser);
+                aUser.sendMessage(Protocol.SPEC.name());
+                aUser.profil.isSpectator = true;
+            }
+        }
 
     }
 
     public synchronized void deletePlayer(ServerThreadForClient aUser) {
         if (aUser.profil.isSpectator) {
             spectators.remove(aUser);
+            aUser.profil.isSpectator = false;
         } else {
 
             if (aUser.profil.myTurtle != null) {
                 aUser.profil.myTurtle = null;
             }
             aUser.profil.lobby = null;
+            numberOfPlayers--;
             players.remove(aUser);
         }
 

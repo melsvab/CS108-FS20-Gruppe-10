@@ -25,8 +25,10 @@ public class Message {
                 + "enter >GML1< to see a list of open, ongoing and finished games. \n"
                 + "enter >HSC1< to see the current highscore. \n"
                 + "enter >CRE1< to create a lobby for a new game. \n"
-                + "enter >STR1:boardSize:maxCoins< to start a game with its personalized board. \n"
                 + "enter >JOIN:lobbyNumber< to join a lobby. \n"
+                + "enter >SPEC:lobbyNumber< to join a lobby as a spectator"
+                + "enter >STR1:boardSize:maxCoins< to start a game with its personalized board. \n"
+                + "enter >HELP< to see this message again."
                 + "enter >QUIT< to end this program.\n");
 
     public static String underConstruction = (
@@ -50,4 +52,6 @@ public class Message {
 
     public static String playerDoesNotExist = (
             "\n The message could not be sent. There is no player with this playername.");
+
+    public static String youCannotDoThat = "You cannot do that now!\"";
 }
