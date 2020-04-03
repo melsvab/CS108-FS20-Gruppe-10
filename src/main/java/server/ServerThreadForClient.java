@@ -329,7 +329,8 @@ public class ServerThreadForClient implements Runnable {
                         case UPPR:
                             //Under Construction: Player moves a block up ingame.
                             if (profil.myTurtle.turtleposition.up.isTaken ||
-                                    profil.myTurtle.turtleposition.up.isFlood) {
+                                    profil.myTurtle.turtleposition.up.isFlood ||
+                                    profil.myTurtle.turtleposition.up.isBoundary) {
                                 dos.writeUTF(Protocol.ERMO.name());
                             } else if (profil.waitingForEvent) {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
@@ -343,7 +344,8 @@ public class ServerThreadForClient implements Runnable {
 
                             //Under Construction: Player moves a block down ingame.
                             if (profil.myTurtle.turtleposition.down.isTaken ||
-                                    profil.myTurtle.turtleposition.down.isFlood) {
+                                    profil.myTurtle.turtleposition.down.isFlood ||
+                                    profil.myTurtle.turtleposition.down.isBoundary) {
                                 dos.writeUTF(Protocol.ERMO.name());
                             } else if (profil.waitingForEvent) {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
@@ -358,7 +360,8 @@ public class ServerThreadForClient implements Runnable {
 
                             //Under Construction: Player moves a block left ingame.
                             if (profil.myTurtle.turtleposition.left.isTaken ||
-                                    profil.myTurtle.turtleposition.left.isFlood) {
+                                    profil.myTurtle.turtleposition.left.isFlood ||
+                                    profil.myTurtle.turtleposition.left.isBoundary) {
                                 dos.writeUTF(Protocol.ERMO.name());
                             } else if (profil.waitingForEvent) {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
@@ -373,7 +376,8 @@ public class ServerThreadForClient implements Runnable {
 
                             //Under Construction: Player moves a block right ingame.
                             if (profil.myTurtle.turtleposition.right.isTaken ||
-                                    profil.myTurtle.turtleposition.right.isFlood) {
+                                    profil.myTurtle.turtleposition.right.isFlood ||
+                                    profil.myTurtle.turtleposition.right.isBoundary ) {
                                 dos.writeUTF(Protocol.ERMO.name());
                             } else if (profil.waitingForEvent) {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +

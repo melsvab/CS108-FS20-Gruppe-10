@@ -98,13 +98,13 @@ public class Board {
                     this.board[x][y].right = this.board[x + 1][y];
                 }
                 //Link DOWN
-                if (y - 1 < 1) { //0 is already water
+                if (y - 1 < 0) {
                     this.board[x][y].down = null;
                 } else {
                     this.board[x][y].down = this.board[x][y - 1];
                 }
                 //Link LEFT
-                if (x - 1 < 1) { //0 is already water
+                if (x - 1 < 0) {
                     this.board[x][y].left = null;
                 } else {
                     this.board[x][y].left = this.board[x - 1][y];
