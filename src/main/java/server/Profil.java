@@ -20,7 +20,7 @@ public class Profil {
     public Lobby lobby;
     public PlayerTurtle myTurtle;
 
-    boolean isInGame;
+    public boolean isInGame;
     public boolean waitingForEvent;
     boolean clientIsOnline;
     public boolean isSpectator;

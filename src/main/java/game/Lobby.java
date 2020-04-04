@@ -1,5 +1,6 @@
 package game;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -139,14 +140,20 @@ public class Lobby extends Thread {
 
         writeToAll(Protocol.LOBY.name() + ":" + board.printBoard());
 
-        /*
-         * WHILE SCHLAUFE ADDEN MIT INPUT PLAYER 1? Player 2? ETC:
-         * DANN EVENT!
-         *
-         * ganz am ENDE: gamestate = 3; (gamestate wird auf >finished< geändert)
-         */
-
-        while (gamestate != 3) { //Game is still running TO DO: HOW IS GAME FINISHED?
+        int rounds = 1;
+        while (rounds <= 10) { //Game is still running TO DO: HOW IS GAME FINISHED?
+            if (rounds <= 8) {
+                writeToAll(Protocol.MSSG.name() + ":\n -----------------------\n Round " + rounds + "\n There are "
+                        + (10 - rounds) + " rounds left \n -----------------------\n");
+            }
+            else if (rounds == 9) {
+                writeToAll(Protocol.MSSG.name() + ":\n -----------------------\n Round " + rounds + "\n There is "
+                        + (10 - rounds) + " round left \n -----------------------\n");
+            }
+            else {
+                writeToAll(Protocol.MSSG.name() + ":\n -----------------------\n Round " + rounds
+                        + "\n Last round \n -----------------------\n");
+            }
             pleaseWait(20);
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = true;
@@ -183,6 +190,21 @@ public class Lobby extends Thread {
                     writeToPlayer(Protocol.MSSG.name() + ":Puh ok no, that was close!", aPlayer);
                 }
             }
+            rounds += 1;
         }
+
+        writeToAll(Protocol.MSSG.name() + ":\n\nThe game has ended!\n\n");
+        int maxPoints = -100;
+        String winner = "";
+        for (ServerThreadForClient aPlayer : players) {
+            writeToAll(Protocol.MSSG.name() + ":" + aPlayer.profil.nickname + " has " + aPlayer.profil.myTurtle.points + " points");
+            if (aPlayer.profil.myTurtle.points > maxPoints) {
+                maxPoints = aPlayer.profil.myTurtle.points;
+                winner = aPlayer.profil.nickname; //To Do: Even winners.
+            }
+        }
+        writeToAll(Protocol.MSSG.name() + ":The winner is: " + winner + " with " + maxPoints + " points!");
+        /*To Do: Implement that all players get automatically kicked out of the lobby or thread stops or something*/
+        gamestate = 3;
     }
 }
