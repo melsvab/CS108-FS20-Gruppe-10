@@ -192,8 +192,9 @@ public class Lobby extends Thread {
                 winner = aPlayer.profil.nickname; //To Do: Even winners.
             }
         }
-        writeToAll(Protocol.MSSG.name() + ":The winner is: " + winner + " with " + maxPoints + " points!");
+        writeToAll(Protocol.WINR.name() + ":" + winner + ":" + String.valueOf(maxPoints));
         /*To Do: Implement that all players get automatically kicked out of the lobby or thread stops or something*/
         gamestate = 3;
+
     }
 }

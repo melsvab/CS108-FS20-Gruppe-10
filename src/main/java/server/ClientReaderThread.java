@@ -227,6 +227,13 @@ public class ClientReaderThread implements Runnable {
                             }
                             break;
 
+                        case WINR:
+                            int i = original.indexOf(":", 5);
+                            String winner = original.substring(5, i);
+                            String points = original.substring(i + 1);
+                            System.out.println("The winner is: " + winner + " with " + points + " points!");
+                            break;
+
                         case LOBY:
                             /*
                              * Client prints out information about the board
