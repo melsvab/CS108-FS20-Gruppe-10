@@ -7,18 +7,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+/**
+ * @author Dennis,Natasha,Melanie,Rohail
+ * This class represents a Client which connects to the server.
+ * In here, client inputs will be sent to the server and will be processed.
+ */
 public class Client implements Runnable {
-    /**
-     * This class represents a Client which connects to the server.
-     * In here, client inputs will be sent to the server and will be
-     * processed.
-     */
-
-
     String serverIpServerName;
     int serverPort;
     Profil profile = new Profil();
 
+    /**
+     * create a CLient constructor
+     *
+     * @param name
+     */
     public Client(String ... name){
         this.serverIpServerName = name[0];
         this.serverPort = Integer.parseInt(name[1]);
@@ -30,7 +33,13 @@ public class Client implements Runnable {
 
     }
 
-
+    /**
+     * check if the keyword exists in our Protocol
+     *
+     * @param keyword
+     *
+     * @return if the keyword exists in our protocol or not
+     */
     public static boolean contains(String keyword) {
 
         for (Protocol p : Protocol.values()) {
@@ -42,30 +51,22 @@ public class Client implements Runnable {
         return false;
     }
 
+    /**
+     * chooses a server and port and builds up a connection and starts the ClientReaderThread
+     * for reading input from Server sets DataOutputStream for the ChatGUI and
+     * creates an invisible chat processes input
+     */
     public void run(){
         try {
-
-
-            /*
-             * chooses a server and port
-             * and builds up a connection
-             */
-
             InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
             BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
 
             Socket socket = new Socket(serverIpServerName, serverPort);
 
-            //Connection established.
-
             System.out.println("\nConnected!\n");
-
-            //Create In- & Ouputstreams for reading and sending Strings
 
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             DataInputStream dis = new DataInputStream(socket.getInputStream());
-
-            //Start ClientReaderThread for reading input from Server
 
             ClientReaderThread clientReaderThread = new ClientReaderThread(dis, dos, profile);
             Thread clientThread = new Thread(clientReaderThread);
@@ -86,8 +87,6 @@ public class Client implements Runnable {
             profile.ccg.createChat();
 
             //Start processing inputs.
-
-
             while (profile.clientIsOnline) {
 
                 //Read keyboardinput from client.
@@ -128,9 +127,9 @@ public class Client implements Runnable {
                                 String newNickname = original.substring(5);
 
                                 /*
-                                 * if the answer is <YEAH> the nickname is change to the system username
-                                 * if the answer is something else, this input will be used as the
-                                 * nickname
+                                 * if the answer is <YEAH> the nickname is change to the
+                                 * system usernameif the answer is something else,
+                                 * this input will be used as the nickname
                                  */
 
                                 if (newNickname.equalsIgnoreCase("YEAH")) {
@@ -229,7 +228,8 @@ public class Client implements Runnable {
                             if (profile.isInGame) {
                                 dos.writeUTF(Protocol.BACK.name());
                             } else {
-                                System.out.println("You have not joined a lobby yet so there is no need to go back!");
+                                System.out.println("You have not joined a lobby yet"
+                                    + "so there is no need to go back!");
                             }
                             break;
 
@@ -239,9 +239,9 @@ public class Client implements Runnable {
                                 dos.writeUTF(original);
 
                             } else {
-                                System.out.println(Message.youAreDoingItWrong
-                                        + Protocol.STR1.name()
-                                        + ":boardsize:maximumNumberOfPoints and you must be in a lobby");
+                                System.out.println(Message.youAreDoingItWrong + Protocol.STR1.name()
+                                        + ":boardsize:maximumNumberOfPoints and "
+                                        + "you must be in a lobby");
                             }
                             break;
 

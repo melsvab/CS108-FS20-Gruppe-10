@@ -1,20 +1,11 @@
 package server;
 
-//versuch von Natasha
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
-
-
+/**
+ * @author Natasha
+ * This class is a database for text that is used quite often in the program
+ * or the text is very long like an enum but without official keywords
+ */
 public class Message {
-    /*
-     * This class is a database for text that is used quite often in the program
-     * or the text is very long
-     *
-     * like an enum but without official keywords
-     */
-
-    //von Natasha: Versuch, der aber komischerweise nicht klappt
-    //public static final Logger LOGGER = LogManager.getLogger();
 
     public static String helpMessage = (
         "\nWhat would you like to do?\n\n"
@@ -36,15 +27,14 @@ public class Message {
     public static String garbage = (
             "Someone is sending garbage\n");
 
-    public static String inLobbyAlready = ("You are in a lobby already. If you want to exit, write >BACK<");
+    public static String inLobbyAlready = ("You are in a lobby already. If you want to exit,"
+    + "write >BACK<");
     public static String enterLobby = (" has joined the lobby!\n");
 
-    public static String youAreDoingItWrong = (
-            "It seems as if you used this keyword wrongly. \n"
+    public static String youAreDoingItWrong = ("It seems as if you used this keyword wrongly. \n"
                     + "This keyword is used like this: ");
 
-    public static String nobodyHearsYou = (
-            "\n\nNobody can hear you here. "
+    public static String nobodyHearsYou = ("\n\nNobody can hear you here. "
                     + "Write /b yourMessage for broadcast,"
                     + " /w playername yourMessage for whisper or join a Lobby!\n\n");
 

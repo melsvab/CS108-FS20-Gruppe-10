@@ -1,5 +1,8 @@
 package server;
 
+/**
+ * @author Natasha,Dennis,Rohail,Melanie
+ */
 public enum Protocol {
 
     CHAT("client: sends message in chat"),

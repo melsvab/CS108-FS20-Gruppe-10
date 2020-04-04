@@ -4,12 +4,15 @@ import game.Lobby;
 import game.PlayerTurtle;
 import game.Field;
 
+/**
+ * @author Natasha,Dennis,Melanie,Rohail
+ *  This class is for the server and the client to know about the states and about specific
+ *  information about a client.
+ */
 public class Profil {
 
     /*
-     * This class is for the server and the client
-     * to know about the states and about specific
-     * information about a client.
+     *
      */
 
     int clientID;
@@ -41,6 +44,10 @@ public class Profil {
         this.ccg = new ClientChatGUI();
     }
 
+    /**
+     *
+     * @param aUser
+     */
     public void goesToSleep(ServerThreadForClient aUser) {
         isInGame = false;
         clientIsOnline = false;
@@ -51,6 +58,10 @@ public class Profil {
         Server.userThreads.remove(aUser);
     }
 
+    /**
+     * @param original
+     * @return boolean
+     */
     public boolean checkForTwoInt(String original) {
         //an example of an input:
         //KEYW:5:355
@@ -70,10 +81,16 @@ public class Profil {
         }
     }
 
+    /**
+     * an example of an input:
+     *  KEYW:word:secondWord
+     *  check if there are two words (or at least letters) in between ":"
+     * @param original
+     * @return boolean
+     */
 
     public boolean checkForTwoWords(String original) {
-        //an example of an input:
-        //KEYW:word:secondWord
+
         int lenghtInput = original.length();
 
         //check for usage of ":" and minimum input of KEYW:a:b (without checking details)
@@ -91,38 +108,43 @@ public class Profil {
         }
     }
 
+    /**
+     * an example of an input: KEYW:name (without any further ":")
+     * check if there is only one ":"
+     * so if you split the string at ":", there will be two substrings)
+     * why? names cannot have a ":" in them.
+     * @param original
+     * @return
+     */
     public boolean checkForName(String original) {
-        //an example of an input:
-        //KEYW:name (without any further ":")
 
         if (checkForWord(original)) {
-
             String[] words = original.split(":");
-
-            //check if there is only one ":"
-            // (so if you split the string at ":", there will be two substrings)
-            // why? names cannot have a ":" in them.
             return words.length == 2;
         } else {
             return false;
         }
     }
 
-
+    /**
+     * an example of an input: KEYW:word
+     * check for usage of ":" and minimum input of KEYW:a
+     * @param original
+     * @return
+     */
     public boolean checkForWord(String original) {
-        //an example of an input:
-        //KEYW:word
         int lenghtInput = original.length();
-
-        ////check for usage of ":" and minimum input of KEYW:a
         if (lenghtInput > 5 && original.contains(":")) {
-            //check if ":" is after the keyword
             return original.indexOf(':') == 4;
         } else {
             return false;
         }
     }
 
+    /**
+     * @param original
+     * @return
+     */
     public boolean checkForNumber(String original) {
         if (checkForWord(original)) {
             String[] words = original.split(":");
@@ -139,6 +161,10 @@ public class Profil {
         }
     }
 
+    /**
+     *
+     * to move the turtle up
+     */
     public void moveTurtleUp() {
         this.myTurtle.turtleposition.isTaken = false;
         this.myTurtle.turtleposition.turtle = null;
@@ -161,6 +187,9 @@ public class Profil {
                 "\n" + this.nickname + " has " + this.myTurtle.points + " points!");
     }
 
+    /**
+     * to move the turtle to the right
+     */
     public void moveTurtleRight() {
         this.myTurtle.turtleposition.isTaken = false;
         this.myTurtle.turtleposition.turtle = null;
@@ -184,6 +213,9 @@ public class Profil {
 
     }
 
+    /**
+     * to move the turtle to the left left
+     */
     public void moveTurtleLeft() {
         this.myTurtle.turtleposition.isTaken = false;
         this.myTurtle.turtleposition.turtle = null;
@@ -207,6 +239,9 @@ public class Profil {
 
     }
 
+    /**
+     * to move the turtle down
+     */
     public void moveTurtleDown() {
         this.myTurtle.turtleposition.isTaken = false;
         this.myTurtle.turtleposition.turtle = null;

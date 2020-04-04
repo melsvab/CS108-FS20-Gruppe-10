@@ -8,26 +8,35 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
+/**
+ * @author Natasha,Dennis,Melanie,Rohail
+ * This thread is for reading and processing input coming from the server.
+ * If a message from the ServerThreadForClient is send from different methods,
+ * there will be a specific keyword.Otherwise there are general keywords
+ * that are used by different methods that send a message only once.
+ */
 public class ClientReaderThread implements Runnable {
-
-     /*
-      * This thread is for reading and processing input coming from the server.
-      * If a message from the ServerThreadForClient is send from different methods, there will be a specific keyword.
-      * Otherwise there are general keywords that are used by different methods that send a message only once.
-      */
-
-
     DataInputStream dis;
     DataOutputStream dos;
     Profil profile;
-    
+
+    /**
+     *
+     * @param dis
+     * @param dos
+     * @param profil
+     */
     public ClientReaderThread(DataInputStream dis, DataOutputStream dos, Profil profil) {
             this.dis = dis;
             this.dos = dos;
             this.profile = profil;
     }
 
+    /**
+     * checks if the keyword exists in  our protocol
+     * @param keyword
+     * @return true or false
+     */
     public static boolean contains(String keyword) {
 
         for (Protocol p : Protocol.values()) {
@@ -39,10 +48,18 @@ public class ClientReaderThread implements Runnable {
         return false;
     }
 
+    /**
+     *
+     * @param original
+     * @return
+     */
     public boolean checkMessage(String original) {
         return original.length() > 5;
     }
 
+    /**
+     * Start the readerthread
+     */
     public void run() {
         InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
         BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
