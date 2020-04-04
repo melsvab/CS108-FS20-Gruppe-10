@@ -423,6 +423,18 @@ public class ServerThreadForClient implements Runnable {
                             }
                             break;
 
+                        case IDKW:
+                            if (profil.isInGame && profil.lobby.gamestate == 2) {
+                                int cheatPlus = 10;
+                                dos.writeUTF(Protocol.IDKW.name() +
+                                        ":CHEAT CODE USED! YOU RECEIVED " + cheatPlus + " POINTS!");
+                                profil.myTurtle.points += cheatPlus;
+                            } else {
+                                dos.writeUTF(Protocol.MSSG.name() + ":STOP THAT!");
+                            }
+                            break;
+
+
                         default:
 
                             //This should be impossible

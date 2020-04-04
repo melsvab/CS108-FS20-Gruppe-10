@@ -127,7 +127,7 @@ public class Lobby extends Thread {
                 + ":You have adopted a turtle baby and named it "
                 + aPlayer.profil.myTurtle.turtlename, aPlayer);
             A: for (int x = 0; x < this.board.boardSize; x++) {
-                B: for (int y = 0; y < this.board.boardSize; y++) {
+                for (int y = 0; y < this.board.boardSize; y++) {
                     if (this.board.board[x][y].isStartPosition && !this.board.board[x][y].isTaken) {
                         aPlayer.profil.myTurtle.turtleposition = this.board.board[x][y];
                         this.board.board[x][y].isTaken = true;
@@ -176,6 +176,12 @@ public class Lobby extends Thread {
             writeToAll(Protocol.MSSG.name() + ":I think its over... wait... did I lose some points?!");
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = false;
+                if (aPlayer.profil.myTurtle.wasHitByEvent) {
+                    writeToPlayer(Protocol.LOBY.name() + "Oh crap, I lost a lot of points!", aPlayer);
+                    aPlayer.profil.myTurtle.wasHitByEvent = false;
+                } else {
+                    writeToPlayer(Protocol.LOBY.name() + "Puh ok no, that was close!", aPlayer);
+                }
             }
         }
     }

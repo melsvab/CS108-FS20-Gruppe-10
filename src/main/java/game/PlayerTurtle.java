@@ -8,6 +8,7 @@ public class PlayerTurtle {
     public String turtlename;
     public int points;
     public Field turtleposition;
+    public boolean wasHitByEvent;
 
     public PlayerTurtle(String turtlename) {
         //this.color = color;

@@ -285,57 +285,9 @@ public class Client implements Runnable {
                             break;
 
                         case IDKW:
+                            //our secret cheat code
 
-                            System.out.println("STOP THAT!");
-
-                            /* our secret cheat code */
-                            //dos.writeUTF(original);
-
-                            /*try {
-                                System.out.println("\n...let me help you...\n");
-                                Thread.sleep(2000);
-                                System.out.println("Please type in a number:\n\n");
-                                int howLong = Integer.parseInt(readKeyBoard.readLine());
-                                System.out.println("\n");
-                                for (int i = 0; i < howLong; i++) {
-                                    Thread.sleep(2000);
-                                    System.out.print("This ");
-                                    Thread.sleep(1000);
-                                    System.out.print("is ");
-                                    Thread.sleep(1000);
-                                    System.out.print("gonna ");
-                                    Thread.sleep(1000);
-                                    System.out.print("take ");
-                                    Thread.sleep(1000);
-                                    System.out.print("a ");
-                                    Thread.sleep(1000);
-                                    System.out.print("while");
-                                    Thread.sleep(2000);
-                                    System.out.print("... ");
-                                    Thread.sleep(3000);
-                                    System.out.print("sorry ");
-                                    Thread.sleep(2000);
-                                    System.out.print("not ");
-                                    Thread.sleep(10);
-                                    System.out.print("sorry");
-                                    Thread.sleep(10);
-                                    System.out.print("... ");
-                                    Thread.sleep(3000);
-                                    System.out.print(i + 1);
-                                    Thread.sleep(1000);
-                                    System.out.print(" out ");
-                                    Thread.sleep(1000);
-                                    System.out.print("of ");
-                                    Thread.sleep(1000);
-                                    System.out.print(howLong);
-                                    Thread.sleep(1000);
-                                    System.out.print("... ");
-                                    Thread.sleep(2000);
-                                }
-                                System.out.println("\n" + Message.helpMessage);
-                            } catch (InterruptedException e) {
-                                System.err.println(e.toString());
-                            }*/
+                            dos.writeUTF(Protocol.IDKW.name());
 
                             break;
 
