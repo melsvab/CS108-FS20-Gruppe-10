@@ -5,26 +5,35 @@ import server.Client;
 public class Start {
     public static final Logger logger = LoggerFactory.getLogger(Start.class);
     public static void main(String[] args) {
-        if (args[0].equalsIgnoreCase("server")) {
-            Server server = new Server(Integer.parseInt(args[1]));
-            Thread serverThread = new Thread(server);
-            serverThread.start();
-            logger.info("Server started");
-        } else if (args[0].equalsIgnoreCase("client")) {
+        try {
+            if (args[0].equalsIgnoreCase("server")) {
+                Server server = new Server(Integer.parseInt(args[1]));
+                Thread serverThread = new Thread(server);
+                serverThread.start();
+                logger.info("Server started");
+            } else if (args[0].equalsIgnoreCase("client")) {
                 String[] host = args[1].split(":");
-                if(args.length == 3) {
-                    Client client = new Client(host[0],host[1],args[2]);
+                if (args.length == 3) {
+                    Client client = new Client(host[0], host[1], args[2]);
                     Thread clientThread = new Thread(client);
                     clientThread.start();
                     logger.info("ClientThread started");
                 } else {
-                    Client client = new Client(host[0],host[1]);
+                    Client client = new Client(host[0], host[1]);
                     Thread clientThread = new Thread(client);
                     clientThread.start();
                     logger.info("ClientThread started");
                 }
 
 
+            }
+        } catch (Exception e) {
+            System.out.println("Your input was incorrect. Please try again! \n\n"
+                    + "It has to be done as followed: \n"
+                    + "client <hostadress>:<port> [<username>] | server <port> \n\n"
+                    + "Example 1: server 1111\n"
+                    + "Example 2: client localhost:1111"
+                    + "Example 3: client localhost:1111 me");
         }
     }
 }
