@@ -25,7 +25,7 @@ public class Message {
     public static String underConstruction = (
         "Under Construction! Why not try something else for the moment?");
 
-    //TO DO: Idee von >garbage< : dort sollten später logger stehen!
+    // is used for placeholder
     public static String garbage = (
             "Someone is sending garbage\n");
 
@@ -36,14 +36,14 @@ public class Message {
     public static String youAreDoingItWrong = ("It seems as if you used this keyword wrongly. \n"
                     + "This keyword is used like this: ");
 
-    public static String nobodyHearsYou = ("\n\nNobody can hear you here. "
+    public static String nobodyHearsYou = ("\nNobody can hear you here.\n "
                     + "Write /b yourMessage for broadcast,"
-                    + " /w playername yourMessage for whisper or join a Lobby!\n\n");
+                    + " /w playername yourMessage for whisper or join a Lobby!\n");
 
     public static String playerDoesNotExist = (
-            "\n The message could not be sent. There is no player with this playername.");
+            "\n The message could not be sent. There is no player with this name.");
 
-    public static String youCannotDoThat = "You cannot do that now!\"";
+    public static String youCannotDoThat = "You cannot do that now!\n";
 
-    public static String invalidMove = "This move is not possible.";
+    public static String invalidMove = "This move is not possible.\n";
 }
