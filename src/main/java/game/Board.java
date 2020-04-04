@@ -128,13 +128,14 @@ public class Board {
                     board[x][y].isQuake = true;
                     if (this.board[x][y].isTaken) {
                         A: for (int a = 1; a < this.boardSize-3; a++) {
-                            B: for (int b = 1; b < this.boardSize-3; b++) {
+                            for (int b = 1; b < this.boardSize-3; b++) {
                                 if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
                                     this.board[x][y].turtle.turtleposition = this.board[a][b];
                                     this.board[a][b].turtle = this.board[x][y].turtle;
                                     this.board[x][y].turtle = null;
                                     this.board[a][b].isTaken = true;
                                     this.board[a][b].turtle.points -= 5;
+                                    this.board[a][b].turtle.wasHitByEvent = true;
                                     break A;
                                 }
                             }
@@ -145,11 +146,6 @@ public class Board {
             }
         }
     }
-
-    public void ifTakenResetTurtle(int x, int y) {
-
-    }
-
 
     /**
      * TO DO: Change function. Less random flood!
@@ -166,22 +162,23 @@ public class Board {
             switch (whichSide) {
                 case 0: //unten
                     for (int i = 0; i < howStrong; i++) {
-                        if (!this.board[position][0 + i].isStartPosition) {
-                            this.board[position][0 + i].isFlood = true;
-                            if (this.board[position][0 + i].isTaken) {
+                        if (!this.board[position][i].isStartPosition) {
+                            this.board[position][i].isFlood = true;
+                            if (this.board[position][i].isTaken) {
                                 A: for (int a = 1; a < this.boardSize-3; a++) {
-                                    B: for (int b = 1; b < this.boardSize-3; b++) {
+                                    for (int b = 1; b < this.boardSize-3; b++) {
                                         if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
-                                            this.board[position][0 + i].turtle.turtleposition = this.board[a][b];
-                                            this.board[a][b].turtle = this.board[position][0 + i].turtle;
-                                            this.board[position][0 + i].turtle = null;
+                                            this.board[position][i].turtle.turtleposition = this.board[a][b];
+                                            this.board[a][b].turtle = this.board[position][i].turtle;
+                                            this.board[position][i].turtle = null;
                                             this.board[a][b].isTaken = true;
                                             this.board[a][b].turtle.points -= 5;
+                                            this.board[a][b].turtle.wasHitByEvent = true;
                                             break A;
                                         }
                                     }
                                 }
-                                this.board[position][0 + i].isTaken = false;
+                                this.board[position][i].isTaken = false;
                             }
                         }
                     }
@@ -192,13 +189,14 @@ public class Board {
                             this.board[position][this.boardSize - i].isFlood = true;
                             if (this.board[position][this.boardSize - i].isTaken) {
                                 A: for (int a = 1; a < this.boardSize-3; a++) {
-                                    B: for (int b = 1; b < this.boardSize-3; b++) {
+                                    for (int b = 1; b < this.boardSize-3; b++) {
                                         if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
                                             this.board[position][this.boardSize - i].turtle.turtleposition = this.board[a][b];
                                             this.board[a][b].turtle = this.board[position][this.boardSize - i].turtle;
                                             this.board[position][this.boardSize - i].turtle = null;
                                             this.board[a][b].isTaken = true;
                                             this.board[a][b].turtle.points -= 5;
+                                            this.board[a][b].turtle.wasHitByEvent = true;
                                             break A;
                                         }
                                     }
@@ -211,22 +209,23 @@ public class Board {
 
                 case 2: //links
                     for (int i = 0; i < howStrong; i++) {
-                        if (!this.board[0 + i][position].isStartPosition) {
-                            this.board[0 + i][position].isFlood = true;
-                            if (this.board[0 + i][position].isTaken) {
+                        if (!this.board[i][position].isStartPosition) {
+                            this.board[i][position].isFlood = true;
+                            if (this.board[i][position].isTaken) {
                                 A: for (int a = 1; a < this.boardSize-3; a++) {
-                                    B: for (int b = 1; b < this.boardSize-3; b++) {
+                                    for (int b = 1; b < this.boardSize-3; b++) {
                                         if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
-                                            this.board[0 + i][position].turtle.turtleposition = this.board[a][b];
-                                            this.board[a][b].turtle = this.board[0 + i][position].turtle;
-                                            this.board[0 + i][position].turtle = null;
+                                            this.board[i][position].turtle.turtleposition = this.board[a][b];
+                                            this.board[a][b].turtle = this.board[i][position].turtle;
+                                            this.board[i][position].turtle = null;
                                             this.board[a][b].isTaken = true;
                                             this.board[a][b].turtle.points -= 5;
+                                            this.board[a][b].turtle.wasHitByEvent = true;
                                             break A;
                                         }
                                     }
                                 }
-                                this.board[0 + i][position].isTaken = false;
+                                this.board[i][position].isTaken = false;
                             }
                         }
                     }
@@ -238,13 +237,14 @@ public class Board {
                             this.board[this.boardSize - i][position].isFlood = true;
                             if (this.board[this.boardSize - i][position].isTaken) {
                                 A: for (int a = 1; a < this.boardSize-3; a++) {
-                                    B: for (int b = 1; b < this.boardSize-3; b++) {
+                                    for (int b = 1; b < this.boardSize-3; b++) {
                                         if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
                                             this.board[this.boardSize - i][position].turtle.turtleposition = this.board[a][b];
                                             this.board[a][b].turtle = this.board[this.boardSize - i][position].turtle;
                                             this.board[this.boardSize - i][position].turtle = null;
                                             this.board[a][b].isTaken = true;
                                             this.board[a][b].turtle.points -= 5;
+                                            this.board[a][b].turtle.wasHitByEvent = true;
                                             break A;
                                         }
                                     }
@@ -261,7 +261,7 @@ public class Board {
     public void afterEvent() {
         for (int x = 1; x < this.boardSize; x++) {
             for (int y = 1; y < this.boardSize; y++) {
-                if (!this.board[x][y].isStartPosition && (board[x][y].isFlood == true || this.board[x][y].isQuake == true)) {
+                if (!this.board[x][y].isStartPosition && (board[x][y].isFlood || this.board[x][y].isQuake)) {
                     this.board[x][y].resetField();
                 }
             }

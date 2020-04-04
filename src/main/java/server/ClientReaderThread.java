@@ -237,6 +237,12 @@ public class ClientReaderThread implements Runnable {
 
                             break;
 
+                        case IDKW:
+
+                            String message = original.substring(5);
+                            System.out.println(message);
+                            break;
+
                         default:
                             //It should be impossible to get here
                             System.out.println("How did this end up here?" + "\n" + original);
