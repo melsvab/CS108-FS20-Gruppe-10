@@ -111,8 +111,8 @@ public class Client implements Runnable {
 
                         case QUIT:
                             /*
-                             * informing client about his choice.
-                             * If player is not active he cannot write anymore.
+                             * informing server about his / her choice.
+                             * If player is not active he / she cannot write anymore.
                              */
                             dos.writeUTF(clientchoice);
                             System.out.println("\nClosing program...\n");
@@ -231,7 +231,7 @@ public class Client implements Runnable {
                             if (profile.isInGame) {
                                 dos.writeUTF(Protocol.BACK.name());
                             } else {
-                                System.out.println("You have not joined a lobby yet"
+                                System.out.println("You have not joined a lobby yet "
                                     + "so there is no need to go back!");
                             }
                             break;

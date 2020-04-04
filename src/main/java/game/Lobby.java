@@ -41,10 +41,14 @@ public class Lobby extends Thread {
     }
 
     public synchronized void writeToAll(String message) {
-        Server.chat(message,players);
-        //if there are spectators, they will get the message as well
-        if (!spectators.isEmpty()) {
-            Server.chat(message,spectators);
+        // In case nobody is in this lobby anymore, there is no need to send messages.
+        if (!players.isEmpty() || !spectators.isEmpty()) {
+
+            Server.chat(message, players);
+            //if there are spectators, they will get the message as well
+            if (!spectators.isEmpty()) {
+                Server.chat(message, spectators);
+            }
         }
 
     }
@@ -55,23 +59,24 @@ public class Lobby extends Thread {
     }
 
     public synchronized void addPlayer(ServerThreadForClient aUser) {
-        if (gamestate > 1) {
-            aUser.sendMessage(Protocol.MSSG.name() + ":The game has started already! You are a spectator now!");
+        //if they game has already started or there are four players already, the new client will be a spectator
+        if (gamestate > 1 || numberOfPlayers >= 4) {
+
+            if(gamestate > 1) {
+                aUser.sendMessage(Protocol.ERRO.name() + ":The game has started already! You are a spectator now!");
+            } else {
+                aUser.sendMessage(Protocol.ERRO.name()
+                        + ":This lobby has four players already! You were added as a spectator.");
+            }
             spectators.add(aUser);
             aUser.sendMessage(Protocol.SPEC.name());
             aUser.profil.isSpectator = true;
 
         } else {
-            if (numberOfPlayers < 4) {
-                numberOfPlayers++;
-                players.add(aUser);
-            } else {
-                aUser.sendMessage(Protocol.ERRO.name()
-                        + ":This lobby has four players already! You were added as a spectator.");
-                spectators.add(aUser);
-                aUser.sendMessage(Protocol.SPEC.name());
-                aUser.profil.isSpectator = true;
-            }
+            // the new client will be a player
+            numberOfPlayers++;
+            players.add(aUser);
+
         }
 
     }
@@ -85,7 +90,7 @@ public class Lobby extends Thread {
             if (aUser.profil.myTurtle != null) {
                 aUser.profil.myTurtle = null;
             }
-            aUser.profil.lobby = null;
+
             numberOfPlayers--;
             players.remove(aUser);
         }

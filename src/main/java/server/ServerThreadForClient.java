@@ -76,22 +76,23 @@ public class ServerThreadForClient implements Runnable {
     }
 
     public void join (String original, boolean watch) {
-        // checks if there are two ints and player is not in a lobby already
+        // checks if there are two ints and the player is not in a lobby already
         if (profil.checkForNumber(original) && !profil.isInGame) {
             //checks if there are any games at all
 
             String[] words = original.split(":");
-            int lobbynumber = Integer.parseInt(words[1]);
+            int lobbyNum = Integer.parseInt(words[1]);
             //checks for the lobbynumber and adds client if possible
-            if (Server.checkLobbies(lobbynumber, this, watch)) {
+            if (Server.checkLobbies(lobbyNum, this, watch)) {
                 profil.isInGame = true;
-                sendMessage(Protocol.CRE2.name() + ":" + lobbynumber);
+                sendMessage(Protocol.CRE2.name() + ":" + lobbyNum);
             } else {
                 sendMessage(Protocol.ERRO.name()
                         + ":This game ID does not exist. Try another one!\n");
             }
 
         } else {
+
             //if(profil.checkForWord(original) == false){
             //logger.info("forgot to type the colon");
             //}else if(profil.checkForWord(original) == true && profil.checkForNumber(original) == false ){
@@ -324,8 +325,6 @@ public class ServerThreadForClient implements Runnable {
                              */
 
                             join(original, true);
-                            profil.isSpectator = true;
-                            dos.writeUTF(Protocol.SPEC.name());
 
                             break;
 
@@ -335,8 +334,8 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.isInGame) {
 
                                 profil.lobby.deletePlayer(this);
+                                profil.lobby = null;
                                 profil.isInGame = false;
-                                profil.isSpectator = false;
                                 dos.writeUTF(Protocol.BACK.name());
                             } else {
                                // logger.info("used BACK even though he/she is not in a lobby or game");

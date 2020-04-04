@@ -183,6 +183,8 @@ public class Server  implements Runnable {
                 if (lobby.getLobbyNumber() == lobbyNumber) {
                     if (watch) {
                         lobby.addSpectators(aUser);
+                        aUser.profil.isSpectator = true;
+                        aUser.sendMessage(Protocol.SPEC.name());
                     } else {
                         lobby.addPlayer(aUser);
                     }
