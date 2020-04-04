@@ -32,6 +32,7 @@ public enum Protocol {
     DOWN("Down"),
     LEFT("Left"),
     RIGT("Right"),
+    RNDS("Informs Client about how many Rounds there are left"),
     LOBY("Client gets message from lobby"),
     TEST("test from server to check for connection lost"),
     IDKW("Idkw");

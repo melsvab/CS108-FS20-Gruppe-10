@@ -210,6 +210,23 @@ public class ClientReaderThread implements Runnable {
                             System.out.println("You are not in a lobby anymore!");
                             break;
 
+                        case RNDS:
+
+                            int rounds = Integer.parseInt(original.substring(5));
+                            if (rounds <= 8) {
+                                System.out.println("\n -----------------------\n Round " + rounds + "\n There are "
+                                        + (10 - rounds) + " rounds left \n -----------------------\n");
+                            }
+                            else if (rounds == 9) {
+                                System.out.println("\n -----------------------\n Round " + rounds + "\n There is "
+                                        + (10 - rounds) + " round left \n -----------------------\n");
+                            }
+                            else {
+                                System.out.println("\n -----------------------\n Round " + rounds
+                                        + "\n Last round \n -----------------------\n");
+                            }
+                            break;
+
                         case LOBY:
                             /*
                              * Client prints out information about the board

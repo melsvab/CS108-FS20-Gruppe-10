@@ -142,18 +142,7 @@ public class Lobby extends Thread {
 
         int rounds = 1;
         while (rounds <= 10) { //Game is still running TO DO: HOW IS GAME FINISHED?
-            if (rounds <= 8) {
-                writeToAll(Protocol.MSSG.name() + ":\n -----------------------\n Round " + rounds + "\n There are "
-                        + (10 - rounds) + " rounds left \n -----------------------\n");
-            }
-            else if (rounds == 9) {
-                writeToAll(Protocol.MSSG.name() + ":\n -----------------------\n Round " + rounds + "\n There is "
-                        + (10 - rounds) + " round left \n -----------------------\n");
-            }
-            else {
-                writeToAll(Protocol.MSSG.name() + ":\n -----------------------\n Round " + rounds
-                        + "\n Last round \n -----------------------\n");
-            }
+            writeToAll(Protocol.RNDS.name() + ":" + String.valueOf(rounds));
             pleaseWait(20);
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = true;
