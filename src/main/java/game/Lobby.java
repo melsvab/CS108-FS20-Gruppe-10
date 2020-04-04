@@ -177,10 +177,10 @@ public class Lobby extends Thread {
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = false;
                 if (aPlayer.profil.myTurtle.wasHitByEvent) {
-                    writeToPlayer(Protocol.LOBY.name() + "Oh crap, I lost a lot of points!", aPlayer);
+                    writeToPlayer(Protocol.MSSG.name() + ":Oh crap, I lost a lot of points!", aPlayer);
                     aPlayer.profil.myTurtle.wasHitByEvent = false;
                 } else {
-                    writeToPlayer(Protocol.LOBY.name() + "Puh ok no, that was close!", aPlayer);
+                    writeToPlayer(Protocol.MSSG.name() + ":Puh ok no, that was close!", aPlayer);
                 }
             }
         }

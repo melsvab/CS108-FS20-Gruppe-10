@@ -417,7 +417,7 @@ public class ServerThreadForClient implements Runnable {
                                 dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
                             } else if (profil.waitingForEvent) {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
-                                        " cannot move.. to scared of what is gonna happen");
+                                        " cannot move.. too scared of what is gonna happen");
                             } else {
                                 profil.moveTurtleRight();
                             }
@@ -426,7 +426,7 @@ public class ServerThreadForClient implements Runnable {
                         case IDKW:
                             if (profil.isInGame && profil.lobby.gamestate == 2) {
                                 int cheatPlus = 10;
-                                dos.writeUTF(Protocol.IDKW.name() +
+                                dos.writeUTF(Protocol.MSSG.name() +
                                         ":CHEAT CODE USED! YOU RECEIVED " + cheatPlus + " POINTS!");
                                 profil.myTurtle.points += cheatPlus;
                             } else {
