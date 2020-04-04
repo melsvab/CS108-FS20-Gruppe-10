@@ -9,28 +9,21 @@ import game.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Dennis,Natasha,Rohail,Melanie
+ * A Thread is created for every Client that connects to the server.
+ * Represents an interface between Client & server.
+ *
+ */
 public class ServerThreadForClient implements Runnable {
     public static final Logger logger = LoggerFactory.getLogger(ServerThreadForClient.class);
-    /*
-     * This Thread is created for every Client that connects
-     * to the server. Represents an interface between Client & server.
-     */
-
-    /*
-     * In- & Ouputstreams for reading and sending Strings.
-     */
 
     DataInputStream dis;
     DataOutputStream dos;
 
-    /*
-     * Every Thread gets a client Profile
-     */
 
     public Profil profil;
-    
-    //Constructor (creats a new clientProfil)
-    
+
     public ServerThreadForClient(
         int clientID, DataInputStream dis, DataOutputStream dos) {
             this.profil = new Profil(clientID);
@@ -38,8 +31,7 @@ public class ServerThreadForClient implements Runnable {
             this.dos = dos;
     }
 
-
-    /*
+    /**
      * ends programm
      */
     public void end() {
@@ -47,8 +39,9 @@ public class ServerThreadForClient implements Runnable {
         sendMessage(Protocol.QUIT.name());
     }
 
-    /*
-     * Chatfunction sends a message to client.
+    /**
+     * sends message
+     * @param message
      */
     public void sendMessage(String message) {
         try {
@@ -58,11 +51,19 @@ public class ServerThreadForClient implements Runnable {
         }
     }
 
+    /**
+     *
+     * @return dataoutputstream
+     */
     public DataOutputStream testConnection() {
         return dos;
     }
 
-
+    /**
+     * checks if the keyword exists in our protocol
+     * @param keyword
+     * @return
+     */
     public static boolean contains(String keyword) {
 
         for (Protocol p : Protocol.values()) {
@@ -74,6 +75,9 @@ public class ServerThreadForClient implements Runnable {
         return false;
     }
 
+    /**
+     * handles the client on the serverside
+     */
     public void run() {
 
         try {

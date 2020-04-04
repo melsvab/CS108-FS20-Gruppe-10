@@ -6,6 +6,10 @@ import java.awt.event.*;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * @author Melanie
+ *
+ */
 public class ClientChatGUI extends JFrame {
 
     JFrame frame;
@@ -15,6 +19,9 @@ public class ClientChatGUI extends JFrame {
     DataOutputStream dos;
     Dimension dimScroll;
 
+    /**
+     *
+     */
     ClientChatGUI() {
         this.frame = new JFrame("Chat");
         this.panel = new JPanel();
@@ -23,10 +30,17 @@ public class ClientChatGUI extends JFrame {
         this.dimScroll = new Dimension(500, 10);
     }
 
+    /**
+     *
+     * @param dos
+     */
     public void setDos(DataOutputStream dos){
         this.dos = dos;
     }
 
+    /**
+     *
+     */
     public void createChat() {
         frame.add(BorderLayout.SOUTH, panel);
         panel.setLayout(new BorderLayout());
@@ -52,6 +66,12 @@ public class ClientChatGUI extends JFrame {
         frame.setVisible(true);
     }
 
+    /**
+     *
+     * @param e
+     *
+     * @throws IOException
+     */
     public void actionPerformed(ActionEvent e) {
         try {
 
@@ -74,6 +94,10 @@ public class ClientChatGUI extends JFrame {
         message.setText(""); //löscht text im textfield
     }
 
+    /**
+     *
+     * @param msg
+     */
     public void receiveMsg(String msg) {
         chatArea.append(msg + "\n");
         dimScroll.height += 16.5;
@@ -82,10 +106,17 @@ public class ClientChatGUI extends JFrame {
         chatArea.setCaretPosition(chatArea.getText().length());
     }
 
+    /**
+     *
+     * @param b
+     */
     public void setVisible(boolean b) {
         frame.setVisible(b);
     }
 
+    /**
+     * closes chat
+     */
     public void closeChat() {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
