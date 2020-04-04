@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="The Floor is Java" company="" webLink="http://" view-date="2020-04-20" view-index="0" gantt-divider-location="460" resource-divider-location="300" version="2.8.10" locale="en_GB">
+<?xml version="1.0" encoding="UTF-8"?><project name="The Floor is Java" company="" webLink="http://" view-date="2020-03-16" view-index="0" gantt-divider-location="460" resource-divider-location="300" version="2.8.10" locale="en_GB">
     <description/>
     <view zooming-state="default:4" id="gantt-chart">
         <field id="tpd3" name="Name" width="205" order="0"/>
         <field id="tpd4" name="Begin date" width="117" order="1"/>
         <field id="tpd5" name="End date" width="117" order="2"/>
         <timeline>
-            <![CDATA[7,6,57]]>
+            <![CDATA[6,57,7]]>
         </timeline>
         <option id="color.recent">
             <![CDATA[#cccccc #ccffff]]>
@@ -155,14 +155,15 @@
         <task id="46" name="Vorlesung" color="#ccffff" meeting="false" start="2020-03-19" duration="2" complete="100" thirdDate="2020-02-17" thirdDate-constraint="0" expand="true">
             <depend id="53" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="53" name="Milestone 2 (In Übungen)" color="#ccffff" meeting="false" start="2020-03-25" duration="1" complete="0" thirdDate="2020-03-25" thirdDate-constraint="0" expand="true">
+        <task id="53" name="Milestone 2 (In Übungen)" color="#ccffff" meeting="false" start="2020-03-25" duration="1" complete="100" thirdDate="2020-03-25" thirdDate-constraint="0" expand="true">
             <depend id="87" type="2" difference="0" hardness="Strong"/>
             <depend id="232" type="2" difference="0" hardness="Strong"/>
             <depend id="261" type="2" difference="0" hardness="Strong"/>
             <depend id="285" type="2" difference="0" hardness="Strong"/>
             <depend id="287" type="2" difference="0" hardness="Strong"/>
+            <depend id="456" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="285" name="Game State" color="#8cb6ce" meeting="false" start="2020-03-26" duration="8" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+        <task id="285" name="Game State" color="#8cb6ce" meeting="false" start="2020-03-26" duration="11" complete="100" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
             <notes>
                 <![CDATA[Make all the methodes and classes for the game
 
@@ -177,32 +178,43 @@ Methods for turtles:
 Goal: Game is playable
 ]]>
             </notes>
-            <task id="287" name="Create Basic Classes and Methods for Game State" color="#8cb6ce" meeting="false" start="2020-03-26" duration="3" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+            <task id="287" name="Create Basic Classes and Methods for Game State" color="#8cb6ce" meeting="false" start="2020-03-26" duration="6" complete="100" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[Make all the methodes and classes for the game
 
 create Methods like: 
--Erdbeben, Überschwemmung, Zusatzleistung (Apfel)
+-Erdbeben, Überschwemmung, Zusatzleistung (Coins)
 sowie Reaktionen der Schildkröten
 
 Methods for turtles:
 - Punktesammeln
 - Bewegen (rechts, links, oben, unten)
 
-]]>
+
+Rohail:
+Class "Start" and option to create a javadoc and a jar file.
+Make sure that:
+- Build Script: The build script succeeds and produces an executable jar & javadoc for the task "build-cs108"
+- Command Line: Command line parameters are parsed correctly: (client <hostadress>:<port> [<username>] | server <port>)]]>
                 </notes>
-                <depend id="265" type="2" difference="0" hardness="Strong"/>
+                <depend id="291" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="291" name="Finish Basic Rules of The Game" color="#8cb6ce" meeting="false" start="2020-03-31" duration="3" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+            <task id="291" name="Finish Basic Rules of The Game" color="#8cb6ce" meeting="false" start="2020-04-01" duration="5" complete="100" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[Goal: Game is playable
+- Turtles can be hit by an event and respawn at the start position which is in the middle of the board
+- Turtles cannot walk at a place that has another turtle on it or has water.
+- If there is an event, turtle do not move because they are in shock.
+- player get points for moving their turtle and extrapoints for collectiong coins on the board. 
 
-Rohail: works on Q/A, checks code with CheckStyle]]>
+Rohail: works on Q/A, checks code with CheckStyle
+
+]]>
                 </notes>
-                <depend id="251" type="2" difference="0" hardness="Strong"/>
+                <depend id="55" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="87" name="Code for Server &amp; Client" color="#8cb6ce" meeting="false" start="2020-03-26" duration="8" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+        <task id="87" name="Code for Server &amp; Client" color="#8cb6ce" meeting="false" start="2020-03-26" duration="11" complete="100" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[Create:
 - Whisper chatroom
@@ -212,57 +224,34 @@ Rohail: works on Q/A, checks code with CheckStyle]]>
 - list of all players that are current connected to the server
 - Chatrooms with GUI (Graphic)]]>
             </notes>
-            <depend id="251" type="2" difference="0" hardness="Strong"/>
-            <task id="261" name="Chatrooms (Server &amp; Client)" color="#8cb6ce" meeting="false" start="2020-03-26" duration="3" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
+            <task id="261" name="Basic Chatrooms with GUI" color="#8cb6ce" meeting="false" start="2020-03-26" duration="6" complete="100" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true">
                 <notes>
-                    <![CDATA[Create:
-- Whisper chatroom
-- Broadcast
-- have support for multiple lobbies (one per game) with their respektive internal chats]]>
+                    <![CDATA[Make all chatrooms graphical. Clients can only chat by the chat window.]]>
                 </notes>
-                <depend id="317" type="2" difference="0" hardness="Strong"/>
+                <depend id="291" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="265" name="Lists and Other Tasks" color="#8cb6ce" meeting="false" start="2020-03-29" duration="2" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
+            <task id="456" name="Create an Enum for our Protocol &amp; Lobby" color="#8cb6ce" meeting="false" start="2020-03-26" duration="4" complete="100" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+                <notes>
+                    <![CDATA[Goal: All classes can use the same keywords.
+
+create a class named "Lobby" from which clients can enter a game.
+create methodes for broadcast and whisper chat.]]>
+                </notes>
+                <depend id="265" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="265" name="Lists and Other Tasks" color="#8cb6ce" meeting="false" start="2020-03-30" duration="7" complete="100" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[Create:
 - Game list (list of ongoing and finished games, their status is indicated)
 - list of all players that are current connected to the server
 
 
-Make sure that:
-- Build Script: The build script succeeds and produces an executable jar & javadoc for the task "build-cs108"
-- Command Line: Command line parameters are parsed correctly: (client <hostadress>:<port> [<username>] | server <port>)]]>
+- delete unneccesairy keywords, get the keywords in order, shorten code if possible.]]>
                 </notes>
-                <depend id="291" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="317" name="Basic Chatrooms with GUI" color="#8cb6ce" meeting="false" start="2020-03-29" duration="5" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
-                <notes>
-                    <![CDATA[Make all chatrooms graphical
-
-if possible: help with finishing Game State]]>
-                </notes>
-                <depend id="251" type="2" difference="0" hardness="Strong"/>
+                <depend id="55" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="251" name="Presentation for Milestone 3" color="#8cb6ce" meeting="false" start="2020-04-03" duration="3" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
-            <notes>
-                <![CDATA[Make slides with these subjects:
-
-- Outline of the game with its goals, rules and mechanics
-
-- Present a working prototype of our game
-
-- Progress report: How things are going - project timeline and responsibilities, changes and problems
-
-- Describe tools, libraries and processes which you use that are not introduced in the lecture and why you use them
-
-- Rules to Code: How is the gamestate and game logic represented in the code
-
-]]>
-            </notes>
-            <depend id="55" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="232" name="Documentation (2)" color="#8cb6ce" meeting="false" start="2020-03-26" duration="11" complete="0" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+        <task id="232" name="Documentation (2)" color="#8cb6ce" meeting="false" start="2020-03-26" duration="11" complete="100" thirdDate="2020-03-26" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
             <notes>
                 <![CDATA[- check for entries in project diary
 
@@ -278,9 +267,31 @@ if possible: help with finishing Game State]]>
                 <![CDATA[Check-in: 06.04.2020 7:00
 Übung: 08.04.2020]]>
             </notes>
+            <depend id="251" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="251" name="Presentation for Milestone 3" color="#8cb6ce" meeting="false" start="2020-04-09" duration="4" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[Make slides with these subjects:
+
+- Outline of the game with its goals, rules and mechanics
+
+- Present a working prototype of our game
+
+- Progress report: How things are going - project timeline and responsibilities, changes and problems
+
+- Describe tools, libraries and processes which you use that are not introduced in the lecture and why you use them
+
+- Rules to Code: How is the gamestate and game logic represented in the code
+
+
+if possible: start with tasks for Milestone 4
+Melanie & Natasha: Login, Lobbies & Chatrooms fully with GUI
+Dennis & Rohail: Define Winner State
+]]>
+            </notes>
             <depend id="91" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="91" name="Puffer(2)" color="#cccccc" meeting="false" start="2020-04-09" duration="7" complete="0" thirdDate="2020-04-01" thirdDate-constraint="0" expand="true">
+        <task id="91" name="Puffer(2)" color="#cccccc" meeting="false" start="2020-04-13" duration="3" complete="0" thirdDate="2020-04-01" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[If we are ahead of scedule, we start with tasks for milestone 4.
 If there is a delay of some sort, we will use this time to complete everything for milestone 3.]]>
@@ -362,53 +373,54 @@ If there is a delay of some sort, we will use this time to complete everything f
             <depend id="59" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="59" name="Milestone 4 (In Übungen)" color="#ccffff" meeting="false" start="2020-04-29" duration="1" complete="0" thirdDate="2020-04-29" thirdDate-constraint="0" expand="true">
+            <depend id="110" type="2" difference="0" hardness="Strong"/>
+            <depend id="391" type="2" difference="0" hardness="Strong"/>
+            <depend id="425" type="2" difference="0" hardness="Strong"/>
+            <depend id="450" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="391" name="Q/A" color="#8cb6ce" meeting="false" start="2020-04-30" duration="7" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- QA report with goals, methods and results
+- advanced: Detailed and relevant analysis of QA measures over time, discussion of results, well-written report]]>
+            </notes>
             <depend id="424" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="424" name="Puffer (3)" color="#cccccc" meeting="false" start="2020-04-30" duration="4" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+        <task id="450" name="Designs, Pictures &amp; Videos" color="#8cb6ce" meeting="false" start="2020-04-30" duration="7" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- create logo for our game / group (which we will show at our presentation)
+- make a representative screenshot of the game
+- make a representative  video (somewhere between 20 seconds and 2 minutes of gameplay)]]>
+            </notes>
+            <depend id="424" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="425" name="Connection Lost" color="#8cb6ce" meeting="false" start="2020-04-30" duration="7" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- make sure game can still be played if someone unexpectedly loses connection
+- make sure player can join ongoing game again after losing connection (bonus)
+]]>
+            </notes>
+            <depend id="424" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="110" name="Documentation &amp; Bugs" color="#8cb6ce" meeting="false" start="2020-04-30" duration="7" complete="0" thirdDate="2020-04-28" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- fix all bugs that are found by tests
+- update timetable, diary, manual and network protocol
+- comment code and make sure that there is an order
+]]>
+            </notes>
+            <depend id="424" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="424" name="Puffer (3)" color="#cccccc" meeting="false" start="2020-05-07" duration="3" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[if enough time:
 - create cheat code
 - include animation for earthquake & flood (Natasha & Melanie)
 - spectator mode (Zuschauer)
 
+HELP EACH OTHER!
 
 pay attention to:
 Pachydermatous Librarian: All external libraries in your project are managed by gradle via maven central]]>
-            </notes>
-            <depend id="110" type="2" difference="0" hardness="Strong"/>
-            <depend id="391" type="2" difference="0" hardness="Strong"/>
-            <depend id="425" type="2" difference="0" hardness="Strong"/>
-            <depend id="450" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="425" name="Connection Lost" color="#8cb6ce" meeting="false" start="2020-05-04" duration="6" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
-            <notes>
-                <![CDATA[- make sure game can still be played if someone unexpectedly loses connection
-- make sure player can join ongoing game again after losing connection (bonus)
-]]>
-            </notes>
-            <depend id="420" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="450" name="Designs, Pictures &amp; Videos" color="#8cb6ce" meeting="false" start="2020-05-04" duration="6" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
-            <notes>
-                <![CDATA[- create logo for our game / group (which we will show at our presentation)
-- make a representative screenshot of the game
-- make a representative  video (somewhere between 20 seconds and 2 minutes of gameplay)]]>
-            </notes>
-            <depend id="420" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="391" name="Q/A" color="#8cb6ce" meeting="false" start="2020-05-04" duration="6" complete="0" thirdDate="2020-04-13" thirdDate-constraint="0" expand="true">
-            <notes>
-                <![CDATA[- QA report with goals, methods and results
-- advanced: Detailed and relevant analysis of QA measures over time, discussion of results, well-written report]]>
-            </notes>
-            <depend id="420" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="110" name="Documentation &amp; Bugs" color="#8cb6ce" meeting="false" start="2020-05-04" duration="6" complete="0" thirdDate="2020-04-28" thirdDate-constraint="0" expand="true">
-            <notes>
-                <![CDATA[- fix all bugs that are found by tests
-- update timetable, diary, manual and network protocol
-
-]]>
             </notes>
             <depend id="420" type="2" difference="0" hardness="Strong"/>
         </task>
@@ -467,9 +479,7 @@ advanced: Use at least two libraries besides JUnit actively for a significant / 
         <allocation task-id="163" resource-id="0" function="Default:1" responsible="true" load="20.0"/>
         <allocation task-id="115" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
         <allocation task-id="232" resource-id="0" function="Default:1" responsible="true" load="20.0"/>
-        <allocation task-id="251" resource-id="0" function="Default:1" responsible="false" load="80.0"/>
-        <allocation task-id="287" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
-        <allocation task-id="317" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
+        <allocation task-id="251" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
         <allocation task-id="319" resource-id="0" function="Default:1" responsible="false" load="70.0"/>
         <allocation task-id="336" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="343" resource-id="0" function="Default:1" responsible="false" load="70.0"/>
@@ -487,6 +497,8 @@ advanced: Use at least two libraries besides JUnit actively for a significant / 
         <allocation task-id="446" resource-id="0" function="Default:1" responsible="true" load="10.0"/>
         <allocation task-id="424" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="110" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="265" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
+        <allocation task-id="456" resource-id="0" function="Default:1" responsible="true" load="80.0"/>
         <allocation task-id="7" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="27" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="29" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
@@ -503,8 +515,6 @@ advanced: Use at least two libraries besides JUnit actively for a significant / 
         <allocation task-id="186" resource-id="1" function="Default:0" responsible="true" load="60.0"/>
         <allocation task-id="115" resource-id="1" function="Default:0" responsible="true" load="40.0"/>
         <allocation task-id="251" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="261" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="265" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="291" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="123" resource-id="1" function="Default:0" responsible="true" load="40.0"/>
         <allocation task-id="320" resource-id="1" function="Default:0" responsible="true" load="90.0"/>
@@ -523,6 +533,7 @@ advanced: Use at least two libraries besides JUnit actively for a significant / 
         <allocation task-id="339" resource-id="1" function="Default:0" responsible="true" load="90.0"/>
         <allocation task-id="424" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="425" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="287" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="7" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="27" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="29" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
@@ -538,8 +549,6 @@ advanced: Use at least two libraries besides JUnit actively for a significant / 
         <allocation task-id="112" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="120" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="251" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="287" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="317" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="319" resource-id="2" function="Default:0" responsible="true" load="90.0"/>
         <allocation task-id="336" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="343" resource-id="2" function="Default:0" responsible="true" load="90.0"/>
@@ -555,6 +564,8 @@ advanced: Use at least two libraries besides JUnit actively for a significant / 
         <allocation task-id="446" resource-id="2" function="Default:0" responsible="false" load="10.0"/>
         <allocation task-id="424" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="450" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="261" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="291" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="7" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="27" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="29" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
@@ -570,9 +581,6 @@ advanced: Use at least two libraries besides JUnit actively for a significant / 
         <allocation task-id="112" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="186" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="251" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="265" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="291" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="261" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="320" resource-id="3" function="Default:0" responsible="false" load="90.0"/>
         <allocation task-id="325" resource-id="3" function="Default:0" responsible="false" load="90.0"/>
         <allocation task-id="336" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
@@ -588,6 +596,8 @@ advanced: Use at least two libraries besides JUnit actively for a significant / 
         <allocation task-id="434" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="446" resource-id="3" function="Default:0" responsible="false" load="10.0"/>
         <allocation task-id="424" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="291" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="287" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
     </allocations>
     <vacations/>
     <previous/>
