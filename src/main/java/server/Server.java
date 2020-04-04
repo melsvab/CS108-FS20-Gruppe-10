@@ -173,14 +173,19 @@ public class Server  implements Runnable {
      *
      * @param lobbyNumber
      * @param aUser
+     * @param watch
      * @return
      */
-    public static synchronized boolean checkLobbies(int lobbyNumber, ServerThreadForClient aUser) {
+    public static synchronized boolean checkLobbies(int lobbyNumber, ServerThreadForClient aUser, boolean watch) {
 
         if (checkOutGames()) {
             for (Lobby lobby : games) {
                 if (lobby.getLobbyNumber() == lobbyNumber) {
-                    lobby.addPlayer(aUser);
+                    if (watch) {
+                        lobby.addSpectators(aUser);
+                    } else {
+                        lobby.addPlayer(aUser);
+                    }
                     aUser.profil.lobby = lobby;
                     return true;
                 }
@@ -253,25 +258,10 @@ public class Server  implements Runnable {
     }
 
 
-    /**
-     * If a client wants to exit a lobby
-     * the List on the server and the Thread which will be terminated,
-     * is removed from the list on the server as well.
-     * @param aUser
+    /*
+     * is used to end the whole program
      */
-    public static synchronized void removeUser(ServerThreadForClient aUser) {
-        userThreads.remove(aUser);
 
-        if (aUser.profil.lobby != null) {
-            aUser.profil.lobby.deletePlayer(aUser);
-            aUser.profil.isInGame = false;
-            aUser.sendMessage(Protocol.BACK.name());
-        }
-    }
-
-    /**
-     *
-     */
     public static synchronized void sendClientsToSleep() {
         for (ServerThreadForClient aUser : userThreads) {
             aUser.end();
