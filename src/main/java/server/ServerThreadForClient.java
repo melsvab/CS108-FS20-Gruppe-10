@@ -372,7 +372,7 @@ public class ServerThreadForClient implements Runnable {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
                                         " cannot move.. to scared of what is gonna happen");
                             } else {
-                                profil.moveTurtleUp();
+                                profil.moveTurtle(0);
                             }
                             break;
 
@@ -387,7 +387,7 @@ public class ServerThreadForClient implements Runnable {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
                                         " cannot move.. to scared of what is gonna happen");
                             } else {
-                                profil.moveTurtleDown();
+                                profil.moveTurtle(2);
                             }
 
                             break;
@@ -403,7 +403,7 @@ public class ServerThreadForClient implements Runnable {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
                                         " cannot move.. to scared of what is gonna happen");
                             } else {
-                                profil.moveTurtleLeft();
+                                profil.moveTurtle(3);
                             }
                             break;
 
@@ -419,7 +419,7 @@ public class ServerThreadForClient implements Runnable {
                                 dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
                                         " cannot move.. too scared of what is gonna happen");
                             } else {
-                                profil.moveTurtleRight();
+                                profil.moveTurtle(1);
                             }
                             break;
 
