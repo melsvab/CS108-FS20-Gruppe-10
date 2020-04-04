@@ -32,8 +32,8 @@ public class Start {
                     + "It has to be done as followed: \n"
                     + "client <hostadress>:<port> [<username>] | server <port> \n\n"
                     + "Example 1: server 1111\n"
-                    + "Example 2: client localhost:1111"
-                    + "Example 3: client localhost:1111 me");
+                    + "Example 2: client localhost:1111\n"
+                    + "Example 3: client localhost:1111 me\n");
         }
     }
 }

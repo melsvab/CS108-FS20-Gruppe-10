@@ -59,7 +59,7 @@ public class Lobby extends Thread {
     }
 
     public synchronized void addPlayer(ServerThreadForClient aUser) {
-        //if they game has already started or there are four players already, the new client will be a spectator
+        //if the game has already started or there are four players already, the new client will be a spectator
         if (gamestate > 1 || numberOfPlayers >= 4) {
 
             if(gamestate > 1) {
