@@ -23,7 +23,7 @@ public class Board {
     int coinsOnBoard = 0;
 
     /**
-     * Function to copy a board (already needed the constructor)
+     * Function to copy a board (already needed by the constructor)
      *
      * @param copyThis the copy this
      * @return the field [ ] [ ]
@@ -127,7 +127,7 @@ public class Board {
     }
 
     /**
-     * If a earthquake happens (determined by server) do the following function.
+     * If a earthquake happens (determined by server). The following function is used.
      *
      * @param magnitude the magnitude
      */

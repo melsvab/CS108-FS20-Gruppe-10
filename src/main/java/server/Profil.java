@@ -6,14 +6,10 @@ import game.Field;
 
 /**
  * @author Natasha,Dennis,Melanie,Rohail
- *  This class is for the server and the client to know about the states and about specific
- *  information about a client.
+ *  This class is for the server and the client to know about states and other specific
+ *  information concerning a client.
  */
 public class Profil {
-
-    /*
-     *
-     */
 
     int clientID;
     public String nickname;
@@ -36,7 +32,7 @@ public class Profil {
     }
 
 
-    //constructor for client
+    //constructor for a client
 
     public Profil() {
         this.clientIsOnline = true;
@@ -82,9 +78,10 @@ public class Profil {
     }
 
     /**
-     * an example of an input:
-     *  KEYW:word:secondWord
-     *  check if there are two words (or at least letters) in between ":"
+     * An example of an input:
+     * KEYW:word:secondWord
+     *
+     *  Check if there are two words (or at least letters) in between ":".
      * @param original
      * @return boolean
      */
@@ -109,10 +106,11 @@ public class Profil {
     }
 
     /**
-     * an example of an input: KEYW:name (without any further ":")
-     * check if there is only one ":"
-     * so if you split the string at ":", there will be two substrings)
-     * why? names cannot have a ":" in them.
+     * An example of an input: KEYW:name (without any further ":")
+     *
+     * Check if there is only one ":".
+     * (So if you split the string at ":", there will be two substrings)
+     * Why? Because names cannot have a ":" in them.
      * @param original
      * @return
      */
@@ -127,8 +125,9 @@ public class Profil {
     }
 
     /**
-     * an example of an input: KEYW:word
-     * check for usage of ":" and minimum input of KEYW:a
+     * An example of an input: KEYW:word
+     *
+     * Check for usage of ":" and minimum input of >KEYW:a<.
      * @param original
      * @return
      */

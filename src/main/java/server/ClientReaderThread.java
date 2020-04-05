@@ -58,7 +58,7 @@ public class ClientReaderThread implements Runnable {
     }
 
     /**
-     * Start the readerthread
+     * Start the reader thread
      */
     public void run() {
         InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
@@ -70,7 +70,7 @@ public class ClientReaderThread implements Runnable {
             while (threadIsRunning) {
 
 
-                //Get message from server (in LETTERS)
+                // Get message from server (in LETTERS)
 
                 String original = dis.readUTF();
                 int lenghtInput = original.length();
@@ -206,7 +206,7 @@ public class ClientReaderThread implements Runnable {
                             profile.isInGame = false;
                             profile.isSpectator = false;
 
-                            //Client got out of a lobby / game
+                            //Client went out of a lobby / game
                             System.out.println("You are not in a lobby anymore!");
                             break;
 

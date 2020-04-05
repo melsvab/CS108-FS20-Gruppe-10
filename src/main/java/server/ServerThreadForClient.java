@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Dennis,Natasha,Rohail,Melanie
- * A Thread is created for every Client that connects to the server.
- * Represents an interface between Client & server.
+ * A thread is created for every client that connects to the server.
+ * Represents an interface between client & server.
  *
  */
 public class ServerThreadForClient implements Runnable {
@@ -32,7 +32,7 @@ public class ServerThreadForClient implements Runnable {
     }
 
     /**
-     * ends programm
+     * ends program
      */
     public void end() {
         profil.goesToSleep(this);
@@ -107,7 +107,7 @@ public class ServerThreadForClient implements Runnable {
         try {
 
             /*
-             * Say Hello to client and let him choose his nickname.
+             * Sends a welcome message
              */
 
             dos.writeUTF(Protocol.WELC.name());
@@ -124,17 +124,16 @@ public class ServerThreadForClient implements Runnable {
                     + profil.nickname);
             dos.writeUTF(Protocol.MSSG.name()
                     + ":Your nickname: " + profil.nickname + "\n");
-            // Nickname is chosen.
 
             /*
-             * Ask client what he wants to do.
+             * Asks client what he / she wants to do.
              */
             dos.writeUTF(Protocol.HELP.name());
 
             while (profil.clientIsOnline) {
 
                 /*
-                 * Get choice from Client and decide what to do.
+                 * Gets choice from a client and decides what to do.
                  */
                 String original = dis.readUTF();
                 int lenghtInput = original.length();
@@ -150,6 +149,8 @@ public class ServerThreadForClient implements Runnable {
                     switch (Protocol.valueOf(clientChoice)) {
 
                         case CHAT:
+
+                            // The message will be sent in lobby chat if the client is in one.
 
                             if (profil.lobby != null && profil.checkForWord(original)) {
                                 String msg;
@@ -174,7 +175,7 @@ public class ServerThreadForClient implements Runnable {
 
                         case BRC1:
                             /*
-                             * message will be send to all clients that are online
+                             * A Message will be send to all clients that are online.
                              * (and therefore in our list of ServerThreadForClients called userThreads)
                              */
                             if(lenghtInput > 5) {
@@ -209,7 +210,7 @@ public class ServerThreadForClient implements Runnable {
 
                         case QUIT:
 
-                            //Gives Feedback
+                            // inform server that this client wants to end his / her connection
 
                             System.out.println("\nClient #" + profil.clientID + " \""
                                     + profil.nickname + "\" has disconnected.");
@@ -244,14 +245,14 @@ public class ServerThreadForClient implements Runnable {
                         case NAME:
 
                             if (profil.checkForName(original)) {
-                                //old name will be removed from the server list, new name is checked for dublicates
+                                //old name will be removed from the server list, new name is checked for duplicates
                                 String oldNickname = profil.nickname;
                                 String desiredName = original.substring(5);
                                 desiredName = Server.checkForDuplicate(desiredName, this);
                                 String answerToClient = Protocol.MSSG.name() +
                                         ":Your name has been changed from " + oldNickname +
                                         " to " + desiredName + "\n";
-                                //write decision to Client
+                                //write decision to client
                                 dos.writeUTF(answerToClient);
 
                                 //server has accepted new name
@@ -266,7 +267,9 @@ public class ServerThreadForClient implements Runnable {
 
                         case PLL1:
 
-                            //Takes list from server and prints out players name.
+                            /* Takes list from server and prints out the name of all players
+                             * that are currently connected to the server.
+                             */
 
                             String listOfPlayers = Server.printPlayers();
                             dos.writeUTF(Protocol.LIST.name() + ":" + listOfPlayers);
@@ -292,6 +295,8 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case CRE1:
+
+                            // creates a new lobby
 
                             if (!profil.isInGame) {
                                 int lobbyNumber = Server.countGame();
@@ -334,8 +339,6 @@ public class ServerThreadForClient implements Runnable {
                             if (profil.isInGame) {
 
                                 profil.lobby.deletePlayer(this);
-                                profil.lobby = null;
-                                profil.isInGame = false;
                                 dos.writeUTF(Protocol.BACK.name());
                             } else {
                                // logger.info("used BACK even though he/she is not in a lobby or game");
@@ -424,6 +427,7 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case IDKW:
+                            // secret cheat code
                             if (profil.isInGame && profil.lobby.gamestate == 2) {
                                 int cheatPlus = 10;
                                 dos.writeUTF(Protocol.MSSG.name() +

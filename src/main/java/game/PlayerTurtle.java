@@ -3,7 +3,7 @@ package game;
 import java.awt.*;
 
 /**
- * @author idk
+ * @author Dennis
  */
 public class PlayerTurtle {
 

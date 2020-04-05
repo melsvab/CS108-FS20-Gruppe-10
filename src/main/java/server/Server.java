@@ -16,7 +16,7 @@ import java.util.Set;
  * @author Dennis,Rohail,Natasha,Melanie
  *
  * The main function of this class is to genereate a server. After that this Thread waits for
- * new connections and starts a Thread for this each new connection made.
+ * new connections and starts a thread for each new connection made.
  */
 public class Server  implements Runnable {
     int port;
@@ -112,8 +112,8 @@ public class Server  implements Runnable {
     }
 
     /**
-     * Functions for broadcast and other chats. Goes through each ServerThreadForClient in the group
-     * sends message to a person
+     * Functions for broadcast and other chats.
+     * Goes through each ServerThreadForClient in the group and sends a message.
      * @param message
      * @param group
      */
@@ -125,7 +125,7 @@ public class Server  implements Runnable {
     }
 
     /**
-     * to chat with a single person
+     * To send a message to one person only
      * @param message
      * @param aPerson
      */
@@ -134,7 +134,7 @@ public class Server  implements Runnable {
     }
 
     /**
-     * check if the player exists
+     * Check if the player exists
      * @param message
      * @param playerName
      * @param group
@@ -163,7 +163,7 @@ public class Server  implements Runnable {
 
     /**
      *
-     * @return idk
+     * @return boolean if there are any games at all
      */
     public static synchronized boolean checkOutGames() {
         return !games.isEmpty();
@@ -202,7 +202,7 @@ public class Server  implements Runnable {
     /**
      *
      * @param aUser
-     * @return
+     * @return boolean if there are any lobbies at all
      */
     public static synchronized boolean gameList(ServerThreadForClient aUser) {
         if (checkOutGames()) {
@@ -229,7 +229,7 @@ public class Server  implements Runnable {
 
     /**
      *
-     * @return
+     * @return String of all players
      */
     public static synchronized String printPlayers() {
         testConnectionLost(userThreads);
@@ -272,7 +272,7 @@ public class Server  implements Runnable {
 
 
     /**
-     * Build a Server and give feedback, when server is online.
+     * Builds a server and gives feedback as long as the server is online.
      */
     public void run() {
 
@@ -293,15 +293,13 @@ public class Server  implements Runnable {
 
             while (serverIsOnline) {
 
-                //Wait for a connection to the server by a Client
-
+                //Waits for a connection to the server by a client
 
                 Socket socket = serverSocket.accept();
 
                 //Connection to one client established
 
                 System.out.println("\nClient #" + ++clientConnections + " is connected to the Server.\n");
-
 
                 //Create In- & Ouputstreams for reading and sending Strings
 

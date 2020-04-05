@@ -9,7 +9,7 @@ import java.net.Socket;
 
 /**
  * @author Dennis,Natasha,Melanie,Rohail
- * This class represents a Client which connects to the server.
+ * This class represents a client which connects to the server.
  * In here, client inputs will be sent to the server and will be processed.
  */
 public class Client implements Runnable {
@@ -18,7 +18,7 @@ public class Client implements Runnable {
     Profil profile = new Profil();
 
     /**
-     * create a CLient constructor
+     * creates a client constructor
      *
      * @param name
      */
@@ -34,7 +34,7 @@ public class Client implements Runnable {
     }
 
     /**
-     * check if the keyword exists in our Protocol
+     * checks if the keyword exists in our protocol.
      *
      * @param keyword
      *
@@ -52,9 +52,9 @@ public class Client implements Runnable {
     }
 
     /**
-     * chooses a server and port and builds up a connection and starts the ClientReaderThread
-     * for reading input from Server sets DataOutputStream for the ChatGUI and
-     * creates an invisible chat processes input
+     * chooses a server and port, builds up a connection and starts the ClientReaderThread
+     * for reading input from Server. It sets a DataOutputStream for the ChatGUI and
+     * creates an invisible chat that processes input.
      */
     public void run(){
         try {
@@ -72,7 +72,7 @@ public class Client implements Runnable {
             Thread clientThread = new Thread(clientReaderThread);
             clientThread.start();
 
-            //Choose nickname
+            // The nickname given will be changed to system username if wanted.
 
             if (profile.nickname.equalsIgnoreCase("YEAH")) {
                 profile.nickname = System.getProperty("user.name");
@@ -89,7 +89,7 @@ public class Client implements Runnable {
             //Start processing inputs.
             while (profile.clientIsOnline) {
 
-                //Read keyboardinput from client.
+                //Reads keyboard input from client.
 
                 String original = readKeyBoard.readLine();
                 int lenghtInput = original.length();
@@ -111,7 +111,7 @@ public class Client implements Runnable {
 
                         case QUIT:
                             /*
-                             * informing server about his / her choice.
+                             * Informing server about his / her choice.
                              * If player is not active he / she cannot write anymore.
                              */
                             dos.writeUTF(clientchoice);
@@ -137,33 +137,28 @@ public class Client implements Runnable {
                             break;
 
                         case NAME:
-                            /*
-                             * gets message that there is the option to use system username
-                             * and analyses answer from Client to this question
-                             */
+
 
                             if(profile.checkForName(original)) {
                                 String newNickname = original.substring(5);
 
                                 /*
                                  * if the answer is <YEAH> the nickname is change to the
-                                 * system usernameif the answer is something else,
-                                 * this input will be used as the nickname
+                                 * system username. If the answer is something else,
+                                 * this input will be used as the nickname.
                                  */
 
                                 if (newNickname.equalsIgnoreCase("YEAH")) {
                                     newNickname = System.getProperty("user.name");
                                 }
 
-                                /*
-                                 * sending the desired nickname to server
-                                 */
+                                // sending the desired nickname to server
 
                                 dos.writeUTF(Protocol.NAME.name() + ":" + newNickname);
 
 
                             } else {
-                                //in case client forgets to send his/her desired name
+                                //in case the client forgets to send his/her desired name
                                 System.out.println(Message.youAreDoingItWrong
                                         + Protocol.NAME.name()
                                         + ":desiredName");
@@ -172,23 +167,39 @@ public class Client implements Runnable {
                             break;
 
                         case PLL1:
-
+                            /*
+                             * Sends keyword to server.
+                             * Here: client asks for the list of all players that are currently on the server
+                             *
+                             */
                             dos.writeUTF(Protocol.PLL1.name());
                             break;
 
                         case GML1:
+                            /*
+                             * Sends keyword to server.
+                             * Here: client asks for the list of all games and their status
+                             *
+                             */
 
                             dos.writeUTF(Protocol.GML1.name());
                             break;
 
                         case HSC1:
+                            /*
+                             * Sends keyword to server.
+                             * Here: client asks for the high score list
+                             *
+                             */
 
                             dos.writeUTF(Protocol.HSC1.name());
                             break;
 
                         case CRE1:
 
+                            // This keyword is used to create a new lobby.
                             if (profile.isInGame) {
+                                // Clients cannot join a new lobby if they are already in one.
                                 System.out.println(Message.inLobbyAlready);
                             } else {
                                 dos.writeUTF(original);
@@ -198,6 +209,7 @@ public class Client implements Runnable {
 
                         case JOIN:
 
+                            // This keyword is used to join a lobby as a player.
                             if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
 
@@ -213,6 +225,7 @@ public class Client implements Runnable {
 
                         case SPEC:
 
+                            // This keyword is used to join a lobby as a spectator.
                             if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
 
@@ -228,6 +241,7 @@ public class Client implements Runnable {
                             break;
 
                         case BACK:
+                            // This keyword is used to go out of a lobby.
                             if (profile.isInGame) {
                                 dos.writeUTF(Protocol.BACK.name());
                             } else {
@@ -236,8 +250,8 @@ public class Client implements Runnable {
                             }
                             break;
 
-                        case STR1: /* check if input is correct for a game */
-
+                        case STR1:
+                            // This keyword is used to start a game while you are in a lobby
                             if (profile.checkForTwoInt(original) && profile.isInGame) {
                                 dos.writeUTF(original);
 

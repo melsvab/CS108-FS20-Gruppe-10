@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * @author  Dennis
- * This class represents a filed on the board and includes several attributes.
+ * This class represents a field on the board and includes several attributes.
  */
 public class Field {
 
@@ -20,7 +20,7 @@ public class Field {
     public PlayerTurtle turtle;
 
     /**
-     * Every field has a pointer to the filed next to it.
+     * Every field has a pointer to the field next to it.
      */
     public Field up,
     right,

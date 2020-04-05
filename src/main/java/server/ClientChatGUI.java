@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  * @author Melanie
- * Client chat gui.
+ * Client Chat Gui
  */
 public class ClientChatGUI extends JFrame {
 
@@ -20,7 +20,7 @@ public class ClientChatGUI extends JFrame {
     Dimension dimScroll;
 
     /**
-     * Instantiates a new Client chat gui.
+     * Instantiates a new Client Chat Gui.
      */
     ClientChatGUI() {
         this.frame = new JFrame("Chat");
@@ -31,7 +31,7 @@ public class ClientChatGUI extends JFrame {
     }
 
     /**
-     * Set dataoutputstream.
+     * Set Dataoutputstream.
      *
      * @param dos the dos
      */
@@ -92,7 +92,7 @@ public class ClientChatGUI extends JFrame {
         } catch (IOException f) {
             System.err.println(f.toString());
         }
-        message.setText(""); //löscht text im textfield
+        message.setText(""); // deletes text in the text field
     }
 
     /**

@@ -3,7 +3,7 @@ package server;
 /**
  * @author Natasha
  * This class is a database for text that is used quite often in the program
- * or the text is very long like an enum but without official keywords
+ * or the text is very long. This is like an enum but without official keywords
  */
 public class Message {
 

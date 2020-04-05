@@ -8,7 +8,7 @@ import java.util.Set;
 import server.*;
 
 /**
- * @author idk
+ * @author Natasha,Melanie,Dennis
  *
  */
 public class Lobby extends Thread {
@@ -147,7 +147,8 @@ public class Lobby extends Thread {
             numberOfPlayers--;
             players.remove(aUser);
         }
-
+        aUser.profil.isInGame = false;
+        aUser.profil.lobby = null;
     }
 
     /**
@@ -214,7 +215,7 @@ public class Lobby extends Thread {
         writeToAll(Protocol.LOBY.name() + ":" + board.printBoard());
 
         int rounds = 1;
-        while (rounds <= 10) { //Game is still running TO DO: HOW IS GAME FINISHED?
+        while (rounds <= 10) {
             writeToAll(Protocol.RNDS.name() + ":" + String.valueOf(rounds));
             pleaseWait(20);
             for (ServerThreadForClient aPlayer : players) {
@@ -223,7 +224,7 @@ public class Lobby extends Thread {
             writeToAll(Protocol.MSSG.name() + ":OMG! NOO! WHAT IS HAPPENING? ");
             pleaseWait(5);
             Random randomEvent = new Random();
-            int whichEvent = randomEvent.nextInt(10); /* TO DO ACHTUNG EVENT MELDUNG UND DANN EVENT DANN WIEDER GO*/
+            int whichEvent = randomEvent.nextInt(10);
             if (whichEvent < 9) {
                 Random howOften = new Random();
                 int randomOften = howOften.nextInt(5) + 1;
@@ -259,15 +260,29 @@ public class Lobby extends Thread {
         int maxPoints = -100;
         String winner = "";
         for (ServerThreadForClient aPlayer : players) {
-            writeToAll(Protocol.MSSG.name() + ":" + aPlayer.profil.nickname + " has " + aPlayer.profil.myTurtle.points + " points");
+            writeToAll(Protocol.MSSG.name() + ":" + aPlayer.profil.nickname + " has "
+                    + aPlayer.profil.myTurtle.points + " points");
             if (aPlayer.profil.myTurtle.points > maxPoints) {
                 maxPoints = aPlayer.profil.myTurtle.points;
                 winner = aPlayer.profil.nickname; //To Do: Even winners.
             }
         }
+
         writeToAll(Protocol.WINR.name() + ":" + winner + ":" + String.valueOf(maxPoints));
-        /*To Do: Implement that all players get automatically kicked out of the lobby or thread stops or something*/
+
         gamestate = 3;
+
+        writeToAll(Protocol.BACK.name());
+        if (!players.isEmpty()) {
+            for (ServerThreadForClient aPlayer : players) {
+                deletePlayer(aPlayer);
+            }
+        }
+        if (!spectators.isEmpty()) {
+            for (ServerThreadForClient aSpectator : spectators) {
+                deletePlayer(aSpectator);
+            }
+        }
 
     }
 }
