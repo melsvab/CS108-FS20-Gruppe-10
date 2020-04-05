@@ -10,34 +10,13 @@ import java.util.Random;
  */
 public class Board {
 
-    /**
-     * The Board size.
-     */
     int boardSize;
 
-    /**
-     * The Board.
-     */
     Field[][] board;
-
-    /**
-     * The Eventboard.
-     */
     Field[][] eventboard;
 
-    /**
-     * The Max coinsin game.
-     */
     int maxCoinsinGame;
-
-    /**
-     * The Coin occurence.
-     */
     int coinOccurence;
-
-    /**
-     * The Coins on board.
-     */
     int coinsOnBoard = 0;
 
     /**
@@ -64,6 +43,16 @@ public class Board {
      * @param maxCoinsinGame the max coinsin game
      */
     public Board(int boardSize, int maxCoinsinGame) {
+        /*
+        TO DO DENNIS: COINS ETC RAUSNEHMEN. eigene funktion! Clients haben eigenees Board
+        STRING mit Positionen münzen an clients (Client wandelt das um dann gut) KEyWOrds benutzen! Dokumentation!
+        eigene constructoren!
+        1. board auf serverseite erstellen
+        2. board auf clientseite erstellen
+        3. serverboard macht münzen und schickt position via string (keyword)
+        4. clientboard macht münzen nach string auf eigeneem board
+        5. string mit turlteposition alt und neu.
+        */
         //boardSize - min = 10, max = 200
         if (boardSize < 10) { boardSize = 10; }
         else if (boardSize > 20) { boardSize = 20; }
@@ -145,7 +134,7 @@ public class Board {
     }
 
     /**
-     * If a earthquake happens (determined by server). The following function is used.
+     * If a earthquake happens (determined by server) the following function is used:
      *
      * @param magnitude the magnitude
      */
@@ -178,7 +167,6 @@ public class Board {
     }
 
     /**
-     * TO DO: Change function. Less random flood!
      *
      * @param timesFlood the times flood
      */
@@ -195,7 +183,7 @@ public class Board {
                 case 0: //unten
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][i].isStartPosition) {
-                            this.board[position][i].isFlood = true;
+                            this.board[position][i].isFlood = true; //TO DO: LIKED LIST - MIT KOORDINATEN
                             if (this.board[position][i].isTaken) {
                                 A: for (int a = 1; a < this.boardSize-3; a++) {
                                     for (int b = 1; b < this.boardSize-3; b++) {
@@ -271,7 +259,8 @@ public class Board {
                                 A: for (int a = 1; a < this.boardSize-3; a++) {
                                     for (int b = 1; b < this.boardSize-3; b++) {
                                         if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
-                                            this.board[this.boardSize - i][position].turtle.turtleposition = this.board[a][b];
+                                            this.board[this.boardSize - i][position].turtle.turtleposition =
+                                                    this.board[a][b];
                                             this.board[a][b].turtle = this.board[this.boardSize - i][position].turtle;
                                             this.board[this.boardSize - i][position].turtle = null;
                                             this.board[a][b].isTaken = true;
@@ -342,16 +331,6 @@ public class Board {
     public void resetEventboard() {
         eventboard = copyBoard(board);
     }
-
-    /*public void setPlayerStartpositions(int HowManyPlayers) {
-        int a = this.boardSize/2;
-        int b = this.boardSize/2;
-        for(int i = 0; i < HowManyPlayers; i++) {
-            board[a][b].isTaken = true;
-            a++; b++;
-        }
-
-    }*/
 
     /**
      * The entry point of application.

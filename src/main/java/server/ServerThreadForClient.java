@@ -337,7 +337,7 @@ public class ServerThreadForClient implements Runnable {
                             }
                             break;
 
-                        case UPPR:
+                        case UPPR:  //TO DO: IF ELSE FOR && profil.lobby.gamestate == 2 all directions!
                             //Under Construction: Player moves a block up ingame.
                             if (profil.myTurtle.turtleposition.up.isTaken ||
                                     profil.myTurtle.turtleposition.up.isFlood ||
