@@ -15,9 +15,19 @@ import org.slf4j.LoggerFactory;
  * Represents an interface between client & server.
  */
 public class ServerThreadForClient implements Runnable {
+
+    /**
+     * The constant logger.
+     */
     public static final Logger logger = LoggerFactory.getLogger(ServerThreadForClient.class);
 
+    /**
+     * The Dis.
+     */
     DataInputStream dis;
+    /**
+     * The Dos.
+     */
     DataOutputStream dos;
 
     public Profil profil;
@@ -49,8 +59,9 @@ public class ServerThreadForClient implements Runnable {
     }
 
     /**
+     * Test connection data output stream.
      *
-     * @return dataoutputstream
+     * @return dataoutputstream data output stream
      */
     public DataOutputStream testConnection() {
         return dos;
@@ -70,6 +81,12 @@ public class ServerThreadForClient implements Runnable {
         return false;
     }
 
+    /**
+     * Join.
+     *
+     * @param original the original
+     * @param watch    the watch
+     */
     public void join (String original, boolean watch) {
         // checks if there are two ints and the player is not in a lobby already
         if (profil.checkForNumber(original) && !profil.isInGame) {

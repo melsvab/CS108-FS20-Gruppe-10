@@ -12,11 +12,29 @@ import java.io.IOException;
  */
 public class ClientChatGUI extends JFrame {
 
+    /**
+     * The Frame.
+     */
     JFrame frame;
+    /**
+     * The Panel.
+     */
     JPanel panel;
+    /**
+     * The Chat area.
+     */
     JTextArea chatArea;
+    /**
+     * The Message.
+     */
     JTextField message;
+    /**
+     * The Dos.
+     */
     DataOutputStream dos;
+    /**
+     * The Dim scroll.
+     */
     Dimension dimScroll;
 
     /**
@@ -71,7 +89,6 @@ public class ClientChatGUI extends JFrame {
      * Action performed.
      *
      * @param e the e
-     * @throws IOException
      */
     public void actionPerformed(ActionEvent e) {
         try {

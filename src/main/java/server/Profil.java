@@ -5,26 +5,59 @@ import game.PlayerTurtle;
 import game.Field;
 
 /**
- * @author Natasha,Dennis,Melanie,Rohail
- *  This class is for the server and the client to know about states and other specific
- *  information concerning a client.
+ * @author Natasha, Dennis, Melanie, Rohail
+ *
+ * This class is for the server and the client to know
+ * about states and other specific  information concerning a client.
  */
 public class Profil {
 
+    /**
+     * The Client id.
+     */
     int clientID;
+    /**
+     * The Nickname.
+     */
     public String nickname;
+    /**
+     * The Lobby.
+     */
     public Lobby lobby;
+    /**
+     * The My turtle.
+     */
     public PlayerTurtle myTurtle;
 
+    /**
+     * The Is in game.
+     */
     public boolean isInGame;
+    /**
+     * The Waiting for event.
+     */
     public boolean waitingForEvent;
+    /**
+     * The Client is online.
+     */
     boolean clientIsOnline;
+    /**
+     * The Is spectator.
+     */
     public boolean isSpectator;
+    /**
+     * The Ccg.
+     */
     ClientChatGUI ccg;
 
 
     //constructor for the ServerThreadForClient
 
+    /**
+     * Instantiates a new Profil.
+     *
+     * @param clientID the client id
+     */
     public Profil(int clientID) {
         this.clientID = clientID;
         this.clientIsOnline = true;
@@ -34,6 +67,9 @@ public class Profil {
 
     //constructor for a client
 
+    /**
+     * Instantiates a new Profil.
+     */
     public Profil() {
         this.clientIsOnline = true;
         lobby = null;
@@ -41,8 +77,9 @@ public class Profil {
     }
 
     /**
+     * Goes to sleep.
      *
-     * @param aUser
+     * @param aUser the a user
      */
     public void goesToSleep(ServerThreadForClient aUser) {
         isInGame = false;
@@ -55,8 +92,10 @@ public class Profil {
     }
 
     /**
-     * @param original
-     * @return boolean
+     * Check for two int boolean.
+     *
+     * @param original the original
+     * @return boolean boolean
      */
     public boolean checkForTwoInt(String original) {
         //an example of an input:
@@ -78,14 +117,13 @@ public class Profil {
     }
 
     /**
-     * An example of an input:
-     * KEYW:word:secondWord
+     * An example of an input: KEYW:word:secondWord
+     * <p>
+     * Check if there are two words (or at least letters) in between ":".
      *
-     *  Check if there are two words (or at least letters) in between ":".
-     * @param original
-     * @return boolean
+     * @param original the original
+     * @return boolean boolean
      */
-
     public boolean checkForTwoWords(String original) {
 
         int lenghtInput = original.length();
@@ -107,12 +145,12 @@ public class Profil {
 
     /**
      * An example of an input: KEYW:name (without any further ":")
+     * <p>
+     * Check if there is only one ":". (So if you split the string at ":", there will be two
+     * substrings) Why? Because names cannot have a ":" in them.
      *
-     * Check if there is only one ":".
-     * (So if you split the string at ":", there will be two substrings)
-     * Why? Because names cannot have a ":" in them.
-     * @param original
-     * @return
+     * @param original the original
+     * @return boolean boolean
      */
     public boolean checkForName(String original) {
 
@@ -126,10 +164,11 @@ public class Profil {
 
     /**
      * An example of an input: KEYW:word
-     *
+     * <p>
      * Check for usage of ":" and minimum input of >KEYW:a<.
-     * @param original
-     * @return
+     *
+     * @param original the original
+     * @return boolean boolean
      */
     public boolean checkForWord(String original) {
         int lenghtInput = original.length();
@@ -141,8 +180,10 @@ public class Profil {
     }
 
     /**
-     * @param original
-     * @return
+     * Check for number boolean.
+     *
+     * @param original the original
+     * @return boolean boolean
      */
     public boolean checkForNumber(String original) {
         if (checkForWord(original)) {
@@ -162,6 +203,8 @@ public class Profil {
 
     /**
      * to move the turtle one field
+     *
+     * @param direction the direction
      */
     public void moveTurtle(int direction) {
         this.myTurtle.turtleposition.isTaken = false;

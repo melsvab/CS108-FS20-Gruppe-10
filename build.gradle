@@ -45,9 +45,11 @@ dependencies {
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
 
-    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.0.9'
-    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.0.9'
+
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.0-alpha5'
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.3.0-alpha5'
     testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.0-alpha5'
+    testCompile group: 'ch.qos.logback', name: 'logback-core', version: '1.3.0-alpha5'
 
     /*
     This is another example - it imports the javafx-controls dependency

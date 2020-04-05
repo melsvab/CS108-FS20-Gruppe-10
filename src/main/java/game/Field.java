@@ -3,28 +3,61 @@ package game;
 import java.util.Random;
 
 /**
- * @author  Dennis
+ * @author Dennis
  * This class represents a field on the board and includes several attributes.
  */
 public class Field {
 
+    /**
+     * The Is flood.
+     */
     public boolean isFlood,
+    /**
+     * The Has coin.
+     */
     hasCoin,
+    /**
+     * The Is quake.
+     */
     isQuake;
 
+    /**
+     * The Stepped on.
+     */
     public boolean steppedOn,
+    /**
+     * The Is taken.
+     */
     isTaken,
+    /**
+     * The Is boundary.
+     */
     isBoundary,
+    /**
+     * The Is start position.
+     */
     isStartPosition; //TO DO !!
 
+    /**
+     * The Turtle.
+     */
     public PlayerTurtle turtle;
 
     /**
      * Every field has a pointer to the field next to it.
      */
     public Field up,
+    /**
+     * The Right.
+     */
     right,
+    /**
+     * The Down.
+     */
     down,
+    /**
+     * The Left.
+     */
     left;
 
     /**

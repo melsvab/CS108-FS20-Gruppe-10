@@ -5,21 +5,39 @@ import server.Server;
 import java.util.Random;
 
 /**
- * @author Dennis,Melanie
+ * @author Dennis, Melanie
  * This class represents the board made out of Fields.
  */
 public class Board {
 
+    /**
+     * The Board size.
+     */
     int boardSize;
 
+    /**
+     * The Board.
+     */
     Field[][] board;
 
+    /**
+     * The Eventboard.
+     */
     Field[][] eventboard;
 
+    /**
+     * The Max coinsin game.
+     */
     int maxCoinsinGame;
 
+    /**
+     * The Coin occurence.
+     */
     int coinOccurence;
 
+    /**
+     * The Coins on board.
+     */
     int coinsOnBoard = 0;
 
     /**

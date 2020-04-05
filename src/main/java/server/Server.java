@@ -10,18 +10,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * @author Dennis,Rohail,Natasha,Melanie
+ * @author Dennis, Rohail, Natasha, Melanie
  *
- * The main function of this class is to genereate a server. After that this Thread waits for
- * new connections and starts a thread for each new connection made.
+ * The main function of this class is to genereate a server.
+ * After that this Thread waits for new connections and starts a thread for each new
+ * connection made.
  */
 public class Server implements Runnable {
     int port;
 
     /**
-     * Constructor.
+     * Constructor. Instantiates a new Server.
      * @param port connection is made to this port.
      */
     public Server(int port) {
@@ -32,7 +35,13 @@ public class Server implements Runnable {
      * Global variables also used by the ServerThreadForClient.
      */
     public static Set<ServerThreadForClient> userThreads = new HashSet<>();
+    /**
+     * The constant games.
+     */
     public static Set<Lobby> games = new HashSet<>();
+    /**
+     * The constant gamesRunningCounter.
+     */
     public static int gamesRunningCounter = 0;
 
     /*
@@ -45,6 +54,9 @@ public class Server implements Runnable {
      * Variables to identify clients.
      */
     public static int playersOnline = 0;
+    /**
+     * The constant clientConnections.
+     */
     public static int clientConnections = 0;
 
     /**
@@ -118,9 +130,10 @@ public class Server implements Runnable {
 
     /**
      * Check if the player exists
-     * @param message
-     * @param playerName
-     * @param group
+     *
+     * @param message    the message
+     * @param playerName the player name
+     * @param group      the group
      * @return true or false
      */
     public static synchronized boolean doesThePlayerExist(
@@ -152,11 +165,12 @@ public class Server implements Runnable {
     }
 
     /**
+     * Check lobbies boolean.
      *
-     * @param lobbyNumber
-     * @param aUser
-     * @param watch
-     * @return
+     * @param lobbyNumber the lobby number
+     * @param aUser       the a user
+     * @param watch       the watch
+     * @return boolean
      */
     public static synchronized boolean checkLobbies(int lobbyNumber, ServerThreadForClient aUser, boolean watch) {
         if (checkOutGames()) {
@@ -180,8 +194,9 @@ public class Server implements Runnable {
     }
 
     /**
+     * Game list boolean.
      *
-     * @param aUser
+     * @param aUser the a user
      * @return boolean if there are any lobbies at all
      */
     public static synchronized boolean gameList(ServerThreadForClient aUser) {
@@ -222,7 +237,8 @@ public class Server implements Runnable {
 
     /**
      * method that checks trivial operation - if exception, then there is a connection lost
-     * @param group
+     *
+     * @param group the group
      */
     public static synchronized void testConnectionLost(Set<ServerThreadForClient> group) {
         for (ServerThreadForClient aUser : group) {
@@ -253,6 +269,7 @@ public class Server implements Runnable {
             String serverIP = Inet4Address.getLocalHost().getHostAddress();
             String serverName = Inet4Address.getLocalHost().getHostName();
             ServerSocket serverSocket = new ServerSocket(port);
+            logger.info("connecting to Client");
             System.out.println("\n\n\nServerSocket at port " + port + " successfully build.\n\n"
                     + "Server IP-Adrdress: " + serverIP + "\n"
                     + "Servername: " + serverName + "\n\n\n"
@@ -261,6 +278,7 @@ public class Server implements Runnable {
             while (serverIsOnline) {
                 //Waits for a connection to the server by a client
                 Socket socket = serverSocket.accept();
+                logger.info("connected to Client");
                 //Connection to one client established
                 System.out.println("\nClient #" + ++clientConnections + " is connected to the Server.\n");
                 //Create In- & Ouputstreams for reading and sending Strings
@@ -275,9 +293,12 @@ public class Server implements Runnable {
                         ++playersOnline, dis, dos);
                 userThreads.add(serverThreadForClient);
                 Thread serverThread = new Thread(serverThreadForClient);
+                logger.info("ServerThreadForClient started");
                 serverThread.start();
             }
             serverSocket.close();
+            logger.info("Serversocket closed");
+
         } catch (IOException exception) {
             System.err.println(exception.toString());
             System.exit(1);

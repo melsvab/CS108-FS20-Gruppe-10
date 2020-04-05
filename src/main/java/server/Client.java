@@ -6,21 +6,34 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * @author Dennis,Natasha,Melanie,Rohail
+ * @author Dennis, Natasha, Melanie, Rohail
  * This class represents a client which connects to the server.
  * In here, client inputs will be sent to the server and will be processed.
  */
 public class Client implements Runnable {
+    public static final Logger logger = LoggerFactory.getLogger(Client.class);
+
+    /**
+     * The Server ip server name.
+     */
     String serverIpServerName;
+    /**
+     * The Server port.
+     */
     int serverPort;
+    /**
+     * The Profile.
+     */
     Profil profile = new Profil();
 
     /**
      * creates a client constructor
      *
-     * @param name
+     * @param name the name
      */
     public Client(String ... name){
         this.serverIpServerName = name[0];
@@ -36,8 +49,7 @@ public class Client implements Runnable {
     /**
      * checks if the keyword exists in our protocol.
      *
-     * @param keyword
-     *
+     * @param keyword the keyword
      * @return if the keyword exists in our protocol or not
      */
     public static boolean contains(String keyword) {
@@ -58,11 +70,12 @@ public class Client implements Runnable {
      */
     public void run(){
         try {
+
             InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
             BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
 
             Socket socket = new Socket(serverIpServerName, serverPort);
-
+            logger.info("Socket created");
             System.out.println("\nConnected!\n");
 
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
@@ -70,6 +83,7 @@ public class Client implements Runnable {
 
             ClientReaderThread clientReaderThread = new ClientReaderThread(dis, dos, profile);
             Thread clientThread = new Thread(clientReaderThread);
+            logger.info("ClientreaderThread started");
             clientThread.start();
 
             // The nickname given will be changed to system username if wanted.
@@ -110,6 +124,7 @@ public class Client implements Runnable {
                             break;
 
                         case QUIT:
+                            logger.info("Quitting");
                             /*
                              * Informing server about his / her choice.
                              * If player is not active he / she cannot write anymore.
@@ -137,7 +152,7 @@ public class Client implements Runnable {
                             break;
 
                         case NAME:
-
+                            logger.info("changing the name");
 
                             if(profile.checkForName(original)) {
                                 String newNickname = original.substring(5);
@@ -167,6 +182,7 @@ public class Client implements Runnable {
                             break;
 
                         case PLL1:
+                            logger.info("asked for PlayerList");
                             /*
                              * Sends keyword to server.
                              * Here: client asks for the list of all players that are currently on the server
@@ -176,6 +192,7 @@ public class Client implements Runnable {
                             break;
 
                         case GML1:
+
                             /*
                              * Sends keyword to server.
                              * Here: client asks for the list of all games and their status
@@ -186,6 +203,7 @@ public class Client implements Runnable {
                             break;
 
                         case HSC1:
+                            logger.info("asking for Highscore");
                             /*
                              * Sends keyword to server.
                              * Here: client asks for the high score list
@@ -196,7 +214,7 @@ public class Client implements Runnable {
                             break;
 
                         case CRE1:
-
+                            logger.info("created a new Lobby");
                             // This keyword is used to create a new lobby.
                             if (profile.isInGame) {
                                 // Clients cannot join a new lobby if they are already in one.
@@ -208,7 +226,7 @@ public class Client implements Runnable {
                             break;
 
                         case JOIN:
-
+                            logger.info("joined a Lobby");
                             // This keyword is used to join a lobby as a player.
                             if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
@@ -224,7 +242,7 @@ public class Client implements Runnable {
                             break;
 
                         case SPEC:
-
+                            logger.info("joined the lobby as a spectator");
                             // This keyword is used to join a lobby as a spectator.
                             if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
