@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  * @author Melanie
- *
+ * Client chat gui.
  */
 public class ClientChatGUI extends JFrame {
 
@@ -20,7 +20,7 @@ public class ClientChatGUI extends JFrame {
     Dimension dimScroll;
 
     /**
-     *
+     * Instantiates a new Client chat gui.
      */
     ClientChatGUI() {
         this.frame = new JFrame("Chat");
@@ -31,15 +31,16 @@ public class ClientChatGUI extends JFrame {
     }
 
     /**
+     * Set dataoutputstream.
      *
-     * @param dos
+     * @param dos the dos
      */
     public void setDos(DataOutputStream dos){
         this.dos = dos;
     }
 
     /**
-     *
+     * Creates chat.
      */
     public void createChat() {
         frame.add(BorderLayout.SOUTH, panel);
@@ -67,9 +68,9 @@ public class ClientChatGUI extends JFrame {
     }
 
     /**
+     * Action performed.
      *
-     * @param e
-     *
+     * @param e the e
      * @throws IOException
      */
     public void actionPerformed(ActionEvent e) {
@@ -95,8 +96,9 @@ public class ClientChatGUI extends JFrame {
     }
 
     /**
+     * Receive msg.
      *
-     * @param msg
+     * @param msg the msg
      */
     public void receiveMsg(String msg) {
         chatArea.append(msg + "\n");

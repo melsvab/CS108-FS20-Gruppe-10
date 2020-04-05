@@ -7,7 +7,12 @@ import java.util.Set;
 
 import server.*;
 
+/**
+ * @author idk
+ *
+ */
 public class Lobby extends Thread {
+
 
 
     /*
@@ -17,13 +22,34 @@ public class Lobby extends Thread {
     */
     public int gamestate;
 
+    /**
+     * The Players.
+     */
     public Set<ServerThreadForClient> players = new HashSet<>();
+    /**
+     * The Spectators.
+     */
     public Set<ServerThreadForClient> spectators = new HashSet<>();
 
+    /**
+     * The Board.
+     */
     public Board board;
+    /**
+     * The Lobby number.
+     */
     public int lobbyNumber;
+    /**
+     * The Number of players.
+     */
     public int numberOfPlayers;
-    
+
+    /**
+     * Instantiates a new Lobby.
+     *
+     * @param aUser  the a user
+     * @param number the number
+     */
     public Lobby(ServerThreadForClient aUser, int number) {
         setDaemon(true);
         players.add(aUser);
@@ -33,6 +59,11 @@ public class Lobby extends Thread {
 
     }
 
+    /**
+     * Please wait.
+     *
+     * @param seconds the seconds
+     */
     public void pleaseWait(int seconds) {
         long start = System.currentTimeMillis();
         long now = System.currentTimeMillis();
@@ -41,6 +72,11 @@ public class Lobby extends Thread {
         }
     }
 
+    /**
+     * Write to all.
+     *
+     * @param message the message
+     */
     public synchronized void writeToAll(String message) {
         // In case nobody is in this lobby anymore, there is no need to send messages.
         if (!players.isEmpty() || !spectators.isEmpty()) {
@@ -54,11 +90,22 @@ public class Lobby extends Thread {
 
     }
 
+    /**
+     * Write to player.
+     *
+     * @param message the message
+     * @param aPerson the a person
+     */
     public synchronized void writeToPlayer(String message, ServerThreadForClient aPerson) {
         Server.chatSingle(message, aPerson);
 
     }
 
+    /**
+     * Add player.
+     *
+     * @param aUser the a user
+     */
     public synchronized void addPlayer(ServerThreadForClient aUser) {
         //if the game has already started or there are four players already, the new client will be a spectator
         if (gamestate > 1 || numberOfPlayers >= 4) {
@@ -82,6 +129,11 @@ public class Lobby extends Thread {
 
     }
 
+    /**
+     * Delete player.
+     *
+     * @param aUser the a user
+     */
     public synchronized void deletePlayer(ServerThreadForClient aUser) {
         if (aUser.profil.isSpectator) {
             spectators.remove(aUser);
@@ -98,21 +150,42 @@ public class Lobby extends Thread {
 
     }
 
+    /**
+     * Add spectators.
+     *
+     * @param aUser the a user
+     */
     public synchronized void addSpectators(ServerThreadForClient aUser) {
        spectators.add(aUser);
 
     }
 
+    /**
+     * Change game state.
+     *
+     * @param state the state
+     */
     public synchronized void changeGameState(int state) {
         gamestate = state;
 
     }
 
+    /**
+     * Gets lobby number.
+     *
+     * @return the lobby number
+     */
     public synchronized int getLobbyNumber() {
         return lobbyNumber;
 
     }
 
+    /**
+     * Create game.
+     *
+     * @param boardSize the board size
+     * @param maxCoins  the max coins
+     */
     public synchronized void createGame(int boardSize, int maxCoins) {
         board = new Board(boardSize,maxCoins);
 

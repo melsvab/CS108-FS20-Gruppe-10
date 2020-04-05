@@ -2,8 +2,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import server.Server;
 import server.Client;
+
+/**
+ * @author Rohail
+ * The Main-class of our Project.
+ * Depending on the arguments it starts the server- or clientThread
+ */
 public class Start {
+
+    /**
+     * The constant logger.
+     */
     public static final Logger logger = LoggerFactory.getLogger(Start.class);
+
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         try {
             if (args[0].equalsIgnoreCase("server")) {

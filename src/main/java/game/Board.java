@@ -4,20 +4,29 @@ import server.Server;
 
 import java.util.Random;
 
+/**
+ * @author Dennis,Melanie
+ * This class represents the board made out of Fields.
+ */
 public class Board {
-    /**
-     * This class represents the board made out of Fields.
-     */
+
     int boardSize;
+
     Field[][] board;
+
     Field[][] eventboard;
 
     int maxCoinsinGame;
+
     int coinOccurence;
+
     int coinsOnBoard = 0;
 
     /**
      * Function to copy a board (already needed the constructor)
+     *
+     * @param copyThis the copy this
+     * @return the field [ ] [ ]
      */
     public Field[][] copyBoard(Field[][] copyThis) {
         Field[][] copy = new Field[this.boardSize + 1][this.boardSize + 1];
@@ -30,9 +39,11 @@ public class Board {
     }
 
     /**
-     * Constructor creates a new board, fills it with fields
-     * and links the fields to each other.
-     * Also a identical eventboard is created. (board for events)
+     * Constructor creates a new board, fills it with fields and links the fields to each other. Also
+     * a identical eventboard is created. (board for events)
+     *
+     * @param boardSize      the board size
+     * @param maxCoinsinGame the max coinsin game
      */
     public Board(int boardSize, int maxCoinsinGame) {
         //boardSize - min = 10, max = 200
@@ -116,8 +127,9 @@ public class Board {
     }
 
     /**
-     * If a earthquake happens (determined by server)
-     * do the following function.
+     * If a earthquake happens (determined by server) do the following function.
+     *
+     * @param magnitude the magnitude
      */
     public void earthquake(int magnitude) { //magnitude = percentage a earthquake could happen on the field.
         for (int x = 1; x < this.boardSize; x++) { //x = 0 is border (already flooded)
@@ -149,6 +161,8 @@ public class Board {
 
     /**
      * TO DO: Change function. Less random flood!
+     *
+     * @param timesFlood the times flood
      */
     public void floodBoard(int timesFlood) { //more than one flood for a crazy time
         Random randomFlood = new Random();
@@ -258,6 +272,9 @@ public class Board {
         }
     }
 
+    /**
+     * After event.
+     */
     public void afterEvent() {
         for (int x = 1; x < this.boardSize; x++) {
             for (int y = 1; y < this.boardSize; y++) {
@@ -269,7 +286,11 @@ public class Board {
     }
 
 
-
+    /**
+     * Print board string.
+     *
+     * @return the string
+     */
     public String printBoard() {
         String boardAsString = "";
         boardAsString += ("#####################################################\n");
@@ -297,6 +318,9 @@ public class Board {
         return boardAsString;
     }
 
+    /**
+     * Reset eventboard.
+     */
     public void resetEventboard() {
         eventboard = copyBoard(board);
     }
@@ -311,7 +335,12 @@ public class Board {
 
     }*/
 
-    // TESTING CODE:
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
+// TESTING CODE:
     public static void main(String[] args) {
         Board testBoard = new Board(10, 15);
         System.out.println("NEW BOARD CREATED: \n\n" + testBoard.printBoard());
