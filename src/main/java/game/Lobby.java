@@ -182,6 +182,7 @@ public class Lobby extends Thread {
             writeToAll(Protocol.LOBY.name() + ":" + i);
             pleaseWait(1);
         }
+        writeToAll(Protocol.LOBY.name() + ":GO!");
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.waitingForEvent = false;
         }
@@ -189,7 +190,7 @@ public class Lobby extends Thread {
         //game has started.
         int rounds = 1;
         while (rounds <= 10) {
-            writeToAll(Protocol.RNDS.name() + ":" + String.valueOf(rounds));
+            writeToAll(Protocol.RNDS.name() + ":" + rounds);
             pleaseWait(20);
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = true;
@@ -241,7 +242,7 @@ public class Lobby extends Thread {
             }
         }
 
-        writeToAll(Protocol.WINR.name() + ":" + winner + ":" + String.valueOf(maxPoints));
+        writeToAll(Protocol.WINR.name() + ":" + winner + ":" + maxPoints);
 
         gamestate = 3;
 
