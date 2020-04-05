@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Server implements Runnable {
     int port;
-
+    public static final Logger logger = LoggerFactory.getLogger(Server.class);
     /**
      * Constructor. Instantiates a new Server.
      * @param port connection is made to this port.
