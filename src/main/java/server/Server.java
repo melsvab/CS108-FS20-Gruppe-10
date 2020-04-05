@@ -9,7 +9,6 @@ import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -18,12 +17,12 @@ import java.util.Set;
  * The main function of this class is to genereate a server. After that this Thread waits for
  * new connections and starts a thread for each new connection made.
  */
-public class Server  implements Runnable {
+public class Server implements Runnable {
     int port;
 
     /**
-     *
-     * @param port
+     * Constructor.
+     * @param port connection is made to this port.
      */
     public Server(int port) {
         this.port = port;
@@ -32,7 +31,6 @@ public class Server  implements Runnable {
     /*
      * Global variables also used by the ServerThreadForClient.
      */
-
     public static Set<ServerThreadForClient> userThreads = new HashSet<>();
     public static Set<Lobby> games = new HashSet<>();
     public static int gamesRunningCounter = 0;
@@ -40,50 +38,40 @@ public class Server  implements Runnable {
     /*
      * Static variables with server information.
      */
-
     public static boolean serverIsOnline = true;
 
 
     /**
      * Variables to identify clients.
      */
-
     public static int playersOnline = 0;
     public static int clientConnections = 0;
 
-    /*
-     * Function "checkForName" compares Strings in the list to a desired name
-     * Function "checkForDuplicates" changes duplicates in appropriate names
-     */
-
     /**
-     * checks if the nickname already exists or not
-     * @param desiredName
-     * @param user
-     * @return true or false
+     * Function compares Strings in the list to a desired name
+     * @param desiredName new nickname chosen by client.
+     * @param user represents a ServerThreadForClient (a single connection to the server).
+     * @return true if name already exists or false if name is not taken yet.
      */
     public static synchronized boolean checkForName(String desiredName, ServerThreadForClient user) {
-
         if (clientConnections <= 1) {
             return false;
         }
         for (ServerThreadForClient aUser: userThreads) {
-            // Do not compare with your own nickname -> NullpointerException!!
-            if (aUser != user) {
-                if ( aUser.profil.nickname.equals(desiredName) ) {
+            if (aUser != user) { //To not compare with your own nickname -> NullPointerException!!
+                if (aUser.profil.nickname.equals(desiredName)) {
                     return true;
                 }
             }
-
         }
         return false;
     }
 
     /**
-     *
-     * @param desiredName
-     * @param aUser
-     * @return
+     * Function changes duplicates in appropriate names
+     * @param desiredName new nickname chosen by client.
+     * @param aUser represents a ServerThreadForClient (a single connection to the server).
+     * @return desiredName by client with ending _# if name already exists.
      */
     public static synchronized String checkForDuplicate(String desiredName, ServerThreadForClient aUser) {
         int position = desiredName.length();
@@ -91,14 +79,11 @@ public class Server  implements Runnable {
             aUser.sendMessage(Protocol.ERRO.name() +
                     ":\nYour desired name exists already!\n");
             int i = 1;
-
             if (!desiredName.endsWith("_0")) {
                 desiredName += "_0";
-
             } else {
                 position = position - 2;
             }
-
             //if there is more than just one person with the same name
             while (checkForName(desiredName, aUser)) {
                 desiredName = desiredName.substring(0, position);
@@ -106,16 +91,14 @@ public class Server  implements Runnable {
                 i++;
             }
         }
-
         return desiredName;
-
     }
 
     /**
      * Functions for broadcast and other chats.
      * Goes through each ServerThreadForClient in the group and sends a message.
-     * @param message
-     * @param group
+     * @param message that is send out.
+     * @param group set of clients connected to the server.
      */
     public static synchronized void chat(String message, Set<ServerThreadForClient> group) {
         testConnectionLost(group);
@@ -125,9 +108,9 @@ public class Server  implements Runnable {
     }
 
     /**
-     * To send a message to one person only
-     * @param message
-     * @param aPerson
+     * To send a message to a specific client.
+     * @param message that is send out.
+     * @param aPerson client who receives the message.
      */
     public static synchronized void chatSingle(String message, ServerThreadForClient aPerson) {
         aPerson.sendMessage(message);
@@ -151,10 +134,9 @@ public class Server  implements Runnable {
         return false;
     }
 
-
     /**
-     *
-     * @return gamecounter
+     * Counter to determine how many games are created and running.
+     * @return how many games are running.
      */
     public static synchronized int countGame() {
         gamesRunningCounter++;
@@ -162,8 +144,8 @@ public class Server  implements Runnable {
     }
 
     /**
-     *
-     * @return boolean if there are any games at all
+     * Check if there are games created.
+     * @return boolean if there are any games at all.
      */
     public static synchronized boolean checkOutGames() {
         return !games.isEmpty();
@@ -177,7 +159,6 @@ public class Server  implements Runnable {
      * @return
      */
     public static synchronized boolean checkLobbies(int lobbyNumber, ServerThreadForClient aUser, boolean watch) {
-
         if (checkOutGames()) {
             for (Lobby lobby : games) {
                 if (lobby.getLobbyNumber() == lobbyNumber) {
@@ -196,7 +177,6 @@ public class Server  implements Runnable {
         } else {
             return false;
         }
-
     }
 
     /**
@@ -228,7 +208,7 @@ public class Server  implements Runnable {
     }
 
     /**
-     *
+     * Function returns a string containing all player nicknames divided by ",".
      * @return String of all players
      */
     public static synchronized String printPlayers() {
@@ -246,83 +226,58 @@ public class Server  implements Runnable {
      */
     public static synchronized void testConnectionLost(Set<ServerThreadForClient> group) {
         for (ServerThreadForClient aUser : group) {
-
             try {
                 DataOutputStream test = aUser.testConnection();
                 test.writeUTF(Protocol.TEST.name());
-
             } catch (Exception e) {
                 group.remove(aUser);
                 System.out.println("There was a connection lost!");
-
             }
         }
     }
 
-
     /*
-     * is used to end the whole program
+     * Function to end the whole program.
      */
-
     public static synchronized void sendClientsToSleep() {
         for (ServerThreadForClient aUser : userThreads) {
             aUser.end();
         }
     }
 
-
     /**
      * Builds a server and gives feedback as long as the server is online.
      */
     public void run() {
-
         try {
-
-
             String serverIP = Inet4Address.getLocalHost().getHostAddress();
             String serverName = Inet4Address.getLocalHost().getHostName();
-
             ServerSocket serverSocket = new ServerSocket(port);
-
             System.out.println("\n\n\nServerSocket at port " + port + " successfully build.\n\n"
                     + "Server IP-Adrdress: " + serverIP + "\n"
                     + "Servername: " + serverName + "\n\n\n"
                     + "Now waiting for a connection to this IP/name by a Client...\n\n\n");
-
             //Server is online now
-
             while (serverIsOnline) {
-
                 //Waits for a connection to the server by a client
-
                 Socket socket = serverSocket.accept();
-
                 //Connection to one client established
-
                 System.out.println("\nClient #" + ++clientConnections + " is connected to the Server.\n");
-
                 //Create In- & Ouputstreams for reading and sending Strings
-
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-
                 /*
                  * Start ServerThread for client who has connected.
-                 * In this thread, the client and server can
-                 * communicate with each other.
+                 * In this thread, the client and server can communicate with each other.
                  * The new client will be added to the list of all client threads
                  */
-
                 ServerThreadForClient serverThreadForClient = new ServerThreadForClient(
                         ++playersOnline, dis, dos);
                 userThreads.add(serverThreadForClient);
                 Thread serverThread = new Thread(serverThreadForClient);
                 serverThread.start();
-
             }
-
             serverSocket.close();
-
         } catch (IOException exception) {
             System.err.println(exception.toString());
             System.exit(1);

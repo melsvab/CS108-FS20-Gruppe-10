@@ -10,10 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Dennis,Natasha,Rohail,Melanie
+ * @author Dennis, Natasha, Rohail, Melanie
  * A thread is created for every client that connects to the server.
  * Represents an interface between client & server.
- *
  */
 public class ServerThreadForClient implements Runnable {
     public static final Logger logger = LoggerFactory.getLogger(ServerThreadForClient.class);
@@ -21,11 +20,9 @@ public class ServerThreadForClient implements Runnable {
     DataInputStream dis;
     DataOutputStream dos;
 
-
     public Profil profil;
 
-    public ServerThreadForClient(
-        int clientID, DataInputStream dis, DataOutputStream dos) {
+    public ServerThreadForClient(int clientID, DataInputStream dis, DataOutputStream dos) {
             this.profil = new Profil(clientID);
             this.dis = dis;
             this.dos = dos;
@@ -40,8 +37,8 @@ public class ServerThreadForClient implements Runnable {
     }
 
     /**
-     * sends message
-     * @param message
+     * Sends message to Outputstream.
+     * @param message that is send.
      */
     public void sendMessage(String message) {
         try {
@@ -61,17 +58,15 @@ public class ServerThreadForClient implements Runnable {
 
     /**
      * checks if the keyword exists in our protocol
-     * @param keyword
-     * @return
+     * @param keyword to be checked.
+     * @return true if keyword does exist.
      */
     public static boolean contains(String keyword) {
-
         for (Protocol p : Protocol.values()) {
             if (p.name().equals(keyword)) {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -103,42 +98,27 @@ public class ServerThreadForClient implements Runnable {
     }
 
     public void run() {
-
         try {
-
-            /*
-             * Sends a welcome message
-             */
-
+            //Send a welcome message
             dos.writeUTF(Protocol.WELC.name());
-
             /*
              * server receives nickname by client and checks for duplicates.
              * player gets information about his/her nickname
              */
-
             String nickname = dis.readUTF();
             profil.nickname = Server.checkForDuplicate(nickname, this);
-
             System.out.println("\nNickname of client #" + profil.clientID + ": "
                     + profil.nickname);
             dos.writeUTF(Protocol.MSSG.name()
                     + ":Your nickname: " + profil.nickname + "\n");
-
-            /*
-             * Asks client what he / she wants to do.
-             */
+            //Asks client what he / she wants to do.
             dos.writeUTF(Protocol.HELP.name());
 
             while (profil.clientIsOnline) {
-
-                /*
-                 * Gets choice from a client and decides what to do.
-                 */
+                //Gets choice from a client and decides what to do.
                 String original = dis.readUTF();
                 int lenghtInput = original.length();
-                while (lenghtInput < 4) {
-                    //keyword is not long enough
+                while (lenghtInput < 4) { //keyword is not long enough
                     original = dis.readUTF();
                     lenghtInput = original.length();
                 }
@@ -147,30 +127,21 @@ public class ServerThreadForClient implements Runnable {
                 if (contains(clientChoice)) {
 
                     switch (Protocol.valueOf(clientChoice)) {
-
                         case CHAT:
-
                             // The message will be sent in lobby chat if the client is in one.
-
                             if (profil.lobby != null && profil.checkForWord(original)) {
                                 String msg;
                                 if (original.substring(5).equalsIgnoreCase(Message.enterLobby)) {
                                     msg = Protocol.MSG0.name() + ":" + profil.nickname
                                             + Message.enterLobby;
-
                                 } else {
                                     msg = Protocol.MSG0.name() + ":[" + profil.nickname + "] "
                                             + original.substring(5);
-
                                 }
-
                                 profil.lobby.writeToAll(msg);
-
                             } else {
                                 dos.writeUTF(Protocol.MSG1.name() + ":" + original.substring(5));
-
                             }
-
                             break;
 
                         case BRC1:
@@ -181,19 +152,14 @@ public class ServerThreadForClient implements Runnable {
                             if(lenghtInput > 5) {
                                 String message = Protocol.MSG0.name() + ":Broadcast to all: \n"
                                         + "[" + profil.nickname + "] " + original.substring(5);
-
                                 Server.chat(message, Server.userThreads);
-
                             } else {
                                 //logger.info("\n" + "no message available");
                             }
-
                             break;
 
                         case WHP1:
-                            /*
-                             * Whisperchat
-                             */
+                            //Whisperchat
                             int i = original.indexOf(" ");
                             String playername = original.substring(5, i);
                             String msg = Protocol.MSG0.name()
@@ -209,12 +175,9 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case QUIT:
-
                             // inform server that this client wants to end his / her connection
-
                             System.out.println("\nClient #" + profil.clientID + " \""
                                     + profil.nickname + "\" has disconnected.");
-
                             end();
                             try {
                                 Thread.sleep(200);
@@ -224,16 +187,11 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case ENDE:
-                            /*
-                             * Under Construction: Can stop server
-                             */
-
+                            //Under Construction: Can stop server
                             System.out.println(profil.nickname + " wants to end the whole program.");
                             Server.chat(Protocol.MSSG.name()
                                     + ":Our server goes to sleep\n", Server.userThreads);
-
                             Server.sendClientsToSleep();
-
                             try {
                                 Thread.sleep(200);
                             } catch (InterruptedException e) {
@@ -243,7 +201,6 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case NAME:
-
                             if (profil.checkForName(original)) {
                                 //old name will be removed from the server list, new name is checked for duplicates
                                 String oldNickname = profil.nickname;
@@ -254,12 +211,10 @@ public class ServerThreadForClient implements Runnable {
                                         " to " + desiredName + "\n";
                                 //write decision to client
                                 dos.writeUTF(answerToClient);
-
                                 //server has accepted new name
                                 System.out.println(
                                         "\n" + profil.nickname + " changed his/her name to " + desiredName);
                                 profil.nickname = desiredName;
-
                             } else {
                                 // logger.info("forgot the colon");
                             }
