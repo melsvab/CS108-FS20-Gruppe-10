@@ -64,6 +64,7 @@ public class ClientChatGUI extends JFrame {
         frame.add(BorderLayout.SOUTH, panel);
         panel.setLayout(new BorderLayout());
 
+        //creating the TextArea
         chatArea.setEditable(false); //cannot write in the ChatArea anymore
         chatArea.setBackground(Color.LIGHT_GRAY);
         chatArea.setLineWrap(true); //prevents horizontal scrolling with long texts
@@ -73,6 +74,7 @@ public class ClientChatGUI extends JFrame {
         panel.add(message, BorderLayout.PAGE_END);
         message.setEditable(true);
 
+        //creating the scrollpane
         JScrollPane scroll = new JScrollPane(chatArea); //chat is scrollable
         scroll.setVerticalScrollBarPolicy(scroll.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setPreferredSize(new Dimension(500,300));
@@ -91,6 +93,7 @@ public class ClientChatGUI extends JFrame {
      * @param e the e
      */
     public void actionPerformed(ActionEvent e) {
+        //differentiates between normal chat-message, whisperchat and broadcast
         try {
 
             String msgType = message.getText() + "000"; //000 is professional bug fixing
@@ -118,8 +121,10 @@ public class ClientChatGUI extends JFrame {
      * @param msg the msg
      */
     public void receiveMsg(String msg) {
+        //adds the message to the TextArea and adjusts the scrollbar in relationship to the occurrence of \n
         chatArea.append(msg + "\n");
-        dimScroll.height += 16.5;
+        int count = msg.length() - msg.replaceAll("\n","").length();
+        dimScroll.height += 16.5 * (count + 1);
         chatArea.setPreferredSize(dimScroll);
         chatArea.revalidate();
         chatArea.setCaretPosition(chatArea.getText().length());

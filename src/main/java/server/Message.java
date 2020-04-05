@@ -57,7 +57,7 @@ public class Message {
     /**
      * The constant nobodyHearsYou.
      */
-    public static String nobodyHearsYou = ("\nNobody can hear you here.\n "
+    public static String nobodyHearsYou = ("\nNobody can hear you here.\n"
                     + "Write /b yourMessage for broadcast,"
                     + " /w playername yourMessage for whisper or join a Lobby!\n");
 
