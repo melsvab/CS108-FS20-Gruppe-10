@@ -8,62 +8,21 @@ import java.util.Random;
  */
 public class Field {
 
-    /**
-     * The Is flood.
-     */
-    public boolean isFlood,
-    /**
-     * The Has coin.
-     */
-    hasCoin,
-    /**
-     * The Is quake.
-     */
-    isQuake;
+    public Field up, right, down, left;
 
-    /**
-     * The Stepped on.
-     */
-    public boolean steppedOn,
-    /**
-     * The Is taken.
-     */
-    isTaken,
-    /**
-     * The Is boundary.
-     */
-    isBoundary,
-    /**
-     * The Is start position.
-     */
-    isStartPosition; //TO DO !!
-
-    /**
-     * The Turtle.
-     */
     public PlayerTurtle turtle;
 
-    /**
-     * Every field has a pointer to the field next to it.
-     */
-    public Field up,
-    /**
-     * The Right.
-     */
-    right,
-    /**
-     * The Down.
-     */
-    down,
-    /**
-     * The Left.
-     */
-    left;
+    public boolean isFlood,
+            hasCoin,
+            isQuake,
+            steppedOn,
+            isTaken,
+            isBoundary,
+            isStartPosition;
 
     /**
-     * Instantiates a new Field.
-     *
-     * @param probabilityForCoin the probability for coin
+     * Instantiates a new Field with a probability of a coin.
+     * @param probabilityForCoin the probability for a coin on this field.
      */
     public Field(int probabilityForCoin) {
         Random random = new Random();
@@ -84,39 +43,28 @@ public class Field {
     }
 
     /**
-     * Copy field field.
-     *
-     * @param copyThis the copy this
-     * @return the field
+     * Function to copy a field.
+     * @param copyThis Field to copy
+     * @return new field which is a copy of the field given
      */
-    public static Field copyField(Field copyThis) {
+    public static Field copyField(Field copyThis) {  //HIER WEITER MACHEN
         Field copy = new Field(-1);
+        copy.up = copyThis.up;
+        copy.right = copyThis.right;
+        copy.down = copyThis.down;
+        copy.left = copyThis.left;
+
+        copy.turtle = copyThis.turtle;
+
         copy.isFlood = copyThis.isFlood;
         copy.hasCoin = copyThis.hasCoin;
         copy.isQuake = copyThis.isQuake;
         copy.steppedOn = copyThis.steppedOn;
         copy.isTaken = copyThis.isTaken;
         copy.isBoundary = copyThis.isBoundary;
-        copy.turtle = copyThis.turtle;
-        copy.up = copyThis.up;
-        copy.right = copyThis.right;
-        copy.down = copyThis.down;
-        copy.left = copyThis.left;
+        copy.isStartPosition = copyThis.isStartPosition;
 
         return copy;
     }
-
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-//TESTCODE
-    public static void main(String[] args) {
-
-    }
-
-
-
 
 }

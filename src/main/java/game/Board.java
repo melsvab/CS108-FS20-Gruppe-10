@@ -1,7 +1,5 @@
 package game;
 
-import server.Server;
-
 import java.util.Random;
 
 /**

@@ -4,40 +4,23 @@ import java.awt.*;
 
 /**
  * @author Dennis
+ * This class represents the turtle, which a client can move over the field
+ * It has a color, a nickname, a position, points and a boolean if it is hit by an event.
  */
 public class PlayerTurtle {
 
-    /**
-     * The Color.
-     */
-    Color color;
-    /**
-     * The Turtlename.
-     */
+    public Color color;
     public String turtlename;
-    /**
-     * The Points.
-     */
-    public int points;
-    /**
-     * The Turtleposition.
-     */
     public Field turtleposition;
-    /**
-     * The Was hit by event.
-     */
+    public int points;
     public boolean wasHitByEvent;
 
     /**
      * Instantiates a new Player turtle.
      *
-     * @param turtlename the turtlename
+     * @param turtlename the nickname which is given to the turtle.
      */
-    public PlayerTurtle(String turtlename) {
-        //this.color = color;
-        this.turtlename = turtlename;
-
-    }
+    public PlayerTurtle(String turtlename) { this.turtlename = turtlename; }
 
 
 }

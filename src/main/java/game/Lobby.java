@@ -1,6 +1,5 @@
 package game;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -8,47 +7,27 @@ import java.util.Set;
 import server.*;
 
 /**
- * @author Natasha,Melanie,Dennis
- *
+ * @author Natasha, Melanie, Dennis
+ * In this class, a lobby is created where the players are collected
+ * and the gamestate and board is saved.
  */
 public class Lobby extends Thread {
-
-
-
     /*
     * one for an open game
     * two for an ongoing game
     * three for a finished game
     */
     public int gamestate;
-
-    /**
-     * The Players.
-     */
+    public int lobbyNumber;
+    public int numberOfPlayers;
+    public Board board;
     public Set<ServerThreadForClient> players = new HashSet<>();
-    /**
-     * The Spectators.
-     */
     public Set<ServerThreadForClient> spectators = new HashSet<>();
 
     /**
-     * The Board.
-     */
-    public Board board;
-    /**
-     * The Lobby number.
-     */
-    public int lobbyNumber;
-    /**
-     * The Number of players.
-     */
-    public int numberOfPlayers;
-
-    /**
-     * Instantiates a new Lobby.
-     *
-     * @param aUser  the a user
-     * @param number the number
+     * Instantiates a new Lobby and adds clients to the players-set
+     * @param aUser the user who creates the lobby is added to the set of players
+     * @param number every lobby gets an number / ID.
      */
     public Lobby(ServerThreadForClient aUser, int number) {
         setDaemon(true);
@@ -56,13 +35,11 @@ public class Lobby extends Thread {
         gamestate = 1;
         lobbyNumber = number;
         numberOfPlayers = 1;
-
     }
 
     /**
-     * Please wait.
-     *
-     * @param seconds the seconds
+     * Fuction often used. Let thread wait several seconds
+     * @param seconds how many seconds to wait.
      */
     public void pleaseWait(int seconds) {
         long start = System.currentTimeMillis();
@@ -73,43 +50,34 @@ public class Lobby extends Thread {
     }
 
     /**
-     * Write to all.
-     *
-     * @param message the message
+     * Function sends a message to all players in this lobby.
+     * @param message to send.
      */
     public synchronized void writeToAll(String message) {
-        // In case nobody is in this lobby anymore, there is no need to send messages.
-        if (!players.isEmpty() || !spectators.isEmpty()) {
-
+        if (!players.isEmpty()) {
             Server.chat(message, players);
-            //if there are spectators, they will get the message as well
-            if (!spectators.isEmpty()) {
-                Server.chat(message, spectators);
-            }
         }
-
+        if (!spectators.isEmpty()) {
+            Server.chat(message, spectators);
+        }
     }
 
     /**
-     * Write to player.
-     *
-     * @param message the message
-     * @param aPerson the a person
+     * Function to send a message to a specific client.
+     * @param message to send.
+     * @param aPerson client who receives Message
      */
     public synchronized void writeToPlayer(String message, ServerThreadForClient aPerson) {
         Server.chatSingle(message, aPerson);
-
     }
 
     /**
-     * Add player.
-     *
-     * @param aUser the a user
+     * Functions adds a player to the lobby.
+     * @param aUser player to be added.
      */
     public synchronized void addPlayer(ServerThreadForClient aUser) {
         //if the game has already started or there are four players already, the new client will be a spectator
         if (gamestate > 1 || numberOfPlayers >= 4) {
-
             if(gamestate > 1) {
                 aUser.sendMessage(Protocol.ERRO.name() + ":The game has started already! You are a spectator now!");
             } else {
@@ -119,31 +87,33 @@ public class Lobby extends Thread {
             spectators.add(aUser);
             aUser.sendMessage(Protocol.SPEC.name());
             aUser.profil.isSpectator = true;
-
         } else {
             // the new client will be a player
             numberOfPlayers++;
             players.add(aUser);
-
         }
-
     }
 
     /**
-     * Delete player.
-     *
-     * @param aUser the a user
+     * Adds a Client to the set of spectators.
+     * @param aUser client to be added.
+     */
+    public synchronized void addSpectators(ServerThreadForClient aUser) {
+        spectators.add(aUser);
+    }
+
+    /**
+     * Removes a client or spectater from the list / set and from the lobby.
+     * @param aUser client to be removed.
      */
     public synchronized void deletePlayer(ServerThreadForClient aUser) {
         if (aUser.profil.isSpectator) {
             spectators.remove(aUser);
             aUser.profil.isSpectator = false;
         } else {
-
             if (aUser.profil.myTurtle != null) {
                 aUser.profil.myTurtle = null;
             }
-
             numberOfPlayers--;
             players.remove(aUser);
         }
@@ -152,55 +122,43 @@ public class Lobby extends Thread {
     }
 
     /**
-     * Add spectators.
-     *
-     * @param aUser the a user
-     */
-    public synchronized void addSpectators(ServerThreadForClient aUser) {
-       spectators.add(aUser);
-
-    }
-
-    /**
-     * Change game state.
-     *
-     * @param state the state
+     * Changes the state of the game (one for an open game /
+     * two for an ongoing game / three for a finished game)
+     * @param state to change to.
      */
     public synchronized void changeGameState(int state) {
         gamestate = state;
-
     }
 
     /**
-     * Gets lobby number.
-     *
-     * @return the lobby number
+     * Returns the number / ID of the lobby.
+     * @return lobby int.
      */
     public synchronized int getLobbyNumber() {
         return lobbyNumber;
-
     }
 
     /**
-     * Create game.
-     *
-     * @param boardSize the board size
-     * @param maxCoins  the max coins
+     * Creates a new board object.
+     * @param boardSize size of the board (Field[][]).
+     * @param maxCoins max number of coins.
      */
     public synchronized void createGame(int boardSize, int maxCoins) {
         board = new Board(boardSize,maxCoins);
-
     }
 
 
 
     public void run() {
-
+        /*
+        Create for every PLAYER a turtle and its name.
+         */
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.myTurtle = new PlayerTurtle(aPlayer.profil.nickname + "-Junior");
             Server.chatSingle(Protocol.MSSG.name()
                 + ":You have adopted a turtle baby and named it "
                 + aPlayer.profil.myTurtle.turtlename, aPlayer);
+            //Set this turtle to a start-position not taken yet.
             A: for (int x = 0; x < this.board.boardSize; x++) {
                 for (int y = 0; y < this.board.boardSize; y++) {
                     if (this.board.board[x][y].isStartPosition && !this.board.board[x][y].isTaken) {
@@ -212,8 +170,23 @@ public class Lobby extends Thread {
             }
         }
 
+        //Show Startboard to all clients in the lobby.
         writeToAll(Protocol.LOBY.name() + ":" + board.printBoard());
 
+        //countdown before the game starts.
+        for (ServerThreadForClient aPlayer : players) {
+            aPlayer.profil.waitingForEvent = true;
+        }
+        writeToAll(Protocol.LOBY.name() + ":Game starts in ");
+        for (int i = 5; i >= 0; i--) {
+            writeToAll(Protocol.LOBY.name() + ":" + i);
+            pleaseWait(1);
+        }
+        for (ServerThreadForClient aPlayer : players) {
+            aPlayer.profil.waitingForEvent = false;
+        }
+
+        //game has started.
         int rounds = 1;
         while (rounds <= 10) {
             writeToAll(Protocol.RNDS.name() + ":" + String.valueOf(rounds));
