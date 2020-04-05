@@ -5,8 +5,8 @@ import server.Client;
 
 /**
  * @author Rohail
- * The Main-class of our Project.
- * Depending on the arguments it starts a server or client thread
+ * The Main-class of our Project. Depending on the arguments it starts a server or
+ * client thread
  */
 public class Start {
 

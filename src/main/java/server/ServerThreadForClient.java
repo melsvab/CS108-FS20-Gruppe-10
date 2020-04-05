@@ -10,20 +10,39 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Dennis,Natasha,Rohail,Melanie
- * A thread is created for every client that connects to the server.
- * Represents an interface between client & server.
- *
+ * @author Dennis, Natasha, Rohail, Melanie
+ * A thread is created for every client that connects to
+ * the server. Represents an interface between client & server.
  */
 public class ServerThreadForClient implements Runnable {
+
+    /**
+     * The constant logger.
+     */
     public static final Logger logger = LoggerFactory.getLogger(ServerThreadForClient.class);
 
+    /**
+     * The Dis.
+     */
     DataInputStream dis;
+    /**
+     * The Dos.
+     */
     DataOutputStream dos;
 
 
+    /**
+     * The Profil.
+     */
     public Profil profil;
 
+    /**
+     * Instantiates a new Server thread for client.
+     *
+     * @param clientID the client id
+     * @param dis      the dis
+     * @param dos      the dos
+     */
     public ServerThreadForClient(
         int clientID, DataInputStream dis, DataOutputStream dos) {
             this.profil = new Profil(clientID);
@@ -41,7 +60,8 @@ public class ServerThreadForClient implements Runnable {
 
     /**
      * sends message
-     * @param message
+     *
+     * @param message the message
      */
     public void sendMessage(String message) {
         try {
@@ -52,8 +72,9 @@ public class ServerThreadForClient implements Runnable {
     }
 
     /**
+     * Test connection data output stream.
      *
-     * @return dataoutputstream
+     * @return dataoutputstream data output stream
      */
     public DataOutputStream testConnection() {
         return dos;
@@ -61,8 +82,9 @@ public class ServerThreadForClient implements Runnable {
 
     /**
      * checks if the keyword exists in our protocol
-     * @param keyword
-     * @return
+     *
+     * @param keyword the keyword
+     * @return boolean
      */
     public static boolean contains(String keyword) {
 
@@ -75,6 +97,12 @@ public class ServerThreadForClient implements Runnable {
         return false;
     }
 
+    /**
+     * Join.
+     *
+     * @param original the original
+     * @param watch    the watch
+     */
     public void join (String original, boolean watch) {
         // checks if there are two ints and the player is not in a lobby already
         if (profil.checkForNumber(original) && !profil.isInGame) {

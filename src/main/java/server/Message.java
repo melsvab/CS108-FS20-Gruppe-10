@@ -2,11 +2,14 @@ package server;
 
 /**
  * @author Natasha
- * This class is a database for text that is used quite often in the program
- * or the text is very long. This is like an enum but without official keywords
+ * This class is a database for text that is used quite often in the program or the
+ * text is very long. This is like an enum but without official keywords
  */
 public class Message {
 
+    /**
+     * The constant helpMessage.
+     */
     public static String helpMessage = (
         "\nWhat would you like to do?\n\n"
                 + "enter >NAME:desiredName< to change your nickname to your desiredName\n"
@@ -22,28 +25,55 @@ public class Message {
                 + "enter >HELP< to see this message again."
                 + "enter >QUIT< to end this program.\n");
 
+    /**
+     * The constant underConstruction.
+     */
     public static String underConstruction = (
         "Under Construction! Why not try something else for the moment?");
 
-    // is used for placeholder
+    /**
+     * The constant garbage.
+     */
+// is used for placeholder
     public static String garbage = (
             "Someone is sending garbage\n");
 
+    /**
+     * The constant inLobbyAlready.
+     */
     public static String inLobbyAlready = ("You are in a lobby already. If you want to exit,"
     + "write >BACK<");
+    /**
+     * The constant enterLobby.
+     */
     public static String enterLobby = (" has joined the lobby!\n");
 
+    /**
+     * The constant youAreDoingItWrong.
+     */
     public static String youAreDoingItWrong = ("It seems as if you used this keyword wrongly. \n"
                     + "This keyword is used like this: ");
 
+    /**
+     * The constant nobodyHearsYou.
+     */
     public static String nobodyHearsYou = ("\nNobody can hear you here.\n "
                     + "Write /b yourMessage for broadcast,"
                     + " /w playername yourMessage for whisper or join a Lobby!\n");
 
+    /**
+     * The constant playerDoesNotExist.
+     */
     public static String playerDoesNotExist = (
             "\n The message could not be sent. There is no player with this name.");
 
+    /**
+     * The constant youCannotDoThat.
+     */
     public static String youCannotDoThat = "You cannot do that now!\n";
 
+    /**
+     * The constant invalidMove.
+     */
     public static String invalidMove = "This move is not possible.\n";
 }

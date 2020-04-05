@@ -9,22 +9,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * @author Natasha,Dennis,Melanie,Rohail
+ * @author Natasha, Dennis, Melanie, Rohail
  * This thread is for reading and processing input coming from the server.
  * If a message from the ServerThreadForClient is send from different methods,
- * there will be a specific keyword.Otherwise there are general keywords
- * that are used by different methods that send a message only once.
+ * there will be a specific keyword.Otherwise there are general keywords that are used by different
+ * methods that send a message only once.
  */
 public class ClientReaderThread implements Runnable {
+
+    /**
+     * The Dis.
+     */
     DataInputStream dis;
+    /**
+     * The Dos.
+     */
     DataOutputStream dos;
+    /**
+     * The Profile.
+     */
     Profil profile;
 
     /**
+     * Instantiates a new Client reader thread.
      *
-     * @param dis
-     * @param dos
-     * @param profil
+     * @param dis    the dis
+     * @param dos    the dos
+     * @param profil the profil
      */
     public ClientReaderThread(DataInputStream dis, DataOutputStream dos, Profil profil) {
             this.dis = dis;
@@ -34,7 +45,8 @@ public class ClientReaderThread implements Runnable {
 
     /**
      * checks if the keyword exists in  our protocol
-     * @param keyword
+     *
+     * @param keyword the keyword
      * @return true or false
      */
     public static boolean contains(String keyword) {
@@ -49,11 +61,13 @@ public class ClientReaderThread implements Runnable {
     }
 
     /**
+     * Check message boolean.
      *
-     * @param original
-     * @return
+     * @param original the original
+     * @return boolean
      */
     public boolean checkMessage(String original) {
+
         return original.length() > 5;
     }
 
@@ -214,12 +228,14 @@ public class ClientReaderThread implements Runnable {
 
                             int rounds = Integer.parseInt(original.substring(5));
                             if (rounds <= 8) {
-                                System.out.println("\n -----------------------\n Round " + rounds + "\n There are "
-                                        + (10 - rounds) + " rounds left \n -----------------------\n");
+                                System.out.println("\n -----------------------\n Round " + rounds
+                                    + "\n There are " + (10 - rounds)
+                                    + " rounds left \n -----------------------\n");
                             }
                             else if (rounds == 9) {
-                                System.out.println("\n -----------------------\n Round " + rounds + "\n There is "
-                                        + (10 - rounds) + " round left \n -----------------------\n");
+                                System.out.println("\n -----------------------\n Round " + rounds
+                                    + "\n There is " + (10 - rounds)
+                                    + " round left \n -----------------------\n");
                             }
                             else {
                                 System.out.println("\n -----------------------\n Round " + rounds
@@ -231,7 +247,8 @@ public class ClientReaderThread implements Runnable {
                             int i = original.indexOf(":", 5);
                             String winner = original.substring(5, i);
                             String points = original.substring(i + 1);
-                            System.out.println("The winner is: " + winner + " with " + points + " points!");
+                            System.out.println("The winner is: " + winner + " with " + points
+                                + " points!");
                             break;
 
                         case LOBY:
@@ -240,8 +257,9 @@ public class ClientReaderThread implements Runnable {
                              * (that will have a graphical impact later)
                              *
                              *
-                             * info: this is identical with case ERRO right now, but that will change soon
-                             * due to the fact that changes from the board will be analysed in the future
+                             * info: this is identical with case ERRO right now,
+                             * but that will change soon due to the fact that changes from the
+                             * board will be analysed in the future
                              */
                             if (checkMessage(original)) {
                                 String message = original.substring(5);
