@@ -15,23 +15,26 @@ javafx {
     version = "11.0.2"
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.base']
 }
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'Start'
+        )
+    }
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
 tasks.register("build-cs108") {
     group = 'build'
     doLast {
-        println 'Running cs108 build task to generate a standalone jar and javadoc.'
-        jar {
-            manifest {
-                attributes(
-                        'Main-Class': 'Start'
-                )
-            }
-            from {
-                configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-                configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-            }
-        }
+        println 'Running cs108 build task to produce a jar and javadoc.'
     }
 }
+tasks.getByName("build-cs108").finalizedBy javadoc
+tasks.getByName("build-cs108").finalizedBy jar
+
 configurations {
     checkstyleConfig
 }
@@ -75,17 +78,4 @@ dependencies {
     testImplementation 'junit:junit:4.+'
 }
 
-/*
-The following block adds both compile and runtime dependencies to the jar
- */
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'Start'
-        )
-    }
-    from {
-        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
+
