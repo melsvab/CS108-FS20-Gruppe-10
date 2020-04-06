@@ -108,5 +108,6 @@ public class GameGUI extends JPanel {
         game.setBoard(boardDemo);
         frame.getContentPane().add(game.getPanel());
         frame.pack();
+        frame.setVisible(true);
     }
 }
