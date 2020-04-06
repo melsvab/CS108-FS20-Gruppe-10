@@ -183,7 +183,7 @@ public class ServerThreadForClient implements Runnable {
                             int i = original.indexOf(" ");
                             String playername = original.substring(5, i);
                             String msg = Protocol.MSG0.name()
-                                    + ":Whisper from:\n" + "[" + profil.nickname + "]"
+                                    + ":Whisper from:" + "[" + profil.nickname + "]"
                                     + original.substring(i);
                             String msg2 = Protocol.MSG0.name() + ":Whisper to:[" + playername + "]"
                                     + original.substring(i);

@@ -121,7 +121,7 @@ public class ClientReaderThread implements Runnable {
                              * Client sees an error message in the chat
                              */
                             if (checkMessage(original)) {
-                                profile.ccg.receiveMsg(original.substring(5) + Message.nobodyHearsYou);
+                                profile.mainFrame.chat.receiveMsg(original.substring(5) + Message.nobodyHearsYou);
                             }
                             break;
 
@@ -129,7 +129,7 @@ public class ClientReaderThread implements Runnable {
                             /*
                              * playerDoesNotExist Error printed in ChatArea
                              */
-                            profile.ccg.receiveMsg(Message.playerDoesNotExist);
+                            profile.mainFrame.chat.receiveMsg(Message.playerDoesNotExist);
                             break;
 
                         case MSG0:
@@ -137,7 +137,7 @@ public class ClientReaderThread implements Runnable {
                              * Client sees a chat message
                              */
                             if (checkMessage(original)) {
-                                profile.ccg.receiveMsg(original.substring(5));
+                                profile.mainFrame.chat.receiveMsg(original.substring(5));
                             }
                             break;
 

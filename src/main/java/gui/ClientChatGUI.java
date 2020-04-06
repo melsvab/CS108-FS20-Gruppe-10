@@ -1,4 +1,6 @@
-package server;
+package gui;
+
+import server.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.DataOutputStream;
@@ -46,8 +48,31 @@ public class ClientChatGUI extends JFrame {
         this.frame = new JFrame("Chat");
         this.panel = new JPanel();
         this.chatArea = new JTextArea();
-        this.message = new JTextField(50);
-        this.dimScroll = new Dimension(500, 10);
+        this.message = new JTextField();
+        this.dimScroll = new Dimension(240, 10);
+
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createTitledBorder(("Messages")));
+        //panel.setPreferredSize(new Dimension( 500, 300 ) );
+
+        //create TextArea
+        chatArea.setEditable(false); //cannot write in the ChatArea anymore
+        chatArea.setBackground(Color.LIGHT_GRAY);
+        chatArea.setLineWrap(true); //prevents horizontal scrolling with long texts
+        chatArea.setWrapStyleWord(true); //gets cut of by words
+        panel.add(chatArea);
+
+        //create scrollpane
+        JScrollPane scroll = new JScrollPane(chatArea); //chat is scrollable
+        scroll.setVerticalScrollBarPolicy(scroll.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scroll.setPreferredSize(new Dimension(240, 300));
+        panel.add(scroll);
+
+        //create TextField
+        message.setEditable(true);
+        message.addActionListener(this::actionPerformed);
+        message.requestFocusInWindow();
+        panel.add(message, BorderLayout.PAGE_END);
     }
 
     /**
@@ -58,36 +83,6 @@ public class ClientChatGUI extends JFrame {
     public void setDos(DataOutputStream dos) {
 
         this.dos = dos;
-    }
-
-    /**
-     * Creates chat.
-     */
-    public void createChat() {
-        frame.add(BorderLayout.SOUTH, panel);
-        panel.setLayout(new BorderLayout());
-
-        //creating the TextArea
-        chatArea.setEditable(false); //cannot write in the ChatArea anymore
-        chatArea.setBackground(Color.LIGHT_GRAY);
-        chatArea.setLineWrap(true); //prevents horizontal scrolling with long texts
-        chatArea.setWrapStyleWord(true); //gets cut of by words
-        panel.add(chatArea);
-
-        panel.add(message, BorderLayout.PAGE_END);
-        message.setEditable(true);
-
-        //creating the scrollpane
-        JScrollPane scroll = new JScrollPane(chatArea); //chat is scrollable
-        scroll.setVerticalScrollBarPolicy(scroll.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scroll.setPreferredSize(new Dimension(500,300));
-        panel.add(scroll);
-
-        message.addActionListener(this::actionPerformed);
-        frame.getContentPane().add(panel);
-        frame.pack();
-        message.requestFocusInWindow();
-        frame.setVisible(true);
     }
 
     /**
@@ -126,28 +121,14 @@ public class ClientChatGUI extends JFrame {
     public void receiveMsg(String msg) {
         //adds the message to the TextArea and adjusts the scrollbar in relationship to the occurrence of \n
         chatArea.append(msg + "\n");
-        int count = msg.length() - msg.replaceAll("\n","").length();
+        int count = msg.length() - msg.replaceAll("\n", "").length();
         dimScroll.height += 16.5 * (count + 1);
         chatArea.setPreferredSize(dimScroll);
         chatArea.revalidate();
         chatArea.setCaretPosition(chatArea.getText().length());
     }
 
-    /**
-     *setVisible
-     * @param b boolean true or false
-     */
-    public void setVisible(boolean b) {
-        frame.setVisible(b);
-    }
-
-    /**
-     * closes chat
-     */
-    public void closeChat() {
-        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    public JPanel getPanel() {
+        return panel;
     }
 }
-
-
-

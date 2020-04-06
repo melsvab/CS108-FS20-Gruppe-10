@@ -10,6 +10,8 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gui.*;
+
 
 
 
@@ -100,9 +102,8 @@ public class Client implements Runnable {
 
             dos.writeUTF(profile.nickname);
 
-            //sets DataOutputStream for the ChatGUI and creates an invisible chat
-            profile.ccg.setDos(dos);
-            profile.ccg.createChat();
+            //sets DataOutputStream for the ChatGUI
+            profile.mainFrame.chat.setDos(dos);
 
             //Start processing inputs.
             while (profile.clientIsOnline) {
@@ -344,7 +345,7 @@ public class Client implements Runnable {
              * Input and Output will be closed
              */
 
-            profile.ccg.closeChat();
+            profile.mainFrame.closeChat();
             dis.close();
             dos.close();
             socket.close();

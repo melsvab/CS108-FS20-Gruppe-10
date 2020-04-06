@@ -3,6 +3,7 @@ package server;
 import game.Lobby;
 import game.PlayerTurtle;
 import game.Field;
+import gui.MainFrame;
 
 /**
  * @author Natasha, Dennis, Melanie, Rohail
@@ -48,7 +49,7 @@ public class Profil {
     /**
      * The Ccg.
      */
-    ClientChatGUI ccg;
+    MainFrame mainFrame;
 
 
     //constructor for the ServerThreadForClient
@@ -73,7 +74,7 @@ public class Profil {
     public Profil() {
         this.clientIsOnline = true;
         lobby = null;
-        this.ccg = new ClientChatGUI();
+        this.mainFrame = new MainFrame();
     }
 
     /**
