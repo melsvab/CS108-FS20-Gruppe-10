@@ -5,6 +5,8 @@ import game.PlayerTurtle;
 import game.Field;
 import gui.MainFrame;
 
+import java.io.IOException;
+
 /**
  * @author Natasha, Dennis, Melanie, Rohail
  *
@@ -71,7 +73,7 @@ public class Profil {
     /**
      * Instantiates a new Profil.
      */
-    public Profil() {
+    public Profil() throws IOException {
         this.clientIsOnline = true;
         lobby = null;
         this.mainFrame = new MainFrame();

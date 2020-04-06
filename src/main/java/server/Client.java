@@ -41,7 +41,7 @@ public class Client implements Runnable {
      *
      * @param name the name
      */
-    public Client(String ... name) {
+    public Client(String ... name) throws IOException {
         this.serverIpServerName = name[0];
         this.serverPort = Integer.parseInt(name[1]);
         if (name.length == 3) {

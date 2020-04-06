@@ -8,9 +8,9 @@ import java.util.Random;
  */
 public class Board {
 
-    int boardSize;
+    public int boardSize;
 
-    Field[][] board;
+    public Field[][] board;
     Field[][] eventboard;
 
     int maxCoinsinGame;

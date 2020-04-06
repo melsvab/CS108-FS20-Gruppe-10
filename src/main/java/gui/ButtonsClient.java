@@ -11,7 +11,6 @@ public class ButtonsClient {
     JButton create;
     JButton help;
     JButton back;
-    JButton ende;
     JButton gamelist;
     JButton highscore;
     JButton quit;
@@ -25,7 +24,6 @@ public class ButtonsClient {
         this.quit = new JButton("Quit");
         this.help = new JButton("Help");
         this.back = new JButton("Leave Lobby");
-        this.ende = new JButton("End");
 
         panel.setLayout(new GridLayout(4,2));
         panel.setPreferredSize(new Dimension( 240, 150 ) );
@@ -37,7 +35,6 @@ public class ButtonsClient {
         create.addActionListener(this::actionPerformed);
         back.addActionListener(this::actionPerformed);
         quit.addActionListener(this::actionPerformed);
-        ende.addActionListener(this::actionPerformed);
 
         panel.add(create);
         panel.add(gamelist);
@@ -45,7 +42,6 @@ public class ButtonsClient {
         panel.add(highscore);
         panel.add(back);
         panel.add(quit);
-        panel.add(ende);
         panel.add(help);
     }
 
@@ -67,8 +63,6 @@ public class ButtonsClient {
         } else if (e.getSource().equals(highscore)) {
 
         } else if (e.getSource().equals(help)) {
-
-        } else if (e.getSource().equals(ende)) {
 
         } else if (e.getSource().equals(back)) {
 

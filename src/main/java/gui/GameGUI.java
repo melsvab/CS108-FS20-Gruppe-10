@@ -1,42 +1,84 @@
 package gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class GameGUI {
-    /*
-     * To Do: Find out how you can load images to create the Board and how to change it when something
-     * is happening.
-     */
+import game.*;
 
-    //private board board;
+public class GameGUI extends JPanel {
+
     private static final int WIDTH = 650;
     private static final int HEIGHT = 650;
     JPanel panel;
-    private Image turtle1;
-    private Image turtle2;
-    private Image turtle3;
-    private Image turtle4;
-    private Image waterField;
-    private Image normalField;
-    private Image usedField;
-    private Image flood;
-    private Image earthquake;
-    private Image coin;
+    private BufferedImage turtle1;
+    private BufferedImage turtle2;
+    private BufferedImage turtle3;
+    private BufferedImage turtle4;
+    private BufferedImage waterField;
+    private BufferedImage normalField;
+    private BufferedImage usedField;
+    private BufferedImage earthquake;
+    private BufferedImage coin;
+    Board board;
 
-    GameGUI() {
+    GameGUI() throws IOException {
         this.panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setPreferredSize(new Dimension(WIDTH, HEIGHT ));
-        panel.setBackground(Color.BLUE); //Placeholder to represent the field/panel. Optional: Water-background
-        /*ImageIcon ii = new ImageIcon("src/GUI/Boden4.png");
-        normalField = ii.getImage();
-        ImageIcon ii2 = new ImageIcon("src/GUI/BodenBenutzt.png");
-        usedField = ii2.getImage();
-        ImageIcon ii3 = new ImageIcon("src/GUI/Wasser.png");
-        flood = ii3.getImage();
-        ImageIcon ii4 = new ImageIcon("src/GUI/Schildkröte1.png");
-        turtle1 = ii4.getImage();*/
+        //panel.setBackground(Color.BLUE); //Placeholder to represent the field/panel. Optional: Water-background
+
+        normalField = ImageIO.read(getClass().getResourceAsStream("/img/land.png"));
+
+        waterField = ImageIO.read(getClass().getResourceAsStream("/img/Water.png"));
+
+        usedField = ImageIO.read(getClass().getResourceAsStream("/img/landUsed.png"));
+
+        earthquake = ImageIO.read(getClass().getResourceAsStream("/img/earthquake.png"));
+
+        turtle1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleBlue.png"));
+
+        turtle2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen.png"));
+
+        turtle3 = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett.png"));
+
+        turtle4 = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow.png"));
+
+        coin = ImageIO.read(getClass().getResourceAsStream("/img/apple.png"));
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    /*
+     *To Do: Find out how to implement the paintComponent method or if the written paintComponent makes sense
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        int widthField = WIDTH / board.boardSize;
+        int heightField = HEIGHT / board.boardSize;
+        g.drawString("The Game has started!",10,20);
+        Graphics2D g2d = (Graphics2D) g;
+        for (int y = 0; y < board.boardSize; y++) {
+            for (int x = 0; x < board.boardSize; x++) {
+                if (board.board[x][y].isFlood) {
+                    g2d.drawImage(waterField, null, widthField * (x + 1), heightField * (y + 1));
+                }
+                if (board.board[x][y].isQuake) {
+                    g2d.drawImage(earthquake, null, widthField * (x + 1), heightField * (y + 1));
+                }
+                if (board.board[x][y].steppedOn) {
+                    g2d.drawImage(usedField, null, widthField * (x + 1), heightField * (y + 1));
+                } else {
+                    g2d.drawImage(normalField, null, widthField * (x + 1), heightField * (y + 1));
+                }
+            }
+        }
     }
 
     public void setVisible(boolean b) {
@@ -50,12 +92,12 @@ public class GameGUI {
         return panel;
     }
 
-    /*@Override
-    public void paintComponent(Graphics g) {
-        ImageIcon ll = new ImageIcon(this.getClass().getResource("Boden4.png"));
-        normalField = ll.getImage();
-
-        Graphics2D g2D = (Graphics2D) g;
-        g2D.draw(normalField);
-    }*/
+    public static void main (String[] args) throws IOException {
+        GameGUI game = new GameGUI();
+        JFrame frame = new JFrame();
+        Board boardDemo = new Board(10,50);
+        game.setBoard(boardDemo);
+        frame.getContentPane().add(game.getPanel());
+        frame.pack();
+    }
 }

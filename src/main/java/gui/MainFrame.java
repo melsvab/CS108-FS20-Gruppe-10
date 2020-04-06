@@ -3,6 +3,9 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+
+import game.*;
 
 public class MainFrame extends JFrame {
 
@@ -17,7 +20,7 @@ public class MainFrame extends JFrame {
     public ButtonsClient buttons2;
     public GameGUI game;
 
-    public MainFrame() {
+    public MainFrame() throws IOException {
         this.frame = new JFrame("Der Boden ist Java");
         this.mainPanel = new JPanel();
         this.chat = new ClientChatGUI();
@@ -87,8 +90,11 @@ public class MainFrame extends JFrame {
 
 
     //TestCode
-    public static void main (String args[]) {
+    public static void main (String args[]) throws IOException {
         MainFrame demo = new MainFrame();
         demo.buttons.setVisible(true);
+        Board boardDemo = new Board(10,50);
+        demo.game.setBoard(boardDemo);
+        demo.revalidate();
     }
 }
