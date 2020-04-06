@@ -23,12 +23,12 @@ public class GameGUI extends JPanel {
     private BufferedImage usedField;
     private BufferedImage earthquake;
     private BufferedImage coin;
-    Board board;
+    Board board = null;
 
     GameGUI() throws IOException {
         this.panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(WIDTH, HEIGHT ));
+        panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         //panel.setBackground(Color.BLUE); //Placeholder to represent the field/panel. Optional: Water-background
 
         normalField = ImageIO.read(getClass().getResourceAsStream("/img/land.png"));
@@ -55,7 +55,7 @@ public class GameGUI extends JPanel {
     }
 
     /*
-     *To Do: Find out how to implement the paintComponent method or if the written paintComponent makes sense
+     *To Do: Find out why paintComponent does not draw anything :((((
      */
     @Override
     protected void paintComponent(Graphics g) {
@@ -64,18 +64,27 @@ public class GameGUI extends JPanel {
         int heightField = HEIGHT / board.boardSize;
         g.drawString("The Game has started!",10,20);
         Graphics2D g2d = (Graphics2D) g;
-        for (int y = 0; y < board.boardSize; y++) {
-            for (int x = 0; x < board.boardSize; x++) {
-                if (board.board[x][y].isFlood) {
-                    g2d.drawImage(waterField, null, widthField * (x + 1), heightField * (y + 1));
+        if (board != null) {
+            for (int y = 0; y < board.boardSize; y++) {
+                for (int x = 0; x < board.boardSize; x++) {
+                    if (board.board[x][y].isFlood) {
+                        g2d.drawImage(waterField, null, widthField * x, heightField * y);
+                    }
+                    else if (board.board[x][y].isQuake) {
+                        g2d.drawImage(earthquake, null, widthField * x, heightField * y);
+                    }
+                    else if (board.board[x][y].steppedOn) {
+                        g2d.drawImage(usedField, null, widthField * x, heightField * y);
+                    } else {
+                        g2d.drawImage(normalField, null, widthField * x, heightField * y);
+                    }
                 }
-                if (board.board[x][y].isQuake) {
-                    g2d.drawImage(earthquake, null, widthField * (x + 1), heightField * (y + 1));
-                }
-                if (board.board[x][y].steppedOn) {
-                    g2d.drawImage(usedField, null, widthField * (x + 1), heightField * (y + 1));
-                } else {
-                    g2d.drawImage(normalField, null, widthField * (x + 1), heightField * (y + 1));
+            }
+        }
+        else {
+            for (int y = 0; y < board.boardSize; y++) {
+                for (int x = 0; x < board.boardSize; x++) {
+                    g2d.drawImage(waterField, null, widthField * x, heightField * y);
                 }
             }
         }
