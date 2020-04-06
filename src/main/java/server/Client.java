@@ -87,7 +87,7 @@ public class Client implements Runnable {
 
             ClientReaderThread clientReaderThread = new ClientReaderThread(dis, dos, profile);
             Thread clientThread = new Thread(clientReaderThread);
-            logger.info("ClientreaderThread started");
+            logger.info("clientreaderThread started");
             clientThread.start();
 
             // The nickname given will be changed to system username if wanted.
@@ -110,11 +110,11 @@ public class Client implements Runnable {
                 //Reads keyboard input from client.
 
                 String original = readKeyBoard.readLine();
-                int lenghtInput = original.length();
-                while (lenghtInput < 4) {
+                int lengthInput = original.length();
+                while (lengthInput < 4) {
                     System.out.println("This keyword is too short. Try again!");
                     original = readKeyBoard.readLine();
-                    lenghtInput = original.length();
+                    lengthInput = original.length();
                 }
                 String clientchoice = original.toUpperCase().substring(0, 4);
 

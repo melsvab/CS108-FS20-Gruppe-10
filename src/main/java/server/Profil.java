@@ -126,10 +126,10 @@ public class Profil {
      */
     public boolean checkForTwoWords(String original) {
 
-        int lenghtInput = original.length();
+        int lengthInput = original.length();
 
         //check for usage of ":" and minimum input of KEYW:a:b (without checking details)
-        if (lenghtInput > 7 && original.contains(":")) {
+        if (lengthInput > 7 && original.contains(":")) {
             String[] words = original.split(":");
 
             //check if there are two words (or at least letters) in between ":"

@@ -283,6 +283,7 @@ public class Server implements Runnable {
                 //Connection to one client established
                 System.out.println("\nClient #" + ++clientConnections + " is connected to the Server.\n");
                 //Create In- & Ouputstreams for reading and sending Strings
+                logger.info("get Input and Outputstream");
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                 /*

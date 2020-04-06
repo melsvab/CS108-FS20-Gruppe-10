@@ -30,7 +30,7 @@ public class ServerThreadForClient implements Runnable {
     public Profil profil;
 
     /**
-     * constructor of SeverThreadForCLient
+     * constructor of SeverThreadForClient
      * @param clientID
      * @param dis
      * @param dos
@@ -66,7 +66,9 @@ public class ServerThreadForClient implements Runnable {
      * @return dataoutputstream data output stream
      */
     public DataOutputStream testConnection() {
+
         return dos;
+
     }
 
     /**
@@ -135,10 +137,10 @@ public class ServerThreadForClient implements Runnable {
             while (profil.clientIsOnline) {
                 //Gets choice from a client and decides what to do.
                 String original = dis.readUTF();
-                int lenghtInput = original.length();
-                while (lenghtInput < 4) { //keyword is not long enough
+                int lengthInput = original.length();
+                while (lengthInput < 4) { //keyword is not long enough
                     original = dis.readUTF();
-                    lenghtInput = original.length();
+                    lengthInput = original.length();
                 }
                 String clientChoice = original.toUpperCase().substring(0, 4);
 

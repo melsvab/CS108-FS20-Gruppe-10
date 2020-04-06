@@ -89,10 +89,10 @@ public class ClientReaderThread implements Runnable {
                 // Get message from server (in LETTERS)
 
                 String original = dis.readUTF();
-                int lenghtInput = original.length();
-                while (lenghtInput < 4) {
+                int lengthInput = original.length();
+                while (lengthInput < 4) {
                     original = dis.readUTF();
-                    lenghtInput = original.length();
+                    lengthInput = original.length();
                 }
                 String clientChoice = original.toUpperCase().substring(0, 4);
 

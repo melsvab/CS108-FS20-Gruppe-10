@@ -38,7 +38,7 @@ public class Lobby extends Thread {
     }
 
     /**
-     * Fuction often used. Let thread wait several seconds
+     * Function often used. Let thread wait several seconds
      * @param seconds how many seconds to wait.
      */
     public void pleaseWait(int seconds) {
@@ -103,7 +103,7 @@ public class Lobby extends Thread {
     }
 
     /**
-     * Removes a client or spectater from the list / set and from the lobby.
+     * Removes a client or spectator from the list / set and from the lobby.
      * @param aUser client to be removed.
      */
     public synchronized void deletePlayer(ServerThreadForClient aUser) {

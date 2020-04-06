@@ -51,7 +51,7 @@ public class ClientChatGUI extends JFrame {
     }
 
     /**
-     * Set Dataoutputstream.
+     * Set dataoutputstream.
      *
      * @param dos the dos
      */

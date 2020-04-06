@@ -41,7 +41,7 @@ public class Board {
         } else {
             this.boardSize = boardSize;
         }
-        //max coins = 500; determine the porb. for coins on the board.
+        //max coins = 500; determine the prob. for coins on the board.
         if (maxCoinsInGame > 500) {
             maxCoinsInGame = 500;
         } else {
@@ -274,11 +274,11 @@ public class Board {
         testBoard.floodBoard(2);
         System.out.println("BOARD WAS FLOOD TIMES 2 \n\n" + testBoard.printBoard());
         testBoard.afterEvent();
-        System.out.println("BOARD WAS KINDA RESET (COINS DISAPEAR ETC) : \n\n " + testBoard.printBoard());
+        System.out.println("BOARD WAS KINDA RESET (COINS DISAPPEAR ETC) : \n\n " + testBoard.printBoard());
         testBoard.earthquake(20);
         System.out.println("BOARD WAS QUAKED MAGNITUDE 20 : \n\n " + testBoard.printBoard());
         testBoard.afterEvent();
-        System.out.println("BOARD WAS KINDA RESET (COINS DISAPEAR ETC) : \n\n " + testBoard.printBoard());
+        System.out.println("BOARD WAS KINDA RESET (COINS DISAPPEAR ETC) : \n\n " + testBoard.printBoard());
     }
 
 
