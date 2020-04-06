@@ -8,15 +8,15 @@ import server.*;
 
 /**
  * @author Natasha, Melanie, Dennis
- * In this class, a lobby is created where the players are collected and the gamestate and
- * board is saved.
+ * In this class, a lobby is created where the players are collected and the gamestate
+ * and board is saved.
  */
 public class Lobby extends Thread {
     /*
-    * one for an open game
-    * two for an ongoing game
-    * three for a finished game
-    */
+     * one for an open game
+     * two for an ongoing game
+     * three for a finished game
+     */
     public int gamestate;
     public int lobbyNumber;
     public int numberOfPlayers;
@@ -38,7 +38,7 @@ public class Lobby extends Thread {
     }
 
     /**
-     * Function often used. Let thread wait several seconds
+     * Fuction often used. Let thread wait several seconds
      * @param seconds how many seconds to wait.
      */
     public void pleaseWait(int seconds) {
@@ -103,7 +103,7 @@ public class Lobby extends Thread {
     }
 
     /**
-     * Removes a client or spectator from the list / set and from the lobby.
+     * Removes a client or spectater from the list / set and from the lobby.
      * @param aUser client to be removed.
      */
     public synchronized void deletePlayer(ServerThreadForClient aUser) {
@@ -149,8 +149,9 @@ public class Lobby extends Thread {
 
 
     /**
-     *
+     * The run method is used to send the board with its events to all clients
      */
+
     public void run() {
         /*
         Create for every PLAYER a turtle and its name.
@@ -158,8 +159,8 @@ public class Lobby extends Thread {
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.myTurtle = new PlayerTurtle(aPlayer.profil.nickname + "-Junior");
             Server.chatSingle(Protocol.MSSG.name()
-                + ":You have adopted a turtle baby and named it "
-                + aPlayer.profil.myTurtle.turtlename, aPlayer);
+                    + ":You have adopted a turtle baby and named it "
+                    + aPlayer.profil.myTurtle.turtlename, aPlayer);
             //Set this turtle to a start-position not taken yet.
             A: for (int x = 0; x < this.board.boardSize; x++) {
                 for (int y = 0; y < this.board.boardSize; y++) {
@@ -184,7 +185,6 @@ public class Lobby extends Thread {
             writeToAll(Protocol.LOBY.name() + ":" + i);
             pleaseWait(1);
         }
-        writeToAll(Protocol.LOBY.name() + ":GO!");
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.waitingForEvent = false;
         }
@@ -192,7 +192,7 @@ public class Lobby extends Thread {
         //game has started.
         int rounds = 1;
         while (rounds <= 10) {
-            writeToAll(Protocol.RNDS.name() + ":" + rounds);
+            writeToAll(Protocol.RNDS.name() + ":" + String.valueOf(rounds));
             pleaseWait(20);
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = true;
@@ -244,7 +244,7 @@ public class Lobby extends Thread {
             }
         }
 
-        writeToAll(Protocol.WINR.name() + ":" + winner + ":" + maxPoints);
+        writeToAll(Protocol.WINR.name() + ":" + winner + ":" + String.valueOf(maxPoints));
 
         gamestate = 3;
 
