@@ -31,9 +31,9 @@ public class ServerThreadForClient implements Runnable {
 
     /**
      * constructor of SeverThreadForClient
-     * @param clientID
-     * @param dis
-     * @param dos
+     * @param clientID the clientID
+     * @param dis datainputstream
+     * @param dos dataoutputstream
      */
     public ServerThreadForClient(int clientID, DataInputStream dis, DataOutputStream dos) {
         this.profil = new Profil(clientID);
@@ -169,7 +169,7 @@ public class ServerThreadForClient implements Runnable {
                              * A Message will be send to all clients that are online.
                              * (and therefore in our list of ServerThreadForClients called userThreads)
                              */
-                            if (lenghtInput > 5) {
+                            if (lengthInput > 5) {
                                 String message = Protocol.MSG0.name() + ":Broadcast to all: \n"
                                         + "[" + profil.nickname + "] " + original.substring(5);
                                 Server.chat(message, Server.userThreads);

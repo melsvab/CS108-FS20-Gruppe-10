@@ -20,7 +20,7 @@ public class Message {
                 + "enter >HSC1< to see the current highscore. \n"
                 + "enter >CRE1< to create a lobby for a new game. \n"
                 + "enter >JOIN:lobbyNumber< to join a lobby. \n"
-                + "enter >SPEC:lobbyNumber< to join a lobby as a spectator"
+                + "enter >SPEC:lobbyNumber< to join a lobby as a spectator \n"
                 + "enter >STR1:boardSize:maxCoins< to start a game with its personalized board. \n"
                 + "enter >HELP< to see this message again."
                 + "enter >QUIT< to end this program.\n");
