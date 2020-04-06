@@ -144,7 +144,7 @@ public class Board {
      *
      * @param magnitude the magnitude
      */
-    public void earthquake(int magnitude) { //magnitude = percentage a earthquake could happen on the field.
+    public void earthquake(int magnitude) {
         for (int x = 1; x < this.boardSize; x++) { //x = 0 is border (already flooded)
             for (int y = 1; y < this.boardSize; y++) { //y = 0 is border (already flooded)
                 Random random = new Random();
@@ -176,7 +176,7 @@ public class Board {
      *
      * @param timesFlood the times flood
      */
-    public void floodBoard(int timesFlood) { //more than one flood for a crazy time
+    public void floodBoard(int timesFlood) {
         Random randomFlood = new Random();
 
         for (int j = 0; j < timesFlood; j++) {
@@ -217,7 +217,8 @@ public class Board {
                                 A: for (int a = 1; a < this.boardSize-3; a++) {
                                     for (int b = 1; b < this.boardSize-3; b++) {
                                         if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
-                                            this.board[position][this.boardSize - i].turtle.turtleposition = this.board[a][b];
+                                            this.board[position][this.boardSize - i].turtle.turtleposition
+                                                    = this.board[a][b];
                                             this.board[a][b].turtle = this.board[position][this.boardSize - i].turtle;
                                             this.board[position][this.boardSize - i].turtle = null;
                                             this.board[a][b].isTaken = true;
