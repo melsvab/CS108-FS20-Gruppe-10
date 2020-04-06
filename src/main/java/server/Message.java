@@ -41,8 +41,7 @@ public class Message {
     /**
      * The constant inLobbyAlready.
      */
-    public static String inLobbyAlready = ("You are in a lobby already. If you want to exit,"
-    + "write >BACK<");
+    public static String inLobbyAlready = ("You are in a lobby already. If you want to exit," + "write >BACK<");
     /**
      * The constant enterLobby.
      */

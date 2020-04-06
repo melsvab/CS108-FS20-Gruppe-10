@@ -6,8 +6,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
+
 
 /**
  * @author Dennis, Natasha, Melanie, Rohail
@@ -35,12 +39,12 @@ public class Client implements Runnable {
      *
      * @param name the name
      */
-    public Client(String ... name){
+    public Client(String ... name) {
         this.serverIpServerName = name[0];
         this.serverPort = Integer.parseInt(name[1]);
-        if(name.length == 3){
+        if (name.length == 3) {
             profile.nickname = name[2];
-        }else {
+        } else {
             profile.nickname = System.getProperty("user.name");
         }
 
@@ -68,7 +72,7 @@ public class Client implements Runnable {
      * for reading input from Server. It sets a DataOutputStream for the ChatGUI and
      * creates an invisible chat that processes input.
      */
-    public void run(){
+    public void run() {
         try {
 
             InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
@@ -154,7 +158,7 @@ public class Client implements Runnable {
                         case NAME:
                             logger.info("changing the name");
 
-                            if(profile.checkForName(original)) {
+                            if (profile.checkForName(original)) {
                                 String newNickname = original.substring(5);
 
                                 /*

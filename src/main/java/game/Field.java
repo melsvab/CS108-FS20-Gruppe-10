@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class Field {
 
-    public Field up, right, down, left;
+    public Field up, right , down , left;
 
     public PlayerTurtle turtle;
 

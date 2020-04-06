@@ -20,7 +20,9 @@ public class PlayerTurtle {
      *
      * @param turtlename the nickname which is given to the turtle.
      */
-    public PlayerTurtle(String turtlename) { this.turtlename = turtlename; }
+    public PlayerTurtle(String turtlename) {
+        this.turtlename = turtlename;
+    }
 
 
 }

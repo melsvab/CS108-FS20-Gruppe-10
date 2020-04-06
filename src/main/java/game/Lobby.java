@@ -8,8 +8,8 @@ import server.*;
 
 /**
  * @author Natasha, Melanie, Dennis
- * In this class, a lobby is created where the players are collected
- * and the gamestate and board is saved.
+ * In this class, a lobby is created where the players are collected and the gamestate and
+ * board is saved.
  */
 public class Lobby extends Thread {
     /*
@@ -44,7 +44,7 @@ public class Lobby extends Thread {
     public void pleaseWait(int seconds) {
         long start = System.currentTimeMillis();
         long now = System.currentTimeMillis();
-        while((now - start)/1000 < seconds) {
+        while ((now - start) / 1000 < seconds) {
             now = System.currentTimeMillis();
         }
     }
@@ -78,7 +78,7 @@ public class Lobby extends Thread {
     public synchronized void addPlayer(ServerThreadForClient aUser) {
         //if the game has already started or there are four players already, the new client will be a spectator
         if (gamestate > 1 || numberOfPlayers >= 4) {
-            if(gamestate > 1) {
+            if (gamestate > 1) {
                 aUser.sendMessage(Protocol.ERRO.name() + ":The game has started already! You are a spectator now!");
             } else {
                 aUser.sendMessage(Protocol.ERRO.name()
@@ -148,7 +148,9 @@ public class Lobby extends Thread {
     }
 
 
-
+    /**
+     *
+     */
     public void run() {
         /*
         Create for every PLAYER a turtle and its name.

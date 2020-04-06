@@ -6,13 +6,14 @@ import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 
 import game.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author Dennis, Natasha, Rohail, Melanie
  * A thread is created for every client that connects to the server.
- * Represents an interface between client & server.
+ * Represents an interface between client and server.
  */
 public class ServerThreadForClient implements Runnable {
 
@@ -21,21 +22,23 @@ public class ServerThreadForClient implements Runnable {
      */
     public static final Logger logger = LoggerFactory.getLogger(ServerThreadForClient.class);
 
-    /**
-     * The Dis.
-     */
+
     DataInputStream dis;
-    /**
-     * The Dos.
-     */
+
     DataOutputStream dos;
 
     public Profil profil;
 
+    /**
+     * constructor of SeverThreadForCLient
+     * @param clientID
+     * @param dis
+     * @param dos
+     */
     public ServerThreadForClient(int clientID, DataInputStream dis, DataOutputStream dos) {
-            this.profil = new Profil(clientID);
-            this.dis = dis;
-            this.dos = dos;
+        this.profil = new Profil(clientID);
+        this.dis = dis;
+        this.dos = dos;
     }
 
     /**
@@ -54,13 +57,12 @@ public class ServerThreadForClient implements Runnable {
         try {
             dos.writeUTF(message);
         } catch (Exception exception) {
-        System.err.println(exception.toString());
+            System.err.println(exception.toString());
         }
     }
 
     /**
      * Test connection data output stream.
-     *
      * @return dataoutputstream data output stream
      */
     public DataOutputStream testConnection() {
@@ -83,11 +85,10 @@ public class ServerThreadForClient implements Runnable {
 
     /**
      * Join.
-     *
      * @param original the original
      * @param watch    the watch
      */
-    public void join (String original, boolean watch) {
+    public void join(String original, boolean watch) {
         // checks if there are two ints and the player is not in a lobby already
         if (profil.checkForNumber(original) && !profil.isInGame) {
             //checks if there are any games at all
@@ -166,7 +167,7 @@ public class ServerThreadForClient implements Runnable {
                              * A Message will be send to all clients that are online.
                              * (and therefore in our list of ServerThreadForClients called userThreads)
                              */
-                            if(lenghtInput > 5) {
+                            if (lenghtInput > 5) {
                                 String message = Protocol.MSG0.name() + ":Broadcast to all: \n"
                                         + "[" + profil.nickname + "] " + original.substring(5);
                                 Server.chat(message, Server.userThreads);
@@ -223,9 +224,9 @@ public class ServerThreadForClient implements Runnable {
                                 String oldNickname = profil.nickname;
                                 String desiredName = original.substring(5);
                                 desiredName = Server.checkForDuplicate(desiredName, this);
-                                String answerToClient = Protocol.MSSG.name() +
-                                        ":Your name has been changed from " + oldNickname +
-                                        " to " + desiredName + "\n";
+                                String answerToClient = Protocol.MSSG.name()
+                                    + ":Your name has been changed from " + oldNickname
+                                    + " to " + desiredName + "\n";
                                 //write decision to client
                                 dos.writeUTF(answerToClient);
                                 //server has accepted new name
@@ -332,20 +333,21 @@ public class ServerThreadForClient implements Runnable {
                                         + ":\nThe game has started!\n");
                             } else {
                                 //if(profil.checkForTwoInt(original) == false){
-                                   // logger.info("forgot the colon");
+                                // logger.info("forgot the colon");
                                 //}
                             }
                             break;
 
                         case UPPR:  //TO DO: IF ELSE FOR && profil.lobby.gamestate == 2 all directions!
                             //Under Construction: Player moves a block up ingame.
-                            if (profil.myTurtle.turtleposition.up.isTaken ||
-                                    profil.myTurtle.turtleposition.up.isFlood ||
-                                    profil.myTurtle.turtleposition.up.isBoundary) {
-                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
+                            if (profil.myTurtle.turtleposition.up.isTaken
+                                || profil.myTurtle.turtleposition.up.isFlood
+                                || profil.myTurtle.turtleposition.up.isBoundary) {
+                                dos.writeUTF(Protocol.ERRO.name()
+                                    + ":" + Message.invalidMove);
                             } else if (profil.waitingForEvent) {
-                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
-                                        " cannot move.. to scared of what is gonna happen");
+                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
+                                    + " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtle(0);
                             }
@@ -354,13 +356,13 @@ public class ServerThreadForClient implements Runnable {
                         case DOWN:
 
                             //Under Construction: Player moves a block down ingame.
-                            if (profil.myTurtle.turtleposition.down.isTaken ||
-                                    profil.myTurtle.turtleposition.down.isFlood ||
-                                    profil.myTurtle.turtleposition.down.isBoundary) {
+                            if (profil.myTurtle.turtleposition.down.isTaken
+                                || profil.myTurtle.turtleposition.down.isFlood
+                                || profil.myTurtle.turtleposition.down.isBoundary) {
                                 dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
                             } else if (profil.waitingForEvent) {
-                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
-                                        " cannot move.. to scared of what is gonna happen");
+                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
+                                    + " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtle(2);
                             }
@@ -370,13 +372,13 @@ public class ServerThreadForClient implements Runnable {
                         case LEFT:
 
                             //Under Construction: Player moves a block left ingame.
-                            if (profil.myTurtle.turtleposition.left.isTaken ||
-                                    profil.myTurtle.turtleposition.left.isFlood ||
-                                    profil.myTurtle.turtleposition.left.isBoundary) {
+                            if (profil.myTurtle.turtleposition.left.isTaken
+                                || profil.myTurtle.turtleposition.left.isFlood
+                                || profil.myTurtle.turtleposition.left.isBoundary) {
                                 dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
                             } else if (profil.waitingForEvent) {
-                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
-                                        " cannot move.. to scared of what is gonna happen");
+                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
+                                    + " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtle(3);
                             }
@@ -386,13 +388,13 @@ public class ServerThreadForClient implements Runnable {
                         case RIGT:
 
                             //Under Construction: Player moves a block right ingame.
-                            if (profil.myTurtle.turtleposition.right.isTaken ||
-                                    profil.myTurtle.turtleposition.right.isFlood ||
-                                    profil.myTurtle.turtleposition.right.isBoundary ) {
+                            if (profil.myTurtle.turtleposition.right.isTaken
+                                || profil.myTurtle.turtleposition.right.isFlood
+                                || profil.myTurtle.turtleposition.right.isBoundary ) {
                                 dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
                             } else if (profil.waitingForEvent) {
-                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename +
-                                        " cannot move.. too scared of what is gonna happen");
+                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
+                                    + " cannot move.. too scared of what is gonna happen");
                             } else {
                                 profil.moveTurtle(1);
                             }
@@ -402,8 +404,8 @@ public class ServerThreadForClient implements Runnable {
                             // secret cheat code
                             if (profil.isInGame && profil.lobby.gamestate == 2) {
                                 int cheatPlus = 10;
-                                dos.writeUTF(Protocol.MSSG.name() +
-                                        ":CHEAT CODE USED! YOU RECEIVED " + cheatPlus + " POINTS!");
+                                dos.writeUTF(Protocol.MSSG.name()
+                                    + ":CHEAT CODE USED! YOU RECEIVED " + cheatPlus + " POINTS!");
                                 profil.myTurtle.points += cheatPlus;
                             } else {
                                 dos.writeUTF(Protocol.MSSG.name() + ":STOP THAT!");

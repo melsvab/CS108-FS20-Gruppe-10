@@ -165,7 +165,7 @@ public class Profil {
     /**
      * An example of an input: KEYW:word
      * <p>
-     * Check for usage of ":" and minimum input of >KEYW:a<.
+     * Check for usage of ":" and minimum input of "KEYW:a".
      *
      * @param original the original
      * @return boolean boolean

@@ -1,12 +1,14 @@
 package server;
 
-import game.PlayerTurtle;
-
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import game.PlayerTurtle;
+
+
 
 /**
  * @author Natasha, Dennis, Melanie, Rohail
@@ -38,9 +40,9 @@ public class ClientReaderThread implements Runnable {
      * @param profil the profil
      */
     public ClientReaderThread(DataInputStream dis, DataOutputStream dos, Profil profil) {
-            this.dis = dis;
-            this.dos = dos;
-            this.profile = profil;
+        this.dis = dis;
+        this.dos = dos;
+        this.profile = profil;
     }
 
     /**
@@ -134,7 +136,7 @@ public class ClientReaderThread implements Runnable {
                             /*
                              * Client sees a chat message
                              */
-                            if(checkMessage(original)) {
+                            if (checkMessage(original)) {
                                 profile.ccg.receiveMsg(original.substring(5));
                             }
                             break;
@@ -231,13 +233,11 @@ public class ClientReaderThread implements Runnable {
                                 System.out.println("\n -----------------------\n Round " + rounds
                                     + "\n There are " + (10 - rounds)
                                     + " rounds left \n -----------------------\n");
-                            }
-                            else if (rounds == 9) {
+                            } else if (rounds == 9) {
                                 System.out.println("\n -----------------------\n Round " + rounds
                                     + "\n There is " + (10 - rounds)
                                     + " round left \n -----------------------\n");
-                            }
-                            else {
+                            } else {
                                 System.out.println("\n -----------------------\n Round " + rounds
                                         + "\n Last round \n -----------------------\n");
                             }

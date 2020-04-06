@@ -34,14 +34,21 @@ public class Board {
 
         //Create a board out of fields and assert attributes.
         //boardSize: min = 10, max = 20.
-        if (boardSize < 10) { this.boardSize = 10; }
-        else if (boardSize > 20) { this.boardSize = 20; }
-        else { this.boardSize = boardSize; }
+        if (boardSize < 10) {
+            this.boardSize = 10;
+        } else if (boardSize > 20) {
+            this.boardSize = 20;
+        } else {
+            this.boardSize = boardSize;
+        }
         //max coins = 500; determine the porb. for coins on the board.
-        if (maxCoinsInGame > 500) { maxCoinsInGame = 500; }
-        else { this.maxCoinsInGame = maxCoinsInGame; }
+        if (maxCoinsInGame > 500) {
+            maxCoinsInGame = 500;
+        } else {
+            this.maxCoinsInGame = maxCoinsInGame;
+        }
         //probability for coins on the board
-        this.coinOccurrence = boardSize + (maxCoinsInGame/10);
+        this.coinOccurrence = boardSize + (maxCoinsInGame / 10);
         //actual board
         this.board = new Field[boardSize + 1][boardSize + 1];
         //Generate Fields and flood area around (border):
@@ -57,15 +64,15 @@ public class Board {
             }
         }
         //Set 4 startpositions in center.
-        int a = this.boardSize/2;
+        int a = this.boardSize / 2;
         this.board[a][a].resetField();
-        this.board[a+1][a].resetField();
-        this.board[a][a+1].resetField();
-        this.board[a+1][a+1].resetField();
+        this.board[a + 1][a].resetField();
+        this.board[a][a + 1].resetField();
+        this.board[a + 1][a + 1].resetField();
         this.board[a][a].isStartPosition = true;
-        this.board[a+1][a].isStartPosition = true;
-        this.board[a][a+1].isStartPosition = true;
-        this.board[a+1][a+1].isStartPosition = true;
+        this.board[a + 1][a].isStartPosition = true;
+        this.board[a][a + 1].isStartPosition = true;
+        this.board[a + 1][a + 1].isStartPosition = true;
         //Connect fields to each other. (UP, DOWN, LEFT, RIGHT)
         for (int x = 0; x < this.boardSize + 1; x++) {
             for (int y = 0; y < this.boardSize + 1; y++) {

@@ -1,12 +1,13 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import server.Server;
+
 import server.Client;
+import server.Server;
+
 
 /**
- * @author Rohail
- * The Main-class of our Project. Depending on the arguments it starts a server or
- * client thread
+ *@author Rohail
+ * The Main-class of our Project. Depending on the arguments it starts a server or client thread
  */
 public class Start {
 
@@ -21,13 +22,16 @@ public class Start {
      * @param args the input arguments
      */
     public static void main(String[] args) {
+
         try {
-            if (args[0].equalsIgnoreCase("server")) {
+            String input = args[0];
+            input = input.toUpperCase();
+            if (input.equals("SERVER")) {
                 Server server = new Server(Integer.parseInt(args[1]));
                 Thread serverThread = new Thread(server);
                 serverThread.start();
                 logger.info("Server started");
-            } else if (args[0].equalsIgnoreCase("client")) {
+            } else if (input.equalsIgnoreCase("CLIENT")) {
                 String[] host = args[1].split(":");
                 if (args.length == 3) {
                     Client client = new Client(host[0], host[1], args[2]);
@@ -43,7 +47,7 @@ public class Start {
 
 
             }
-        } catch (Exception e) {
+        } catch (Exception exception) {
             System.out.println("Your input was incorrect. Please try again! \n\n"
                     + "It has to be done as followed: \n"
                     + "client <hostadress>:<port> [<username>] | server <port> \n\n"

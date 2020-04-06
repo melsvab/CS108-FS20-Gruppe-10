@@ -1,7 +1,5 @@
 package server;
 
-import game.*;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,6 +8,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
+
+import game.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

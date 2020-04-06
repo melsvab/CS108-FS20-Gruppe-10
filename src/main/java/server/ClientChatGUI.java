@@ -1,10 +1,12 @@
 package server;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import javax.swing.*;
+
+
+
 
 /**
  * @author Melanie
@@ -53,7 +55,8 @@ public class ClientChatGUI extends JFrame {
      *
      * @param dos the dos
      */
-    public void setDos(DataOutputStream dos){
+    public void setDos(DataOutputStream dos) {
+
         this.dos = dos;
     }
 
@@ -131,8 +134,8 @@ public class ClientChatGUI extends JFrame {
     }
 
     /**
-     *
-     * @param b
+     *setVisible
+     * @param b boolean true or false
      */
     public void setVisible(boolean b) {
         frame.setVisible(b);
