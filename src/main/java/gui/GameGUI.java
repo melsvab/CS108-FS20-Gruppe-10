@@ -27,10 +27,13 @@ public class GameGUI extends JPanel {
 
     GameGUI() throws IOException {
         this.panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+        panel.setLayout(new BorderLayout()); //BorderLayout is chosen at the moment. Could be changed later
         panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        //panel.setBackground(Color.BLUE); //Placeholder to represent the field/panel. Optional: Water-background
+        //The panel is a square at the moment. Probably because of the other panels the GamePanel is shown to be rectangular in the mainFrame
 
+        //panel.setBackground(Color.BLUE); //Placeholder to represent the field/panel. Optional: Water-background, not used right now
+
+        //import the files and saves them in a BufferedImage. Get resources from src/main/ressources/img
         normalField = ImageIO.read(getClass().getResourceAsStream("/img/land.png"));
 
         waterField = ImageIO.read(getClass().getResourceAsStream("/img/Water.png"));
@@ -58,6 +61,11 @@ public class GameGUI extends JPanel {
      *To Do: Find out why paintComponent does not draw anything :((((
      */
     @Override
+    /*
+     *Overrides paintComponent. Not Tested if the idea with g2d.drawImage works (Graphics2D is used
+     *because it can drawImages apparently with BufferdImages. Not every Image is included in the method
+     *at the moment until its working properly
+     */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int widthField = WIDTH / board.boardSize;
@@ -92,12 +100,16 @@ public class GameGUI extends JPanel {
 
     public void setVisible(boolean b) {
         /*
-         * Note: This method will be used to let the buttons only appear if the client is inGame.
+         * Note: This method will be used to let the game only appear if the client is inGame. Could be deleted
+         * because if the game is not started the Panel could be drawn with only water.
          */
         panel.setVisible(b);
     }
 
     public JPanel getPanel() {
+        /*
+         *returns Panel so the mainFrame can use it. If panel would be public this probably is not necessary.
+         */
         return panel;
     }
 

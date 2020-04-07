@@ -25,9 +25,14 @@ public class ButtonsClient {
         this.help = new JButton("Help");
         this.back = new JButton("Leave Lobby");
 
+        //creates a GridLayout with 4 rows, and 2 colums. Buttons get their place depending of the order of panel.add(something).
         panel.setLayout(new GridLayout(4,2));
+        //sets PrefferedSize(can sometimes not work properly in the MainFrame because of the other panels.
         panel.setPreferredSize(new Dimension( 240, 150 ) );
 
+        /*adds an ActionListener, so the button does something when you click on it. The ActionPerformed is not implemented right now,
+         *so nothing is happening.
+         */
         playerlist.addActionListener(this::actionPerformed);
         gamelist.addActionListener(this::actionPerformed);
         help.addActionListener(this::actionPerformed);
@@ -36,6 +41,7 @@ public class ButtonsClient {
         back.addActionListener(this::actionPerformed);
         quit.addActionListener(this::actionPerformed);
 
+        //adds button to the panel
         panel.add(create);
         panel.add(gamelist);
         panel.add(playerlist);
@@ -72,6 +78,9 @@ public class ButtonsClient {
     }
 
     public JPanel getPanel() {
+        /*
+         *returns Panel so the mainFrame can use it. If panel would be public this probably is not necessary.
+         */
         return panel;
     }
 }

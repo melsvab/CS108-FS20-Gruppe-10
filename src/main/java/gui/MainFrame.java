@@ -40,6 +40,16 @@ public class MainFrame extends JFrame {
         mainPanel.setSize(1280,720);
         GridBagConstraints gbc = new GridBagConstraints();
 
+        /*See ButtonsGame for a basic explanation of GridBagLayout
+         *gbc.fill will fill the object for the whole Grid. this is needed if for example the size of the chat is to small
+         *so it fills the whole space.
+         *gbc.insets creates distance to the other panels.
+         *gbc.anchor is used if you change the size of the frame/screen which appears so the chat for example stays on
+         *the upper left corner
+         * gbc.weightx/weighty is used so the gamePanel is larger than the other things. Why this works like that or if there is
+         * a better way I dont know exactly
+         */
+
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.fill = GridBagConstraints.BOTH;
@@ -76,16 +86,17 @@ public class MainFrame extends JFrame {
         gbc.gridy = 1;
         mainPanel.add(panelButtonsGame, gbc);
 
+        //frame.getContentPane().add is used so the mainPanel gets add on the frame
         frame.getContentPane().add(mainPanel);
-        frame.setSize(1280,720);
+        frame.setSize(1280,720); //standard size of the window which opens
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //If you click on the red x in the window, the programm stops automaticaly
     }
     /**
      * closes chat
      */
     public void closeChat() {
-        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); //automatic closing you can use in code
     }
 
 

@@ -34,6 +34,12 @@ public class ButtonsGame {
         down.addActionListener(this::actionPerformed);
         left.addActionListener(this::actionPerformed);
 
+        /*x and y are like coordinates. if x=0, y=0 its on the top left, x=1, y=1 its down right for example for a grid with
+         * (0,0/0,1/1,0/1,1) -> 4 fields.
+         *If you use for example x=0, y=5 the gridBagLayout will automatically assume a coordinated field with y from 0 to 5.
+         *So you dont have to initialize something for the grid for this layout.
+         *This one has an grid for x = 0 to 2 and y = 0 to 2 so the buttons can be like a cross.
+         */
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -78,12 +84,16 @@ public class ButtonsGame {
     }
     public void setVisible(boolean b) {
         /*
-         * Note: This method will be used to let the buttons only appear if the client is inGame.
+         * Note: This method will be used to let the buttons only appear if the client is inGame. You can check
+         * the buttons in the MainFrame TestMethode at the moment
          */
         panel.setVisible(b);
     }
 
     public JPanel getPanel() {
+        /*
+         *returns Panel so the mainFrame can use it. If panel would be public this probably is not necessary.
+         */
         return panel;
     }
 }

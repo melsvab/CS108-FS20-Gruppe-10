@@ -129,6 +129,9 @@ public class ClientChatGUI extends JFrame {
     }
 
     public JPanel getPanel() {
+        /*
+         *returns Panel so the mainFrame can use it. If panel would be public this probably is not necessary.
+         */
         return panel;
     }
 }
