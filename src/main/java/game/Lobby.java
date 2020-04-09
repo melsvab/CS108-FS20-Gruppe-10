@@ -186,7 +186,7 @@ public class Lobby extends Thread {
                 }
             }
         }
-        board.spawnRandomCoins();
+        String coins = board.spawnRandomCoins();
 
 
         //Show Startboard to all clients in the lobby.

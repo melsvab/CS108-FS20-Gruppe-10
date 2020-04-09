@@ -32,6 +32,15 @@ public class Field {
         }
     }
 
+    public boolean coins(int probabilityForCoin) {
+        Random random = new Random();
+        int x = random.nextInt(100);
+        if (x <= probabilityForCoin) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Function to reset a Field to standard values.
      */

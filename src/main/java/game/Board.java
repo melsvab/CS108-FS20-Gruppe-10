@@ -86,20 +86,25 @@ public class Board {
      * Function creates random spawning coins on the board.
      * Occurrence according to this.CoinOccurrence
      */
-    public void spawnRandomCoins() {
+    public String spawnRandomCoins() {
+        String coinAt = "";
         for (int x = 0; x < this.boardSize + 1; x++) {
             for (int y = 0; y < this.boardSize + 1; y++) {
-                if (!this.board[x][y].isFlood && !this.board[x][y].isBoundary && !this.board[x][y].isStartPosition) {
-                    this.board[x][y] = new Field(this.coinOccurrence);
+                if (!this.board[x][y].isFlood && !this.board[x][y].isBoundary
+                        && !this.board[x][y].isStartPosition && !this.board[x][y].isTaken) {
+                    this.board[x][y].hasCoin = this.board[x][y].coins(this.coinOccurrence);
                     //make sure, not too much coins are on the board
                     if (this.board[x][y].hasCoin && (this.coinsOnBoard <= this.maxCoinsInGame)) {
                         this.coinsOnBoard++;
+                        coinAt += ":" + x + "." + y;
+
                     } else {
                         this.board[x][y].hasCoin = false;
                     }
                 }
             }
         }
+        return coinAt;
     }
 
     /**
