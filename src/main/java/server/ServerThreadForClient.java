@@ -327,9 +327,10 @@ public class ServerThreadForClient implements Runnable {
                                 String[] words = original.split(":");
 
                                 int boardSize = Integer.parseInt(words[1]);
-                                int maxPoints = Integer.parseInt(words[2]);
-                                profil.lobby.createGame(boardSize,maxPoints);
-                                profil.lobby.gamestate = 2;
+                                int maxCoins = Integer.parseInt(words[2]);
+
+                                //creates a board and adds all information from the client
+                                profil.lobby.createGame(boardSize, maxCoins);
                                 profil.lobby.start();
                                 profil.lobby.writeToAll(Protocol.MSSG.name()
                                         + ":\nThe game has started!\n");

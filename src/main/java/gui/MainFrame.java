@@ -104,7 +104,9 @@ public class MainFrame extends JFrame {
     public static void main (String args[]) throws IOException {
         MainFrame demo = new MainFrame();
         demo.buttons.setVisible(true);
-        Board boardDemo = new Board(10,50);
+        Board boardDemo = new Board(10);
+        boardDemo.coinOccurrence =  boardDemo.boardSize + (50 / 10);
+        boardDemo.maxCoinsInGame = 50;
         demo.game.setBoard(boardDemo);
         demo.revalidate();
     }

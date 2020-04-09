@@ -116,7 +116,9 @@ public class GameGUI extends JPanel {
     public static void main (String[] args) throws IOException {
         GameGUI game = new GameGUI();
         JFrame frame = new JFrame();
-        Board boardDemo = new Board(10,50);
+        Board boardDemo = new Board(10);
+        boardDemo.coinOccurrence =  boardDemo.boardSize + (50 / 10);
+        boardDemo.maxCoinsInGame = 50;
         game.setBoard(boardDemo);
         frame.getContentPane().add(game.getPanel());
         frame.pack();

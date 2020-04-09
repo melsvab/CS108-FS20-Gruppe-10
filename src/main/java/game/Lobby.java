@@ -13,10 +13,10 @@ import server.*;
  */
 public class Lobby extends Thread {
     /*
-    * one for an open game
-    * two for an ongoing game
-    * three for a finished game
-    */
+     * one for an open game
+     * two for an ongoing game
+     * three for a finished game
+     */
     public int gamestate;
     public int lobbyNumber;
     public int numberOfPlayers;
@@ -141,17 +141,31 @@ public class Lobby extends Thread {
     /**
      * Creates a new board object.
      * @param boardSize size of the board (Field[][]).
-     * @param maxCoins max number of coins.
      */
     public synchronized void createGame(int boardSize, int maxCoins) {
-        board = new Board(boardSize,maxCoins);
+        //Create a board out of fields and assert attributes.
+        //boardSize: min = 10, max = 20.
+        if (boardSize < 10) {
+            boardSize = 10;
+        } else if (boardSize > 20) {
+            boardSize = 20;
+        }
+        board = new Board(boardSize);
+
+        //max coins = 500; determine the probability for coins on the board.
+        if (maxCoins > 500) {
+            maxCoins = 500;
+        }
+
+        board.coinOccurrence =  boardSize + (maxCoins / 10);
+        board.maxCoinsInGame = maxCoins;
+        gamestate = 2;
     }
 
 
     /**
-     * The run method is used to send the board with its events to all clients
+     *
      */
-
     public void run() {
         /*
         Create for every PLAYER a turtle and its name.
@@ -159,8 +173,8 @@ public class Lobby extends Thread {
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.myTurtle = new PlayerTurtle(aPlayer.profil.nickname + "-Junior");
             Server.chatSingle(Protocol.MSSG.name()
-                 + ":You have adopted a turtle baby and named it "
-                 + aPlayer.profil.myTurtle.turtlename, aPlayer);
+                    + ":You have adopted a turtle baby and named it "
+                    + aPlayer.profil.myTurtle.turtlename, aPlayer);
             //Set this turtle to a start-position not taken yet.
             A: for (int x = 0; x < this.board.boardSize; x++) {
                 for (int y = 0; y < this.board.boardSize; y++) {
@@ -172,6 +186,8 @@ public class Lobby extends Thread {
                 }
             }
         }
+        board.spawnRandomCoins();
+
 
         //Show Startboard to all clients in the lobby.
         writeToAll(Protocol.LOBY.name() + ":" + board.printBoard());
@@ -185,6 +201,7 @@ public class Lobby extends Thread {
             writeToAll(Protocol.LOBY.name() + ":" + i);
             pleaseWait(1);
         }
+        writeToAll(Protocol.LOBY.name() + ":GO!");
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.waitingForEvent = false;
         }
