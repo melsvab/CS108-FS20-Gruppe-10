@@ -11,9 +11,8 @@ import game.*;
 
 public class GameGUI extends JPanel {
 
-    private static final int WIDTH = 650;
-    private static final int HEIGHT = 650;
-    JPanel panel;
+    private static final int WIDTH = 540;
+    private static final int HEIGHT = 540;
     private BufferedImage turtle1;
     private BufferedImage turtle2;
     private BufferedImage turtle3;
@@ -26,12 +25,12 @@ public class GameGUI extends JPanel {
     Board board = null;
 
     GameGUI() throws IOException {
-        this.panel = new JPanel();
-        panel.setLayout(new BorderLayout()); //BorderLayout is chosen at the moment. Could be changed later
-        panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        //The panel is a square at the moment. Probably because of the other panels the GamePanel is shown to be rectangular in the mainFrame
 
-        //panel.setBackground(Color.BLUE); //Placeholder to represent the field/panel. Optional: Water-background, not used right now
+        this.setLayout(new BorderLayout()); //BorderLayout is chosen at the moment. Could be changed later
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.setMaximumSize(new Dimension(WIDTH, HEIGHT));
+        this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        //The panel is a square at the moment. Probably because of the other panels the GamePanel is shown to be rectangular in the mainFrame
 
         //import the files and saves them in a BufferedImage. Get resources from src/main/ressources/img
         normalField = ImageIO.read(getClass().getResourceAsStream("/img/land.png"));
@@ -68,11 +67,10 @@ public class GameGUI extends JPanel {
      */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int widthField = WIDTH / board.boardSize;
-        int heightField = HEIGHT / board.boardSize;
-        g.drawString("The Game has started!",10,20);
         Graphics2D g2d = (Graphics2D) g;
         if (board != null) {
+            int widthField = WIDTH / board.boardSize;
+            int heightField = HEIGHT / board.boardSize;
             for (int y = 0; y < board.boardSize; y++) {
                 for (int x = 0; x < board.boardSize; x++) {
                     if (board.board[x][y].isFlood) {
@@ -86,41 +84,32 @@ public class GameGUI extends JPanel {
                     } else {
                         g2d.drawImage(normalField, null, widthField * x, heightField * y);
                     }
+                    if (board.board[x][y].hasCoin) {
+                        g2d.drawImage(coin, null, widthField * x, heightField * y);
+                    }
+                    else if (board.board[x][y].isTaken) {
+                        g2d.drawImage(turtle1, null, widthField * x, heightField * y);
+                    }
                 }
             }
         }
         else {
-            for (int y = 0; y < board.boardSize; y++) {
-                for (int x = 0; x < board.boardSize; x++) {
-                    g2d.drawImage(waterField, null, widthField * x, heightField * y);
+            for (int y = 0; y < 10; y++) {
+                for (int x = 0; x < 10; x++) {
+                    g2d.drawImage(waterField, null, (WIDTH/10) * x, (HEIGHT / 10) * y);
                 }
             }
         }
     }
 
-    public void setVisible(boolean b) {
-        /*
-         * Note: This method will be used to let the game only appear if the client is inGame. Could be deleted
-         * because if the game is not started the Panel could be drawn with only water.
-         */
-        panel.setVisible(b);
-    }
-
-    public JPanel getPanel() {
-        /*
-         *returns Panel so the mainFrame can use it. If panel would be public this probably is not necessary.
-         */
-        return panel;
-    }
-
     public static void main (String[] args) throws IOException {
-        GameGUI game = new GameGUI();
+        gui.GameGUI game = new gui.GameGUI();
         JFrame frame = new JFrame();
         Board boardDemo = new Board(10);
         boardDemo.coinOccurrence =  boardDemo.boardSize + (50 / 10);
         boardDemo.maxCoinsInGame = 50;
         game.setBoard(boardDemo);
-        frame.getContentPane().add(game.getPanel());
+        frame.getContentPane().add(game);
         frame.pack();
         frame.setVisible(true);
     }

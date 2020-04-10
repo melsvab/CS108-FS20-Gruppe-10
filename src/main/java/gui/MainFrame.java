@@ -12,7 +12,6 @@ public class MainFrame extends JFrame {
     JFrame frame;
     JPanel panelChat;
     JPanel panelButtonsGame;
-    JPanel panelGame;
     JPanel panelButtonsClient;
     JPanel mainPanel;
     public ClientChatGUI chat;
@@ -29,7 +28,6 @@ public class MainFrame extends JFrame {
         this.game = new GameGUI();
         this.panelChat = chat.getPanel();
         this.panelButtonsGame = buttons.getPanel();
-        this.panelGame = game.getPanel();
         this.panelButtonsClient = buttons2.getPanel();
         createMainFrame();
     }
@@ -52,7 +50,6 @@ public class MainFrame extends JFrame {
 
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.weightx = 1;
         gbc.weighty = 1;
@@ -60,14 +57,16 @@ public class MainFrame extends JFrame {
         gbc.gridy = 0;
         mainPanel.add(panelChat, gbc);
 
-        gbc.insets = new Insets(20,20,20,20);
-        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(15,0,0,0);
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 2.5;
         gbc.weighty = 2.5;
         gbc.gridx = 1;
         gbc.gridy = 0;
-        mainPanel.add(panelGame, gbc);
+        JPanel temp = new JPanel();
+        temp.add(game);
+        temp.setBackground(Color.BLUE);
+        mainPanel.add(temp, gbc);
 
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
@@ -78,8 +77,8 @@ public class MainFrame extends JFrame {
         gbc.gridy = 1;
         mainPanel.add(panelButtonsClient, gbc);
 
-        gbc.insets = new Insets(50,50,50,50);
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(0,0,20,0);
+        gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.weightx = 0.03;
         gbc.weighty = 0.03;
         gbc.gridx = 1;
@@ -108,6 +107,5 @@ public class MainFrame extends JFrame {
         boardDemo.coinOccurrence =  boardDemo.boardSize + (50 / 10);
         boardDemo.maxCoinsInGame = 50;
         demo.game.setBoard(boardDemo);
-        demo.revalidate();
     }
 }
