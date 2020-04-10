@@ -3,8 +3,10 @@ package gui;
 import server.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -19,7 +21,7 @@ public class ClientChatGUI extends JPanel {
     /**
      * The Chat area.
      */
-    JTextArea chatArea;
+    BackgroundTextArea chatArea;
     /**
      * The Message.
      */
@@ -33,11 +35,13 @@ public class ClientChatGUI extends JPanel {
      */
     Dimension dimScroll;
 
+    private BufferedImage chatBackground;
+
     /**
      * Instantiates a new Client Chat Gui.
      */
     ClientChatGUI() {
-        this.chatArea = new JTextArea();
+        this.chatArea = new BackgroundTextArea();
         this.message = new JTextField();
         this.dimScroll = new Dimension(240, 10);
 
@@ -47,7 +51,7 @@ public class ClientChatGUI extends JPanel {
 
         //create TextArea
         chatArea.setEditable(false); //cannot write in the ChatArea anymore
-        chatArea.setBackground(Color.LIGHT_GRAY);
+        chatArea.setBackground(new Color(1,1,1, (float) 0.01));
         chatArea.setLineWrap(true); //prevents horizontal scrolling with long texts
         chatArea.setWrapStyleWord(true); //gets cut of by words
         this.add(chatArea);
