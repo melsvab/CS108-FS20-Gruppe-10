@@ -10,25 +10,19 @@ import game.*;
 public class MainFrame extends JFrame {
 
     JFrame frame;
-    JPanel panelChat;
-    JPanel panelButtonsGame;
-    JPanel panelButtonsClient;
     JPanel mainPanel;
     public ClientChatGUI chat;
-    public ButtonsGame buttons;
-    public ButtonsClient buttons2;
+    public ButtonsGame buttonsGame;
+    public ButtonsClient buttonsClient;
     public GameGUI game;
 
     public MainFrame() throws IOException{
         this.frame = new JFrame("Der Boden ist Java");
         this.mainPanel = new JPanel();
         this.chat = new ClientChatGUI();
-        this.buttons = new ButtonsGame();
-        this.buttons2 = new ButtonsClient();
+        this.buttonsGame = new ButtonsGame();
+        this.buttonsClient = new ButtonsClient();
         this.game = new GameGUI();
-        this.panelChat = chat.getPanel();
-        this.panelButtonsGame = buttons.getPanel();
-        this.panelButtonsClient = buttons2.getPanel();
         createMainFrame();
     }
 
@@ -55,7 +49,7 @@ public class MainFrame extends JFrame {
         gbc.weighty = 1;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        mainPanel.add(panelChat, gbc);
+        mainPanel.add(chat, gbc);
 
         gbc.insets = new Insets(15,0,0,0);
         gbc.anchor = GridBagConstraints.CENTER;
@@ -75,7 +69,7 @@ public class MainFrame extends JFrame {
         gbc.weighty = 0.03;
         gbc.gridx = 0;
         gbc.gridy = 1;
-        mainPanel.add(panelButtonsClient, gbc);
+        mainPanel.add(buttonsClient, gbc);
 
         gbc.insets = new Insets(0,0,20,0);
         gbc.anchor = GridBagConstraints.PAGE_START;
@@ -83,7 +77,7 @@ public class MainFrame extends JFrame {
         gbc.weighty = 0.03;
         gbc.gridx = 1;
         gbc.gridy = 1;
-        mainPanel.add(panelButtonsGame, gbc);
+        mainPanel.add(buttonsGame, gbc);
 
         //frame.getContentPane().add is used so the mainPanel gets add on the frame
         frame.getContentPane().add(mainPanel);
@@ -94,7 +88,7 @@ public class MainFrame extends JFrame {
     /**
      * closes chat
      */
-    public void closeChat() {
+    public void closeFrame() {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); //automatic closing you can use in code
     }
 
@@ -102,7 +96,7 @@ public class MainFrame extends JFrame {
     //TestCode
     public static void main (String args[]) throws IOException {
         MainFrame demo = new MainFrame();
-        demo.buttons.setVisible(true);
+        demo.buttonsGame.setVisible(true);
         Board boardDemo = new Board(10);
         boardDemo.coinOccurrence =  boardDemo.boardSize + (50 / 10);
         boardDemo.maxCoinsInGame = 50;

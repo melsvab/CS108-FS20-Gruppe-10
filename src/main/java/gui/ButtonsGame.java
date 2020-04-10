@@ -4,25 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ButtonsGame {
+public class ButtonsGame extends JPanel {
 
-    JPanel panel;
     JButton up; //Optional: use Basic.Arrow.Button instead (and find out how to get the size of the arrow button larger)
     JButton down; //Optional: find out how you get the Buttons to be square
     JButton left;
     JButton right;
 
     ButtonsGame() {
-        this.panel = new JPanel();
         this.up = new JButton("Up");
         this.right = new JButton("Right");
         this.down = new JButton("Down");
         this.left = new JButton("Left");
 
-        panel.setLayout(new GridBagLayout());
-        panel.setBackground(Color.BLUE); //Optional: Background with the Water-Design
+        this.setLayout(new GridBagLayout());
+        this.setBackground(Color.BLUE); //Optional: Background with the Water-Design
         GridBagConstraints gbc = new GridBagConstraints();
-        panel.setPreferredSize(new Dimension( 300, 300 ) );
+        this.setPreferredSize(new Dimension( 300, 300 ) );
 
         up.setPreferredSize(new Dimension(100,100));
         right.setPreferredSize(new Dimension(100,100));
@@ -44,28 +42,28 @@ public class ButtonsGame {
         gbc.gridx = 1;
         gbc.gridy = 0;
         //gbc.gridwidth = 2;
-        panel.add(up, gbc);
+        this.add(up, gbc);
 
         gbc.fill = GridBagConstraints.BOTH; //Optional: Find out why the "Left" Button is smaller
         gbc.gridx = 0;
         gbc.gridy = 1;
         //gbc.gridwidth = 2;
-        panel.add(left, gbc);
+        this.add(left, gbc);
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 2;
         gbc.gridy = 1;
         //gbc.gridwidth = 2;
-        panel.add(right, gbc);
+        this.add(right, gbc);
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 1;
         gbc.gridy = 2;
         //gbc.gridwidth = 2;
-        panel.add(down, gbc);
+        this.add(down, gbc);
 
 
-        panel.setVisible(false);
+        this.setVisible(false);
 
     }
     /*
@@ -81,19 +79,5 @@ public class ButtonsGame {
         } else { //equals left
 
         }
-    }
-    public void setVisible(boolean b) {
-        /*
-         * Note: This method will be used to let the buttons only appear if the client is inGame. You can check
-         * the buttons in the MainFrame TestMethode at the moment
-         */
-        panel.setVisible(b);
-    }
-
-    public JPanel getPanel() {
-        /*
-         *returns Panel so the mainFrame can use it. If panel would be public this probably is not necessary.
-         */
-        return panel;
     }
 }

@@ -104,7 +104,7 @@ public class Client implements Runnable {
 
             //sets DataOutputStream for the ClientChatGUI and ButtonsClient
             profile.mainFrame.chat.setDos(dos);
-            profile.mainFrame.buttons2.setDosProLogger(dos, profile, logger);
+            profile.mainFrame.buttonsClient.setDosProLogger(dos, profile, logger);
 
             //Start processing inputs.
             while (profile.clientIsOnline) {
@@ -347,7 +347,7 @@ public class Client implements Runnable {
              * Input and Output will be closed
              */
 
-            profile.mainFrame.closeChat();
+            profile.mainFrame.closeFrame();
             dis.close();
             dos.close();
             socket.close();

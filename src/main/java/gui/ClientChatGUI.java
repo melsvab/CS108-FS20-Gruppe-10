@@ -14,16 +14,8 @@ import javax.swing.*;
  * @author Melanie
  * Client Chat Gui
  */
-public class ClientChatGUI extends JFrame {
+public class ClientChatGUI extends JPanel {
 
-    /**
-     * The Frame.
-     */
-    JFrame frame;
-    /**
-     * The Panel.
-     */
-    JPanel panel;
     /**
      * The Chat area.
      */
@@ -45,14 +37,12 @@ public class ClientChatGUI extends JFrame {
      * Instantiates a new Client Chat Gui.
      */
     ClientChatGUI() {
-        this.frame = new JFrame("Chat");
-        this.panel = new JPanel();
         this.chatArea = new JTextArea();
         this.message = new JTextField();
         this.dimScroll = new Dimension(240, 10);
 
-        panel.setLayout(new BorderLayout());
-        panel.setBorder(BorderFactory.createTitledBorder(("Messages")));
+        this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createTitledBorder(("Messages")));
         //panel.setPreferredSize(new Dimension( 500, 300 ) );
 
         //create TextArea
@@ -60,19 +50,19 @@ public class ClientChatGUI extends JFrame {
         chatArea.setBackground(Color.LIGHT_GRAY);
         chatArea.setLineWrap(true); //prevents horizontal scrolling with long texts
         chatArea.setWrapStyleWord(true); //gets cut of by words
-        panel.add(chatArea);
+        this.add(chatArea);
 
         //create scrollpane
         JScrollPane scroll = new JScrollPane(chatArea); //chat is scrollable
         scroll.setVerticalScrollBarPolicy(scroll.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setPreferredSize(new Dimension(240, 300));
-        panel.add(scroll);
+        this.add(scroll);
 
         //create TextField
         message.setEditable(true);
         message.addActionListener(this::actionPerformed);
         message.requestFocusInWindow();
-        panel.add(message, BorderLayout.PAGE_END);
+        this.add(message, BorderLayout.PAGE_END);
     }
 
     /**
@@ -126,12 +116,5 @@ public class ClientChatGUI extends JFrame {
         chatArea.setPreferredSize(dimScroll);
         chatArea.revalidate();
         chatArea.setCaretPosition(chatArea.getText().length());
-    }
-
-    public JPanel getPanel() {
-        /*
-         *returns Panel so the mainFrame can use it. If panel would be public this probably is not necessary.
-         */
-        return panel;
     }
 }

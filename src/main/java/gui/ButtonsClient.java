@@ -9,9 +9,8 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import server.*;
 
-public class ButtonsClient {
+public class ButtonsClient extends JPanel{
 
-    JPanel panel;
     JButton playerlist;
     JButton create;
     JButton help;
@@ -25,7 +24,6 @@ public class ButtonsClient {
 
 
     ButtonsClient() {
-        this.panel = new JPanel();
         this.playerlist = new JButton("Playerlist");
         this.gamelist = new JButton("Gamelist");
         this.highscore= new JButton("Highscore");
@@ -35,9 +33,9 @@ public class ButtonsClient {
         this.back = new JButton("Leave Lobby");
 
         //creates a GridLayout with 4 rows, and 2 colums. Buttons get their place depending of the order of panel.add(something).
-        panel.setLayout(new GridLayout(4,2));
+        this.setLayout(new GridLayout(4,2));
         //sets PreferedSize(can sometimes not work properly in the MainFrame because of the other panels.
-        panel.setPreferredSize(new Dimension( 240, 150 ) );
+        this.setPreferredSize(new Dimension( 240, 150 ) );
 
         /*adds an ActionListener, so the button does something when you click on it. The ActionPerformed is not implemented right now,
          *so nothing is happening.
@@ -52,13 +50,13 @@ public class ButtonsClient {
         quit.addActionListener(this::actionPerformed);
 
         //adds button to the panel
-        panel.add(create);
-        panel.add(gamelist);
-        panel.add(playerlist);
-        panel.add(highscore);
-        panel.add(back);
-        panel.add(quit);
-        panel.add(help);
+        this.add(create);
+        this.add(gamelist);
+        this.add(playerlist);
+        this.add(highscore);
+        this.add(back);
+        this.add(quit);
+        this.add(help);
     }
 
     public void actionPerformed(ActionEvent e1) {
@@ -126,6 +124,7 @@ public class ButtonsClient {
                  * Informing server about his / her choice.
                  * If player is not active he / she cannot write anymore.
                  */
+                profile.mainFrame.closeFrame();
                 dos.writeUTF(Protocol.QUIT.name());
                 System.out.println("\nClosing program...\n");
                 profile.clientIsOnline = false;
@@ -145,12 +144,5 @@ public class ButtonsClient {
         this.dos = dos;
         this.profile = profile;
         this.logger = logger;
-    }
-
-    public JPanel getPanel() {
-        /*
-         *returns Panel so the mainFrame can use it. If panel would be public this probably is not necessary.
-         */
-        return panel;
     }
 }
