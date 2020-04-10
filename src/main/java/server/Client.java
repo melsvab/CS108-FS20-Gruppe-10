@@ -34,7 +34,7 @@ public class Client implements Runnable {
     /**
      * The Profile.
      */
-    Profil profile = new Profil();
+    public Profil profile = new Profil();
 
     /**
      * creates a client constructor
@@ -102,8 +102,9 @@ public class Client implements Runnable {
 
             dos.writeUTF(profile.nickname);
 
-            //sets DataOutputStream for the ChatGUI
+            //sets DataOutputStream for the ClientChatGUI and ButtonsClient
             profile.mainFrame.chat.setDos(dos);
+            profile.mainFrame.buttons2.setDosProLogger(dos, profile, logger);
 
             //Start processing inputs.
             while (profile.clientIsOnline) {
@@ -143,6 +144,7 @@ public class Client implements Runnable {
                                 System.err.println(e.toString());
                             }
                             break;
+
 
                         case ENDE:
 
@@ -230,6 +232,16 @@ public class Client implements Runnable {
                             }
                             break;
 
+                        case BACK:
+                            // This keyword is used to go out of a lobby.
+                            if (profile.isInGame) {
+                                dos.writeUTF(Protocol.BACK.name());
+                            } else {
+                                System.out.println("You have not joined a lobby yet "
+                                        + "so there is no need to go back!");
+                            }
+                            break;
+
                         case JOIN:
                             logger.info("joined a Lobby");
                             // This keyword is used to join a lobby as a player.
@@ -261,16 +273,6 @@ public class Client implements Runnable {
                                         + ":number");
                             }
 
-                            break;
-
-                        case BACK:
-                            // This keyword is used to go out of a lobby.
-                            if (profile.isInGame) {
-                                dos.writeUTF(Protocol.BACK.name());
-                            } else {
-                                System.out.println("You have not joined a lobby yet "
-                                    + "so there is no need to go back!");
-                            }
                             break;
 
                         case STR1:

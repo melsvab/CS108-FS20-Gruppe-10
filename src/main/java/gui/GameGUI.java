@@ -69,10 +69,10 @@ public class GameGUI extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         if (board != null) {
-            int widthField = WIDTH / board.boardSize;
-            int heightField = HEIGHT / board.boardSize;
-            for (int y = 0; y < board.boardSize; y++) {
-                for (int x = 0; x < board.boardSize; x++) {
+            int widthField = WIDTH / (board.boardSize + 1);
+            int heightField = HEIGHT / (board.boardSize + 1);
+            for (int y = 0; y < board.boardSize + 1; y++) {
+                for (int x = 0; x < board.boardSize + 1; x++) {
                     if (board.board[x][y].isFlood) {
                         g2d.drawImage(waterField, null, widthField * x, heightField * y);
                     }

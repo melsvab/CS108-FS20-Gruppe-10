@@ -43,7 +43,7 @@ public class Profil {
     /**
      * The Client is online.
      */
-    boolean clientIsOnline;
+    public boolean clientIsOnline;
     /**
      * The Is spectator.
      */
@@ -51,7 +51,7 @@ public class Profil {
     /**
      * The Ccg.
      */
-    MainFrame mainFrame;
+    public MainFrame mainFrame;
 
 
     //constructor for the ServerThreadForClient

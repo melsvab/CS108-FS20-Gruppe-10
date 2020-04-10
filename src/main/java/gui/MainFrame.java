@@ -19,7 +19,7 @@ public class MainFrame extends JFrame {
     public ButtonsClient buttons2;
     public GameGUI game;
 
-    public MainFrame() throws IOException {
+    public MainFrame() throws IOException{
         this.frame = new JFrame("Der Boden ist Java");
         this.mainPanel = new JPanel();
         this.chat = new ClientChatGUI();

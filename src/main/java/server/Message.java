@@ -12,8 +12,8 @@ public class Message {
      */
     public static String helpMessage = (
         "\nWhat would you like to do?\n\n"
-                + "enter >NAME:desiredName< to change your nickname to your desiredName\n"
-                + "enter >NAME:yeah< to change your nickname to the name of your system\n"
+                + "enter >NAME:desiredName< to change your nickname to your \ndesiredName\n"
+                + "enter >NAME:yeah< to change your nickname to the name of your \nsystem\n"
                 + "enter >IDKW< to do something else.\n"
                 + "enter >PLL1< to see a list of currently connected players.\n"
                 + "enter >GML1< to see a list of open, ongoing and finished games. \n"
@@ -21,8 +21,8 @@ public class Message {
                 + "enter >CRE1< to create a lobby for a new game. \n"
                 + "enter >JOIN:lobbyNumber< to join a lobby. \n"
                 + "enter >SPEC:lobbyNumber< to join a lobby as a spectator \n"
-                + "enter >STR1:boardSize:maxCoins< to start a game with its personalized board. \n"
-                + "enter >HELP< to see this message again."
+                + "enter >STR1:boardSize:maxCoins< to start a game with its \npersonalized board. \n"
+                + "enter >HELP< to see this message again.\n"
                 + "enter >QUIT< to end this program.\n");
 
     /**

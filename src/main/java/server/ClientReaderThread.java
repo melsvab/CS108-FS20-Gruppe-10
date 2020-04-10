@@ -113,7 +113,7 @@ public class ClientReaderThread implements Runnable {
 
                             //Client gets a help message
 
-                            System.out.println(Message.helpMessage);
+                            profile.mainFrame.chat.receiveMsg(Message.helpMessage);
                             break;
 
                         case MSG1:
@@ -190,9 +190,9 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             if (checkMessage(original)) {
-                                System.out.println(original.substring(5));
+                                profile.mainFrame.chat.receiveMsg(original.substring(5));
                             } else {
-                                System.out.println(Message.garbage + " *1.5");
+                                profile.mainFrame.chat.receiveMsg(Message.garbage + " *1.5");
                             }
                             break;
 
@@ -211,9 +211,9 @@ public class ClientReaderThread implements Runnable {
                                 String[] words = original.split(":");
                                 int lobbyNumber = Integer.parseInt(words[1]);
 
-                                System.out.println("You entered lobby number " + lobbyNumber + "!");
+                                profile.mainFrame.chat.receiveMsg("You entered lobby number " + lobbyNumber + "!");
                             } else {
-                                System.out.println(Message.garbage + " *3");
+                                profile.mainFrame.chat.receiveMsg(Message.garbage + " *3");
                             }
 
                             break;
@@ -223,7 +223,7 @@ public class ClientReaderThread implements Runnable {
                             profile.isSpectator = false;
 
                             //Client went out of a lobby / game
-                            System.out.println("You are not in a lobby anymore!");
+                            profile.mainFrame.chat.receiveMsg("You are not in a lobby anymore!");
                             break;
 
                         case RNDS:
@@ -247,7 +247,7 @@ public class ClientReaderThread implements Runnable {
                             int i = original.indexOf(":", 5);
                             String winner = original.substring(5, i);
                             String points = original.substring(i + 1);
-                            System.out.println("The winner is: " + winner + " with " + points
+                            profile.mainFrame.chat.receiveMsg("The winner is: " + winner + " with " + points
                                 + " points!");
                             break;
 

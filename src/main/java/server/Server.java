@@ -202,7 +202,7 @@ public class Server implements Runnable {
      */
     public static synchronized boolean gameList(ServerThreadForClient aUser) {
         if (checkOutGames()) {
-            String gameList = Protocol.MSSG.name() + ":These are the games so far: \n";
+            String gameList = Protocol.LIST.name() + ":These are the games so far: \n";
             for (Lobby lobby: games) {
                 //undefined should be impossible
                 String status = "undefined";
