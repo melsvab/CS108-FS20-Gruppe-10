@@ -22,8 +22,8 @@ public class BackgroundTextArea extends JTextArea {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        for (int y = 0; y < 10; y++) {
-            for (int x = 0; x < 10; x++) {
+        for (int y = 0; y < 150; y++) {
+            for (int x = 0; x < 5; x++) {
                 g2d.drawImage(chatBackground, null, 100 * x, 100 * y);
             }
         }

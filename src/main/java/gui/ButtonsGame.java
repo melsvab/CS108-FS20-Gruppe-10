@@ -1,7 +1,5 @@
 package gui;
 
-import javafx.scene.layout.Background;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
