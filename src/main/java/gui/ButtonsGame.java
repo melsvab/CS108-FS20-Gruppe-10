@@ -1,10 +1,12 @@
 package gui;
 
+import javafx.scene.layout.Background;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ButtonsGame extends JPanel {
+public class ButtonsGame extends BackgroundPanelArea {
 
     JButton up; //Optional: use Basic.Arrow.Button instead (and find out how to get the size of the arrow button larger)
     JButton down; //Optional: find out how you get the Buttons to be square
@@ -18,7 +20,6 @@ public class ButtonsGame extends JPanel {
         this.left = new JButton("Left");
 
         this.setLayout(new GridBagLayout());
-        this.setBackground(Color.BLUE); //Optional: Background with the Water-Design
         GridBagConstraints gbc = new GridBagConstraints();
         this.setPreferredSize(new Dimension( 300, 300 ) );
 
