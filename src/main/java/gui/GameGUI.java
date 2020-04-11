@@ -21,6 +21,7 @@ public class GameGUI extends JPanel {
     private BufferedImage usedField;
     private BufferedImage earthquake;
     private BufferedImage coin;
+    private BufferedImage mainScreen;
     Board board = null;
 
     GameGUI() throws IOException {
@@ -49,6 +50,8 @@ public class GameGUI extends JPanel {
         turtle4 = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow.png"));
 
         coin = ImageIO.read(getClass().getResourceAsStream("/img/apple.png"));
+
+        mainScreen = ImageIO.read(getClass().getResourceAsStream("/img/mainScreen.png"));
     }
 
     public void setBoard(Board board) {
@@ -68,36 +71,32 @@ public class GameGUI extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         if (board != null) {
-            int widthField = WIDTH / (board.boardSize + 1);
-            int heightField = HEIGHT / (board.boardSize + 1);
-            for (int y = 0; y < board.boardSize + 1; y++) {
+            int widthField = WIDTH / (board.boardSize - 1);
+            int heightField = HEIGHT / (board.boardSize - 1);
+            for (int y = 0; y < board.boardSize - 1; y++) {
                 for (int x = 0; x < board.boardSize + 1; x++) {
-                    if (board.board[x][y].isFlood) {
+                    if (board.board[x+1][y+1].isFlood) {
                         g2d.drawImage(waterField, null, widthField * x, heightField * y);
                     }
-                    else if (board.board[x][y].isQuake) {
+                    else if (board.board[x+1][y+1].isQuake) {
                         g2d.drawImage(earthquake, null, widthField * x, heightField * y);
                     }
-                    else if (board.board[x][y].steppedOn) {
+                    else if (board.board[x+1][y+1].steppedOn) {
                         g2d.drawImage(usedField, null, widthField * x, heightField * y);
                     } else {
                         g2d.drawImage(normalField, null, widthField * x, heightField * y);
                     }
-                    if (board.board[x][y].hasCoin) {
+                    if (board.board[x+1][y+1].hasCoin) {
                         g2d.drawImage(coin, null, widthField * x, heightField * y);
                     }
-                    else if (board.board[x][y].isTaken) {
+                    else if (board.board[x+1][y+1].isTaken) {
                         g2d.drawImage(turtle1, null, widthField * x, heightField * y);
                     }
                 }
             }
         }
         else {
-            for (int y = 0; y < 10; y++) {
-                for (int x = 0; x < 10; x++) {
-                    g2d.drawImage(waterField, null, (WIDTH/10) * x, (HEIGHT / 10) * y);
-                }
-            }
+            g2d.drawImage(mainScreen, null, 0, 0);
         }
     }
 
