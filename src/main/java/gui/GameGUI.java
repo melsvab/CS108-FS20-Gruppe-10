@@ -12,10 +12,10 @@ public class GameGUI extends JPanel {
 
     private static final int WIDTH = 540;
     private static final int HEIGHT = 540;
-    private BufferedImage turtle1;
-    private BufferedImage turtle2;
-    private BufferedImage turtle3;
-    private BufferedImage turtle4;
+    private BufferedImage turtleBlue;
+    private BufferedImage turtleGreen;
+    private BufferedImage turtleViolett;
+    private BufferedImage turtleYellow;
     private BufferedImage waterField;
     private BufferedImage normalField;
     private BufferedImage usedField;
@@ -30,7 +30,6 @@ public class GameGUI extends JPanel {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setMaximumSize(new Dimension(WIDTH, HEIGHT));
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        //The panel is a square at the moment. Probably because of the other panels the GamePanel is shown to be rectangular in the mainFrame
 
         //import the files and saves them in a BufferedImage. Get resources from src/main/ressources/img
         normalField = ImageIO.read(getClass().getResourceAsStream("/img/land.png"));
@@ -41,13 +40,13 @@ public class GameGUI extends JPanel {
 
         earthquake = ImageIO.read(getClass().getResourceAsStream("/img/earthquake.png"));
 
-        turtle1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleBlue.png"));
+        turtleBlue = ImageIO.read(getClass().getResourceAsStream("/img/turtleBlue.png"));
 
-        turtle2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen.png"));
+        turtleGreen = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen.png"));
 
-        turtle3 = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett.png"));
+        turtleViolett = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett.png"));
 
-        turtle4 = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow.png"));
+        turtleYellow = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow.png"));
 
         coin = ImageIO.read(getClass().getResourceAsStream("/img/apple.png"));
 
@@ -89,9 +88,20 @@ public class GameGUI extends JPanel {
                     if (board.board[x+1][y+1].hasCoin) {
                         g2d.drawImage(coin, null, widthField * x, heightField * y);
                     }
-                    else if (board.board[x+1][y+1].isTaken) {
-                        g2d.drawImage(turtle1, null, widthField * x, heightField * y);
-                    }
+                    /*else if (board.board[x+1][y+1].isTaken) {
+                        if (board.board[x+1][y+1].turtle.color == BLUE) {
+                            g2d.drawImage(turtleBlue, null, widthField * x, heightField * y);
+                        }
+                        if (board.board[x+1][y+1].turtle.color == GREEN) {
+                            g2d.drawImage(turtleGreen, null, widthField * x, heightField * y);
+                        }
+                        if (board.board[x+1][y+1].turtle.color == VIOLETT) {
+                            g2d.drawImage(turtleViolett, null, widthField * x, heightField * y);
+                        }
+                        if (board.board[x+1][y+1].turtle.color == YELLOW) {
+                            g2d.drawImage(turtleYellow, null, widthField * x, heightField * y);
+                        }
+                    }*/
                 }
             }
         }
