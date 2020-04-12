@@ -159,6 +159,7 @@ public class Lobby extends Thread {
 
         board.coinOccurrence =  boardSize + (maxCoins / 10);
         board.maxCoinsInGame = maxCoins;
+        writeToAll(Protocol.STR1 + ":" + boardSize + ":" + numberOfPlayers);
     }
 
 
@@ -186,6 +187,7 @@ public class Lobby extends Thread {
             }
         }
         String coins = board.spawnRandomCoins();
+        writeToAll(Protocol.COIN.name() + ":1" + coins);
 
         gamestate = 2;
 
@@ -219,18 +221,19 @@ public class Lobby extends Thread {
             pleaseWait(5);
             Random randomEvent = new Random();
             int whichEvent = randomEvent.nextInt(10);
+            // To do: chance for random coins
             if (whichEvent < 9) {
                 Random howOften = new Random();
                 int randomOften = howOften.nextInt(5) + 1;
-                this.board.floodBoard(randomOften);
+                String flood = this.board.floodBoard(randomOften);
                 writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
                 pleaseWait(4);
                 this.board.afterEvent();
                 writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
             } else {
-                Random howStromng = new Random();
-                int magnitude = howStromng.nextInt(30) + 5;
-                this.board.earthquake(magnitude);
+                Random howStrong = new Random();
+                int magnitude = howStrong.nextInt(30) + 5;
+                String quake = this.board.earthquake(magnitude);
                 writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
                 pleaseWait(4);
                 this.board.afterEvent();

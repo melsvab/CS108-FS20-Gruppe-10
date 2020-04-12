@@ -22,14 +22,18 @@ public class Field {
 
     /**
      * Instantiates a new Field with a probability of a coin.
-     * @param probabilityForCoin the probability for a coin on this field.
+     *  the probability for a coin on this field.
      */
-    public Field(int probabilityForCoin) {
-        Random random = new Random();
-        int x = random.nextInt(100);
-        if (x <= probabilityForCoin) {
-            this.hasCoin = true;
-        }
+    public Field() {
+        isFlood = false;
+        hasCoin = false;
+        isQuake = false;
+        steppedOn = false;
+        isTaken = false;
+        isBoundary = false;
+        isStartPosition = false;
+        turtle = null;
+
     }
 
     public boolean coins(int probabilityForCoin) {
@@ -57,7 +61,7 @@ public class Field {
      * @return new field which is a copy of the field given
      */
     public static Field copyField(Field copyThis) {  //HIER WEITER MACHEN
-        Field copy = new Field(-1);
+        Field copy = new Field();
         copy.up = copyThis.up;
         copy.right = copyThis.right;
         copy.down = copyThis.down;

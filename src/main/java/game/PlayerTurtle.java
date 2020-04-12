@@ -10,6 +10,7 @@ import java.awt.*;
 public class PlayerTurtle {
 
     public Color color;
+    public int num;
     public String turtlename;
     public Field turtleposition;
     public int points;
@@ -22,6 +23,10 @@ public class PlayerTurtle {
      */
     public PlayerTurtle(String turtlename) {
         this.turtlename = turtlename;
+    }
+
+    public PlayerTurtle(int number) {
+        num = number;
     }
 
 

@@ -191,7 +191,7 @@ public class Client implements Runnable {
                             break;
 
                         case PLL1:
-                            logger.info("asked for PlayerList");
+                            logger.info("asked for list of all players");
                             /*
                              * Sends keyword to server.
                              * Here: client asks for the list of all players that are currently on the server
@@ -223,7 +223,7 @@ public class Client implements Runnable {
                             break;
 
                         case CRE1:
-                            logger.info("created a new Lobby");
+                            logger.info("created a new lobby");
                             // This keyword is used to create a new lobby.
                             if (profile.isInGame) {
                                 // Clients cannot join a new lobby if they are already in one.
@@ -245,7 +245,7 @@ public class Client implements Runnable {
                             break;
 
                         case JOIN:
-                            logger.info("joined a Lobby");
+                            logger.info("joined a lobby");
                             // This keyword is used to join a lobby as a player.
                             Parameter gameNumber = new Parameter(original, 5);
                             if (profile.isInGame) {
@@ -298,7 +298,7 @@ public class Client implements Runnable {
                             if (profile.isInGame && !profile.isSpectator) {
                                 dos.writeUTF(Protocol.UPPR.name());
                             } else {
-                                System.out.println("You cannot do that now!");
+                                System.out.println(Message.youCannotDoThat);
                             }
                             break;
 

@@ -35,6 +35,9 @@ public enum Protocol {
     RNDS("Informs clients about how many rounds are left"),
     WINR("Informs client who has won"),
     LOBY("Client gets message from lobby"),
+    COIN("Message from server to client to inform of the location of new coins"),
+    TURS("Set start position of the turtles"),
+    TURT("Change of a turtle position" ),
     TEST("Test from server to check for connection lost"),
     IDKW("Idkw");
 

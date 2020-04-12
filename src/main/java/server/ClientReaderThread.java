@@ -1,11 +1,7 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import java.io.*;
+import game.Board;
 import game.PlayerTurtle;
 
 
@@ -31,6 +27,9 @@ public class ClientReaderThread implements Runnable {
      * The Profile.
      */
     Profil profile;
+    Board game = null;
+    PlayerTurtle[] turtles = null;
+    int turtlePlace = 0;
 
     /**
      * Instantiates a new Client reader thread.
@@ -225,6 +224,16 @@ public class ClientReaderThread implements Runnable {
 
                             //Client went out of a lobby / game
                             profile.mainFrame.chat.receiveMsg("You are not in a lobby anymore!");
+                            break;
+
+                        case STR1:
+                            Parameter boardInfo = new Parameter(original, 1);
+                            if (boardInfo.isCorrect) {
+                                // boardInfo.numberOne == boardSize
+                                this.game = new Board(boardInfo.numberOne);
+                                // boardInfo.numberTwo == numberOfPlayers
+                                this.turtles = new PlayerTurtle[boardInfo.numberTwo];
+                            }
                             break;
 
                         case RNDS:

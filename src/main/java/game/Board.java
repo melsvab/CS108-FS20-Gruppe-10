@@ -19,18 +19,6 @@ public class Board {
      * @param desiredBoardSize size of board where players can move (between 10 and 20).
      */
     public Board(int desiredBoardSize) {
-        /*
-        FIXME
-           - Every client has his own board. #
-           - New: Server board is created with coins. positions of coins are sent to clients - updated own board.
-           - Use KeyWords for this task
-            1. board is created on serverside
-            2. then on clientside
-            3. server sends positions of coins via string (keyword)
-            4. client reads string and updates own board.
-            5. also string with turtlepositions (old/new)
-        */
-
 
         this.boardSize = desiredBoardSize;
 
@@ -40,11 +28,11 @@ public class Board {
         for (int x = 0; x < boardSize + 1; x++) {
             for (int y = 0; y < boardSize + 1; y++) {
                 if (x == 0 || x == boardSize || y == 0 || y == boardSize) {
-                    board[x][y] = new Field(-1);
+                    board[x][y] = new Field();
                     board[x][y].isFlood = true;
                     board[x][y].isBoundary = true;
                 } else {
-                    board[x][y] = new Field(-1);
+                    board[x][y] = new Field();
                 }
             }
         }
@@ -112,7 +100,8 @@ public class Board {
      * @param x x-coordinate where turtle was hit
      * @param y y-coordinate where turtle was hit
      */
-    public void turtleOnXYtoStart(int x, int y) {
+    public String turtleOnXYtoStart(int x, int y) {
+        String turtleMove = "";
         for (int a = 1; a < this.boardSize; a++) {
             for (int b = 1; b < this.boardSize; b++) {
                 if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
@@ -123,17 +112,20 @@ public class Board {
                     this.board[a][b].turtle.points -= 5;
                     this.board[a][b].turtle.wasHitByEvent = true;
                     this.board[x][y].isTaken = false;
-                    return;
+                    turtleMove += ":" + x + "." + y + "." + a + "." + b;
+                    return turtleMove;
                 }
             }
         }
+        return turtleMove;
     }
 
     /**
      * Function for an earthquake hitting the board.
      * @param magnitude how strong (how many fields are effected by) is the earthquake
      */
-    public void earthquake(int magnitude) {
+    public String earthquake(int magnitude) {
+        String quake = "";
         for (int x = 1; x < this.boardSize; x++) { //x = 0 is border (already flooded)
             for (int y = 1; y < this.boardSize; y++) { //y = 0 is border (already flooded)
                 Random random = new Random();
@@ -141,18 +133,20 @@ public class Board {
                 if (number <= magnitude && !this.board[x][y].isStartPosition) {
                     this.board[x][y].isQuake = true;
                     if (this.board[x][y].isTaken) {
-                        turtleOnXYtoStart(x, y);
+                        String s = turtleOnXYtoStart(x, y);
                     }
                 }
             }
         }
+        return quake;
     }
 
     /**
      * Function for a flood hitting the board
      * @param timesFlood more than one flood for a crazy time!
      */
-    public void floodBoard(int timesFlood) {
+    public String floodBoard(int timesFlood) {
+        String flood = "";
         Random randomFlood = new Random();
 
         for (int j = 0; j < timesFlood; j++) {
@@ -165,9 +159,10 @@ public class Board {
                 case 0: //unten
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][i].isStartPosition) {
-                            this.board[position][i].isFlood = true; //TO DO: LIKED LIST - MIT KOORDINATEN
+                            this.board[position][i].isFlood = true;
+                            flood += ":" + position + "." + i;
                             if (this.board[position][i].isTaken) {
-                                turtleOnXYtoStart(position, i);
+                                String turtleMove = turtleOnXYtoStart(position, i);
                             }
                         }
                     }
@@ -177,8 +172,9 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][this.boardSize - i].isStartPosition) {
                             this.board[position][this.boardSize - i].isFlood = true;
+                            flood += ":" + position + "." + i;
                             if (this.board[position][this.boardSize - i].isTaken) {
-                                turtleOnXYtoStart(position, this.boardSize - i);
+                                String turtleMove = turtleOnXYtoStart(position, this.boardSize - i);
                             }
                         }
                     }
@@ -188,8 +184,9 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[i][position].isStartPosition) {
                             this.board[i][position].isFlood = true;
+                            flood += ":" + position + "." + i;
                             if (this.board[i][position].isTaken) {
-                                turtleOnXYtoStart(i, position);
+                                String turtleMove = turtleOnXYtoStart(i, position);
                             }
                         }
                     }
@@ -199,28 +196,33 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[this.boardSize - i][position].isStartPosition) {
                             this.board[this.boardSize - i][position].isFlood = true;
+                            flood += ":" + position + "." + i;
                             if (this.board[this.boardSize - i][position].isTaken) {
-                                turtleOnXYtoStart(this.boardSize - i, position);
+                                String turtleMove = turtleOnXYtoStart(this.boardSize - i, position);
                             }
                         }
                     }
                     break;
             }
         }
+        return flood;
     }
 
     /**
      * After every event, field which were hit by it, are reset.
      */
-    public void afterEvent() {
+    public String afterEvent() {
+        String reset = "";
         for (int x = 1; x < this.boardSize; x++) {
             for (int y = 1; y < this.boardSize; y++) {
                 if ((board[x][y].isFlood || this.board[x][y].isQuake)
                         && !this.board[x][y].isStartPosition) {
+                    reset += ":" + x + "." + y;
                     this.board[x][y].resetField();
                 }
             }
         }
+        return reset;
     }
 
     /**

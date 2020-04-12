@@ -1,17 +1,15 @@
 package server;
 
-import game.Lobby;
+import game.Board;
 import game.PlayerTurtle;
 import game.Field;
-import gui.MainFrame;
 
-import java.io.IOException;
 
 /**
  * @author Natasha, Dennis, Melanie, Rohail
  *
  * This class is for the server and the client to know
- * about states and other specific  information concerning a client.
+ * about parameters and wheter they are correct or not
  */
 public class Parameter {
 
@@ -23,7 +21,6 @@ public class Parameter {
 
     public String wordOne;
     public String wordTwo;
-
 
     //constructor for the ServerThreadForClient
 
@@ -223,6 +220,21 @@ public class Parameter {
                 !turtle.turtleposition.isStartPosition) {
             turtle.points++;
             turtle.turtleposition.steppedOn = true;
+        }
+    }
+
+
+
+    public void changeBoardTrue(Board board, int x, int y, int aCase) {
+        switch (aCase) {
+            case 0:
+                board.board[x][y].isBoundary = true;
+            case 1:
+                board.board[x][y].isFlood = true;
+            case 2:
+                board.board[x][y].hasCoin = true;
+            case 3:
+                board.board[x][y].isQuake = true;
         }
     }
 
