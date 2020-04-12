@@ -22,8 +22,6 @@ public class Parameter {
     public String wordOne;
     public String wordTwo;
 
-    //constructor for the ServerThreadForClient
-
     /**
      * Instantiates a new Parameter.
      *
@@ -184,7 +182,7 @@ public class Parameter {
 
     /**
      * to move a turtle one field
-     *
+     * TO DO: will be change, so there is no direction needed.
      * @param direction the direction
      */
     public void moveTurtle(int direction, PlayerTurtle turtle) {
@@ -224,7 +222,6 @@ public class Parameter {
     }
 
 
-
     public void changeBoardTrue(Board board, int x, int y, int aCase) {
         switch (aCase) {
             case 0:
@@ -235,6 +232,19 @@ public class Parameter {
                 board.board[x][y].hasCoin = true;
             case 3:
                 board.board[x][y].isQuake = true;
+        }
+    }
+
+    public void changeBoardFalse(Board board, int x, int y, int aCase) {
+        switch (aCase) {
+            case 0:
+                board.board[x][y].isBoundary = false;
+            case 1:
+                board.board[x][y].isFlood = false;
+            case 2:
+                board.board[x][y].hasCoin = false;
+            case 3:
+                board.board[x][y].isQuake = false;
         }
     }
 

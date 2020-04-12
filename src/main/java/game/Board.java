@@ -1,5 +1,7 @@
 package game;
 
+import server.Protocol;
+
 import java.util.Random;
 
 /**
@@ -100,8 +102,8 @@ public class Board {
      * @param x x-coordinate where turtle was hit
      * @param y y-coordinate where turtle was hit
      */
-    public String turtleOnXYtoStart(int x, int y) {
-        String turtleMove = "";
+    public void turtleOnXYtoStart(int x, int y, Lobby lobby) {
+        String turtleMove = Protocol.TUST.name();
         for (int a = 1; a < this.boardSize; a++) {
             for (int b = 1; b < this.boardSize; b++) {
                 if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
@@ -112,19 +114,20 @@ public class Board {
                     this.board[a][b].turtle.points -= 5;
                     this.board[a][b].turtle.wasHitByEvent = true;
                     this.board[x][y].isTaken = false;
-                    turtleMove += ":" + x + "." + y + "." + a + "." + b;
-                    return turtleMove;
+                    turtleMove += ":" + this.board[a][b].turtle.num + ":" + x + "." + y + "." + a + "." + b;
+                    lobby.writeToAll(turtleMove);
+                    return;
                 }
             }
         }
-        return turtleMove;
+
     }
 
     /**
      * Function for an earthquake hitting the board.
      * @param magnitude how strong (how many fields are effected by) is the earthquake
      */
-    public String earthquake(int magnitude) {
+    public String earthquake(int magnitude, Lobby lobby) {
         String quake = "";
         for (int x = 1; x < this.boardSize; x++) { //x = 0 is border (already flooded)
             for (int y = 1; y < this.boardSize; y++) { //y = 0 is border (already flooded)
@@ -133,7 +136,7 @@ public class Board {
                 if (number <= magnitude && !this.board[x][y].isStartPosition) {
                     this.board[x][y].isQuake = true;
                     if (this.board[x][y].isTaken) {
-                        String s = turtleOnXYtoStart(x, y);
+                        turtleOnXYtoStart(x,y, lobby);
                     }
                 }
             }
@@ -145,7 +148,7 @@ public class Board {
      * Function for a flood hitting the board
      * @param timesFlood more than one flood for a crazy time!
      */
-    public String floodBoard(int timesFlood) {
+    public String floodBoard(int timesFlood, Lobby lobby) {
         String flood = "";
         Random randomFlood = new Random();
 
@@ -162,7 +165,7 @@ public class Board {
                             this.board[position][i].isFlood = true;
                             flood += ":" + position + "." + i;
                             if (this.board[position][i].isTaken) {
-                                String turtleMove = turtleOnXYtoStart(position, i);
+                                turtleOnXYtoStart(position, i, lobby);
                             }
                         }
                     }
@@ -174,7 +177,7 @@ public class Board {
                             this.board[position][this.boardSize - i].isFlood = true;
                             flood += ":" + position + "." + i;
                             if (this.board[position][this.boardSize - i].isTaken) {
-                                String turtleMove = turtleOnXYtoStart(position, this.boardSize - i);
+                                turtleOnXYtoStart(position, this.boardSize - i, lobby);
                             }
                         }
                     }
@@ -186,7 +189,7 @@ public class Board {
                             this.board[i][position].isFlood = true;
                             flood += ":" + position + "." + i;
                             if (this.board[i][position].isTaken) {
-                                String turtleMove = turtleOnXYtoStart(i, position);
+                                turtleOnXYtoStart(i, position, lobby);
                             }
                         }
                     }
@@ -198,7 +201,7 @@ public class Board {
                             this.board[this.boardSize - i][position].isFlood = true;
                             flood += ":" + position + "." + i;
                             if (this.board[this.boardSize - i][position].isTaken) {
-                                String turtleMove = turtleOnXYtoStart(this.boardSize - i, position);
+                                turtleOnXYtoStart(this.boardSize - i, position, lobby);
                             }
                         }
                     }
@@ -211,18 +214,15 @@ public class Board {
     /**
      * After every event, field which were hit by it, are reset.
      */
-    public String afterEvent() {
-        String reset = "";
+    public void afterEvent() {
         for (int x = 1; x < this.boardSize; x++) {
             for (int y = 1; y < this.boardSize; y++) {
                 if ((board[x][y].isFlood || this.board[x][y].isQuake)
                         && !this.board[x][y].isStartPosition) {
-                    reset += ":" + x + "." + y;
                     this.board[x][y].resetField();
                 }
             }
         }
-        return reset;
     }
 
     /**
@@ -265,11 +265,11 @@ public class Board {
         testBoard.maxCoinsInGame = 15;
         testBoard.coinOccurrence = testBoard.boardSize + (testBoard.maxCoinsInGame / 10);
         System.out.println("NEW BOARD CREATED: \n\n" + testBoard.printBoard());
-        testBoard.floodBoard(2);
+        testBoard.floodBoard(2, null);
         System.out.println("BOARD WAS FLOOD TIMES 2 \n\n" + testBoard.printBoard());
         testBoard.afterEvent();
         System.out.println("BOARD WAS KINDA RESET (COINS DISAPPEAR ETC) : \n\n " + testBoard.printBoard());
-        testBoard.earthquake(20);
+        testBoard.earthquake(20, null);
         System.out.println("BOARD WAS QUAKED MAGNITUDE 20 : \n\n " + testBoard.printBoard());
         testBoard.afterEvent();
         System.out.println("BOARD WAS KINDA RESET (COINS DISAPPEAR ETC) : \n\n " + testBoard.printBoard());

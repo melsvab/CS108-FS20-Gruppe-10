@@ -221,6 +221,9 @@ public class ClientReaderThread implements Runnable {
                         case BACK:
                             profile.isInGame = false;
                             profile.isSpectator = false;
+                            game = null;
+                            turtles = null;
+                            turtlePlace = 0;
 
                             //Client went out of a lobby / game
                             profile.mainFrame.chat.receiveMsg("You are not in a lobby anymore!");
@@ -277,6 +280,80 @@ public class ClientReaderThread implements Runnable {
                             } else {
                                 System.out.println(Message.garbage + " *4");
                             }
+                            break;
+
+                        case COIN:
+
+                            /*
+                             * This is not in use
+                             */
+
+                            break;
+
+                        case TURS:
+
+                            /*
+                             * This is not in use
+                             */
+
+                            break;
+
+                        case TUST:
+
+                            /*
+                             * This is not in use
+                             */
+
+                            break;
+
+                        case TURT:
+
+                            /*
+                             * This is not in use
+                             */
+
+                            break;
+
+                        case DRAW:
+
+                            /*
+                             * This is not in use
+                             */
+
+                            break;
+
+                        case POIN:
+
+                            /*
+                             * This is not in use
+                             */
+
+                            break;
+                        case QUAK:
+
+                            /*
+                             * This is not in use
+                             */
+
+                            break;
+
+                        case WATR:
+
+                            /*
+                             * This is not in use
+                             */
+
+                            break;
+
+                        case RSET:
+
+                            /*
+                             * changes fields with flood or earthquake back to normal
+                             */
+                            if (game != null) {
+                                game.afterEvent();
+                            }
+
                             break;
 
                         case TEST:

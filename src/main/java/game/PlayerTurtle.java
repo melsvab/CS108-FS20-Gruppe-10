@@ -10,11 +10,15 @@ import java.awt.*;
 public class PlayerTurtle {
 
     public Color color;
-    public int num;
     public String turtlename;
     public Field turtleposition;
     public int points;
     public boolean wasHitByEvent;
+
+
+    public int num;
+    public int xPos;
+    public int yPos;
 
     /**
      * Instantiates a new Player turtle.
@@ -25,8 +29,12 @@ public class PlayerTurtle {
         this.turtlename = turtlename;
     }
 
-    public PlayerTurtle(int number) {
+    public PlayerTurtle(int number, int xPos, int yPos) {
+
         num = number;
+        this.xPos = xPos;
+        this.yPos = yPos;
+
     }
 
 

@@ -138,9 +138,11 @@ public class Profil {
                 !this.myTurtle.turtleposition.isStartPosition) {
             this.myTurtle.points++;
             this.myTurtle.turtleposition.steppedOn = true;
+            this.lobby.writeToAll(Protocol.DRAW.name() + ":" + direction);
         }
 
-        this.lobby.writeToAll(Protocol.LOBY.name() + ":" + this.lobby.board.printBoard() +
+        this.lobby.writeToAll(Protocol.POIN.name() + ":" + this.myTurtle.num + ":" + this.myTurtle.points);
+        System.out.println(this.lobby.board.printBoard() +
                 "\n" + this.nickname + " has " + this.myTurtle.points + " points!");
     }
 
