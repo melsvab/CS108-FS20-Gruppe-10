@@ -86,7 +86,7 @@ public class Board {
                     //make sure, not too much coins are on the board
                     if (this.board[x][y].hasCoin && (this.coinsOnBoard <= this.maxCoinsInGame)) {
                         this.coinsOnBoard++;
-                        coinAt += ":" + x + "." + y;
+                        coinAt += ":" + x + "-" + y;
 
                     } else {
                         this.board[x][y].hasCoin = false;
@@ -114,7 +114,7 @@ public class Board {
                     this.board[a][b].turtle.points -= 5;
                     this.board[a][b].turtle.wasHitByEvent = true;
                     this.board[x][y].isTaken = false;
-                    turtleMove += ":" + this.board[a][b].turtle.num + ":" + x + "." + y + "." + a + "." + b;
+                    turtleMove += ":" + this.board[a][b].turtle.num + ":" + x + "-" + y + "-" + a + "-" + b;
                     lobby.writeToAll(turtleMove);
                     return;
                 }
@@ -163,7 +163,7 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][i].isStartPosition) {
                             this.board[position][i].isFlood = true;
-                            flood += ":" + position + "." + i;
+                            flood += ":" + position + "-" + i;
                             if (this.board[position][i].isTaken) {
                                 turtleOnXYtoStart(position, i, lobby);
                             }
@@ -175,7 +175,7 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][this.boardSize - i].isStartPosition) {
                             this.board[position][this.boardSize - i].isFlood = true;
-                            flood += ":" + position + "." + i;
+                            flood += ":" + position + "-" + i;
                             if (this.board[position][this.boardSize - i].isTaken) {
                                 turtleOnXYtoStart(position, this.boardSize - i, lobby);
                             }
@@ -187,7 +187,7 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[i][position].isStartPosition) {
                             this.board[i][position].isFlood = true;
-                            flood += ":" + position + "." + i;
+                            flood += ":" + position + "-" + i;
                             if (this.board[i][position].isTaken) {
                                 turtleOnXYtoStart(i, position, lobby);
                             }
@@ -199,7 +199,7 @@ public class Board {
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[this.boardSize - i][position].isStartPosition) {
                             this.board[this.boardSize - i][position].isFlood = true;
-                            flood += ":" + position + "." + i;
+                            flood += ":" + position + "-" + i;
                             if (this.board[this.boardSize - i][position].isTaken) {
                                 turtleOnXYtoStart(this.boardSize - i, position, lobby);
                             }
@@ -239,7 +239,7 @@ public class Board {
                     boardAsString += ("WTR");
                 } else if (board[x][y].isQuake) {
                     boardAsString += ("xxx");
-                } else if (board[x][y].isTaken) {
+                } else if (board[x][y].isTaken || board[x][y].turtle != null) {
                     boardAsString += (":O:");
                 } else if (board[x][y].hasCoin && !board[x][y].isFlood) {
                     boardAsString += ("$$$");

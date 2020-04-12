@@ -187,7 +187,7 @@ public class Lobby extends Thread {
                         writeToAll(Protocol.TURS.name()
                                 + ":" + turtleNum
                                 + ":" + aPlayer.profil.nickname
-                                + ":" + x + "." + y);
+                                + ":" + x + "-" + y);
                         this.board.board[x][y].isTaken = true;
                         break A;
                     }

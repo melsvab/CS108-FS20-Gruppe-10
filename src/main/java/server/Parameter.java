@@ -57,8 +57,14 @@ public class Parameter {
                 // is used for the position of the turtles at the beginning of the game
                 isCorrect = checkForTurtleSetUp(message);
                 break;
-            case 0:
-                // is used for input with no specific length
+            case 7:
+                // is used for input concerning the board
+
+                //does not exist yet!
+                break;
+            case 8:
+                // is used for input concerning a turtle
+
                 //does not exist yet!
                 break;
             default:
@@ -196,10 +202,14 @@ public class Parameter {
             try {
                 // username is for the turtle
                 wordOne = words[2];
-                String[] pos = words[3].split(".");
+                System.out.println(words[3]);
+                String[] pos = words[3].split("-");
+                System.out.println(pos[0]);
+                System.out.println(pos[1]);
                 positions = new int[1][2];
                 positions[0][0] = Integer.parseInt(pos[0]); // x coordinate
-                positions[0][0] = Integer.parseInt(pos[1]); // y coordinate
+                positions[0][1] = Integer.parseInt(pos[1]); // y coordinate
+                return true;
 
             } catch (Exception e) {
                 return false;

@@ -234,6 +234,7 @@ public class ClientReaderThread implements Runnable {
                             if (boardInfo.isCorrect) {
                                 // boardInfo.numberOne == boardSize
                                 this.game = new Board(boardInfo.numberOne);
+                                System.out.println(game.printBoard());
                                 // boardInfo.numberTwo == numberOfPlayers
                                 this.turtles = new PlayerTurtle[boardInfo.numberTwo];
                             }
@@ -244,12 +245,12 @@ public class ClientReaderThread implements Runnable {
                             int rounds = Integer.parseInt(original.substring(5));
                             if (rounds <= 8) {
                                 System.out.println("\n -----------------------\n Round " + rounds
-                                    + "\n There are " + (10 - rounds)
-                                    + " rounds left \n -----------------------\n");
+                                        + "\n There are " + (10 - rounds)
+                                        + " rounds left \n -----------------------\n");
                             } else if (rounds == 9) {
                                 System.out.println("\n -----------------------\n Round " + rounds
-                                    + "\n There is " + (10 - rounds)
-                                    + " round left \n -----------------------\n");
+                                        + "\n There is " + (10 - rounds)
+                                        + " round left \n -----------------------\n");
                             } else {
                                 System.out.println("\n -----------------------\n Round " + rounds
                                         + "\n Last round \n -----------------------\n");
@@ -261,7 +262,7 @@ public class ClientReaderThread implements Runnable {
                             String winner = original.substring(5, i);
                             String points = original.substring(i + 1);
                             profile.mainFrame.chat.receiveMsg("The winner is: " + winner + " with " + points
-                                + " points!");
+                                    + " points!");
                             break;
 
                         case LOBY:
@@ -293,16 +294,21 @@ public class ClientReaderThread implements Runnable {
                         case TURS:
 
                             /*
-                             * This is a set up for the start position for the turtles
+                             * This is a set up for the turtle start position
                              */
-                            System.out.println(original);
-                            Parameter startPos = new Parameter(original, 6);
-                            if (startPos.isCorrect) {
-                                int x = startPos.positions[0][0];
-                                int y = startPos.positions[0][1];
+                            if (game != null) {
 
-                                turtles[turtlePlace] = new PlayerTurtle(startPos.numberOne, startPos.wordOne, x, y);
-                                turtlePlace++;
+                                Parameter startPos = new Parameter(original, 6);
+                                if (startPos.isCorrect) {
+                                    int x = startPos.positions[0][0];
+                                    int y = startPos.positions[0][1];
+
+                                    PlayerTurtle turtle = new PlayerTurtle(startPos.numberOne, startPos.wordOne, x, y);
+                                    turtles[turtlePlace] = turtle;
+                                    turtlePlace++;
+                                    game.board[x][y].turtle = turtle;
+                                    System.out.println(game.printBoard());
+                                }
                             }
 
                             break;
@@ -338,6 +344,7 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             break;
+
                         case QUAK:
 
                             /*
@@ -375,6 +382,8 @@ public class ClientReaderThread implements Runnable {
 
                             break;
 
+                        case IDKW:
+                            break;
                         default:
                             //It should be impossible to get here
                             System.out.println("How did this end up here?" + "\n" + original);
