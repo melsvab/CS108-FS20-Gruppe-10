@@ -293,8 +293,17 @@ public class ClientReaderThread implements Runnable {
                         case TURS:
 
                             /*
-                             * This is not in use
+                             * This is a set up for the start position for the turtles
                              */
+                            System.out.println(original);
+                            Parameter startPos = new Parameter(original, 6);
+                            if (startPos.isCorrect) {
+                                int x = startPos.positions[0][0];
+                                int y = startPos.positions[0][1];
+
+                                turtles[turtlePlace] = new PlayerTurtle(startPos.numberOne, startPos.wordOne, x, y);
+                                turtlePlace++;
+                            }
 
                             break;
 

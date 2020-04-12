@@ -16,6 +16,7 @@ public class PlayerTurtle {
     public boolean wasHitByEvent;
 
 
+    // is used at ClientReaderThread
     public int num;
     public int xPos;
     public int yPos;
@@ -29,9 +30,10 @@ public class PlayerTurtle {
         this.turtlename = turtlename;
     }
 
-    public PlayerTurtle(int number, int xPos, int yPos) {
+    public PlayerTurtle(int number, String name, int xPos, int yPos) {
 
         num = number;
+        this.turtlename = name;
         this.xPos = xPos;
         this.yPos = yPos;
 

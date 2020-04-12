@@ -18,9 +18,11 @@ public class Parameter {
 
     public int numberOne;
     public int numberTwo;
+    public int[][] positions;
 
     public String wordOne;
     public String wordTwo;
+
 
     /**
      * Instantiates a new Parameter.
@@ -30,9 +32,7 @@ public class Parameter {
      */
     public Parameter (String message, int aCase) {
         switch (aCase) {
-            case 0:
-                // is used for input with no specific length
-                //does not exist yet!
+
             case 1:
                 // is used for two ints
                 isCorrect = checkForTwoInt(message);
@@ -52,6 +52,14 @@ public class Parameter {
             case 5:
                 // is used for one number
                 isCorrect = checkForNumber(message);
+                break;
+            case 6:
+                // is used for the position of the turtles at the beginning of the game
+                isCorrect = checkForTurtleSetUp(message);
+                break;
+            case 0:
+                // is used for input with no specific length
+                //does not exist yet!
                 break;
             default:
                 //this is impossible!
@@ -180,44 +188,76 @@ public class Parameter {
         }
     }
 
+    public boolean checkForTurtleSetUp(String original) {
+        if(checkForNumber(original)) {
+            // numberOne will be used for turtle number
+            String[] words = original.split(":");
+
+            try {
+                // username is for the turtle
+                wordOne = words[2];
+                String[] pos = words[3].split(".");
+                positions = new int[1][2];
+                positions[0][0] = Integer.parseInt(pos[0]); // x coordinate
+                positions[0][0] = Integer.parseInt(pos[1]); // y coordinate
+
+            } catch (Exception e) {
+                return false;
+            }
+
+        }
+        return false;
+    }
+
     /**
      * to move a turtle one field
      * TO DO: will be change, so there is no direction needed.
      * @param direction the direction
      */
-    public void moveTurtle(int direction, PlayerTurtle turtle) {
-        turtle.turtleposition.isTaken = false;
-        turtle.turtleposition.turtle = null;
+    public void moveTurtle(Board board, int direction, PlayerTurtle turtle) {
+
 
         switch (direction) {
 
             case 0:
-                turtle.turtleposition = turtle.turtleposition.up;
+                //case >up<
+                turtle.yPos += 1;
+                changeTurtlePosition(board, false, turtle.xPos, turtle.yPos, 1);
                 break;
             case 1:
-                turtle.turtleposition = turtle.turtleposition.right;
+                //case >right<
+                turtle.xPos += 1;
+                changeTurtlePosition(board, true, turtle.xPos, turtle.yPos, 1);
                 break;
             case 2:
-                turtle.turtleposition = turtle.turtleposition.down;
+                //case >down<
+                turtle.yPos -= 1;
+                changeTurtlePosition(board, false, turtle.xPos, turtle.yPos, -1);
                 break;
 
             case 3:
-                turtle.turtleposition = turtle.turtleposition.left;
+                //case >left<
+                turtle.xPos -= 1;
+                changeTurtlePosition(board, true, turtle.xPos, turtle.yPos, -1);
                 break;
 
         }
-        turtle.turtleposition.isTaken = true;
-        turtle.turtleposition.turtle = turtle;
 
-        if (turtle.turtleposition.hasCoin) {
-            turtle.points += 2;
-            turtle.turtleposition.hasCoin = false;
-        }
+    }
 
-        if (!turtle.turtleposition.steppedOn &&
-                !turtle.turtleposition.isStartPosition) {
-            turtle.points++;
-            turtle.turtleposition.steppedOn = true;
+    public void changeTurtlePosition(Board board, boolean isX, int xPos, int yPos, int change) {
+        PlayerTurtle placeholder = board.board[xPos][yPos].turtle;
+        board.board[xPos][yPos].turtle = null;
+
+        if (isX) {
+            //changes at x
+            int newX = xPos + change;
+            board.board[newX][yPos].turtle = placeholder;
+
+        } else {
+            //changes at y
+            int newY = yPos + change;
+            board.board[xPos][newY].turtle = placeholder;
         }
     }
 
