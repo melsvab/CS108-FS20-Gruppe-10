@@ -12,6 +12,12 @@ import server.*;
  * board is saved.
  */
 public class Lobby extends Thread {
+    /** FOR DEMO REASONS:
+     *
+     */
+    public int demoMoves = 0;
+
+
     /*
     * one for an open game
     * two for an ongoing game
@@ -180,6 +186,7 @@ public class Lobby extends Thread {
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.waitingForEvent = true;
         }
+        pleaseWait(10);
         writeToAll(Protocol.LOBY.name() + ":Game starts in ");
         for (int i = 5; i >= 0; i--) {
             writeToAll(Protocol.LOBY.name() + ":" + i);
@@ -189,6 +196,61 @@ public class Lobby extends Thread {
             aPlayer.profil.waitingForEvent = false;
         }
 
+        int rounds = 1;
+        int floodcounter = 1;
+        while (rounds <= 3) {
+            writeToAll(Protocol.RNDS.name() + ":" + rounds);
+            switch (floodcounter) {
+                case 1:
+                    while(!this.board.board[3][3].isTaken) {
+                        pleaseWait(5);
+                    }
+                    break;
+                case 2: while(!this.board.board[3][7].isTaken) {
+                        pleaseWait(5);
+                    }
+                    break;
+                case 3:
+                    while(!this.board.board[7][7].isTaken) {
+                        pleaseWait(5);
+                    }
+                    break;
+            }
+            for (ServerThreadForClient aPlayer : players) {
+                aPlayer.profil.waitingForEvent = true;
+            }
+            writeToAll(Protocol.MSSG.name() + ":... something is happening ...");
+            pleaseWait(10);
+            switch (floodcounter) {
+                case 1: this.board.demoFloodBoard1();
+                floodcounter +=1;
+                break;
+                case 2: this.board.demoFloodBoard2();
+                floodcounter +=1;
+                break;
+                case 3: this.board.demoearthquake();
+                floodcounter +=1;
+                break;
+            }
+            writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+            pleaseWait(10);
+            this.board.afterEvent();
+            writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+            pleaseWait(10);
+            writeToAll(Protocol.MSSG.name() + ":... ok guys, it is over now ...");
+            for (ServerThreadForClient aPlayer : players) {
+                aPlayer.profil.waitingForEvent = false;
+                if (aPlayer.profil.myTurtle.wasHitByEvent) {
+                    writeToPlayer(Protocol.MSSG.name() + ":Oh crap, I lost 5 points!", aPlayer);
+                    aPlayer.profil.myTurtle.wasHitByEvent = false;
+                } else {
+                    writeToPlayer(Protocol.MSSG.name() + ":That was close, I did not lose any points!", aPlayer);
+                }
+            }
+            rounds += 1;
+        }
+
+        /** FOR DEMO REASONS
         //game has started.
         int rounds = 1;
         while (rounds <= 10) {
@@ -231,6 +293,7 @@ public class Lobby extends Thread {
             }
             rounds += 1;
         }
+         */ //FOR DEMO REASONS
 
         writeToAll(Protocol.MSSG.name() + ":\n\nThe game has ended!\n\n");
         int maxPoints = -100;

@@ -33,6 +33,75 @@ public class Board {
         return copy;
     }
 
+    /**FOR DEMO REASONS */
+    public Board(int boardSize, int maxCoinsinGame, boolean demo){
+        this.boardSize = boardSize;
+        this.maxCoinsinGame = maxCoinsinGame;
+        this.board = new Field[boardSize + 1][boardSize + 1];
+        this.eventboard = new Field[boardSize + 1][boardSize + 1];
+        //Generate random fields on the board and water around it.
+        for (int x = 0; x < boardSize + 1; x++) {
+            for (int y = 0; y < boardSize + 1; y++) {
+                //if boarder = flood area!
+                if (x == 0 || x == boardSize || y == 0 || y == boardSize) { //MAYBE STARTPOSITION HERE
+                    board[x][y] = new Field(-1);
+                    board[x][y].isFlood = true;
+                    board[x][y].isBoundary = true;
+                } else {
+                    //every field gets a coin with a probability of coinOccurence
+                    board[x][y] = new Field(-1);
+                    //make sure, not too much coins are on one board
+                }
+            }
+        }
+        this.board[3][3].hasCoin = true;
+        this.board[4][4].hasCoin = true;
+        this.board[3][7].hasCoin = true;
+        this.board[7][3].hasCoin = true;
+        this.board[7][7].hasCoin = true;
+        //Set startpositions in center.
+        int a = this.boardSize/2;
+        int b = this.boardSize/2;
+        this.board[a][b].resetField();
+        this.board[a + 1][b].resetField();
+        this.board[a][b + 1].resetField();
+        this.board[a + 1][b + 1].resetField();
+        this.board[a][b].isStartPosition = true;
+        this.board[a + 1][b].isStartPosition = true;
+        this.board[a][b + 1].isStartPosition = true;
+        this.board[a + 1][b + 1].isStartPosition = true;
+
+        //Connect fields to each other. (UP, DOWN, LEFT, RIGHT)
+        for (int x = 0; x <= this.boardSize; x++) {
+            for (int y = 0; y <= this.boardSize; y++) {
+                //Link UP
+                if (y + 1 > this.boardSize) {
+                    this.board[x][y].up = null;
+                } else {
+                    this.board[x][y].up = this.board[x][y + 1];
+                }
+                //Link RIGHT
+                if (x + 1 > this.boardSize) {
+                    this.board[x][y].right = null;
+                } else {
+                    this.board[x][y].right = this.board[x + 1][y];
+                }
+                //Link DOWN
+                if (y - 1 < 0) {
+                    this.board[x][y].down = null;
+                } else {
+                    this.board[x][y].down = this.board[x][y - 1];
+                }
+                //Link LEFT
+                if (x - 1 < 0) {
+                    this.board[x][y].left = null;
+                } else {
+                    this.board[x][y].left = this.board[x - 1][y];
+                }
+            }
+        }
+    }
+
     /**
      * Constructor creates a new board, fills it with fields and links the fields to each other. Also
      * a identical eventboard is created. (board for events)
@@ -168,6 +237,79 @@ public class Board {
                         this.board[x][y].isTaken = false;
                     }
                 }
+            }
+        }
+    }
+
+    /**FOR DEMO REASONS */
+    public void demoearthquake() {
+        for (int x = 1; x < this.boardSize; x++) { //x = 0 is border (already flooded)
+            for (int y = 1; y < this.boardSize; y++) { //y = 0 is border (already flooded)
+                Random random = new Random();
+                int number = random.nextInt(100);
+                if (number <= 60 && !board[x][y].isStartPosition) {
+                    board[x][y].isQuake = true;
+                    if (this.board[x][y].isTaken) {
+                        A: for (int a = 1; a < this.boardSize-3; a++) {
+                            for (int b = 1; b < this.boardSize-3; b++) {
+                                if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
+                                    this.board[x][y].turtle.turtleposition = this.board[a][b];
+                                    this.board[a][b].turtle = this.board[x][y].turtle;
+                                    this.board[x][y].turtle = null;
+                                    this.board[a][b].isTaken = true;
+                                    this.board[a][b].turtle.points -= 5;
+                                    this.board[a][b].turtle.wasHitByEvent = true;
+                                    break A;
+                                }
+                            }
+                        }
+                        this.board[x][y].isTaken = false;
+                    }
+                }
+            }
+        }
+    }
+
+
+    public void demoFloodBoard1() {
+        for (int i = 0; i < 6; i++) {
+            this.board[4][i].isFlood = true;
+            if (this.board[4][i].isTaken) {
+                A: for (int a = 1; a < this.boardSize-3; a++) {
+                    for (int b = 1; b < this.boardSize-3; b++) {
+                        if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
+                            this.board[4][i].turtle.turtleposition = this.board[a][b];
+                            this.board[a][b].turtle = this.board[4][i].turtle;
+                            this.board[4][i].turtle = null;
+                            this.board[a][b].isTaken = true;
+                            this.board[a][b].turtle.points -= 5;
+                            this.board[a][b].turtle.wasHitByEvent = true;
+                            break A;
+                        }
+                    }
+                }
+                this.board[4][i].isTaken = false;
+            }
+        }
+    }
+    public void demoFloodBoard2() {
+        for (int i = 0; i < 10; i++) {
+            this.board[3][i].isFlood = true;
+            if (this.board[3][i].isTaken) {
+                A: for (int a = 1; a < this.boardSize-3; a++) {
+                    for (int b = 1; b < this.boardSize-3; b++) {
+                        if (this.board[a][b].isStartPosition && !this.board[a][b].isTaken) {
+                            this.board[3][i].turtle.turtleposition = this.board[a][b];
+                            this.board[a][b].turtle = this.board[3][i].turtle;
+                            this.board[3][i].turtle = null;
+                            this.board[a][b].isTaken = true;
+                            this.board[a][b].turtle.points -= 5;
+                            this.board[a][b].turtle.wasHitByEvent = true;
+                            break A;
+                        }
+                    }
+                }
+                this.board[3][i].isTaken = false;
             }
         }
     }

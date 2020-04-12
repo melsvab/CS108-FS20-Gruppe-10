@@ -328,6 +328,10 @@ public class Client implements Runnable {
 
                             break;
 
+                        case DEMO:
+                            dos.writeUTF(Protocol.DEMO.name());
+                            break;
+
 
                         default: //this should be impossible if you typed in correctly
                             System.out.println("You cannot use this keyword.");

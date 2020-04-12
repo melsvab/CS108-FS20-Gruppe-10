@@ -352,6 +352,7 @@ public class ServerThreadForClient implements Runnable {
                                     + " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtle(0);
+                                profil.lobby.demoMoves += 1;
                             }
                             break;
 
@@ -367,6 +368,7 @@ public class ServerThreadForClient implements Runnable {
                                     + " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtle(2);
+                                profil.lobby.demoMoves += 1;
                             }
 
                             break;
@@ -383,6 +385,7 @@ public class ServerThreadForClient implements Runnable {
                                     + " cannot move.. to scared of what is gonna happen");
                             } else {
                                 profil.moveTurtle(3);
+                                profil.lobby.demoMoves += 1;
                             }
                             break;
 
@@ -399,6 +402,7 @@ public class ServerThreadForClient implements Runnable {
                                     + " cannot move.. too scared of what is gonna happen");
                             } else {
                                 profil.moveTurtle(1);
+                                profil.lobby.demoMoves += 1;
                             }
                             break;
 
@@ -413,6 +417,18 @@ public class ServerThreadForClient implements Runnable {
                                 dos.writeUTF(Protocol.MSSG.name() + ":STOP THAT!");
                             }
                             break;
+
+                        case DEMO:
+
+                            int boardSize = 10;
+                            int maxPoints = 50;
+                            profil.lobby.board = new Board(boardSize, maxPoints, true);
+                            profil.lobby.gamestate = 2;
+                            profil.lobby.start();
+                            profil.lobby.writeToAll(Protocol.MSSG.name()
+                                    + ":\nThe Demo has started!\n");
+                            break;
+
 
 
                         default:

@@ -36,7 +36,8 @@ public enum Protocol {
     WINR("Informs client who has won"),
     LOBY("Client gets message from lobby"),
     TEST("Test from server to check for connection lost"),
-    IDKW("Idkw");
+    IDKW("Idkw"),
+    DEMO("Demo");
 
     public final String keyword;
 
