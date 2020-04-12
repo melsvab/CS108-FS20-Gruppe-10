@@ -94,116 +94,12 @@ public class Profil {
         Server.userThreads.remove(aUser);
     }
 
-    /**
-     * Check for two int boolean.
-     *
-     * @param original the original
-     * @return boolean boolean
-     */
-    public boolean checkForTwoInt(String original) {
-        //an example of an input:
-        //KEYW:5:355
-
-        if(checkForTwoWords(original)) {
-            String[] words = original.split(":");
-            //check if it is possible to transfer the words into numbers
-            try {
-                int num1 = Integer.parseInt(words[1]);
-                int num2 = Integer.parseInt(words[2]);
-                return true;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        } else {
-            return false;
+    public boolean gameIsReady() {
+        if (isInGame && lobby != null) {
+            return lobby.gamestate == 2;
         }
+        return false;
     }
-
-    /**
-     * An example of an input: KEYW:word:secondWord
-     * <p>
-     * Check if there are two words (or at least letters) in between ":".
-     *
-     * @param original the original
-     * @return boolean boolean
-     */
-    public boolean checkForTwoWords(String original) {
-
-        int lengthInput = original.length();
-
-        //check for usage of ":" and minimum input of KEYW:a:b (without checking details)
-        if (lengthInput > 7 && original.contains(":")) {
-            String[] words = original.split(":");
-
-            //check if there are two words (or at least letters) in between ":"
-            if (words.length > 2) {
-                return words[1].length() > 0 && words[2].length() > 0;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * An example of an input: KEYW:name (without any further ":")
-     * <p>
-     * Check if there is only one ":". (So if you split the string at ":", there will be two
-     * substrings) Why? Because names cannot have a ":" in them.
-     *
-     * @param original the original
-     * @return boolean boolean
-     */
-    public boolean checkForName(String original) {
-
-        if (checkForWord(original)) {
-            String[] words = original.split(":");
-            return words.length == 2;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * An example of an input: KEYW:word
-     * <p>
-     * Check for usage of ":" and minimum input of "KEYW:a".
-     *
-     * @param original the original
-     * @return boolean boolean
-     */
-    public boolean checkForWord(String original) {
-        int lenghtInput = original.length();
-        if (lenghtInput > 5 && original.contains(":")) {
-            return original.indexOf(':') == 4;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Check for number boolean.
-     *
-     * @param original the original
-     * @return boolean boolean
-     */
-    public boolean checkForNumber(String original) {
-        if (checkForWord(original)) {
-            String[] words = original.split(":");
-
-            try {
-                int num1 = Integer.parseInt(words[1]);
-                return true;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-
-        } else {
-            return false;
-        }
-    }
-
     /**
      * to move the turtle one field
      *

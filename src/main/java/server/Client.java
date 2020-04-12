@@ -69,6 +69,7 @@ public class Client implements Runnable {
         return false;
     }
 
+
     /**
      * chooses a server and port, builds up a connection and starts the ClientReaderThread
      * for reading input from Server. It sets a DataOutputStream for the ChatGUI and
@@ -161,8 +162,9 @@ public class Client implements Runnable {
                         case NAME:
                             logger.info("changing the name");
 
-                            if (profile.checkForName(original)) {
-                                String newNickname = original.substring(5);
+                            Parameter name = new Parameter(original, 3);
+                            if (name.isCorrect) {
+                                String newNickname = name.wordOne;
 
                                 /*
                                  * if the answer is <YEAH> the nickname is change to the
@@ -245,10 +247,11 @@ public class Client implements Runnable {
                         case JOIN:
                             logger.info("joined a Lobby");
                             // This keyword is used to join a lobby as a player.
+                            Parameter gameNumber = new Parameter(original, 5);
                             if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
 
-                            } else if (profile.checkForNumber(original)) {
+                            } else if (gameNumber.isCorrect) {
                                 dos.writeUTF(original);
                                 dos.writeUTF(Protocol.CHAT.name() + ":" + Message.enterLobby);
                             } else {
@@ -259,12 +262,13 @@ public class Client implements Runnable {
                             break;
 
                         case SPEC:
-                            logger.info("joined the lobby as a spectator");
                             // This keyword is used to join a lobby as a spectator.
+                            logger.info("joined the lobby as a spectator");
+                            Parameter gameNumberToWatch = new Parameter(original, 5);
                             if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
 
-                            } else if (profile.checkForNumber(original)) {
+                            } else if (gameNumberToWatch.isCorrect) {
                                 dos.writeUTF(original);
                                 dos.writeUTF(Protocol.CHAT.name() + ":" + Message.enterLobby);
                             } else {
@@ -277,7 +281,8 @@ public class Client implements Runnable {
 
                         case STR1:
                             // This keyword is used to start a game while you are in a lobby
-                            if (profile.checkForTwoInt(original) && profile.isInGame) {
+                            Parameter boardsizeAndMaxCoins = new Parameter(original, 5);
+                            if (boardsizeAndMaxCoins.isCorrect && profile.isInGame) {
                                 dos.writeUTF(original);
 
                             } else {
@@ -289,6 +294,7 @@ public class Client implements Runnable {
 
                         case UPPR:
 
+                            //To do: check for >board != null<
                             if (profile.isInGame && !profile.isSpectator) {
                                 dos.writeUTF(Protocol.UPPR.name());
                             } else {
@@ -351,6 +357,7 @@ public class Client implements Runnable {
             dis.close();
             dos.close();
             socket.close();
+            System.exit(1);
 
         } catch (IOException exception) {
             System.err.println(exception.toString());

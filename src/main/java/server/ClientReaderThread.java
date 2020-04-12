@@ -206,7 +206,8 @@ public class ClientReaderThread implements Runnable {
                              * Informs player that the game is created
                              * and which game_ID it has
                              */
-                            if (profile.checkForNumber(original)) {
+                            Parameter number = new Parameter(original, 5);
+                            if (number.isCorrect) {
                                 profile.isInGame = true;
                                 String[] words = original.split(":");
                                 int lobbyNumber = Integer.parseInt(words[1]);

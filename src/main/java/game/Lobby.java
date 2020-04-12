@@ -159,7 +159,6 @@ public class Lobby extends Thread {
 
         board.coinOccurrence =  boardSize + (maxCoins / 10);
         board.maxCoinsInGame = maxCoins;
-        gamestate = 2;
     }
 
 
@@ -187,6 +186,8 @@ public class Lobby extends Thread {
             }
         }
         String coins = board.spawnRandomCoins();
+
+        gamestate = 2;
 
 
         //Show Startboard to all clients in the lobby.
