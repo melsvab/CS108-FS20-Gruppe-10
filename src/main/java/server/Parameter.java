@@ -37,36 +37,37 @@ public class Parameter {
                 // is used for two ints
                 isCorrect = checkForTwoInt(message);
                 break;
+
             case 2:
                // is used for two strings
                 isCorrect = checkForTwoWords(message);
                 break;
+
             case 3:
                // is used for names (no ":" or " ")
                 isCorrect = checkForName(message);
                 break;
+
             case 4:
                 // is used for one string
                 isCorrect = checkForWord(message);
                 break;
+
             case 5:
                 // is used for one number
                 isCorrect = checkForNumber(message);
                 break;
+
             case 6:
                 // is used for the position of the turtles at the beginning of the game
                 isCorrect = checkForTurtleSetUp(message);
                 break;
+
             case 7:
                 // is used for input concerning the board
-
-                //does not exist yet!
+                isCorrect = checkForNumbers(message);
                 break;
-            case 8:
-                // is used for input concerning a turtle
 
-                //does not exist yet!
-                break;
             default:
                 //this is impossible!
         }
@@ -202,10 +203,7 @@ public class Parameter {
             try {
                 // username is for the turtle
                 wordOne = words[2];
-                System.out.println(words[3]);
                 String[] pos = words[3].split("-");
-                System.out.println(pos[0]);
-                System.out.println(pos[1]);
                 positions = new int[1][2];
                 positions[0][0] = Integer.parseInt(pos[0]); // x coordinate
                 positions[0][1] = Integer.parseInt(pos[1]); // y coordinate
@@ -219,10 +217,33 @@ public class Parameter {
         return false;
     }
 
+    public boolean checkForNumbers(String original) {
+        try {
+            String[] words = original.split(":");
+            // this is the turtle number or an indicator whether to change a boolean of a field to true or false
+            numberOne = Integer.parseInt(words[1]);
+
+            // creates an array for all following parameters
+            positions = new int[words.length - 2][2];
+
+            for (int i = 2; i < words.length; i++) {
+                String[] numbers = words[i].split("-");
+                positions[i-2][0] = Integer.parseInt(numbers[0]);
+                positions[i-2][1] = Integer.parseInt(numbers[1]);
+            }
+
+            return true;
+        } catch (Exception e) {
+            System.err.println(e.toString());
+            return false;
+        }
+    }
+
     /**
-     * to move a turtle one field
-     * TO DO: will be change, so there is no direction needed.
+     * This method is used to move a turtle one field up, down, left or right.
+     * @param board the game board
      * @param direction the direction
+     * @param turtle the turtle that moves
      */
     public void moveTurtle(Board board, int direction, PlayerTurtle turtle) {
 
@@ -231,24 +252,28 @@ public class Parameter {
 
             case 0:
                 //case >up<
-                turtle.yPos += 1;
+
                 changeTurtlePosition(board, false, turtle.xPos, turtle.yPos, 1);
+                turtle.yPos += 1;
                 break;
             case 1:
                 //case >right<
-                turtle.xPos += 1;
+
                 changeTurtlePosition(board, true, turtle.xPos, turtle.yPos, 1);
+                turtle.xPos += 1;
                 break;
             case 2:
                 //case >down<
-                turtle.yPos -= 1;
+
                 changeTurtlePosition(board, false, turtle.xPos, turtle.yPos, -1);
+                turtle.yPos -= 1;
                 break;
 
             case 3:
                 //case >left<
-                turtle.xPos -= 1;
+
                 changeTurtlePosition(board, true, turtle.xPos, turtle.yPos, -1);
+                turtle.xPos -= 1;
                 break;
 
         }
@@ -269,33 +294,49 @@ public class Parameter {
             int newY = yPos + change;
             board.board[xPos][newY].turtle = placeholder;
         }
-    }
-
-
-    public void changeBoardTrue(Board board, int x, int y, int aCase) {
-        switch (aCase) {
-            case 0:
-                board.board[x][y].isBoundary = true;
-            case 1:
-                board.board[x][y].isFlood = true;
-            case 2:
-                board.board[x][y].hasCoin = true;
-            case 3:
-                board.board[x][y].isQuake = true;
+        // change field to >steppedOn< if nobody was there before (just like it happens at the server)
+        if (!board.board[xPos][yPos].steppedOn && !board.board[xPos][yPos].isStartPosition) {
+            board.board[xPos][yPos].steppedOn = true;
+        }
+        // coin will be collected if a turtle steps on a field with coins
+        if (board.board[xPos][yPos].hasCoin) {
+            board.board[xPos][yPos].hasCoin = false;
         }
     }
 
-    public void changeBoardFalse(Board board, int x, int y, int aCase) {
-        switch (aCase) {
-            case 0:
-                board.board[x][y].isBoundary = false;
-            case 1:
-                board.board[x][y].isFlood = false;
-            case 2:
-                board.board[x][y].hasCoin = false;
-            case 3:
-                board.board[x][y].isQuake = false;
+
+    public void changeBoard(Board board, int aCase) {
+        boolean change = false;
+        if (numberOne == 1) {
+            change = true;
         }
+
+        for (int[] position : positions) {
+            int x = position[0];
+            int y = position[1];
+
+            switch (aCase) {
+                case 0:
+                    board.board[x][y].steppedOn = change;
+                    break;
+                case 1:
+                    board.board[x][y].isFlood = change;
+                    board.board[x][y].hasCoin = false;
+                    break;
+                case 2:
+                    board.board[x][y].hasCoin = change;
+                    break;
+                case 3:
+                    board.board[x][y].isQuake = change;
+                    board.board[x][y].hasCoin = false;
+                    break;
+            }
+
+
+        }
+
+
     }
+
 
 }

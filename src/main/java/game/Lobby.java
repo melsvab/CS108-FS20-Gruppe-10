@@ -24,6 +24,8 @@ public class Lobby extends Thread {
     public Set<ServerThreadForClient> players = new HashSet<>();
     public Set<ServerThreadForClient> spectators = new HashSet<>();
 
+    public PlayerTurtle[] turtles;
+
     /**
      * Instantiates a new Lobby and adds clients to the players-set
      * @param aUser the user who creates the lobby is added to the set of players
@@ -84,7 +86,7 @@ public class Lobby extends Thread {
                 aUser.sendMessage(Protocol.ERRO.name()
                         + ":This lobby has four players already! You were added as a spectator.");
             }
-            spectators.add(aUser);
+            addSpectators(aUser);
             aUser.sendMessage(Protocol.SPEC.name());
             aUser.profil.isSpectator = true;
         } else {
@@ -100,6 +102,32 @@ public class Lobby extends Thread {
      */
     public synchronized void addSpectators(ServerThreadForClient aUser) {
         spectators.add(aUser);
+        // spectator will be informed about board
+        if (gamestate > 1) {
+            aUser.sendMessage(Protocol.STR1.name() + ":" + board.boardSize + ":" + numberOfPlayers);
+
+            for (PlayerTurtle turtle: turtles) {
+                aUser.sendMessage(Protocol.TURS.name()
+                        + ":" + turtle.num
+                        + ":" + turtle.turtlename
+                        + ":" + turtle.xPos + "-" + turtle.yPos);
+            }
+            String coins = Protocol.COIN.name() + ":1";
+            String draw = Protocol.DRAW.name() + ":1";
+            for (int i = 0; i < board.board.length; i++) {
+                for (int j = 0; j < board.board.length; j++) {
+                    if (board.board[i][j].hasCoin) {
+                        coins += ":" + i + "-" + j;
+                    } else if (board.board[i][j].steppedOn) {
+                        draw += ":" + i + "-" + j;
+                    }
+                }
+            }
+
+            aUser.sendMessage(coins);
+            aUser.sendMessage(draw);
+        }
+
     }
 
     /**
@@ -170,10 +198,14 @@ public class Lobby extends Thread {
         /*
         Create for every PLAYER a turtle and its name.
          */
-        int turtleNum = 1;
+
+        turtles = new PlayerTurtle[numberOfPlayers];
+
+        int turtleNum = 0;
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.myTurtle = new PlayerTurtle(aPlayer.profil.nickname + "-Junior");
             aPlayer.profil.myTurtle.num = turtleNum;
+            turtles[turtleNum] = aPlayer.profil.myTurtle;
 
             writeToPlayer(Protocol.LOBY.name()
                     + ":You have adopted a turtle baby and named it "
@@ -186,9 +218,11 @@ public class Lobby extends Thread {
                         // String with all turtle positions will be sent
                         writeToAll(Protocol.TURS.name()
                                 + ":" + turtleNum
-                                + ":" + aPlayer.profil.nickname
+                                + ":" + aPlayer.profil.nickname + "-Junior"
                                 + ":" + x + "-" + y);
                         this.board.board[x][y].isTaken = true;
+                        aPlayer.profil.myTurtle.xPos = x;
+                        aPlayer.profil.myTurtle.yPos = y;
                         break A;
                     }
                 }
@@ -235,21 +269,27 @@ public class Lobby extends Thread {
             Random randomEvent = new Random();
             int whichEvent = randomEvent.nextInt(10);
             // To do: chance for random coins
-            if (whichEvent < 9) {
+            if (whichEvent < 7) {
                 Random howOften = new Random();
                 int randomOften = howOften.nextInt(5) + 1;
                 String flood = this.board.floodBoard(randomOften, this);
-                writeToAll(Protocol.WATR.name() + flood);
+                writeToAll(Protocol.WATR.name() + ":1" + flood);
                 System.out.println(this.board.printBoard());
                 pleaseWait(4);
                 this.board.afterEvent();
                 writeToAll(Protocol.RSET.name());
                 System.out.println(this.board.printBoard());
+            } else if (whichEvent == 300) {
+                // all positions that have coins now -> should be impossible right now
+                String coin = board.spawnRandomCoins();
+                // "1" for new coins that spawn. "2" would be for coins that were taken.
+                writeToAll(Protocol.COIN.name() + ":1" + coin);
             } else {
                 Random howStrong = new Random();
                 int magnitude = howStrong.nextInt(30) + 5;
                 String quake = this.board.earthquake(magnitude, this);
-                writeToAll(Protocol.QUAK.name() + quake);
+                System.out.println("quake");
+                writeToAll(Protocol.QUAK.name() + ":1" + quake);
                 System.out.println(this.board.printBoard());
                 pleaseWait(4);
                 this.board.afterEvent();

@@ -29,7 +29,6 @@ public class ClientReaderThread implements Runnable {
     Profil profile;
     Board game = null;
     PlayerTurtle[] turtles = null;
-    int turtlePlace = 0;
 
     /**
      * Instantiates a new Client reader thread.
@@ -223,7 +222,6 @@ public class ClientReaderThread implements Runnable {
                             profile.isSpectator = false;
                             game = null;
                             turtles = null;
-                            turtlePlace = 0;
 
                             //Client went out of a lobby / game
                             profile.mainFrame.chat.receiveMsg("You are not in a lobby anymore!");
@@ -234,10 +232,12 @@ public class ClientReaderThread implements Runnable {
                             if (boardInfo.isCorrect) {
                                 // boardInfo.numberOne == boardSize
                                 this.game = new Board(boardInfo.numberOne);
-                                System.out.println(game.printBoard());
                                 // boardInfo.numberTwo == numberOfPlayers
                                 this.turtles = new PlayerTurtle[boardInfo.numberTwo];
+
+                                System.out.println(game.printBoard());
                             }
+
                             break;
 
                         case RNDS:
@@ -272,8 +272,8 @@ public class ClientReaderThread implements Runnable {
                              *
                              *
                              * info: this is identical with case ERRO right now,
-                             * but that will change soon due to the fact that changes from the
-                             * board will be analysed in the future
+                             * but that will change soon due to the fact that information from the lobby
+                             * will have a different design soon.
                              */
                             if (checkMessage(original)) {
                                 String message = original.substring(5);
@@ -286,8 +286,18 @@ public class ClientReaderThread implements Runnable {
                         case COIN:
 
                             /*
-                             * This is not in use
+                             * This is used to spawn coins
                              */
+
+                            if (game != null) {
+                                Parameter coins = new Parameter(original, 7);
+                                if (coins.isCorrect) {
+                                    coins.changeBoard(game, 2);
+
+                                    System.out.println(game.printBoard());
+                                }
+                            }
+
 
                             break;
 
@@ -304,61 +314,139 @@ public class ClientReaderThread implements Runnable {
                                     int y = startPos.positions[0][1];
 
                                     PlayerTurtle turtle = new PlayerTurtle(startPos.numberOne, startPos.wordOne, x, y);
-                                    turtles[turtlePlace] = turtle;
-                                    turtlePlace++;
+                                    turtles[startPos.numberOne] = turtle;
                                     game.board[x][y].turtle = turtle;
+
                                     System.out.println(game.printBoard());
                                 }
                             }
+
 
                             break;
 
                         case TUST:
 
                             /*
-                             * This is not in use
+                             * This is used to respawn a turtle that was hit by an event
                              */
+
+                            if (game != null) {
+                                Parameter respawnParameters = new Parameter(original, 7);
+                                if (respawnParameters.isCorrect) {
+                                    /*
+                                     * numberOne == number of the turtle
+                                     * positions[0][0] = new x coordinate
+                                     * positions[0][1] = new y coordinate
+                                     */
+                                    PlayerTurtle turtle = turtles[respawnParameters.numberOne];
+                                    game.board[turtle.xPos][turtle.yPos].turtle = null;
+                                    turtle.xPos = respawnParameters.positions[0][0];
+                                    turtle.yPos = respawnParameters.positions[0][1];
+                                    game.board[turtle.xPos][turtle.yPos].turtle = turtle;
+
+                                    System.out.println(game.printBoard());
+                                }
+
+                            }
 
                             break;
 
                         case TURT:
 
                             /*
-                             * This is not in use
+                             * This is used to put a turtle up, down, left or right depending on the input.
                              */
 
-                            break;
+                            if (game != null) {
+                                Parameter turtleNumberAndDirection = new Parameter(original, 1);
+                                if (turtleNumberAndDirection.isCorrect) {
+                                    /*
+                                     * numberOne == number of the turtle
+                                     * numberTwo == direction
+                                     */
 
-                        case DRAW:
+                                    turtleNumberAndDirection.moveTurtle(
+                                            game, turtleNumberAndDirection.numberTwo,
+                                            turtles[turtleNumberAndDirection.numberOne]);
 
-                            /*
-                             * This is not in use
-                             */
+                                    System.out.println(game.printBoard());
+                                }
+                            }
+
 
                             break;
 
                         case POIN:
 
                             /*
-                             * This is not in use
+                             * This is used to update points of all players
                              */
+                            if (game != null) {
+                                Parameter turtleNumberAndPoints = new Parameter(original, 1);
+                                if (turtleNumberAndPoints.isCorrect) {
+                                    /*
+                                     * numberOne == number of the turtle
+                                     * numberTwo == points
+                                     */
+                                    PlayerTurtle turtle = turtles[turtleNumberAndPoints.numberOne];
+                                    turtle.points = turtleNumberAndPoints.numberTwo;
 
+                                    String nickname = turtle.turtlename.substring(0,turtle.turtlename.length()-7);
+
+                                    System.out.println(nickname + " has " + turtle.points + " points!");
+                                    //TO DO: points will be shown with user names at the margin of the board
+                                }
+                            }
+
+                            break;
+
+                        case DRAW:
+
+                            /*
+                             * This is used for earth quakes
+                             */
+                            if (game != null) {
+                                Parameter paint = new Parameter(original, 7);
+                                if (paint.isCorrect) {
+                                    paint.changeBoard(game, 0);
+
+                                    System.out.println(game.printBoard());
+                                }
+                            }
                             break;
 
                         case QUAK:
 
                             /*
-                             * This is not in use
+                             * This is used for earth quakes
                              */
+                            if (game != null) {
+                                Parameter quake = new Parameter(original, 7);
+                                if (quake.isCorrect) {
+                                    quake.changeBoard(game, 3);
+
+                                    System.out.println(game.printBoard());
+
+                                }
+                            }
+
 
                             break;
 
                         case WATR:
 
                             /*
-                             * This is not in use
+                             * This is used for floods
                              */
 
+                            if (game != null) {
+                                Parameter flood = new Parameter(original, 7);
+                                if (flood.isCorrect) {
+                                    flood.changeBoard(game, 1);
+
+                                    System.out.println(game.printBoard());
+                                }
+                            }
                             break;
 
                         case RSET:
@@ -368,8 +456,9 @@ public class ClientReaderThread implements Runnable {
                              */
                             if (game != null) {
                                 game.afterEvent();
-                            }
 
+                                System.out.println(game.printBoard());
+                            }
                             break;
 
                         case TEST:
@@ -382,8 +471,6 @@ public class ClientReaderThread implements Runnable {
 
                             break;
 
-                        case IDKW:
-                            break;
                         default:
                             //It should be impossible to get here
                             System.out.println("How did this end up here?" + "\n" + original);

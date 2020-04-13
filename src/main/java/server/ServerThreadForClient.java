@@ -325,23 +325,34 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case STR1:
-                            //check if it is possible to transfer the words into numbers
-                            Parameter boardsizeAndMaxCoins = new Parameter(original,1);
-                            if (boardsizeAndMaxCoins.isCorrect && profil.isInGame) {
-                                String[] words = original.split(":");
+                            if (profil.lobby != null) {
+                                //check if it is possible to transfer the words into numbers
+                                Parameter boardsizeAndMaxCoins = new Parameter(original, 1);
+                                if (boardsizeAndMaxCoins.isCorrect && profil.isInGame) {
+                                    if (profil.lobby.numberOfPlayers >= 1) {
 
-                                int boardSize = boardsizeAndMaxCoins.numberOne;
-                                int maxCoins = boardsizeAndMaxCoins.numberTwo;
+                                        String[] words = original.split(":");
 
-                                //creates a board and adds all information from the client
-                                profil.lobby.createGame(boardSize, maxCoins);
-                                profil.lobby.start();
-                                profil.lobby.writeToAll(Protocol.MSSG.name()
-                                        + ":\nThe game has started!\n");
+                                        int boardSize = boardsizeAndMaxCoins.numberOne;
+                                        int maxCoins = boardsizeAndMaxCoins.numberTwo;
+
+                                        //creates a board and adds all information from the client
+                                        profil.lobby.createGame(boardSize, maxCoins);
+                                        profil.lobby.start();
+                                        profil.lobby.writeToAll(Protocol.MSSG.name()
+                                                + ":\nThe game has started!\n");
+                                    } else {
+                                        dos.writeUTF(Protocol.MSSG.name() + ":Your lobby has no players. "
+                                                + "Therefore it cannot be started.");
+                                    }
+                                } else {
+                                    // should be impossible because it is checked at the client class
+                                    logger.info("input to start a game is not correct or " +
+                                            "client's boolean isInGame is wrong");
+                                }
                             } else {
-                                //if(profil.checkForTwoInt(original) == false){
-                                // logger.info("forgot the colon");
-                                //}
+                                // should be impossible because it is checked at the client class
+                                logger.info("Client wants to start a game without being in a lobby");
                             }
                             break;
 

@@ -113,16 +113,20 @@ public class Profil {
 
             case 0:
                 this.myTurtle.turtleposition = this.myTurtle.turtleposition.up;
+                this.myTurtle.yPos += 1;
                 break;
             case 1:
                 this.myTurtle.turtleposition = this.myTurtle.turtleposition.right;
+                this.myTurtle.xPos += 1;
                 break;
             case 2:
                 this.myTurtle.turtleposition = this.myTurtle.turtleposition.down;
+                this.myTurtle.yPos -= 1;
                 break;
 
             case 3:
                 this.myTurtle.turtleposition = this.myTurtle.turtleposition.left;
+                this.myTurtle.xPos -= 1;
                 break;
 
         }
@@ -138,8 +142,9 @@ public class Profil {
                 !this.myTurtle.turtleposition.isStartPosition) {
             this.myTurtle.points++;
             this.myTurtle.turtleposition.steppedOn = true;
-            this.lobby.writeToAll(Protocol.DRAW.name() + ":" + direction);
+
         }
+        this.lobby.writeToAll(Protocol.TURT.name() + ":" + this.myTurtle.num + ":" + direction);
 
         this.lobby.writeToAll(Protocol.POIN.name() + ":" + this.myTurtle.num + ":" + this.myTurtle.points);
         System.out.println(this.lobby.board.printBoard() +

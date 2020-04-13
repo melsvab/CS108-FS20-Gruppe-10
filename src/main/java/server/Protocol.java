@@ -166,24 +166,24 @@ public enum Protocol {
     TURS("Set start position of the turtles"),
 
     /**
-     * Turtle was hit by an event and is set to start position again
+     * Turtle was hit by an event and is set to a new position
      */
     TUST("Turtle was hit by an event and is set to start position again"),
 
     /**
-     * Change of a turtle position
+     * Change of a turtle position for one block
      */
     TURT("Change of a turtle position"),
-
-    /**
-     * A field on the board was stepped on
-     */
-    DRAW("Field was stepped on"),
 
     /**
      * A player got points
      */
     POIN("A player got points"),
+
+    /**
+     * A player went on a field that nobody has gone before
+     */
+    DRAW("A went on a field that nobody has gone before"),
 
     /**
      * will be sent if there was an earthquake on the board
