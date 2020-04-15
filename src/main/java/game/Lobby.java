@@ -311,7 +311,7 @@ public class Lobby extends Thread {
 
         gamestate = 3;
 
-        writeToAll(Protocol.BACK.name());
+        /*writeToAll(Protocol.BACK.name());
         if (!players.isEmpty()) {
             for (ServerThreadForClient aPlayer : players) {
                 deletePlayer(aPlayer);
@@ -321,7 +321,7 @@ public class Lobby extends Thread {
             for (ServerThreadForClient aSpectator : spectators) {
                 deletePlayer(aSpectator);
             }
-        }
+        }*/
 
     }
 }
