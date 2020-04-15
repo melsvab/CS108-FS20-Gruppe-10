@@ -22,6 +22,7 @@ public class GameGUI extends JPanel {
     private BufferedImage earthquake;
     private BufferedImage coin;
     private BufferedImage mainScreen;
+    private BufferedImage startPosition;
     Board board = null;
 
     GameGUI() throws IOException {
@@ -51,20 +52,21 @@ public class GameGUI extends JPanel {
         coin = ImageIO.read(getClass().getResourceAsStream("/img/apple.png"));
 
         mainScreen = ImageIO.read(getClass().getResourceAsStream("/img/mainScreen.png"));
+
+        startPosition = ImageIO.read(getClass().getResourceAsStream("/img/startPosition.png"));
     }
 
     public void setBoard(Board board) {
         this.board = board;
     }
 
-    /*
-     *To Do: Find out why paintComponent does not draw anything :((((
-     */
     @Override
     /*
-     *Overrides paintComponent. Not Tested if the idea with g2d.drawImage works (Graphics2D is used
-     *because it can drawImages apparently with BufferdImages. Not every Image is included in the method
-     *at the moment until its working properly
+     *Overrides paintComponent. Draws the whole board. Not every Image is included in the method
+     *at the moment until its working properly. TO DO: When the player is choosing a turtle to add a color
+     *so the code "knows" which turtle to draw. TO DO: boardSize over ten should not draw so ugly at the corners.
+     *TO DO: implement this code into the game (note: "profile.mainFrame.game".redraw() could maybe used to draw
+     * the board again if there is a change.
      */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -73,8 +75,11 @@ public class GameGUI extends JPanel {
             int widthField = WIDTH / (board.boardSize - 1);
             int heightField = HEIGHT / (board.boardSize - 1);
             for (int y = 0; y < board.boardSize - 1; y++) {
-                for (int x = 0; x < board.boardSize + 1; x++) {
-                    if (board.board[x+1][y+1].isFlood) {
+                for (int x = 0; x < board.boardSize - 1; x++) {
+                    if (board.board[x+1][y+1].isStartPosition) {
+                        g2d.drawImage(startPosition, null, widthField * x, heightField * y);
+                    }
+                    else if (board.board[x+1][y+1].isFlood) {
                         g2d.drawImage(waterField, null, widthField * x, heightField * y);
                     }
                     else if (board.board[x+1][y+1].isQuake) {
@@ -88,7 +93,7 @@ public class GameGUI extends JPanel {
                     if (board.board[x+1][y+1].hasCoin) {
                         g2d.drawImage(coin, null, widthField * x, heightField * y);
                     }
-                    /*else if (board.board[x+1][y+1].isTaken) {
+                    /*if (board.board[x+1][y+1].isTaken) {
                         if (board.board[x+1][y+1].turtle.color == BLUE) {
                             g2d.drawImage(turtleBlue, null, widthField * x, heightField * y);
                         }
