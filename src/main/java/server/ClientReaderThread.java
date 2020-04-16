@@ -105,6 +105,7 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             System.out.println("\nWelcome to the server!\n\n");
+                            profile.mainFrame.chat.receiveMsg("\nWelcome to the server!\n\n");
                             break;
 
                         case HELP:
@@ -149,6 +150,7 @@ public class ClientReaderThread implements Runnable {
 
                             if (checkMessage(original)) {
                                 System.out.println(original.substring(5));
+                                profile.mainFrame.chat.receiveMsg(original.substring(5));
                             } else {
                                 System.out.println(Message.garbage + " *1");
                             }
@@ -166,6 +168,7 @@ public class ClientReaderThread implements Runnable {
                             if (checkMessage(original)) {
                                 String errorText = original.substring(5);
                                 System.out.println(errorText);
+                                profile.mainFrame.chat.receiveMsg(errorText);
                             } else {
                                 System.out.println(Message.garbage + " *2");
                             }
@@ -252,13 +255,22 @@ public class ClientReaderThread implements Runnable {
                                 System.out.println("\n -----------------------\n Round " + rounds
                                         + "\n There are " + (10 - rounds)
                                         + " rounds left \n -----------------------\n");
+                                profile.mainFrame.chat.receiveMsg("\n -----------------------\n Round " + rounds
+                                        + "\n There are " + (10 - rounds)
+                                        + " rounds left \n -----------------------\n");
                             } else if (rounds == 9) {
                                 System.out.println("\n -----------------------\n Round " + rounds
+                                        + "\n There is " + (10 - rounds)
+                                        + " round left \n -----------------------\n");
+                                profile.mainFrame.chat.receiveMsg("\n -----------------------\n Round " + rounds
                                         + "\n There is " + (10 - rounds)
                                         + " round left \n -----------------------\n");
                             } else {
                                 System.out.println("\n -----------------------\n Round " + rounds
                                         + "\n Last round \n -----------------------\n");
+                                profile.mainFrame.chat.receiveMsg("\n -----------------------\n Round " + rounds
+                                        + "\n There is " + (10 - rounds)
+                                        + " round left \n -----------------------\n");
                             }
                             break;
 
@@ -283,6 +295,7 @@ public class ClientReaderThread implements Runnable {
                             if (checkMessage(original)) {
                                 String message = original.substring(5);
                                 System.out.println(message);
+                                profile.mainFrame.chat.receiveMsg(message);
                             } else {
                                 System.out.println(Message.garbage + " *4");
                             }
