@@ -19,6 +19,7 @@ public class ButtonsClient extends JPanel{
     JButton highscore;
     JButton quit;
     JButton start;
+    JButton join;
     DataOutputStream dos;
     Profil profile;
     Logger logger;
@@ -33,9 +34,10 @@ public class ButtonsClient extends JPanel{
         this.help = new JButton("Help");
         this.back = new JButton("Leave Lobby");
         this.start = new JButton("Start");
+        this.join = new JButton("Join Game");
 
         //creates a GridLayout with 4 rows, and 2 colums. Buttons get their place depending of the order of panel.add(something).
-        this.setLayout(new GridLayout(4,2));
+        this.setLayout(new GridLayout(5,2));
         //sets PreferedSize(can sometimes not work properly in the MainFrame because of the other panels.
         this.setPreferredSize(new Dimension( 240, 150 ) );
 
@@ -51,10 +53,12 @@ public class ButtonsClient extends JPanel{
         back.addActionListener(this::actionPerformed);
         quit.addActionListener(this::actionPerformed);
         start.addActionListener(this::actionPerformed);
+        join.addActionListener(this::actionPerformed);
 
         //adds button to the panel
         this.add(create);
         this.add(start);
+        this.add(join);
         this.add(gamelist);
         this.add(playerlist);
         this.add(highscore);
@@ -125,26 +129,33 @@ public class ButtonsClient extends JPanel{
             } else if (e1.getSource().equals(start)) {
                 if (profile.isInGame) {
                     profile.mainFrame.start.setVisible(true);
-                }
-                else {
+                } else {
                     profile.mainFrame.chat.receiveMsg("You must be in a lobby to start a game!\n");
                 }
 
-            } else { //equals quit
-                logger.info("Quitting");
-                /*
-                 * Informing server about his / her choice.
-                 * If player is not active he / she cannot write anymore.
-                 */
-                profile.mainFrame.closeFrame();
-                dos.writeUTF(Protocol.QUIT.name());
-                System.out.println("\nClosing program...\n");
-                profile.clientIsOnline = false;
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    System.err.println(e.toString());
+            } else if (e1.getSource().equals(join)) {
+                if (profile.isInGame) {
+                    profile.mainFrame.chat.receiveMsg(Message.inLobbyAlready);
                 }
+                else {
+                    profile.mainFrame.join.setVisible(true);
+                }
+
+            } else { //equals quit
+                    logger.info("Quitting");
+                    /*
+                     * Informing server about his / her choice.
+                     * If player is not active he / she cannot write anymore.
+                     */
+                    profile.mainFrame.closeFrame();
+                    dos.writeUTF(Protocol.QUIT.name());
+                    System.out.println("\nClosing program...\n");
+                    profile.clientIsOnline = false;
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        System.err.println(e.toString());
+                    }
             }
         } catch (IOException f) {
             System.err.println(f.toString());

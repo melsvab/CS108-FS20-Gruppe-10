@@ -109,6 +109,7 @@ public class Client implements Runnable {
             profile.mainFrame.buttonsClient.setDosProLogger(dos, profile, logger);
             profile.mainFrame.buttonsGame.setDos(dos);
             profile.mainFrame.start.setDos(dos);
+            profile.mainFrame.join.setDos(dos);
 
             //Start processing inputs.
             while (profile.clientIsOnline) {
