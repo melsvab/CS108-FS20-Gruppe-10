@@ -66,7 +66,7 @@ public class GameGUI extends JPanel {
      *at the moment until its working properly. TO DO: When the player is choosing a turtle to add a color
      *so the code "knows" which turtle to draw. TO DO: boardSize over ten should not draw so ugly at the corners.
      *TO DO: implement this code into the game (note: "profile.mainFrame.game".redraw() could maybe used to draw
-     * the board again if there is a change.
+     * the board again if there is a change. TO DO: y-spiegelverkehrt korrigieren.
      */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -93,20 +93,14 @@ public class GameGUI extends JPanel {
                     if (board.board[x+1][y+1].hasCoin) {
                         g2d.drawImage(coin, null, widthField * x, heightField * y);
                     }
-                    /*if (board.board[x+1][y+1].isTaken) {
-                        if (board.board[x+1][y+1].turtle.color == BLUE) {
+                   //placeholder while there is no color attributed to the turtle
+                    if (board.board[x+1][y+1].turtle != null) {
+                        g2d.drawImage(turtleBlue, null, widthField * x, heightField * y);
+                    /*if (board.board[x+1][y+1].turtle.BLUE) {
                             g2d.drawImage(turtleBlue, null, widthField * x, heightField * y);
                         }
-                        if (board.board[x+1][y+1].turtle.color == GREEN) {
-                            g2d.drawImage(turtleGreen, null, widthField * x, heightField * y);
-                        }
-                        if (board.board[x+1][y+1].turtle.color == VIOLETT) {
-                            g2d.drawImage(turtleViolett, null, widthField * x, heightField * y);
-                        }
-                        if (board.board[x+1][y+1].turtle.color == YELLOW) {
-                            g2d.drawImage(turtleYellow, null, widthField * x, heightField * y);
-                        }
-                    }*/
+                        etc. */
+                    }
                 }
             }
         }

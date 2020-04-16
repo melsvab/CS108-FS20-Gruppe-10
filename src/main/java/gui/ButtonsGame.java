@@ -1,8 +1,12 @@
 package gui;
 
+import server.Protocol;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class ButtonsGame extends BackgroundPanelArea {
 
@@ -10,6 +14,7 @@ public class ButtonsGame extends BackgroundPanelArea {
     JButton down; //Optional: find out how you get the Buttons to be square
     JButton left;
     JButton right;
+    DataOutputStream dos;
 
     ButtonsGame() {
         this.up = new JButton("Up");
@@ -19,12 +24,12 @@ public class ButtonsGame extends BackgroundPanelArea {
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        this.setPreferredSize(new Dimension( 300, 300 ) );
+        this.setPreferredSize(new Dimension(300, 300));
 
-        up.setPreferredSize(new Dimension(100,100));
-        right.setPreferredSize(new Dimension(100,100));
-        down.setPreferredSize(new Dimension(100,100));
-        left.setPreferredSize(new Dimension(100,100));
+        up.setPreferredSize(new Dimension(100, 100));
+        right.setPreferredSize(new Dimension(100, 100));
+        down.setPreferredSize(new Dimension(100, 100));
+        left.setPreferredSize(new Dimension(100, 100));
 
         up.addActionListener(this::actionPerformed);
         right.addActionListener(this::actionPerformed);
@@ -65,18 +70,25 @@ public class ButtonsGame extends BackgroundPanelArea {
         this.setVisible(false);
 
     }
-    /*
-     * To Do: Add the DataOutPutStream to the ActionEvent like ClientChatGUI.
-     */
+
+    public void setDos(DataOutputStream dos) {
+        this.dos = dos;
+    }
+
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(up)) {
-
-        } else if (e.getSource().equals(right)) {
-
-        } else if (e.getSource().equals(down)) {
-
-        } else { //equals left
-
+        try {
+            if (e.getSource().equals(up)) {
+                dos.writeUTF(Protocol.UPPR.name());
+            } else if (e.getSource().equals(right)) {
+                dos.writeUTF(Protocol.RIGT.name());
+            } else if (e.getSource().equals(down)) {
+                dos.writeUTF(Protocol.DOWN.name());
+            } else { //equals left
+                dos.writeUTF(Protocol.LEFT.name());
+            }
+        } catch (IOException f) {
+            System.err.println(f.toString());
         }
     }
 }
+
