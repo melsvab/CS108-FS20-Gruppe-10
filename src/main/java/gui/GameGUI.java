@@ -77,25 +77,25 @@ public class GameGUI extends JPanel {
             for (int y = 0; y < board.boardSize - 1; y++) {
                 for (int x = 0; x < board.boardSize - 1; x++) {
                     if (board.board[x+1][y+1].isStartPosition) {
-                        g2d.drawImage(startPosition, null, widthField * x, heightField * y);
+                        g2d.drawImage(startPosition, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     }
                     else if (board.board[x+1][y+1].isFlood) {
-                        g2d.drawImage(waterField, null, widthField * x, heightField * y);
+                        g2d.drawImage(waterField, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     }
                     else if (board.board[x+1][y+1].isQuake) {
-                        g2d.drawImage(earthquake, null, widthField * x, heightField * y);
+                        g2d.drawImage(earthquake, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     }
                     else if (board.board[x+1][y+1].steppedOn) {
-                        g2d.drawImage(usedField, null, widthField * x, heightField * y);
+                        g2d.drawImage(usedField, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     } else {
-                        g2d.drawImage(normalField, null, widthField * x, heightField * y);
+                        g2d.drawImage(normalField, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     }
                     if (board.board[x+1][y+1].hasCoin) {
-                        g2d.drawImage(coin, null, widthField * x, heightField * y);
+                        g2d.drawImage(coin, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     }
                    //placeholder while there is no color attributed to the turtle
                     if (board.board[x+1][y+1].turtle != null) {
-                        g2d.drawImage(turtleBlue, null, widthField * x, heightField * y);
+                        g2d.drawImage(turtleBlue, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     /*if (board.board[x+1][y+1].turtle.BLUE) {
                             g2d.drawImage(turtleBlue, null, widthField * x, heightField * y);
                         }
