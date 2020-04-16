@@ -18,6 +18,7 @@ public class ButtonsClient extends JPanel{
     JButton gamelist;
     JButton highscore;
     JButton quit;
+    JButton start;
     DataOutputStream dos;
     Profil profile;
     Logger logger;
@@ -31,6 +32,7 @@ public class ButtonsClient extends JPanel{
         this.quit = new JButton("Quit");
         this.help = new JButton("Help");
         this.back = new JButton("Leave Lobby");
+        this.start = new JButton("Start");
 
         //creates a GridLayout with 4 rows, and 2 colums. Buttons get their place depending of the order of panel.add(something).
         this.setLayout(new GridLayout(4,2));
@@ -48,9 +50,11 @@ public class ButtonsClient extends JPanel{
         create.addActionListener(this::actionPerformed);
         back.addActionListener(this::actionPerformed);
         quit.addActionListener(this::actionPerformed);
+        start.addActionListener(this::actionPerformed);
 
         //adds button to the panel
         this.add(create);
+        this.add(start);
         this.add(gamelist);
         this.add(playerlist);
         this.add(highscore);
@@ -116,6 +120,14 @@ public class ButtonsClient extends JPanel{
                 } else {
                     profile.mainFrame.chat.receiveMsg("You have not joined a lobby yet "
                             + "so there is no need to go back!");
+                }
+
+            } else if (e1.getSource().equals(start)) {
+                if (profile.isInGame) {
+                    profile.mainFrame.start.setVisible(true);
+                }
+                else {
+                    profile.mainFrame.chat.receiveMsg("You must be in a lobby to start a game!\n");
                 }
 
             } else { //equals quit

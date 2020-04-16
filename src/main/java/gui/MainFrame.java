@@ -14,6 +14,7 @@ public class MainFrame extends BackgroundPanelArea {
     public ButtonsGame buttonsGame;
     public ButtonsClient buttonsClient;
     public GameGUI game;
+    public StartGamePanel start;
 
     public MainFrame() throws IOException{
         this.frame = new JFrame("Der Boden ist Java");
@@ -21,6 +22,7 @@ public class MainFrame extends BackgroundPanelArea {
         this.buttonsGame = new ButtonsGame();
         this.buttonsClient = new ButtonsClient();
         this.game = new GameGUI();
+        this.start = new StartGamePanel();
         createMainFrame();
     }
 
@@ -57,6 +59,9 @@ public class MainFrame extends BackgroundPanelArea {
         BackgroundPanelArea temp = new BackgroundPanelArea();
         temp.add(game);
         this.add(temp, gbc);
+        BackgroundPanelArea temp2= new BackgroundPanelArea();
+        temp2.add(start);
+        this.add(temp2, gbc);
 
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
