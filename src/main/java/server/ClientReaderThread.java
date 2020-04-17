@@ -251,26 +251,18 @@ public class ClientReaderThread implements Runnable {
                         case RNDS:
 
                             int rounds = Integer.parseInt(original.substring(5));
+                            profile.mainFrame.score.setTextForRound(rounds);
                             if (rounds <= 8) {
                                 System.out.println("\n -----------------------\n Round " + rounds
-                                        + "\n There are " + (10 - rounds)
-                                        + " rounds left \n -----------------------\n");
-                                profile.mainFrame.chat.receiveMsg("\n -----------------------\n Round " + rounds
                                         + "\n There are " + (10 - rounds)
                                         + " rounds left \n -----------------------\n");
                             } else if (rounds == 9) {
                                 System.out.println("\n -----------------------\n Round " + rounds
                                         + "\n There is " + (10 - rounds)
                                         + " round left \n -----------------------\n");
-                                profile.mainFrame.chat.receiveMsg("\n -----------------------\n Round " + rounds
-                                        + "\n There is " + (10 - rounds)
-                                        + " round left \n -----------------------\n");
                             } else {
                                 System.out.println("\n -----------------------\n Round " + rounds
                                         + "\n Last round \n -----------------------\n");
-                                profile.mainFrame.chat.receiveMsg("\n -----------------------\n Round " + rounds
-                                        + "\n There is " + (10 - rounds)
-                                        + " round left \n -----------------------\n");
                             }
                             break;
 
