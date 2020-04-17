@@ -107,9 +107,9 @@ public class Client implements Runnable {
             //sets DataOutputStream for the ClientChatGUI and ButtonsClient
             profile.mainFrame.chat.setDos(dos);
             profile.mainFrame.buttonsClient.setDosProLogger(dos, profile, logger);
-            profile.mainFrame.buttonsGame.setDos(dos);
-            profile.mainFrame.start.setDos(dos);
-            profile.mainFrame.join.setDos(dos);
+            profile.mainFrame.score.buttonsGame.setDos(dos);
+            profile.mainFrame.score.start.setDos(dos);
+            profile.mainFrame.score.join.setDos(dos);
 
             //Start processing inputs.
             while (profile.clientIsOnline) {

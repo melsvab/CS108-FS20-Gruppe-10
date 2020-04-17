@@ -128,7 +128,7 @@ public class ButtonsClient extends JPanel{
 
             } else if (e1.getSource().equals(start)) {
                 if (profile.isInGame) {
-                    profile.mainFrame.start.setVisible(true);
+                    profile.mainFrame.score.start.setVisible(true);
                 } else {
                     profile.mainFrame.chat.receiveMsg("You must be in a lobby to start a game!\n");
                 }
@@ -138,7 +138,7 @@ public class ButtonsClient extends JPanel{
                     profile.mainFrame.chat.receiveMsg(Message.inLobbyAlready);
                 }
                 else {
-                    profile.mainFrame.join.setVisible(true);
+                    profile.mainFrame.score.join.setVisible(true);
                 }
 
             } else { //equals quit
