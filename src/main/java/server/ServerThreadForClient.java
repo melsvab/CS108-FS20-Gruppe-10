@@ -92,11 +92,12 @@ public class ServerThreadForClient implements Runnable {
      */
     public void join(String original, boolean watch) {
         // checks if there are two ints and the player is not in a lobby already
-        if (profil.checkForNumber(original) && !profil.isInGame) {
+        Parameter lobbyNumber = new Parameter(original, 5);
+        if (lobbyNumber.isCorrect && !profil.isInGame) {
             //checks if there are any games at all
 
             String[] words = original.split(":");
-            int lobbyNum = Integer.parseInt(words[1]);
+            int lobbyNum = lobbyNumber.numberOne;
             //checks for the lobbynumber and adds client if possible
             if (Server.checkLobbies(lobbyNum, this, watch)) {
                 profil.isInGame = true;
@@ -149,7 +150,8 @@ public class ServerThreadForClient implements Runnable {
                     switch (Protocol.valueOf(clientChoice)) {
                         case CHAT:
                             // The message will be sent in lobby chat if the client is in one.
-                            if (profil.lobby != null && profil.checkForWord(original)) {
+                            Parameter word = new Parameter(original, 4);
+                            if (profil.lobby != null && word.isCorrect) {
                                 String msg;
                                 if (original.substring(5).equalsIgnoreCase(Message.enterLobby)) {
                                     msg = Protocol.MSG0.name() + ":" + profil.nickname
@@ -221,10 +223,11 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case NAME:
-                            if (profil.checkForName(original)) {
+                            Parameter name = new Parameter(original, 3);
+                            if (name.isCorrect) {
                                 //old name will be removed from the server list, new name is checked for duplicates
                                 String oldNickname = profil.nickname;
-                                String desiredName = original.substring(5);
+                                String desiredName = name.wordOne;
                                 desiredName = Server.checkForDuplicate(desiredName, this);
                                 String answerToClient = Protocol.MSSG.name()
                                     + ":Your name has been changed from " + oldNickname
@@ -322,93 +325,117 @@ public class ServerThreadForClient implements Runnable {
                             break;
 
                         case STR1:
-                            //check if it is possible to transfer the words into numbers
-                            if (profil.checkForTwoInt(original) && profil.isInGame) {
-                                String[] words = original.split(":");
+                            if (profil.lobby != null) {
+                                //check if it is possible to transfer the words into numbers
+                                Parameter boardsizeAndMaxCoins = new Parameter(original, 1);
+                                if (boardsizeAndMaxCoins.isCorrect && profil.isInGame) {
+                                    if (profil.lobby.numberOfPlayers >= 1) {
 
-                                int boardSize = Integer.parseInt(words[1]);
-                                int maxPoints = Integer.parseInt(words[2]);
-                                profil.lobby.createGame(boardSize,maxPoints);
-                                profil.lobby.gamestate = 2;
-                                profil.lobby.start();
-                                profil.lobby.writeToAll(Protocol.MSSG.name()
-                                        + ":\nThe game has started!\n");
+                                        String[] words = original.split(":");
+
+                                        int boardSize = boardsizeAndMaxCoins.numberOne;
+                                        int maxCoins = boardsizeAndMaxCoins.numberTwo;
+
+                                        //creates a board and adds all information from the client
+                                        profil.lobby.createGame(boardSize, maxCoins);
+                                        profil.lobby.start();
+                                        profil.lobby.writeToAll(Protocol.MSSG.name()
+                                                + ":\nThe game has started!\n");
+                                    } else {
+                                        dos.writeUTF(Protocol.MSSG.name() + ":Your lobby has no players. "
+                                                + "Therefore it cannot be started.");
+                                    }
+                                } else {
+                                    // should be impossible because it is checked at the client class
+                                    logger.info("input to start a game is not correct or " +
+                                            "client's boolean isInGame is wrong");
+                                }
                             } else {
-                                //if(profil.checkForTwoInt(original) == false){
-                                // logger.info("forgot the colon");
-                                //}
+                                // should be impossible because it is checked at the client class
+                                logger.info("Client wants to start a game without being in a lobby");
                             }
                             break;
 
-                        case UPPR:  //TO DO: IF ELSE FOR && profil.lobby.gamestate == 2 all directions!
-                            //Under Construction: Player moves a block up ingame.
-                            if (profil.myTurtle.turtleposition.up.isTaken
-                                || profil.myTurtle.turtleposition.up.isFlood
-                                || profil.myTurtle.turtleposition.up.isBoundary) {
-                                dos.writeUTF(Protocol.ERRO.name()
-                                    + ":" + Message.invalidMove);
-                            } else if (profil.waitingForEvent) {
-                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
-                                    + " cannot move.. to scared of what is gonna happen");
+                        case UPPR:
+                            //Player moves a block up in the game.
+                            if (profil.gameIsReady()) {
+                                if (profil.myTurtle.turtleposition.up.isTaken
+                                        || profil.myTurtle.turtleposition.up.isFlood
+                                        || profil.myTurtle.turtleposition.up.isBoundary) {
+                                    dos.writeUTF(Protocol.ERRO.name()
+                                            + ":" + Message.invalidMove);
+                                } else if (profil.waitingForEvent) {
+                                    dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
+                                            + " cannot move.. to scared of what is gonna happen");
+                                } else {
+                                    profil.moveTurtle(0);
+                                }
                             } else {
-                                profil.moveTurtle(0);
-                                profil.lobby.demoMoves += 1;
+                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.youCannotDoThat);
                             }
                             break;
 
                         case DOWN:
-
-                            //Under Construction: Player moves a block down ingame.
-                            if (profil.myTurtle.turtleposition.down.isTaken
-                                || profil.myTurtle.turtleposition.down.isFlood
-                                || profil.myTurtle.turtleposition.down.isBoundary) {
-                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
-                            } else if (profil.waitingForEvent) {
-                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
-                                    + " cannot move.. to scared of what is gonna happen");
+                            //Player moves a block down in the game.
+                            if (profil.gameIsReady()) {
+                                if (profil.myTurtle.turtleposition.down.isTaken
+                                        || profil.myTurtle.turtleposition.down.isFlood
+                                        || profil.myTurtle.turtleposition.down.isBoundary) {
+                                    dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
+                                } else if (profil.waitingForEvent) {
+                                    dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
+                                            + " cannot move.. to scared of what is gonna happen");
+                                } else {
+                                    profil.moveTurtle(2);
+                                }
                             } else {
-                                profil.moveTurtle(2);
-                                profil.lobby.demoMoves += 1;
+                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.youCannotDoThat);
                             }
 
                             break;
 
                         case LEFT:
 
-                            //Under Construction: Player moves a block left ingame.
-                            if (profil.myTurtle.turtleposition.left.isTaken
-                                || profil.myTurtle.turtleposition.left.isFlood
-                                || profil.myTurtle.turtleposition.left.isBoundary) {
-                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
-                            } else if (profil.waitingForEvent) {
-                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
-                                    + " cannot move.. to scared of what is gonna happen");
+                            // Player moves a block left in the game.
+                            if (profil.gameIsReady()) {
+                                if (profil.myTurtle.turtleposition.left.isTaken
+                                        || profil.myTurtle.turtleposition.left.isFlood
+                                        || profil.myTurtle.turtleposition.left.isBoundary) {
+                                    dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
+                                } else if (profil.waitingForEvent) {
+                                    dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
+                                            + " cannot move.. to scared of what is gonna happen");
+                                } else {
+                                    profil.moveTurtle(3);
+                                }
                             } else {
-                                profil.moveTurtle(3);
-                                profil.lobby.demoMoves += 1;
+                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.youCannotDoThat);
                             }
                             break;
 
 
                         case RIGT:
 
-                            //Under Construction: Player moves a block right ingame.
-                            if (profil.myTurtle.turtleposition.right.isTaken
-                                || profil.myTurtle.turtleposition.right.isFlood
-                                || profil.myTurtle.turtleposition.right.isBoundary ) {
-                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
-                            } else if (profil.waitingForEvent) {
-                                dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
-                                    + " cannot move.. too scared of what is gonna happen");
+                            // Player moves a block right in the game.
+                            if (profil.gameIsReady()) {
+                                if (profil.myTurtle.turtleposition.right.isTaken
+                                        || profil.myTurtle.turtleposition.right.isFlood
+                                        || profil.myTurtle.turtleposition.right.isBoundary) {
+                                    dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
+                                } else if (profil.waitingForEvent) {
+                                    dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
+                                            + " cannot move.. too scared of what is gonna happen");
+                                } else {
+                                    profil.moveTurtle(1);
+                                }
                             } else {
-                                profil.moveTurtle(1);
-                                profil.lobby.demoMoves += 1;
+                                dos.writeUTF(Protocol.ERRO.name() + ":" + Message.youCannotDoThat);
                             }
                             break;
 
                         case IDKW:
                             // secret cheat code
-                            if (profil.isInGame && profil.lobby.gamestate == 2) {
+                            if (profil.gameIsReady()) {
                                 int cheatPlus = 10;
                                 dos.writeUTF(Protocol.MSSG.name()
                                     + ":CHEAT CODE USED! YOU RECEIVED " + cheatPlus + " POINTS!");
@@ -417,18 +444,6 @@ public class ServerThreadForClient implements Runnable {
                                 dos.writeUTF(Protocol.MSSG.name() + ":STOP THAT!");
                             }
                             break;
-
-                        case DEMO:
-
-                            int boardSize = 10;
-                            int maxPoints = 50;
-                            profil.lobby.board = new Board(boardSize, maxPoints, true);
-                            profil.lobby.gamestate = 2;
-                            profil.lobby.start();
-                            profil.lobby.writeToAll(Protocol.MSSG.name()
-                                    + ":\nThe Demo has started!\n");
-                            break;
-
 
 
                         default:

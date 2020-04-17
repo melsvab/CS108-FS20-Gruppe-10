@@ -7,37 +7,30 @@ import java.io.IOException;
 
 import game.*;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends BackgroundPanelArea {
 
     JFrame frame;
-    JPanel panelChat;
-    JPanel panelButtonsGame;
-    JPanel panelGame;
-    JPanel panelButtonsClient;
-    JPanel mainPanel;
     public ClientChatGUI chat;
-    public ButtonsGame buttons;
-    public ButtonsClient buttons2;
+    public ButtonsGame buttonsGame;
+    public ButtonsClient buttonsClient;
     public GameGUI game;
+    public StartGamePanel start;
+    public JoinGamePanel join;
 
-    public MainFrame() throws IOException {
+    public MainFrame() throws IOException{
         this.frame = new JFrame("Der Boden ist Java");
-        this.mainPanel = new JPanel();
         this.chat = new ClientChatGUI();
-        this.buttons = new ButtonsGame();
-        this.buttons2 = new ButtonsClient();
+        this.buttonsGame = new ButtonsGame();
+        this.buttonsClient = new ButtonsClient();
         this.game = new GameGUI();
-        this.panelChat = chat.getPanel();
-        this.panelButtonsGame = buttons.getPanel();
-        this.panelGame = game.getPanel();
-        this.panelButtonsClient = buttons2.getPanel();
+        this.start = new StartGamePanel();
+        this.join = new JoinGamePanel();
         createMainFrame();
     }
 
     public void createMainFrame() {
-        mainPanel.setLayout(new GridBagLayout());
-        mainPanel.setBackground(Color.BLUE); //Optional: Background with the used Water-Design for the game
-        mainPanel.setSize(1280,720);
+        this.setLayout(new GridBagLayout());
+        this.setSize(1280,720);
         GridBagConstraints gbc = new GridBagConstraints();
 
         /*See ButtonsGame for a basic explanation of GridBagLayout
@@ -52,22 +45,28 @@ public class MainFrame extends JFrame {
 
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.weightx = 1;
         gbc.weighty = 1;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        mainPanel.add(panelChat, gbc);
+        this.add(chat, gbc);
 
-        gbc.insets = new Insets(20,20,20,20);
-        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(15,0,0,0);
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 2.5;
         gbc.weighty = 2.5;
         gbc.gridx = 1;
         gbc.gridy = 0;
-        mainPanel.add(panelGame, gbc);
+        BackgroundPanelArea temp = new BackgroundPanelArea();
+        temp.add(game);
+        this.add(temp, gbc);
+        BackgroundPanelArea temp2= new BackgroundPanelArea();
+        temp2.add(start);
+        this.add(temp2, gbc);
+        BackgroundPanelArea temp3 = new BackgroundPanelArea();
+        temp3.add(join);
+        this.add(temp3, gbc);
 
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
@@ -76,18 +75,18 @@ public class MainFrame extends JFrame {
         gbc.weighty = 0.03;
         gbc.gridx = 0;
         gbc.gridy = 1;
-        mainPanel.add(panelButtonsClient, gbc);
+        this.add(buttonsClient, gbc);
 
-        gbc.insets = new Insets(50,50,50,50);
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(0,0,20,0);
+        gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.weightx = 0.03;
         gbc.weighty = 0.03;
         gbc.gridx = 1;
         gbc.gridy = 1;
-        mainPanel.add(panelButtonsGame, gbc);
+        this.add(buttonsGame, gbc);
 
         //frame.getContentPane().add is used so the mainPanel gets add on the frame
-        frame.getContentPane().add(mainPanel);
+        frame.getContentPane().add(this);
         frame.setSize(1280,720); //standard size of the window which opens
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //If you click on the red x in the window, the programm stops automaticaly
@@ -95,17 +94,17 @@ public class MainFrame extends JFrame {
     /**
      * closes chat
      */
-    public void closeChat() {
+    public void closeFrame() {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); //automatic closing you can use in code
     }
-
 
     //TestCode
     public static void main (String args[]) throws IOException {
         MainFrame demo = new MainFrame();
-        demo.buttons.setVisible(true);
-        Board boardDemo = new Board(10,50);
+        demo.buttonsGame.setVisible(true);
+        Board boardDemo = new Board(10);
+        boardDemo.coinOccurrence =  boardDemo.boardSize + (50 / 10);
+        boardDemo.maxCoinsInGame = 50;
         demo.game.setBoard(boardDemo);
-        demo.revalidate();
     }
 }

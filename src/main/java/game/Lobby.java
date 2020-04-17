@@ -12,23 +12,19 @@ import server.*;
  * board is saved.
  */
 public class Lobby extends Thread {
-    /** FOR DEMO REASONS:
-     *
-     */
-    public int demoMoves = 0;
-
-
     /*
-    * one for an open game
-    * two for an ongoing game
-    * three for a finished game
-    */
+     * one for an open game
+     * two for an ongoing game
+     * three for a finished game
+     */
     public int gamestate;
     public int lobbyNumber;
     public int numberOfPlayers;
     public Board board;
     public Set<ServerThreadForClient> players = new HashSet<>();
     public Set<ServerThreadForClient> spectators = new HashSet<>();
+
+    public PlayerTurtle[] turtles;
 
     /**
      * Instantiates a new Lobby and adds clients to the players-set
@@ -90,7 +86,7 @@ public class Lobby extends Thread {
                 aUser.sendMessage(Protocol.ERRO.name()
                         + ":This lobby has four players already! You were added as a spectator.");
             }
-            spectators.add(aUser);
+            addSpectators(aUser);
             aUser.sendMessage(Protocol.SPEC.name());
             aUser.profil.isSpectator = true;
         } else {
@@ -106,6 +102,32 @@ public class Lobby extends Thread {
      */
     public synchronized void addSpectators(ServerThreadForClient aUser) {
         spectators.add(aUser);
+        // spectator will be informed about board
+        if (gamestate > 1) {
+            aUser.sendMessage(Protocol.STR1.name() + ":" + board.boardSize + ":" + numberOfPlayers);
+
+            for (PlayerTurtle turtle: turtles) {
+                aUser.sendMessage(Protocol.TURS.name()
+                        + ":" + turtle.num
+                        + ":" + turtle.turtlename
+                        + ":" + turtle.xPos + "-" + turtle.yPos);
+            }
+            String coins = Protocol.COIN.name() + ":1";
+            String draw = Protocol.DRAW.name() + ":1";
+            for (int i = 0; i < board.board.length; i++) {
+                for (int j = 0; j < board.board.length; j++) {
+                    if (board.board[i][j].hasCoin) {
+                        coins += ":" + i + "-" + j;
+                    } else if (board.board[i][j].steppedOn) {
+                        draw += ":" + i + "-" + j;
+                    }
+                }
+            }
+
+            aUser.sendMessage(coins);
+            aUser.sendMessage(draw);
+        }
+
     }
 
     /**
@@ -147,110 +169,93 @@ public class Lobby extends Thread {
     /**
      * Creates a new board object.
      * @param boardSize size of the board (Field[][]).
-     * @param maxCoins max number of coins.
      */
     public synchronized void createGame(int boardSize, int maxCoins) {
-        board = new Board(boardSize,maxCoins);
+        //Create a board out of fields and assert attributes.
+        //boardSize: min = 10, max = 20.
+        if (boardSize < 10) {
+            boardSize = 10;
+        } else if (boardSize > 20) {
+            boardSize = 20;
+        }
+        board = new Board(boardSize);
+
+        //max coins = 500; determine the probability for coins on the board.
+        if (maxCoins > 500) {
+            maxCoins = 500;
+        }
+
+        board.coinOccurrence =  boardSize + (maxCoins / 10);
+        board.maxCoinsInGame = maxCoins;
+        writeToAll(Protocol.STR1 + ":" + boardSize + ":" + numberOfPlayers);
     }
 
 
     /**
-     * The run method is used to send the board with its events to all clients
+     *
      */
-
     public void run() {
         /*
         Create for every PLAYER a turtle and its name.
          */
+
+        turtles = new PlayerTurtle[numberOfPlayers];
+
+        int turtleNum = 0;
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.myTurtle = new PlayerTurtle(aPlayer.profil.nickname + "-Junior");
-            Server.chatSingle(Protocol.MSSG.name()
-                 + ":You have adopted a turtle baby and named it "
-                 + aPlayer.profil.myTurtle.turtlename, aPlayer);
+            aPlayer.profil.myTurtle.num = turtleNum;
+            turtles[turtleNum] = aPlayer.profil.myTurtle;
+
+            writeToPlayer(Protocol.LOBY.name()
+                    + ":You have adopted a turtle baby and named it "
+                    + aPlayer.profil.myTurtle.turtlename, aPlayer);
             //Set this turtle to a start-position not taken yet.
             A: for (int x = 0; x < this.board.boardSize; x++) {
                 for (int y = 0; y < this.board.boardSize; y++) {
                     if (this.board.board[x][y].isStartPosition && !this.board.board[x][y].isTaken) {
                         aPlayer.profil.myTurtle.turtleposition = this.board.board[x][y];
+                        // String with all turtle positions will be sent
+                        writeToAll(Protocol.TURS.name()
+                                + ":" + turtleNum
+                                + ":" + aPlayer.profil.nickname + "-Junior"
+                                + ":" + x + "-" + y);
                         this.board.board[x][y].isTaken = true;
+                        aPlayer.profil.myTurtle.xPos = x;
+                        aPlayer.profil.myTurtle.yPos = y;
                         break A;
                     }
                 }
             }
+            turtleNum ++;
+
         }
 
-        //Show Startboard to all clients in the lobby.
-        writeToAll(Protocol.LOBY.name() + ":" + board.printBoard());
+        // all positions that have coins now
+        String coins = board.spawnRandomCoins();
+        // "1" for new coins that spawn. "2" would be for coins that were taken.
+        writeToAll(Protocol.COIN.name() + ":1" + coins);
+
+        gamestate = 2;
+
+
+        //Show Startboard to server (for tests)
+        System.out.println(board.printBoard());
 
         //countdown before the game starts.
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.waitingForEvent = true;
         }
-        pleaseWait(10);
         writeToAll(Protocol.LOBY.name() + ":Game starts in ");
         for (int i = 5; i >= 0; i--) {
             writeToAll(Protocol.LOBY.name() + ":" + i);
             pleaseWait(1);
         }
+        writeToAll(Protocol.LOBY.name() + ":GO!");
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.waitingForEvent = false;
         }
 
-        int rounds = 1;
-        int floodcounter = 1;
-        while (rounds <= 3) {
-            writeToAll(Protocol.RNDS.name() + ":" + rounds);
-            switch (floodcounter) {
-                case 1:
-                    while(!this.board.board[3][3].isTaken) {
-                        pleaseWait(5);
-                    }
-                    break;
-                case 2: while(!this.board.board[3][7].isTaken) {
-                        pleaseWait(5);
-                    }
-                    break;
-                case 3:
-                    while(!this.board.board[7][7].isTaken) {
-                        pleaseWait(5);
-                    }
-                    break;
-            }
-            for (ServerThreadForClient aPlayer : players) {
-                aPlayer.profil.waitingForEvent = true;
-            }
-            writeToAll(Protocol.MSSG.name() + ":... something is happening ...");
-            pleaseWait(10);
-            switch (floodcounter) {
-                case 1: this.board.demoFloodBoard1();
-                floodcounter +=1;
-                break;
-                case 2: this.board.demoFloodBoard2();
-                floodcounter +=1;
-                break;
-                case 3: this.board.demoearthquake();
-                floodcounter +=1;
-                break;
-            }
-            writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
-            pleaseWait(10);
-            this.board.afterEvent();
-            writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
-            pleaseWait(10);
-            writeToAll(Protocol.MSSG.name() + ":... ok guys, it is over now ...");
-            for (ServerThreadForClient aPlayer : players) {
-                aPlayer.profil.waitingForEvent = false;
-                if (aPlayer.profil.myTurtle.wasHitByEvent) {
-                    writeToPlayer(Protocol.MSSG.name() + ":Oh crap, I lost 5 points!", aPlayer);
-                    aPlayer.profil.myTurtle.wasHitByEvent = false;
-                } else {
-                    writeToPlayer(Protocol.MSSG.name() + ":That was close, I did not lose any points!", aPlayer);
-                }
-            }
-            rounds += 1;
-        }
-
-        /** FOR DEMO REASONS
         //game has started.
         int rounds = 1;
         while (rounds <= 10) {
@@ -259,47 +264,57 @@ public class Lobby extends Thread {
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = true;
             }
-            writeToAll(Protocol.MSSG.name() + ":OMG! NOO! WHAT IS HAPPENING? ");
+            writeToAll(Protocol.LOBY.name() + ":OMG! NOO! WHAT IS HAPPENING? ");
             pleaseWait(5);
             Random randomEvent = new Random();
             int whichEvent = randomEvent.nextInt(10);
-            if (whichEvent < 9) {
+            // To do: chance for random coins
+            if (whichEvent < 7) {
                 Random howOften = new Random();
                 int randomOften = howOften.nextInt(5) + 1;
-                this.board.floodBoard(randomOften);
-                writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+                String flood = this.board.floodBoard(randomOften, this);
+                writeToAll(Protocol.WATR.name() + ":1" + flood);
+                System.out.println(this.board.printBoard());
                 pleaseWait(4);
                 this.board.afterEvent();
-                writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+                writeToAll(Protocol.RSET.name());
+                System.out.println(this.board.printBoard());
+            } else if (whichEvent == 300) {
+                // all positions that have coins now -> should be impossible right now
+                String coin = board.spawnRandomCoins();
+                // "1" for new coins that spawn. "2" would be for coins that were taken.
+                writeToAll(Protocol.COIN.name() + ":1" + coin);
             } else {
-                Random howStromng = new Random();
-                int magnitude = howStromng.nextInt(30) + 5;
-                this.board.earthquake(magnitude);
-                writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+                Random howStrong = new Random();
+                int magnitude = howStrong.nextInt(30) + 5;
+                String quake = this.board.earthquake(magnitude, this);
+                System.out.println("quake");
+                writeToAll(Protocol.QUAK.name() + ":1" + quake);
+                System.out.println(this.board.printBoard());
                 pleaseWait(4);
                 this.board.afterEvent();
-                writeToAll(Protocol.LOBY.name() + ":" + this.board.printBoard());
+                writeToAll(Protocol.RSET.name());
+                System.out.println(this.board.printBoard());
             }
             pleaseWait(4);
-            writeToAll(Protocol.MSSG.name() + ":I think its over... wait... did I lose some points?!");
+            writeToAll(Protocol.LOBY.name() + ":I think its over... wait... did I lose some points?!");
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = false;
                 if (aPlayer.profil.myTurtle.wasHitByEvent) {
-                    writeToPlayer(Protocol.MSSG.name() + ":Oh crap, I lost a lot of points!", aPlayer);
+                    writeToPlayer(Protocol.LOBY.name() + ":Oh crap, I lost a lot of points!", aPlayer);
                     aPlayer.profil.myTurtle.wasHitByEvent = false;
                 } else {
-                    writeToPlayer(Protocol.MSSG.name() + ":Puh ok no, that was close!", aPlayer);
+                    writeToPlayer(Protocol.LOBY.name() + ":Puh ok no, that was close!", aPlayer);
                 }
             }
             rounds += 1;
         }
-         */ //FOR DEMO REASONS
 
-        writeToAll(Protocol.MSSG.name() + ":\n\nThe game has ended!\n\n");
+        writeToAll(Protocol.LOBY.name() + ":\n\nThe game has ended!\n\n");
         int maxPoints = -100;
         String winner = "";
         for (ServerThreadForClient aPlayer : players) {
-            writeToAll(Protocol.MSSG.name() + ":" + aPlayer.profil.nickname + " has "
+            writeToAll(Protocol.LOBY.name() + ":" + aPlayer.profil.nickname + " has "
                     + aPlayer.profil.myTurtle.points + " points");
             if (aPlayer.profil.myTurtle.points > maxPoints) {
                 maxPoints = aPlayer.profil.myTurtle.points;
@@ -311,7 +326,7 @@ public class Lobby extends Thread {
 
         gamestate = 3;
 
-        /*writeToAll(Protocol.BACK.name());
+        writeToAll(Protocol.BACK.name());
         if (!players.isEmpty()) {
             for (ServerThreadForClient aPlayer : players) {
                 deletePlayer(aPlayer);
@@ -321,7 +336,7 @@ public class Lobby extends Thread {
             for (ServerThreadForClient aSpectator : spectators) {
                 deletePlayer(aSpectator);
             }
-        }*/
+        }
 
     }
 }

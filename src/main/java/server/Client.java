@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,7 @@ public class Client implements Runnable {
     /**
      * The Profile.
      */
-    Profil profile = new Profil();
+    public Profil profile = new Profil();
 
     /**
      * creates a client constructor
@@ -69,6 +70,7 @@ public class Client implements Runnable {
         return false;
     }
 
+
     /**
      * chooses a server and port, builds up a connection and starts the ClientReaderThread
      * for reading input from Server. It sets a DataOutputStream for the ChatGUI and
@@ -102,8 +104,12 @@ public class Client implements Runnable {
 
             dos.writeUTF(profile.nickname);
 
-            //sets DataOutputStream for the ChatGUI
+            //sets DataOutputStream for the ClientChatGUI and ButtonsClient
             profile.mainFrame.chat.setDos(dos);
+            profile.mainFrame.buttonsClient.setDosProLogger(dos, profile, logger);
+            profile.mainFrame.buttonsGame.setDos(dos);
+            profile.mainFrame.start.setDos(dos);
+            profile.mainFrame.join.setDos(dos);
 
             //Start processing inputs.
             while (profile.clientIsOnline) {
@@ -144,6 +150,7 @@ public class Client implements Runnable {
                             }
                             break;
 
+
                         case ENDE:
 
                             dos.writeUTF(clientchoice);
@@ -159,8 +166,9 @@ public class Client implements Runnable {
                         case NAME:
                             logger.info("changing the name");
 
-                            if (profile.checkForName(original)) {
-                                String newNickname = original.substring(5);
+                            Parameter name = new Parameter(original, 3);
+                            if (name.isCorrect) {
+                                String newNickname = name.wordOne;
 
                                 /*
                                  * if the answer is <YEAH> the nickname is change to the
@@ -187,7 +195,7 @@ public class Client implements Runnable {
                             break;
 
                         case PLL1:
-                            logger.info("asked for PlayerList");
+                            logger.info("asked for list of all players");
                             /*
                              * Sends keyword to server.
                              * Here: client asks for the list of all players that are currently on the server
@@ -219,7 +227,7 @@ public class Client implements Runnable {
                             break;
 
                         case CRE1:
-                            logger.info("created a new Lobby");
+                            logger.info("created a new lobby");
                             // This keyword is used to create a new lobby.
                             if (profile.isInGame) {
                                 // Clients cannot join a new lobby if they are already in one.
@@ -230,13 +238,24 @@ public class Client implements Runnable {
                             }
                             break;
 
+                        case BACK:
+                            // This keyword is used to go out of a lobby.
+                            if (profile.isInGame) {
+                                dos.writeUTF(Protocol.BACK.name());
+                            } else {
+                                System.out.println("You have not joined a lobby yet "
+                                        + "so there is no need to go back!");
+                            }
+                            break;
+
                         case JOIN:
-                            logger.info("joined a Lobby");
+                            logger.info("joined a lobby");
                             // This keyword is used to join a lobby as a player.
+                            Parameter gameNumber = new Parameter(original, 5);
                             if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
 
-                            } else if (profile.checkForNumber(original)) {
+                            } else if (gameNumber.isCorrect) {
                                 dos.writeUTF(original);
                                 dos.writeUTF(Protocol.CHAT.name() + ":" + Message.enterLobby);
                             } else {
@@ -247,12 +266,13 @@ public class Client implements Runnable {
                             break;
 
                         case SPEC:
-                            logger.info("joined the lobby as a spectator");
                             // This keyword is used to join a lobby as a spectator.
+                            logger.info("joined the lobby as a spectator");
+                            Parameter gameNumberToWatch = new Parameter(original, 5);
                             if (profile.isInGame) {
                                 System.out.println(Message.inLobbyAlready);
 
-                            } else if (profile.checkForNumber(original)) {
+                            } else if (gameNumberToWatch.isCorrect) {
                                 dos.writeUTF(original);
                                 dos.writeUTF(Protocol.CHAT.name() + ":" + Message.enterLobby);
                             } else {
@@ -263,19 +283,10 @@ public class Client implements Runnable {
 
                             break;
 
-                        case BACK:
-                            // This keyword is used to go out of a lobby.
-                            if (profile.isInGame) {
-                                dos.writeUTF(Protocol.BACK.name());
-                            } else {
-                                System.out.println("You have not joined a lobby yet "
-                                    + "so there is no need to go back!");
-                            }
-                            break;
-
                         case STR1:
                             // This keyword is used to start a game while you are in a lobby
-                            if (profile.checkForTwoInt(original) && profile.isInGame) {
+                            Parameter boardsizeAndMaxCoins = new Parameter(original, 5);
+                            if (boardsizeAndMaxCoins.isCorrect && profile.isInGame) {
                                 dos.writeUTF(original);
 
                             } else {
@@ -287,10 +298,11 @@ public class Client implements Runnable {
 
                         case UPPR:
 
+                            //To do: check for >board != null<
                             if (profile.isInGame && !profile.isSpectator) {
                                 dos.writeUTF(Protocol.UPPR.name());
                             } else {
-                                System.out.println("You cannot do that now!");
+                                System.out.println(Message.youCannotDoThat);
                             }
                             break;
 
@@ -328,10 +340,6 @@ public class Client implements Runnable {
 
                             break;
 
-                        case DEMO:
-                            dos.writeUTF(Protocol.DEMO.name());
-                            break;
-
 
                         default: //this should be impossible if you typed in correctly
                             System.out.println("You cannot use this keyword.");
@@ -349,10 +357,11 @@ public class Client implements Runnable {
              * Input and Output will be closed
              */
 
-            profile.mainFrame.closeChat();
+            profile.mainFrame.closeFrame();
             dis.close();
             dos.close();
             socket.close();
+            System.exit(1);
 
         } catch (IOException exception) {
             System.err.println(exception.toString());

@@ -15,6 +15,12 @@ public class PlayerTurtle {
     public int points;
     public boolean wasHitByEvent;
 
+
+    // is used at ClientReaderThread
+    public int num;
+    public int xPos;
+    public int yPos;
+
     /**
      * Instantiates a new Player turtle.
      *
@@ -22,6 +28,15 @@ public class PlayerTurtle {
      */
     public PlayerTurtle(String turtlename) {
         this.turtlename = turtlename;
+    }
+
+    public PlayerTurtle(int number, String name, int xPos, int yPos) {
+
+        num = number;
+        this.turtlename = name;
+        this.xPos = xPos;
+        this.yPos = yPos;
+
     }
 
 

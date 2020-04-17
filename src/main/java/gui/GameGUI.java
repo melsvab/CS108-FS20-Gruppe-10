@@ -4,34 +4,33 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import game.*;
 
 public class GameGUI extends JPanel {
 
-    private static final int WIDTH = 650;
-    private static final int HEIGHT = 650;
-    JPanel panel;
-    private BufferedImage turtle1;
-    private BufferedImage turtle2;
-    private BufferedImage turtle3;
-    private BufferedImage turtle4;
+    private static final int WIDTH = 540;
+    private static final int HEIGHT = 540;
+    private BufferedImage turtleBlue;
+    private BufferedImage turtleGreen;
+    private BufferedImage turtleViolett;
+    private BufferedImage turtleYellow;
     private BufferedImage waterField;
     private BufferedImage normalField;
     private BufferedImage usedField;
     private BufferedImage earthquake;
     private BufferedImage coin;
+    private BufferedImage mainScreen;
+    private BufferedImage startPosition;
     Board board = null;
 
     GameGUI() throws IOException {
-        this.panel = new JPanel();
-        panel.setLayout(new BorderLayout()); //BorderLayout is chosen at the moment. Could be changed later
-        panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        //The panel is a square at the moment. Probably because of the other panels the GamePanel is shown to be rectangular in the mainFrame
 
-        //panel.setBackground(Color.BLUE); //Placeholder to represent the field/panel. Optional: Water-background, not used right now
+        this.setLayout(new BorderLayout()); //BorderLayout is chosen at the moment. Could be changed later
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.setMaximumSize(new Dimension(WIDTH, HEIGHT));
+        this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
         //import the files and saves them in a BufferedImage. Get resources from src/main/ressources/img
         normalField = ImageIO.read(getClass().getResourceAsStream("/img/land.png"));
@@ -42,83 +41,82 @@ public class GameGUI extends JPanel {
 
         earthquake = ImageIO.read(getClass().getResourceAsStream("/img/earthquake.png"));
 
-        turtle1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleBlue.png"));
+        turtleBlue = ImageIO.read(getClass().getResourceAsStream("/img/turtleBlue.png"));
 
-        turtle2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen.png"));
+        turtleGreen = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen.png"));
 
-        turtle3 = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett.png"));
+        turtleViolett = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett.png"));
 
-        turtle4 = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow.png"));
+        turtleYellow = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow.png"));
 
         coin = ImageIO.read(getClass().getResourceAsStream("/img/apple.png"));
+
+        mainScreen = ImageIO.read(getClass().getResourceAsStream("/img/mainScreen.png"));
+
+        startPosition = ImageIO.read(getClass().getResourceAsStream("/img/startPosition.png"));
     }
 
     public void setBoard(Board board) {
         this.board = board;
     }
 
-    /*
-     *To Do: Find out why paintComponent does not draw anything :((((
-     */
     @Override
     /*
-     *Overrides paintComponent. Not Tested if the idea with g2d.drawImage works (Graphics2D is used
-     *because it can drawImages apparently with BufferdImages. Not every Image is included in the method
-     *at the moment until its working properly
+     *Overrides paintComponent. Draws the whole board. Not every Image is included in the method
+     *at the moment until its working properly. TO DO: When the player is choosing a turtle to add a color
+     *so the code "knows" which turtle to draw. TO DO: boardSize over ten should not draw so ugly at the corners.
+     *TO DO: implement this code into the game (note: "profile.mainFrame.game".redraw() could maybe used to draw
+     * the board again if there is a change. TO DO: y-spiegelverkehrt korrigieren.
      */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int widthField = WIDTH / board.boardSize;
-        int heightField = HEIGHT / board.boardSize;
-        g.drawString("The Game has started!",10,20);
         Graphics2D g2d = (Graphics2D) g;
         if (board != null) {
-            for (int y = 0; y < board.boardSize; y++) {
-                for (int x = 0; x < board.boardSize; x++) {
-                    if (board.board[x][y].isFlood) {
-                        g2d.drawImage(waterField, null, widthField * x, heightField * y);
+            int widthField = WIDTH / (board.boardSize - 1);
+            int heightField = HEIGHT / (board.boardSize - 1);
+            for (int y = 0; y < board.boardSize - 1; y++) {
+                for (int x = 0; x < board.boardSize - 1; x++) {
+                    if (board.board[x+1][y+1].isStartPosition) {
+                        g2d.drawImage(startPosition, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     }
-                    else if (board.board[x][y].isQuake) {
-                        g2d.drawImage(earthquake, null, widthField * x, heightField * y);
+                    else if (board.board[x+1][y+1].isFlood) {
+                        g2d.drawImage(waterField, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     }
-                    else if (board.board[x][y].steppedOn) {
-                        g2d.drawImage(usedField, null, widthField * x, heightField * y);
+                    else if (board.board[x+1][y+1].isQuake) {
+                        g2d.drawImage(earthquake, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                    }
+                    else if (board.board[x+1][y+1].steppedOn) {
+                        g2d.drawImage(usedField, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     } else {
-                        g2d.drawImage(normalField, null, widthField * x, heightField * y);
+                        g2d.drawImage(normalField, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                    }
+                    if (board.board[x+1][y+1].hasCoin) {
+                        g2d.drawImage(coin, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                    }
+                   //placeholder while there is no color attributed to the turtle
+                    if (board.board[x+1][y+1].turtle != null) {
+                        g2d.drawImage(turtleBlue, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                    /*if (board.board[x+1][y+1].turtle.BLUE) {
+                            g2d.drawImage(turtleBlue, null, widthField * x, heightField * y);
+                        }
+                        etc. */
                     }
                 }
             }
         }
         else {
-            for (int y = 0; y < board.boardSize; y++) {
-                for (int x = 0; x < board.boardSize; x++) {
-                    g2d.drawImage(waterField, null, widthField * x, heightField * y);
-                }
-            }
+            g2d.drawImage(mainScreen, null, 0, 0);
         }
     }
 
-    public void setVisible(boolean b) {
-        /*
-         * Note: This method will be used to let the game only appear if the client is inGame. Could be deleted
-         * because if the game is not started the Panel could be drawn with only water.
-         */
-        panel.setVisible(b);
-    }
-
-    public JPanel getPanel() {
-        /*
-         *returns Panel so the mainFrame can use it. If panel would be public this probably is not necessary.
-         */
-        return panel;
-    }
-
     public static void main (String[] args) throws IOException {
-        GameGUI game = new GameGUI();
+        gui.GameGUI game = new gui.GameGUI();
         JFrame frame = new JFrame();
-        Board boardDemo = new Board(10,50);
+        Board boardDemo = new Board(10);
+        boardDemo.coinOccurrence =  boardDemo.boardSize + (50 / 10);
+        boardDemo.maxCoinsInGame = 50;
         game.setBoard(boardDemo);
-        frame.getContentPane().add(game.getPanel());
+        frame.getContentPane().add(game);
         frame.pack();
         frame.setVisible(true);
     }
