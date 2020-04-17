@@ -326,17 +326,6 @@ public class Lobby extends Thread {
 
         gamestate = 3;
 
-        writeToAll(Protocol.BACK.name());
-        if (!players.isEmpty()) {
-            for (ServerThreadForClient aPlayer : players) {
-                deletePlayer(aPlayer);
-            }
-        }
-        if (!spectators.isEmpty()) {
-            for (ServerThreadForClient aSpectator : spectators) {
-                deletePlayer(aSpectator);
-            }
-        }
 
     }
 }

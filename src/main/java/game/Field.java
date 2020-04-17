@@ -24,13 +24,48 @@ public class Field {
      * Instantiates a new Field with a probability of a coin.
      *  the probability for a coin on this field.
      */
+    public Field(int option) {
+        // to create a board
+        switch (option) {
+            case 0:
+                // is used for normal field
+                isBoundary = false;
+                isFlood = false;
+                isStartPosition = false;
+                break;
+            case 1:
+                // is used for boundaries
+                isBoundary = true;
+                isFlood = true;
+                isStartPosition = false;
+
+                break;
+            case 2:
+                // is used for start positions
+                isBoundary = false;
+                isFlood = false;
+                isStartPosition = true;
+                break;
+
+        }
+
+
+        hasCoin = false;
+        isQuake = false;
+        steppedOn = false;
+        isTaken = false;
+        turtle = null;
+
+    }
+
     public Field() {
+        // to copy a field
+        isBoundary = false;
         isFlood = false;
         hasCoin = false;
         isQuake = false;
         steppedOn = false;
         isTaken = false;
-        isBoundary = false;
         isStartPosition = false;
         turtle = null;
 
@@ -39,10 +74,7 @@ public class Field {
     public boolean coins(int probabilityForCoin) {
         Random random = new Random();
         int x = random.nextInt(100);
-        if (x <= probabilityForCoin) {
-            return true;
-        }
-        return false;
+        return x <= probabilityForCoin;
     }
 
     /**

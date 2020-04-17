@@ -93,7 +93,7 @@ public class GameGUI extends JPanel {
                     if (board.board[x+1][y+1].hasCoin) {
                         g2d.drawImage(coin, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     }
-                   //placeholder while there is no color attributed to the turtle
+                    //placeholder while there is no color attributed to the turtle
                     if (board.board[x+1][y+1].turtle != null) {
                         g2d.drawImage(turtleBlue, null, widthField * x, heightField * ((board.boardSize - 2) - y));
                     /*if (board.board[x+1][y+1].turtle.BLUE) {
@@ -108,6 +108,7 @@ public class GameGUI extends JPanel {
             g2d.drawImage(mainScreen, null, 0, 0);
         }
     }
+
 
     public static void main (String[] args) throws IOException {
         gui.GameGUI game = new gui.GameGUI();

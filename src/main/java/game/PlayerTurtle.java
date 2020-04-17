@@ -14,6 +14,7 @@ public class PlayerTurtle {
     public Field turtleposition;
     public int points;
     public boolean wasHitByEvent;
+    public int direction;
 
 
     // is used at ClientReaderThread
@@ -28,6 +29,7 @@ public class PlayerTurtle {
      */
     public PlayerTurtle(String turtlename) {
         this.turtlename = turtlename;
+        this.direction = 0;
     }
 
     public PlayerTurtle(int number, String name, int xPos, int yPos) {
@@ -36,6 +38,7 @@ public class PlayerTurtle {
         this.turtlename = name;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.direction = 0;
 
     }
 

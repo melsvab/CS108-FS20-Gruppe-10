@@ -246,6 +246,7 @@ public class Parameter {
      * @param turtle the turtle that moves
      */
     public void moveTurtle(Board board, int direction, PlayerTurtle turtle) {
+        turtle.direction = direction;
 
 
         switch (direction) {
@@ -255,6 +256,7 @@ public class Parameter {
 
                 changeTurtlePosition(board, false, turtle.xPos, turtle.yPos, 1);
                 turtle.yPos += 1;
+
                 break;
             case 1:
                 //case >right<
