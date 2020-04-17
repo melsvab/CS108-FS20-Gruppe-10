@@ -76,7 +76,6 @@ public class Profil {
     public Profil() throws IOException {
         this.clientIsOnline = true;
         lobby = null;
-        this.mainFrame = new MainFrame();
     }
 
     /**

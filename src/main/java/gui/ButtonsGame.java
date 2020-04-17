@@ -16,7 +16,8 @@ public class ButtonsGame extends BackgroundPanelArea {
     JButton right;
     DataOutputStream dos;
 
-    ButtonsGame() {
+    ButtonsGame(DataOutputStream dos) {
+        this.dos = dos;
         this.up = new JButton("Up");
         this.right = new JButton("Right");
         this.down = new JButton("Down");
@@ -69,10 +70,6 @@ public class ButtonsGame extends BackgroundPanelArea {
 
         this.setVisible(false);
 
-    }
-
-    public void setDos(DataOutputStream dos) {
-        this.dos = dos;
     }
 
     public void actionPerformed(ActionEvent e) {

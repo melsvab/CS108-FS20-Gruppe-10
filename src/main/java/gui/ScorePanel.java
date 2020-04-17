@@ -1,9 +1,11 @@
 package gui;
 
 import java.awt.*;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class ScorePanel extends BackgroundPanelArea {
+    private DataOutputStream dos;
 
     public GameGUI game;
     public StartGamePanel start;
@@ -15,12 +17,13 @@ public class ScorePanel extends BackgroundPanelArea {
     public BackgroundScoreArea player4Score;
     public BackgroundScoreArea roundText;
 
-    ScorePanel() throws IOException {
+    ScorePanel(DataOutputStream dos) throws IOException {
+        this.dos = dos;
 
         this.game = new GameGUI();
-        this.start = new StartGamePanel();
-        this.join = new JoinGamePanel();
-        this.buttonsGame = new ButtonsGame();
+        this.start = new StartGamePanel(dos);
+        this.join = new JoinGamePanel(dos);
+        this.buttonsGame = new ButtonsGame(dos);
 
         this.player1Score = new BackgroundScoreArea();
         this.player2Score = new BackgroundScoreArea();

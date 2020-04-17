@@ -25,7 +25,11 @@ public class ButtonsClient extends JPanel{
     Logger logger;
 
 
-    ButtonsClient() {
+    ButtonsClient(DataOutputStream dos, Profil profile, Logger logger) {
+        this.dos = dos;
+        this.profile = profile;
+        this.logger = logger;
+
         this.playerlist = new JButton("Playerlist");
         this.gamelist = new JButton("Gamelist");
         this.highscore= new JButton("Highscore");
@@ -162,10 +166,4 @@ public class ButtonsClient extends JPanel{
         }
     }
 
-    public void setDosProLogger(DataOutputStream dos, Profil profile, Logger logger) {
-
-        this.dos = dos;
-        this.profile = profile;
-        this.logger = logger;
-    }
 }

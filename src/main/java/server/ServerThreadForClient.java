@@ -32,8 +32,8 @@ public class ServerThreadForClient implements Runnable {
     /**
      * constructor of SeverThreadForClient
      * @param clientID the clientID
-     * @param dis datainputstream
-     * @param dos dataoutputstream
+     * @param dis data input stream
+     * @param dos data output stream
      */
     public ServerThreadForClient(int clientID, DataInputStream dis, DataOutputStream dos) {
         this.profil = new Profil(clientID);
@@ -50,7 +50,7 @@ public class ServerThreadForClient implements Runnable {
     }
 
     /**
-     * Sends message to Outputstream.
+     * Sends message to output stream.
      * @param message that is send.
      */
     public void sendMessage(String message) {
@@ -63,7 +63,7 @@ public class ServerThreadForClient implements Runnable {
 
     /**
      * Test connection data output stream.
-     * @return dataoutputstream data output stream
+     * @return data output stream data output stream
      */
     public DataOutputStream testConnection() {
 

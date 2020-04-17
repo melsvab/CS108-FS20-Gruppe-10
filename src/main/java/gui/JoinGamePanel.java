@@ -4,6 +4,7 @@ import server.Message;
 import server.Protocol;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.DataOutputStream;
@@ -16,7 +17,8 @@ public class JoinGamePanel extends BackgroundTextArea {
     private JButton send;
     DataOutputStream dos;
 
-    JoinGamePanel() {
+    JoinGamePanel(DataOutputStream dos) {
+        this.dos = dos;
         this.gameNumber = new JTextField(10);
         this.gameNumberText = new JLabel("Enter Game Number:  ");
         this.send = new JButton("Send");
@@ -50,10 +52,6 @@ public class JoinGamePanel extends BackgroundTextArea {
         this.setVisible(false);
     }
 
-    public void setDos(DataOutputStream dos) {
-        this.dos = dos;
-    }
-
     public void actionPerformed(ActionEvent e) {
         try {
             int number = Integer.parseInt(gameNumber.getText());
@@ -65,10 +63,10 @@ public class JoinGamePanel extends BackgroundTextArea {
     }
 
     public static void main(String[] args) {
-        gui.JoinGamePanel game = new gui.JoinGamePanel();
+        /*gui.JoinGamePanel game = new gui.JoinGamePanel();
         JFrame frame = new JFrame();
         frame.getContentPane().add(game);
         frame.setSize(new Dimension(350,250));
-        frame.setVisible(true);
+        frame.setVisible(true);*/
     }
 }

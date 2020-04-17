@@ -39,7 +39,8 @@ public class ClientChatGUI extends JPanel {
     /**
      * Instantiates a new Client Chat Gui.
      */
-    ClientChatGUI() {
+    ClientChatGUI(DataOutputStream dos) {
+        this.dos = dos;
         this.chatArea = new BackgroundTextArea();
         this.message = new JTextField();
         this.dimScroll = new Dimension(240, 10);
@@ -66,16 +67,6 @@ public class ClientChatGUI extends JPanel {
         message.addActionListener(this::actionPerformed);
         message.requestFocusInWindow();
         this.add(message, BorderLayout.PAGE_END);
-    }
-
-    /**
-     * Set dataoutputstream.
-     *
-     * @param dos the dos
-     */
-    public void setDos(DataOutputStream dos) {
-
-        this.dos = dos;
     }
 
     /**

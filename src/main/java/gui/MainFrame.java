@@ -3,9 +3,13 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 import game.*;
+import org.slf4j.Logger;
+import server.Profil;
 
 public class MainFrame extends BackgroundPanelArea {
 
@@ -14,13 +18,14 @@ public class MainFrame extends BackgroundPanelArea {
     public ButtonsClient buttonsClient;
     public ScorePanel score;
 
-    public MainFrame() throws IOException{
+    public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException{
         this.frame = new JFrame("Der Boden ist Java");
-        this.chat = new ClientChatGUI();
-        this.buttonsClient = new ButtonsClient();
-        this.score = new ScorePanel();
+        this.chat = new ClientChatGUI(dos);
+        this.buttonsClient = new ButtonsClient(dos, profile, logger);
+        this.score = new ScorePanel(dos);
         createMainFrame();
     }
+
 
     public void createMainFrame() {
         this.setLayout(new GridBagLayout());
@@ -78,13 +83,4 @@ public class MainFrame extends BackgroundPanelArea {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); //automatic closing you can use in code
     }
 
-    //TestCode
-    public static void main (String args[]) throws IOException {
-        MainFrame demo = new MainFrame();
-        demo.score.buttonsGame.setVisible(true);
-        Board boardDemo = new Board(10);
-        boardDemo.coinOccurrence =  boardDemo.boardSize + (50 / 10);
-        boardDemo.maxCoinsInGame = 50;
-        demo.score.game.setBoard(boardDemo);
-    }
 }

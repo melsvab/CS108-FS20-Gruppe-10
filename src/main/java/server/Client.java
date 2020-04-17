@@ -11,10 +11,6 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gui.*;
-
-
-
 
 /**
  * @author Dennis, Natasha, Melanie, Rohail
@@ -89,7 +85,7 @@ public class Client implements Runnable {
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             DataInputStream dis = new DataInputStream(socket.getInputStream());
 
-            ClientReaderThread clientReaderThread = new ClientReaderThread(dis, dos, profile);
+            ClientReaderThread clientReaderThread = new ClientReaderThread(dis, dos, profile, logger);
             Thread clientThread = new Thread(clientReaderThread);
             logger.info("clientreaderThread started");
             clientThread.start();
@@ -103,13 +99,6 @@ public class Client implements Runnable {
             //Nickname chosen
 
             dos.writeUTF(profile.nickname);
-
-            //sets DataOutputStream for the ClientChatGUI and ButtonsClient
-            profile.mainFrame.chat.setDos(dos);
-            profile.mainFrame.buttonsClient.setDosProLogger(dos, profile, logger);
-            profile.mainFrame.score.buttonsGame.setDos(dos);
-            profile.mainFrame.score.start.setDos(dos);
-            profile.mainFrame.score.join.setDos(dos);
 
             //Start processing inputs.
             while (profile.clientIsOnline) {

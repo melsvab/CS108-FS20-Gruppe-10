@@ -3,7 +3,8 @@ package server;
 import java.io.*;
 import game.Board;
 import game.PlayerTurtle;
-
+import gui.MainFrame;
+import org.slf4j.Logger;
 
 
 /**
@@ -35,12 +36,17 @@ public class ClientReaderThread implements Runnable {
      *
      * @param dis    the dis
      * @param dos    the dos
-     * @param profil the profil
+     * @param profile the profil
      */
-    public ClientReaderThread(DataInputStream dis, DataOutputStream dos, Profil profil) {
+    public ClientReaderThread(DataInputStream dis, DataOutputStream dos, Profil profile, Logger logger) {
         this.dis = dis;
         this.dos = dos;
-        this.profile = profil;
+        this.profile = profile;
+        try {
+            profile.mainFrame = new MainFrame(dos, profile, logger);
+        } catch (IOException e) {
+            System.out.println("Something went wrong with your window...");
+        }
     }
 
     /**
@@ -110,9 +116,9 @@ public class ClientReaderThread implements Runnable {
 
                         case HELP:
 
-                            //Client gets a help message
+                            //Client gets a help message that is printed at the terminal
 
-                            profile.mainFrame.chat.receiveMsg(Message.helpMessage);
+                            System.out.println(Message.helpMessage);
                             break;
 
                         case MSG1:

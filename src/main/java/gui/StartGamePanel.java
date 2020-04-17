@@ -5,6 +5,7 @@ import server.Profil;
 import server.Protocol;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
@@ -20,7 +21,8 @@ public class StartGamePanel extends BackgroundTextArea {
     private JButton send;
     DataOutputStream dos;
 
-    StartGamePanel() {
+    StartGamePanel(DataOutputStream dos) {
+        this.dos = dos;
         this.boardSize = new JTextField(10);
         this.coinOccurence = new JTextField(10);
         this.boardSizeText = new JLabel("Enter Boardsize:  ");
@@ -64,10 +66,6 @@ public class StartGamePanel extends BackgroundTextArea {
         this.setVisible(false);
     }
 
-    public void setDos(DataOutputStream dos) {
-        this.dos = dos;
-    }
-
     public void actionPerformed(ActionEvent e) {
         try {
             dos.writeUTF(Protocol.STR1.name() + ":" + boardSize.getText() + ":" + coinOccurence.getText());
@@ -78,10 +76,11 @@ public class StartGamePanel extends BackgroundTextArea {
     }
 
     public static void main(String[] args) {
-        gui.StartGamePanel game = new gui.StartGamePanel();
+        /* gui.StartGamePanel game = new gui.StartGamePanel();
         JFrame frame = new JFrame();
         frame.getContentPane().add(game);
         frame.setSize(new Dimension(350,250));
         frame.setVisible(true);
+         */
     }
 }
