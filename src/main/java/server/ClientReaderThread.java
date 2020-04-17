@@ -36,7 +36,7 @@ public class ClientReaderThread implements Runnable {
      *
      * @param dis    the dis
      * @param dos    the dos
-     * @param profile the profil
+     * @param profile the profile
      */
     public ClientReaderThread(DataInputStream dis, DataOutputStream dos, Profil profile, Logger logger) {
         this.dis = dis;
