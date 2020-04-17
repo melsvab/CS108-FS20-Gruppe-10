@@ -11,20 +11,14 @@ public class MainFrame extends BackgroundPanelArea {
 
     JFrame frame;
     public ClientChatGUI chat;
-    public ButtonsGame buttonsGame;
     public ButtonsClient buttonsClient;
-    public GameGUI game;
-    public StartGamePanel start;
-    public JoinGamePanel join;
+    public ScorePanel score;
 
     public MainFrame() throws IOException{
         this.frame = new JFrame("Der Boden ist Java");
         this.chat = new ClientChatGUI();
-        this.buttonsGame = new ButtonsGame();
         this.buttonsClient = new ButtonsClient();
-        this.game = new GameGUI();
-        this.start = new StartGamePanel();
-        this.join = new JoinGamePanel();
+        this.score = new ScorePanel();
         createMainFrame();
     }
 
@@ -52,22 +46,6 @@ public class MainFrame extends BackgroundPanelArea {
         gbc.gridy = 0;
         this.add(chat, gbc);
 
-        gbc.insets = new Insets(15,0,0,0);
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.weightx = 2.5;
-        gbc.weighty = 2.5;
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        BackgroundPanelArea temp = new BackgroundPanelArea();
-        temp.add(game);
-        this.add(temp, gbc);
-        BackgroundPanelArea temp2= new BackgroundPanelArea();
-        temp2.add(start);
-        this.add(temp2, gbc);
-        BackgroundPanelArea temp3 = new BackgroundPanelArea();
-        temp3.add(join);
-        this.add(temp3, gbc);
-
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.LAST_LINE_START;
@@ -77,13 +55,15 @@ public class MainFrame extends BackgroundPanelArea {
         gbc.gridy = 1;
         this.add(buttonsClient, gbc);
 
-        gbc.insets = new Insets(0,0,20,0);
-        gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.weightx = 0.03;
-        gbc.weighty = 0.03;
+        gbc.insets = new Insets(15,0,0,0);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weightx = 2.5;
+        gbc.weighty = 2.5;
         gbc.gridx = 1;
-        gbc.gridy = 1;
-        this.add(buttonsGame, gbc);
+        gbc.gridy = 0;
+        gbc.gridheight = 2;
+        this.add(score,gbc);
+
 
         //frame.getContentPane().add is used so the mainPanel gets add on the frame
         frame.getContentPane().add(this);
@@ -101,10 +81,10 @@ public class MainFrame extends BackgroundPanelArea {
     //TestCode
     public static void main (String args[]) throws IOException {
         MainFrame demo = new MainFrame();
-        demo.buttonsGame.setVisible(true);
+        demo.score.buttonsGame.setVisible(true);
         Board boardDemo = new Board(10);
         boardDemo.coinOccurrence =  boardDemo.boardSize + (50 / 10);
         boardDemo.maxCoinsInGame = 50;
-        demo.game.setBoard(boardDemo);
+        demo.score.game.setBoard(boardDemo);
     }
 }

@@ -6,14 +6,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class BackgroundTextArea extends JTextArea {
+public class BackgroundScoreArea extends JTextArea {
 
-    BufferedImage chatBackground;
+    BufferedImage waterBackground;
 
-    public BackgroundTextArea(){
+    public BackgroundScoreArea(){
         super();
         try {
-            chatBackground = ImageIO.read(getClass().getResourceAsStream("/img/ChatBackground.png"));
+            waterBackground = ImageIO.read(getClass().getResourceAsStream("/img/WaterBackground.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -22,11 +22,7 @@ public class BackgroundTextArea extends JTextArea {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        for (int y = 0; y < 150; y++) {
-            for (int x = 0; x < 5; x++) {
-                g2d.drawImage(chatBackground, null, 100 * x, 100 * y);
-            }
-        }
+        g2d.drawImage(waterBackground, null, 0,0);
         super.paintComponent(g);
     }
 }

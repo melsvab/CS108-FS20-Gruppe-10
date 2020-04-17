@@ -238,10 +238,10 @@ public class ClientReaderThread implements Runnable {
                                 // boardInfo.numberTwo == numberOfPlayers
                                 this.turtles = new PlayerTurtle[boardInfo.numberTwo];
 
-                                profile.mainFrame.game.setBoard(game);
-                                profile.mainFrame.buttonsGame.setVisible(true);
+                                profile.mainFrame.score.game.setBoard(game);
+                                profile.mainFrame.score.buttonsGame.setVisible(true);
                                 System.out.println(game.printBoard());
-                                profile.mainFrame.game.repaint();
+                                profile.mainFrame.score.game.repaint();
 
 
                             }
@@ -313,7 +313,7 @@ public class ClientReaderThread implements Runnable {
                                     coins.changeBoard(game, 2);
 
                                     System.out.println(game.printBoard());
-                                    profile.mainFrame.game.repaint();
+                                    profile.mainFrame.score.game.repaint();
                                 }
                             }
 
@@ -337,7 +337,7 @@ public class ClientReaderThread implements Runnable {
                                     game.board[x][y].turtle = turtle;
 
                                     System.out.println(game.printBoard());
-                                    profile.mainFrame.game.repaint();
+                                    profile.mainFrame.score.game.repaint();
                                 }
                             }
 
@@ -365,7 +365,7 @@ public class ClientReaderThread implements Runnable {
                                     game.board[turtle.xPos][turtle.yPos].turtle = turtle;
 
                                     System.out.println(game.printBoard());
-                                    profile.mainFrame.game.repaint();
+                                    profile.mainFrame.score.game.repaint();
                                 }
 
                             }
@@ -391,7 +391,7 @@ public class ClientReaderThread implements Runnable {
                                             turtles[turtleNumberAndDirection.numberOne]);
 
                                     System.out.println(game.printBoard());
-                                    profile.mainFrame.game.repaint();
+                                    profile.mainFrame.score.game.repaint();
                                 }
                             }
 
@@ -415,6 +415,7 @@ public class ClientReaderThread implements Runnable {
 
                                     String nickname = turtle.turtlename.substring(0,turtle.turtlename.length()-7);
 
+                                    profile.mainFrame.score.setTextInTextArea(turtle.points);
                                     System.out.println(nickname + " has " + turtle.points + " points!");
                                     //TO DO: points will be shown with user names at the margin of the board
                                 }
@@ -433,7 +434,7 @@ public class ClientReaderThread implements Runnable {
                                     paint.changeBoard(game, 0);
 
                                     System.out.println(game.printBoard());
-                                    profile.mainFrame.game.repaint();
+                                    profile.mainFrame.score.game.repaint();
                                 }
                             }
                             break;
@@ -449,7 +450,7 @@ public class ClientReaderThread implements Runnable {
                                     quake.changeBoard(game, 3);
 
                                     System.out.println(game.printBoard());
-                                    profile.mainFrame.game.repaint();
+                                    profile.mainFrame.score.game.repaint();
 
                                 }
                             }
@@ -469,7 +470,7 @@ public class ClientReaderThread implements Runnable {
                                     flood.changeBoard(game, 1);
 
                                     System.out.println(game.printBoard());
-                                    profile.mainFrame.game.repaint();
+                                    profile.mainFrame.score.game.repaint();
                                 }
                             }
                             break;
@@ -483,7 +484,7 @@ public class ClientReaderThread implements Runnable {
                                 game.afterEvent();
 
                                 System.out.println(game.printBoard());
-                                profile.mainFrame.game.repaint();
+                                profile.mainFrame.score.game.repaint();
                             }
                             break;
 
