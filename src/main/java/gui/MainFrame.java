@@ -3,13 +3,11 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-
-import game.*;
 import org.slf4j.Logger;
 import server.Profil;
+
 
 public class MainFrame extends BackgroundPanelArea {
 
@@ -17,13 +15,20 @@ public class MainFrame extends BackgroundPanelArea {
     public ClientChatGUI chat;
     public ButtonsClient buttonsClient;
     public ScorePanel score;
+    public Keyboard keyboard = null;
 
     public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException{
         this.frame = new JFrame("Der Boden ist Java");
         this.chat = new ClientChatGUI(dos);
         this.buttonsClient = new ButtonsClient(dos, profile, logger);
         this.score = new ScorePanel(dos);
+
+        setFocusable(true);
+        requestFocusInWindow();
+        keyboard = new Keyboard(dos, profile);
+        addKeyListener(keyboard);
         createMainFrame();
+
     }
 
 

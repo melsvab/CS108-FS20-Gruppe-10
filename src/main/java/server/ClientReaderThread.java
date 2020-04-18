@@ -47,6 +47,7 @@ public class ClientReaderThread implements Runnable {
         } catch (IOException e) {
             System.out.println("Something went wrong with your window...");
         }
+
     }
 
     /**
@@ -184,6 +185,10 @@ public class ClientReaderThread implements Runnable {
                         case QUIT:
 
                             //Thread stops reading messages of the server
+                            profile.isInGame = false;
+                            profile.isSpectator = false;
+                            turtles = null;
+                            game = null;
 
                             threadIsRunning = false;
                             break;
@@ -245,6 +250,7 @@ public class ClientReaderThread implements Runnable {
                                 this.turtles = new PlayerTurtle[boardInfo.numberTwo];
 
                                 profile.mainFrame.score.game.setBoard(game);
+                                profile.mainFrame.keyboard.addGame(game);
                                 profile.mainFrame.score.buttonsGame.setVisible(true);
                                 System.out.println(game.printBoard());
                                 profile.mainFrame.score.game.repaint();
