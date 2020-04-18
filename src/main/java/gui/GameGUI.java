@@ -95,11 +95,22 @@ public class GameGUI extends JPanel {
                     }
                     //placeholder while there is no color attributed to the turtle
                     if (board.board[x+1][y+1].turtle != null) {
-                        g2d.drawImage(turtleBlue, null, widthField * x, heightField * ((board.boardSize - 2) - y));
-                    /*if (board.board[x+1][y+1].turtle.BLUE) {
-                            g2d.drawImage(turtleBlue, null, widthField * x, heightField * y);
+                        switch (board.board[x+1][y+1].turtle.num) {
+                            case 0:
+                                g2d.drawImage(turtleBlue, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                break;
+                            case 1:
+                                g2d.drawImage(turtleGreen, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                break;
+                            case 2:
+                                g2d.drawImage(turtleViolett, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                break;
+                            case 3:
+                                g2d.drawImage(turtleYellow, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                break;
+
                         }
-                        etc. */
+
                     }
                 }
             }

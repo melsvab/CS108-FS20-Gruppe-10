@@ -65,7 +65,7 @@ public class MainFrame extends BackgroundPanelArea {
         gbc.gridy = 1;
         this.add(buttonsClient, gbc);
 
-        gbc.insets = new Insets(15,0,0,0);
+        gbc.insets = new Insets(0,0,0,0);
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 2;
         gbc.weighty = 2;

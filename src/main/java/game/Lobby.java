@@ -92,6 +92,7 @@ public class Lobby extends Thread {
         } else {
             // the new client will be a player
             numberOfPlayers++;
+            System.out.println("get here!");
             players.add(aUser);
         }
     }
