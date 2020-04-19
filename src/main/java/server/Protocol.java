@@ -211,6 +211,11 @@ public enum Protocol {
     IDKW("Idkw"),
 
     /**
+     * Game-Messages from the server
+     */
+    GMSG("Game-Messages"),
+
+    /**
      * Error-Message if the player wants to do an invalid Move
      */
 

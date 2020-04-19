@@ -208,7 +208,7 @@ public class Lobby extends Thread {
             aPlayer.profil.myTurtle.num = turtleNum;
             turtles[turtleNum] = aPlayer.profil.myTurtle;
 
-            writeToPlayer(Protocol.LOBY.name()
+            writeToPlayer(Protocol.GMSG.name()
                     + ":You have adopted a turtle baby and named it "
                     + aPlayer.profil.myTurtle.turtlename, aPlayer);
             //Set this turtle to a start-position not taken yet.
@@ -247,12 +247,14 @@ public class Lobby extends Thread {
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.waitingForEvent = true;
         }
-        writeToAll(Protocol.LOBY.name() + ":Game starts in ");
+        pleaseWait(4);
+        writeToAll(Protocol.GMSG.name() + ":Game starts in ");
+        pleaseWait(2);
         for (int i = 5; i >= 0; i--) {
-            writeToAll(Protocol.LOBY.name() + ":" + i);
+            writeToAll(Protocol.GMSG.name() + ":" + i);
             pleaseWait(1);
         }
-        writeToAll(Protocol.LOBY.name() + ":GO!");
+        writeToAll(Protocol.GMSG.name() + ":GO!");
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.waitingForEvent = false;
         }
@@ -265,7 +267,7 @@ public class Lobby extends Thread {
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = true;
             }
-            writeToAll(Protocol.LOBY.name() + ":OMG! NOO! WHAT IS HAPPENING? ");
+            writeToAll(Protocol.GMSG.name() + ":An Event has started!");
             pleaseWait(5);
             Random randomEvent = new Random();
             int whichEvent = randomEvent.nextInt(10);
@@ -298,24 +300,23 @@ public class Lobby extends Thread {
                 System.out.println(this.board.printBoard());
             }
             pleaseWait(4);
-            writeToAll(Protocol.LOBY.name() + ":I think its over... wait... did I lose some points?!");
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = false;
                 if (aPlayer.profil.myTurtle.wasHitByEvent) {
-                    writeToPlayer(Protocol.LOBY.name() + ":Oh crap, I lost a lot of points!", aPlayer);
+                    writeToPlayer(Protocol.GMSG.name() + ":You got hit and lost xx points!", aPlayer);
                     aPlayer.profil.myTurtle.wasHitByEvent = false;
                 } else {
-                    writeToPlayer(Protocol.LOBY.name() + ":Puh ok no, that was close!", aPlayer);
+                    writeToPlayer(Protocol.GMSG.name() + ":You survived!", aPlayer);
                 }
             }
             rounds += 1;
         }
 
-        writeToAll(Protocol.LOBY.name() + ":\n\nThe game has ended!\n\n");
+        writeToAll(Protocol.GMSG.name() + ":The game has ended!");
         int maxPoints = -100;
         String winner = "";
         for (ServerThreadForClient aPlayer : players) {
-            writeToAll(Protocol.LOBY.name() + ":" + aPlayer.profil.nickname + " has "
+            writeToAll(Protocol.GMSG.name() + ":" + aPlayer.profil.nickname + " has "
                     + aPlayer.profil.myTurtle.points + " points");
             if (aPlayer.profil.myTurtle.points > maxPoints) {
                 maxPoints = aPlayer.profil.myTurtle.points;

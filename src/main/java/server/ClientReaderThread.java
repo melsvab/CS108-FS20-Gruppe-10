@@ -508,6 +508,12 @@ public class ClientReaderThread implements Runnable {
 
                             break;
 
+                        case GMSG:
+
+                            profile.mainFrame.score.eventIsHappening.setText(original.substring(5));
+
+                            break;
+
 
                         default:
                             //It should be impossible to get here
