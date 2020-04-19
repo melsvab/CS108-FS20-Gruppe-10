@@ -3,10 +3,13 @@ package gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import game.*;
+import javafx.scene.transform.Affine;
 
 public class GameGUI extends JPanel {
 
@@ -95,18 +98,19 @@ public class GameGUI extends JPanel {
                     }
                     //placeholder while there is no color attributed to the turtle
                     if (board.board[x+1][y+1].turtle != null) {
+                        int direction = board.board[x+1][y+1].turtle.direction;
                         switch (board.board[x+1][y+1].turtle.num) {
                             case 0:
-                                g2d.drawImage(turtleBlue, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                g2d.drawImage(rotateImage(turtleBlue, direction), null, widthField * x, heightField * ((board.boardSize - 2) - y));
                                 break;
                             case 1:
-                                g2d.drawImage(turtleGreen, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                g2d.drawImage(rotateImage(turtleGreen, direction), null, widthField * x, heightField * ((board.boardSize - 2) - y));
                                 break;
                             case 2:
-                                g2d.drawImage(turtleViolett, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                g2d.drawImage(rotateImage(turtleViolett, direction), null, widthField * x, heightField * ((board.boardSize - 2) - y));
                                 break;
                             case 3:
-                                g2d.drawImage(turtleYellow, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                g2d.drawImage(rotateImage(turtleYellow, direction), null, widthField * x, heightField * ((board.boardSize - 2) - y));
                                 break;
 
                         }
@@ -118,6 +122,30 @@ public class GameGUI extends JPanel {
         else {
             g2d.drawImage(mainScreen, null, 0, 0);
         }
+    }
+
+    public static BufferedImage rotateImage(BufferedImage turtle, int direction) {
+        int degree = 0;
+        switch(direction) {
+            case 0:
+                degree = 0;
+                break;
+            case 1:
+                degree = 90;
+                break;
+            case 2:
+                degree = 180;
+                break;
+            case 3:
+                degree = 270;
+                break;
+        }
+        double rotation = Math.toRadians(degree);
+        double x = turtle.getWidth() / 2;
+        double y = turtle.getHeight() / 2;
+        AffineTransform xx = AffineTransform.getRotateInstance(rotation, x, y);
+        AffineTransformOp op = new AffineTransformOp(xx, AffineTransformOp.TYPE_BILINEAR);
+        return op.filter(turtle, null);
     }
 
 
