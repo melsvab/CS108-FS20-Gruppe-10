@@ -15,6 +15,8 @@ public class JoinGamePanel extends BackgroundTextArea {
     JTextField gameNumber;
     private JLabel gameNumberText;
     private JButton send;
+    private JRadioButton spectate;
+    private JLabel spectateText;
     DataOutputStream dos;
 
     JoinGamePanel(DataOutputStream dos) {
@@ -22,6 +24,8 @@ public class JoinGamePanel extends BackgroundTextArea {
         this.gameNumber = new JTextField(10);
         this.gameNumberText = new JLabel("Enter Game Number:  ");
         this.send = new JButton("Send");
+        this.spectate = new JRadioButton();
+        this.spectateText = new JLabel("Spectator Mode:   ");
 
         this.setPreferredSize(new Dimension(350,250));
         this.setBackground(new Color(1,1,1, (float) 0.01));
@@ -41,10 +45,18 @@ public class JoinGamePanel extends BackgroundTextArea {
         gbc.gridy = 0;
         this.add(gameNumber, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        this.add(spectateText, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        this.add(spectate, gbc);
+
 
         gbc.gridwidth = 2;
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         send.addActionListener(this::actionPerformed);
         this.add(send, gbc);
@@ -55,7 +67,12 @@ public class JoinGamePanel extends BackgroundTextArea {
     public void actionPerformed(ActionEvent e) {
         try {
             int number = Integer.parseInt(gameNumber.getText());
-            dos.writeUTF("JOIN" + ":" + number);
+            if (spectate.isSelected()) {
+                dos.writeUTF(Protocol.SPEC.name() + ":" + number);
+            }
+            else {
+                dos.writeUTF(Protocol.JOIN.name() + ":" + number);
+            }
         } catch (IOException f) {
             System.err.println(f.toString());
         }
