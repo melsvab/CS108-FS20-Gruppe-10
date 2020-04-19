@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class JoinGamePanel extends BackgroundTextArea {
 
-    JTextField gameNumber;
+    private JSpinner gameNumber;
     private JLabel gameNumberText;
     private JButton send;
     private JRadioButton spectate;
@@ -21,7 +21,8 @@ public class JoinGamePanel extends BackgroundTextArea {
 
     JoinGamePanel(DataOutputStream dos) {
         this.dos = dos;
-        this.gameNumber = new JTextField(10);
+        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, 100,1);
+        this.gameNumber = new JSpinner(spinnerModel);
         this.gameNumberText = new JLabel("Enter Game Number:  ");
         this.send = new JButton("Send");
         this.spectate = new JRadioButton();
@@ -66,12 +67,11 @@ public class JoinGamePanel extends BackgroundTextArea {
 
     public void actionPerformed(ActionEvent e) {
         try {
-            int number = Integer.parseInt(gameNumber.getText());
             if (spectate.isSelected()) {
-                dos.writeUTF(Protocol.SPEC.name() + ":" + number);
+                dos.writeUTF(Protocol.SPEC.name() + ":" + gameNumber.getValue());
             }
             else {
-                dos.writeUTF(Protocol.JOIN.name() + ":" + number);
+                dos.writeUTF(Protocol.JOIN.name() + ":" + gameNumber.getValue());
             }
         } catch (IOException f) {
             System.err.println(f.toString());

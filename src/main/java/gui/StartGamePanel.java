@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public class StartGamePanel extends BackgroundTextArea {
 
-    JTextField boardSize;
-    JTextField coinOccurence;
+    JSpinner boardSize;
+    JSpinner coinOccurence;
     private JLabel boardSizeText;
     private JLabel coinOccurenceText;
     private JButton send;
@@ -23,8 +23,10 @@ public class StartGamePanel extends BackgroundTextArea {
 
     StartGamePanel(DataOutputStream dos) {
         this.dos = dos;
-        this.boardSize = new JTextField(10);
-        this.coinOccurence = new JTextField(10);
+        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(10, 10, 20,1);
+        this.boardSize = new JSpinner(spinnerModel);
+        SpinnerNumberModel spinnerModel2 = new SpinnerNumberModel(0, 0, 100,1);
+        this.coinOccurence = new JSpinner(spinnerModel2);
         this.boardSizeText = new JLabel("Enter Boardsize:  ");
         this.coinOccurenceText = new JLabel("Enter Coin Occurrence:  ");
         this.send = new JButton("Send");
@@ -68,7 +70,7 @@ public class StartGamePanel extends BackgroundTextArea {
 
     public void actionPerformed(ActionEvent e) {
         try {
-            dos.writeUTF(Protocol.STR1.name() + ":" + boardSize.getText() + ":" + coinOccurence.getText());
+            dos.writeUTF(Protocol.STR1.name() + ":" + boardSize.getValue() + ":" + coinOccurence.getValue());
         } catch (IOException f) {
             System.err.println(f.toString());
         }
