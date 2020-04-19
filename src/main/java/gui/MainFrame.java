@@ -2,11 +2,13 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import org.slf4j.Logger;
 import server.Profil;
+import server.Protocol;
 
 
 public class MainFrame extends BackgroundPanelArea {
@@ -16,12 +18,18 @@ public class MainFrame extends BackgroundPanelArea {
     public ButtonsClient buttonsClient;
     public ScorePanel score;
     public Keyboard keyboard = null;
+    DataOutputStream dos;
+    Logger logger;
+    Profil profile;
 
     public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException{
         this.frame = new JFrame("Der Boden ist Java");
         this.chat = new ClientChatGUI(dos);
         this.buttonsClient = new ButtonsClient(dos, profile, logger);
         this.score = new ScorePanel(dos);
+        this.dos = dos;
+        this.logger = logger;
+        this.profile = profile;
 
         setFocusable(true);
         requestFocusInWindow();
@@ -74,6 +82,29 @@ public class MainFrame extends BackgroundPanelArea {
         gbc.gridheight = 2;
         this.add(score,gbc);
 
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                logger.info("Quitting");
+                try {
+                    dos.writeUTF(Protocol.QUIT.name());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                /*
+                 * Informing server about his / her choice.
+                 * If player is not active he / she cannot write anymore.
+                 */
+                System.out.println("\nClosing program...\n");
+                profile.clientIsOnline = false;
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ey) {
+                    System.err.println(ey.toString());
+                }
+            }
+        });
 
         //frame.getContentPane().add is used so the mainPanel gets add on the frame
         frame.getContentPane().add(this);
