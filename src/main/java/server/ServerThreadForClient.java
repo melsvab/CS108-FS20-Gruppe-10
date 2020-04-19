@@ -362,11 +362,9 @@ public class ServerThreadForClient implements Runnable {
                                 if (profil.myTurtle.turtleposition.up.isTaken
                                         || profil.myTurtle.turtleposition.up.isFlood
                                         || profil.myTurtle.turtleposition.up.isBoundary) {
-                                    dos.writeUTF(Protocol.ERRO.name()
-                                            + ":" + Message.invalidMove);
+                                    dos.writeUTF(Protocol.INVM.name() + ":" + Message.invalidMove);
                                 } else if (profil.waitingForEvent) {
-                                    dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
-                                            + " cannot move.. to scared of what is gonna happen");
+                                    dos.writeUTF(Protocol.INVM.name() + ":" + profil.myTurtle.turtlename + Message.tooScaredToMove);
                                 } else {
                                     profil.moveTurtle(0);
                                 }
@@ -381,10 +379,9 @@ public class ServerThreadForClient implements Runnable {
                                 if (profil.myTurtle.turtleposition.down.isTaken
                                         || profil.myTurtle.turtleposition.down.isFlood
                                         || profil.myTurtle.turtleposition.down.isBoundary) {
-                                    dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
+                                    dos.writeUTF(Protocol.INVM.name() + ":" + Message.invalidMove);
                                 } else if (profil.waitingForEvent) {
-                                    dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
-                                            + " cannot move.. to scared of what is gonna happen");
+                                    dos.writeUTF(Protocol.INVM.name() + ":" + profil.myTurtle.turtlename + Message.tooScaredToMove);
                                 } else {
                                     profil.moveTurtle(2);
                                 }
@@ -401,10 +398,9 @@ public class ServerThreadForClient implements Runnable {
                                 if (profil.myTurtle.turtleposition.left.isTaken
                                         || profil.myTurtle.turtleposition.left.isFlood
                                         || profil.myTurtle.turtleposition.left.isBoundary) {
-                                    dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
+                                    dos.writeUTF(Protocol.INVM.name() + ":" + Message.invalidMove);
                                 } else if (profil.waitingForEvent) {
-                                    dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
-                                            + " cannot move.. to scared of what is gonna happen");
+                                    dos.writeUTF(Protocol.INVM.name() + ":" + profil.myTurtle.turtlename + Message.tooScaredToMove);
                                 } else {
                                     profil.moveTurtle(3);
                                 }
@@ -421,10 +417,9 @@ public class ServerThreadForClient implements Runnable {
                                 if (profil.myTurtle.turtleposition.right.isTaken
                                         || profil.myTurtle.turtleposition.right.isFlood
                                         || profil.myTurtle.turtleposition.right.isBoundary) {
-                                    dos.writeUTF(Protocol.ERRO.name() + ":" + Message.invalidMove);
+                                    dos.writeUTF(Protocol.INVM.name() + ":" + Message.invalidMove);
                                 } else if (profil.waitingForEvent) {
-                                    dos.writeUTF(Protocol.MSSG.name() + ":" + profil.myTurtle.turtlename
-                                            + " cannot move.. too scared of what is gonna happen");
+                                    dos.writeUTF(Protocol.INVM.name() + ":" + profil.myTurtle.turtlename + Message.tooScaredToMove);
                                 } else {
                                     profil.moveTurtle(1);
                                 }

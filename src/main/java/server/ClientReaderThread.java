@@ -251,7 +251,6 @@ public class ClientReaderThread implements Runnable {
 
                                 profile.mainFrame.score.game.setBoard(game);
                                 profile.mainFrame.keyboard.addGame(game);
-                                profile.mainFrame.score.buttonsGame.setVisible(true);
                                 System.out.println(game.printBoard());
                                 profile.mainFrame.score.game.repaint();
 
@@ -501,6 +500,14 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             break;
+
+                        case INVM:
+
+                            profile.mainFrame.score.invalidMove.setText(original.substring(5));
+                            profile.mainFrame.score.tmr.start();
+
+                            break;
+
 
                         default:
                             //It should be impossible to get here

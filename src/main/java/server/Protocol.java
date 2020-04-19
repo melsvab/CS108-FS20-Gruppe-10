@@ -208,7 +208,13 @@ public enum Protocol {
     /**
      * a secret cheat code
      */
-    IDKW("Idkw");
+    IDKW("Idkw"),
+
+    /**
+     * Error-Message if the player wants to do an invalid Move
+     */
+
+    INVM("Player makes an invalid Move");
 
     public final String keyword;
 

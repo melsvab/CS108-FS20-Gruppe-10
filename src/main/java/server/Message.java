@@ -74,5 +74,10 @@ public class Message {
     /**
      * The constant invalidMove.
      */
-    public static String invalidMove = "This move is not possible.\n";
+    public static String invalidMove = "This move is not possible!";
+
+    /**
+     * The constant tooScaredToMove.
+     */
+    public static String tooScaredToMove = " is too scared to move!";
 }

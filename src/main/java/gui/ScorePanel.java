@@ -1,6 +1,9 @@
 package gui;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -10,12 +13,14 @@ public class ScorePanel extends BackgroundPanelArea {
     public GameGUI game;
     public StartGamePanel start;
     public JoinGamePanel join;
-    public ButtonsGame buttonsGame;
     public BackgroundScoreArea player1Score;
     public BackgroundScoreArea player2Score;
     public BackgroundScoreArea player3Score;
     public BackgroundScoreArea player4Score;
     public BackgroundScoreArea roundText;
+    public BackgroundScoreArea eventIsHappening;
+    public BackgroundScoreArea invalidMove;
+    public Timer tmr;
 
     ScorePanel(DataOutputStream dos) throws IOException {
         this.dos = dos;
@@ -23,25 +28,30 @@ public class ScorePanel extends BackgroundPanelArea {
         this.game = new GameGUI();
         this.start = new StartGamePanel(dos);
         this.join = new JoinGamePanel(dos);
-        this.buttonsGame = new ButtonsGame(dos);
 
         this.player1Score = new BackgroundScoreArea();
         this.player2Score = new BackgroundScoreArea();
         this.player3Score = new BackgroundScoreArea();
         this.player4Score = new BackgroundScoreArea();
         this.roundText = new BackgroundScoreArea();
+        this.eventIsHappening = new BackgroundScoreArea();
+        this.invalidMove = new BackgroundScoreArea();
 
         this.changeTextAreaProperties(player1Score);
         this.changeTextAreaProperties(player2Score);
         this.changeTextAreaProperties(player3Score);
         this.changeTextAreaProperties(player4Score);
         this.changeTextAreaProperties(roundText);
+        this.changeTextAreaProperties(invalidMove);
+        this.changeTextAreaProperties(eventIsHappening);
 
         player4Score.setText("     ");
         player3Score.setText("     ");
         player2Score.setText("     ");
         player1Score.setText("     ");
         roundText.setText("    ");
+        invalidMove.setText("    ");
+        eventIsHappening.setText("    ");
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -51,7 +61,7 @@ public class ScorePanel extends BackgroundPanelArea {
         gbc.weightx = 1.3;
         gbc.weighty = 1.3;
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         BackgroundPanelArea temp = new BackgroundPanelArea();
         temp.add(game);
         this.add(temp, gbc);
@@ -62,20 +72,17 @@ public class ScorePanel extends BackgroundPanelArea {
         temp3.add(join);
         this.add(temp3, gbc);
 
-        gbc.insets = new Insets(0,0,0,0);
-        gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.weightx = 0.03;
-        gbc.weighty = 0.03;
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        this.add(buttonsGame, gbc);
-
         gbc.fill = GridBagConstraints.NONE;
 
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.gridx = 1;
         gbc.gridy = 0;
         this.add(roundText, gbc);
+
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        this.add(eventIsHappening, gbc);
 
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridx = 0;
@@ -89,13 +96,25 @@ public class ScorePanel extends BackgroundPanelArea {
 
         gbc.anchor = GridBagConstraints.LAST_LINE_START;
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         this.add(player3Score, gbc);
+
+        gbc.anchor = GridBagConstraints.PAGE_END;
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        this.add(invalidMove, gbc);
 
         gbc.anchor = GridBagConstraints.LAST_LINE_END;
         gbc.gridx = 2;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         this.add(player4Score, gbc);
+
+        ActionListener task = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                invalidMove.setText("");
+            }
+        };
+        this.tmr = new Timer(2000, task);
     }
 
     public void changeTextAreaProperties(BackgroundScoreArea textArea) {
