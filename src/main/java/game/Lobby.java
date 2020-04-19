@@ -316,7 +316,7 @@ public class Lobby extends Thread {
         int maxPoints = -100;
         String winner = "";
         for (ServerThreadForClient aPlayer : players) {
-            writeToAll(Protocol.GMSG.name() + ":" + aPlayer.profil.nickname + " has "
+            writeToAll(Protocol.LOBY.name() + ":" + aPlayer.profil.nickname + " has "
                     + aPlayer.profil.myTurtle.points + " points");
             if (aPlayer.profil.myTurtle.points > maxPoints) {
                 maxPoints = aPlayer.profil.myTurtle.points;
