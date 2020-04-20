@@ -116,8 +116,11 @@ public class MainFrame extends BackgroundScoreArea {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //If you click on the red x in the window, the programm stops automaticaly
     }
 
-    public void gameIsHere(Board game, PlayerTurtle[] turtles) {
-        score.getGame(game, turtles);
+    /**
+     * gives the board to all the classes that need it.
+     */
+    public void gameIsHere(Board game) {
+        score.getGame(game);
         keyboard.addGame(game);
     }
     /**

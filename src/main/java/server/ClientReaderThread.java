@@ -249,7 +249,7 @@ public class ClientReaderThread implements Runnable {
                                 // boardInfo.numberTwo == numberOfPlayers
                                 this.turtles = new PlayerTurtle[boardInfo.numberTwo];
 
-                                profile.mainFrame.gameIsHere(game, turtles);
+                                profile.mainFrame.gameIsHere(game);
 
 
                             }
@@ -411,7 +411,7 @@ public class ClientReaderThread implements Runnable {
 
                                     String nickname = turtle.turtlename.substring(0,turtle.turtlename.length()-7);
 
-                                    profile.mainFrame.score.setTextInTextArea(turtle.points);
+                                    profile.mainFrame.score.setTextInTextArea(turtles);
                                     System.out.println(nickname + " has " + turtle.points + " points!");
                                     //TO DO: points will be shown with user names at the margin of the board
                                 }
@@ -493,7 +493,7 @@ public class ClientReaderThread implements Runnable {
                         case INVM:
 
                             profile.mainFrame.score.bottom.invalidMove.setText(original.substring(5));
-                            profile.mainFrame.score.tmr.start();
+                            profile.mainFrame.score.bottom.tmr.start();
 
                             break;
 

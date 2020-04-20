@@ -9,7 +9,7 @@ import server.Profil;
 
 /**
  * @author Natasha
- * This thread is for reading and processing input from the keyboard
+ * This class processes inputs from the keyboard.
  */
 public class Keyboard extends KeyAdapter implements KeyListener {
 
@@ -21,7 +21,6 @@ public class Keyboard extends KeyAdapter implements KeyListener {
     DataOutputStream dos;
     Profil profile;
     Board game = null;
-    String message = "no";
 
 
     /**
@@ -53,6 +52,9 @@ public class Keyboard extends KeyAdapter implements KeyListener {
         myKeyEvt(e);
     }
 
+    /**
+     * Analyses what key was pressed and sends message to the server.
+     */
     private void myKeyEvt(KeyEvent e) {
         int key = e.getKeyCode();
 

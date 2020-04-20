@@ -10,28 +10,38 @@ import java.awt.event.ActionEvent;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * @author Melanie
+ * This class has the layor that shows up if a player presses the join game button.
+ */
+
 public class JoinGamePanel extends BackgroundScoreArea {
 
     private JSpinner gameNumber;
-    private JLabel gameNumberText;
-    private JButton send;
     private JRadioButton spectate;
-    private JLabel spectateText;
     DataOutputStream dos;
 
+    /**
+     * Initialises a new join a game panel
+     * that is invisible until someone presses the join a game button
+     */
+
     JoinGamePanel(DataOutputStream dos) {
+        // Data output stream will be saved to send a message later
         this.dos = dos;
+
+
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, 100,1);
         this.gameNumber = new JSpinner(spinnerModel);
-        this.gameNumberText = new JLabel("Enter Game Number:  ");
-        this.send = new JButton("Send");
+        JLabel gameNumberText = new JLabel("Enter game number:  ");
+        JButton send = new JButton("Send");
         this.spectate = new JRadioButton();
-        this.spectateText = new JLabel("Spectator Mode:   ");
+        JLabel spectateText = new JLabel("Spectator mode:   ");
 
         this.setPreferredSize(new Dimension(350,250));
         this.setBackground(new Color(1,1,1, (float) 0.01));
 
-        this.setBorder(BorderFactory.createTitledBorder(("Join the Game:")));
+        this.setBorder(BorderFactory.createTitledBorder(("Join the game:")));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -65,6 +75,9 @@ public class JoinGamePanel extends BackgroundScoreArea {
         this.setVisible(false);
     }
 
+    /**
+     * sends the decision of a game number to the server
+     */
     public void actionPerformed(ActionEvent e) {
         try {
             if (spectate.isSelected()) {
@@ -79,11 +92,4 @@ public class JoinGamePanel extends BackgroundScoreArea {
         this.setVisible(false);
     }
 
-    public static void main(String[] args) {
-        /*gui.JoinGamePanel game = new gui.JoinGamePanel();
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(game);
-        frame.setSize(new Dimension(350,250));
-        frame.setVisible(true);*/
-    }
 }
