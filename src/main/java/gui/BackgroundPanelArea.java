@@ -13,7 +13,7 @@ public class BackgroundPanelArea extends JPanel {
     public BackgroundPanelArea(){
         super();
         try {
-            panelBackground = ImageIO.read(getClass().getResourceAsStream("/img/WaterBackground.png"));
+            panelBackground = ImageIO.read(getClass().getResourceAsStream("/img/WaterBackground2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

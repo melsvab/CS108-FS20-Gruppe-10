@@ -204,7 +204,7 @@ public class ClientReaderThread implements Runnable {
                             if (checkMessage(original)) {
                                 profile.mainFrame.chat.receiveMsg(original.substring(5));
                             } else {
-                                profile.mainFrame.chat.receiveMsg(Message.garbage + " *1.5");
+                                System.out.println(Message.garbage + " *1.5");
                             }
                             break;
 
@@ -226,7 +226,7 @@ public class ClientReaderThread implements Runnable {
 
                                 profile.mainFrame.chat.receiveMsg("You entered lobby number " + lobbyNumber + "!");
                             } else {
-                                profile.mainFrame.chat.receiveMsg(Message.garbage + " *3");
+                                System.out.println(Message.garbage + " *3");
                             }
 
                             break;
@@ -251,7 +251,6 @@ public class ClientReaderThread implements Runnable {
 
                                 profile.mainFrame.score.game.setBoard(game);
                                 profile.mainFrame.keyboard.addGame(game);
-                                System.out.println(game.printBoard());
                                 profile.mainFrame.score.game.repaint();
 
 
@@ -315,7 +314,6 @@ public class ClientReaderThread implements Runnable {
                                 if (coins.isCorrect) {
                                     coins.changeBoard(game, 2);
 
-                                    System.out.println(game.printBoard());
                                     profile.mainFrame.score.game.repaint();
                                 }
                             }
@@ -339,7 +337,6 @@ public class ClientReaderThread implements Runnable {
                                     turtles[startPos.numberOne] = turtle;
                                     game.board[x][y].turtle = turtle;
 
-                                    System.out.println(game.printBoard());
                                     profile.mainFrame.score.game.repaint();
                                 }
                             }
@@ -367,7 +364,6 @@ public class ClientReaderThread implements Runnable {
                                     turtle.yPos = respawnParameters.positions[0][1];
                                     game.board[turtle.xPos][turtle.yPos].turtle = turtle;
 
-                                    System.out.println(game.printBoard());
                                     profile.mainFrame.score.game.repaint();
                                 }
 
@@ -393,7 +389,6 @@ public class ClientReaderThread implements Runnable {
                                             game, turtleNumberAndDirection.numberTwo,
                                             turtles[turtleNumberAndDirection.numberOne]);
 
-                                    System.out.println(game.printBoard());
                                     profile.mainFrame.score.game.repaint();
                                 }
                             }
@@ -436,7 +431,6 @@ public class ClientReaderThread implements Runnable {
                                 if (paint.isCorrect) {
                                     paint.changeBoard(game, 0);
 
-                                    System.out.println(game.printBoard());
                                     profile.mainFrame.score.game.repaint();
                                 }
                             }
@@ -452,7 +446,6 @@ public class ClientReaderThread implements Runnable {
                                 if (quake.isCorrect) {
                                     quake.changeBoard(game, 3);
 
-                                    System.out.println(game.printBoard());
                                     profile.mainFrame.score.game.repaint();
 
                                 }
@@ -472,7 +465,6 @@ public class ClientReaderThread implements Runnable {
                                 if (flood.isCorrect) {
                                     flood.changeBoard(game, 1);
 
-                                    System.out.println(game.printBoard());
                                     profile.mainFrame.score.game.repaint();
                                 }
                             }
@@ -486,7 +478,6 @@ public class ClientReaderThread implements Runnable {
                             if (game != null) {
                                 game.afterEvent();
 
-                                System.out.println(game.printBoard());
                                 profile.mainFrame.score.game.repaint();
                             }
                             break;

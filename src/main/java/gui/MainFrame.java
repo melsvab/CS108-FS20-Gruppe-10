@@ -23,7 +23,7 @@ public class MainFrame extends BackgroundPanelArea {
     Profil profile;
 
     public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException{
-        this.frame = new JFrame("Der Boden ist Java");
+        this.frame = new JFrame("The Floor is Java");
         this.chat = new ClientChatGUI(dos);
         this.buttonsClient = new ButtonsClient(dos, profile, logger);
         this.score = new ScorePanel(dos);
@@ -58,7 +58,7 @@ public class MainFrame extends BackgroundPanelArea {
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.weightx = 1;
+        gbc.weightx = 0;
         gbc.weighty = 1;
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -67,8 +67,8 @@ public class MainFrame extends BackgroundPanelArea {
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.LAST_LINE_START;
-        gbc.weightx = 0.03;
-        gbc.weighty = 0.03;
+        gbc.weightx = 0.;
+        gbc.weighty = 0;
         gbc.gridx = 0;
         gbc.gridy = 1;
         this.add(buttonsClient, gbc);

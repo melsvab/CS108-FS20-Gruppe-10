@@ -92,7 +92,6 @@ public class Lobby extends Thread {
         } else {
             // the new client will be a player
             numberOfPlayers++;
-            System.out.println("get here!");
             players.add(aUser);
         }
     }
@@ -291,7 +290,6 @@ public class Lobby extends Thread {
                 Random howStrong = new Random();
                 int magnitude = howStrong.nextInt(30) + 5;
                 String quake = this.board.earthquake(magnitude, this);
-                System.out.println("quake");
                 writeToAll(Protocol.QUAK.name() + ":1" + quake);
                 System.out.println(this.board.printBoard());
                 pleaseWait(4);
