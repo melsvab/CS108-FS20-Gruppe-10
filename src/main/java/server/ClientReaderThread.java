@@ -249,9 +249,7 @@ public class ClientReaderThread implements Runnable {
                                 // boardInfo.numberTwo == numberOfPlayers
                                 this.turtles = new PlayerTurtle[boardInfo.numberTwo];
 
-                                profile.mainFrame.score.game.setBoard(game);
-                                profile.mainFrame.keyboard.addGame(game);
-                                profile.mainFrame.score.game.repaint();
+                                profile.mainFrame.gameIsHere(game, turtles);
 
 
                             }
@@ -494,14 +492,14 @@ public class ClientReaderThread implements Runnable {
 
                         case INVM:
 
-                            profile.mainFrame.score.invalidMove.setText(original.substring(5));
+                            profile.mainFrame.score.bottom.invalidMove.setText(original.substring(5));
                             profile.mainFrame.score.tmr.start();
 
                             break;
 
                         case GMSG:
 
-                            profile.mainFrame.score.eventIsHappening.setText(original.substring(5));
+                            profile.mainFrame.score.top.eventIsHappening.setText(original.substring(5));
 
                             break;
 

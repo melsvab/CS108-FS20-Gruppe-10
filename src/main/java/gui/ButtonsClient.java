@@ -42,10 +42,10 @@ public class ButtonsClient extends JPanel{
 
         //creates a GridLayout with 4 rows, and 2 colums. Buttons get their place depending of the order of panel.add(something).
         this.setLayout(new GridLayout(5,2));
-        //sets PreferedSize(can sometimes not work properly in the MainFrame because of the other panels.
+        //sets PreferredSize(can sometimes not work properly in the MainFrame because of the other panels.
         this.setPreferredSize(new Dimension( 240, 150 ) );
 
-        /*adds an ActionListener, so the button does something when you click on it. The ActionPerformed is not implemented right now,
+        /* adds an ActionListener, so the button does something when you click on it. The ActionPerformed is not implemented right now,
          *so nothing is happening.
          */
 

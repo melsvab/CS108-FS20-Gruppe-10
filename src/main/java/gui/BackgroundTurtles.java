@@ -6,14 +6,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class BackgroundPanelArea extends JPanel {
+public class BackgroundTurtles extends JPanel {
 
     BufferedImage panelBackground;
 
-    public BackgroundPanelArea(){
+    public BackgroundTurtles(){
         super();
         try {
-            panelBackground = ImageIO.read(getClass().getResourceAsStream("/img/WaterBackground.png"));
+            panelBackground = ImageIO.read(getClass().getResourceAsStream("/img/WaterBackground2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

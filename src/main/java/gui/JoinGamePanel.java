@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class JoinGamePanel extends BackgroundTextArea {
+public class JoinGamePanel extends BackgroundScoreArea {
 
     private JSpinner gameNumber;
     private JLabel gameNumberText;

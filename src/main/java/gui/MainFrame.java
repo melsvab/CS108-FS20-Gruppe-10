@@ -6,12 +6,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
+import game.Board;
+import game.PlayerTurtle;
 import org.slf4j.Logger;
 import server.Profil;
 import server.Protocol;
 
 
-public class MainFrame extends BackgroundPanelArea {
+public class MainFrame extends BackgroundScoreArea {
 
     JFrame frame;
     public ClientChatGUI chat;
@@ -112,11 +115,17 @@ public class MainFrame extends BackgroundPanelArea {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //If you click on the red x in the window, the programm stops automaticaly
     }
+
+    public void gameIsHere(Board game, PlayerTurtle[] turtles) {
+        score.getGame(game, turtles);
+        keyboard.addGame(game);
+    }
     /**
      * closes chat
      */
     public void closeFrame() {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); //automatic closing you can use in code
     }
+
 
 }

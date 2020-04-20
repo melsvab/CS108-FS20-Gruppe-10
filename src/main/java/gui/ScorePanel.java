@@ -1,5 +1,8 @@
 package gui;
 
+import game.Board;
+import game.PlayerTurtle;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,123 +10,144 @@ import java.awt.event.ActionListener;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ScorePanel extends BackgroundPanelArea {
+public class ScorePanel extends BackgroundTurtles {
     private DataOutputStream dos;
 
     public GameGUI game;
     public StartGamePanel start;
     public JoinGamePanel join;
-    public BackgroundScoreArea player1Score;
-    public BackgroundScoreArea player2Score;
-    public BackgroundScoreArea player3Score;
-    public BackgroundScoreArea player4Score;
-    public BackgroundScoreArea roundText;
-    public BackgroundScoreArea eventIsHappening;
-    public BackgroundScoreArea invalidMove;
+
+    public GameMarginHorizontal top;
+    public GameMarginVertical right;
+    public GameMarginVertical left;
+    public GameMarginHorizontal bottom;
+
+    public GameCorners upLeft;
+    public GameCorners upRight;
+    public GameCorners downLeft;
+    public GameCorners downRight;
+
+
     public Timer tmr;
 
     ScorePanel(DataOutputStream dos) throws IOException {
         this.dos = dos;
 
+        //center
         this.game = new GameGUI();
         this.start = new StartGamePanel(dos);
         this.join = new JoinGamePanel(dos);
 
-        this.player1Score = new BackgroundScoreArea();
-        this.player2Score = new BackgroundScoreArea();
-        this.player3Score = new BackgroundScoreArea();
-        this.player4Score = new BackgroundScoreArea();
-        this.roundText = new BackgroundScoreArea();
-        this.eventIsHappening = new BackgroundScoreArea();
-        this.invalidMove = new BackgroundScoreArea();
+        // panel on top
+        top = new GameMarginHorizontal(true, this.game);
 
-        this.changeTextAreaProperties(player1Score);
-        this.changeTextAreaProperties(player2Score);
-        this.changeTextAreaProperties(player3Score);
-        this.changeTextAreaProperties(player4Score);
-        this.changeTextAreaProperties(roundText);
-        this.changeTextAreaProperties(invalidMove);
-        this.changeTextAreaProperties(eventIsHappening);
+        // panel on the right
+        right = new GameMarginVertical(false, this.game);
 
-        player4Score.setText("     ");
-        player3Score.setText("     ");
-        player2Score.setText("     ");
-        player1Score.setText("     ");
-        roundText.setText("    ");
-        invalidMove.setText("    ");
-        eventIsHappening.setText("    ");
+        // panel on the left
+        left = new GameMarginVertical(true, this.game);
+
+        // panel on the bottom
+        bottom = new GameMarginHorizontal(false, this.game);
+
+        //corner up left
+        upLeft = new GameCorners(0);
+
+        //corner up right
+        upRight = new GameCorners(1);
+
+        //corner down left
+        downLeft = new GameCorners(2);
+
+        //corner down left
+        downRight = new GameCorners(3);
+
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
+        gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-        gbc.weightx = 1.3;
-        gbc.weighty = 1.3;
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        BackgroundPanelArea temp = new BackgroundPanelArea();
-        temp.add(game);
-        this.add(temp, gbc);
-        BackgroundPanelArea temp2= new BackgroundPanelArea();
-        temp2.add(start);
-        this.add(temp2, gbc);
-        BackgroundPanelArea temp3 = new BackgroundPanelArea();
-        temp3.add(join);
-        this.add(temp3, gbc);
-
-        gbc.fill = GridBagConstraints.NONE;
-
-        gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        this.add(roundText, gbc);
-
-        gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        this.add(eventIsHappening, gbc);
-
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        this.add(player1Score, gbc);
+        this.add(upLeft, gbc);
 
-        gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        this.add(player2Score, gbc);
-
-        gbc.anchor = GridBagConstraints.LAST_LINE_START;
+        gbc.insets = new Insets(0,0,0,0);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.gridx = 0;
-        gbc.gridy = 3;
-        this.add(player3Score, gbc);
+        gbc.gridy = 1;
+        this.add(left, gbc);
+        left.addMouseListener(left);
 
+        gbc.insets = new Insets(0,0,0,0);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        this.add(downLeft, gbc);
+
+        gbc.insets = new Insets(0,0,0,0);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        this.add(top, gbc);
+        top.addMouseListener(top);
+
+
+        //gbc.insets = new Insets(0,0,0,0);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        this.add(game, gbc);
+        this.add(start, gbc);
+        this.add(join, gbc);
+
+        gbc.insets = new Insets(0,0,0,0);
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.PAGE_END;
         gbc.gridx = 1;
-        gbc.gridy = 3;
-        this.add(invalidMove, gbc);
+        gbc.gridy = 2;
+        this.add(bottom, gbc);
+        bottom.addMouseListener(bottom);
 
-        gbc.anchor = GridBagConstraints.LAST_LINE_END;
+        gbc.insets = new Insets(0,0,0,0);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridx = 2;
-        gbc.gridy = 3;
-        this.add(player4Score, gbc);
+        gbc.gridy = 0;
+        this.add(upRight, gbc);
+
+        gbc.insets = new Insets(0,0,0,0);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        this.add(right, gbc);
+        right.addMouseListener(right);
+
+        gbc.insets = new Insets(0,0,0,0);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        this.add(downRight, gbc);
+
+
+
 
         ActionListener task = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                invalidMove.setText("");
+                bottom.invalidMove.setText("");
             }
         };
         this.tmr = new Timer(2000, task);
     }
 
-    public void changeTextAreaProperties(BackgroundScoreArea textArea) {
-        textArea.setEditable(false);
-        textArea.setBackground(new Color(1,1,1, (float) 0.01));
-        Font f = textArea.getFont();
-        Font f2 = new Font(f.getFontName(), f.getStyle(), f.getSize()+5);
-        textArea.setFont(f2.deriveFont(Font.BOLD));
-    }
+
 
     public void setTextInTextArea (int... score) {
 
@@ -136,28 +160,47 @@ public class ScorePanel extends BackgroundPanelArea {
 
             case 4:
                 String player4 = String.valueOf(score[3]);
-                player4Score.setText(player4 + placeholder);
+                downRight.player4Score.setText(player4 + placeholder);
 
             case 3:
                 String player3 = String.valueOf(score[2]);
-                player3Score.setText(player3 + placeholder) ;
+                downLeft.player3Score.setText(player3 + placeholder) ;
 
             case 2:
                 String player2 = String.valueOf(score[1]);
-                player2Score.setText(player2 + placeholder);
+                upRight.player2Score.setText(player2 + placeholder);
 
             case 1:
                 String player1 = String.valueOf(score[0]);
-                player1Score.setText(player1 + placeholder);
+                upLeft.player1Score.setText(player1 + placeholder);
                 break;
         }
     }
 
+
+
     public void setTextForRound (int rounds) {
         if (rounds <= 9) {
-            roundText.setText("Round " + rounds);
+            top.roundText.setText("Round " + rounds);
         } else {
-            roundText.setText("Last Round");
+            top.roundText.setText("Last Round");
         }
+    }
+
+    public void getGame(Board game, PlayerTurtle[] turtles) {
+        this.game.setBoard(game);
+        this.game.repaint();
+    }
+
+    public static void changeTextAreaProperties(BackgroundScoreArea textArea) {
+        textArea.setEditable(false);
+        textArea.setBackground(new Color(1,1,1, (float) 0.01));
+        Font f = textArea.getFont();
+        Font f2 = new Font(f.getFontName(), f.getStyle(), f.getSize()+5);
+        textArea.setFont(f2.deriveFont(Font.BOLD));
+    }
+
+    public void getGameInfos(Board game, PlayerTurtle[] turtles) {
+
     }
 }

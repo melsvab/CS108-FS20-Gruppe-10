@@ -3,23 +3,110 @@ package gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class GameMarginHorizontal extends JTextArea {
+public class GameMarginHorizontal extends BackgroundTurtles implements MouseListener {
 
-    BufferedImage waterBackground;
+    public boolean top;
+    public GameGUI board;
+    public BackgroundTurtles panelArea;
 
-    public GameMarginHorizontal(){
-        BackgroundPanelArea horizontalPanel = new BackgroundPanelArea();
+    public BackgroundScoreArea roundText;
+    public BackgroundScoreArea eventIsHappening;
+    public BackgroundScoreArea invalidMove;
 
-        this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension( 1040, 60) );
+    public Timer tmr;
 
-        //create TextArea
-        horizontalPanel.setBackground(new Color(1,1,1, (float) 0.01));
-        this.add(horizontalPanel);
+
+    public GameMarginHorizontal(boolean top, GameGUI board){
+        this.setPreferredSize(new Dimension( 60, 920) );
+        this.setMinimumSize(new Dimension( 60, 920) );
+        panelArea = new BackgroundTurtles();
+        this.board = board;
+        this.top = top;
+
+
+
+        if (top) {
+
+            this.roundText = new BackgroundScoreArea();
+            this.eventIsHappening = new BackgroundScoreArea();
+
+            ScorePanel.changeTextAreaProperties(roundText);
+            ScorePanel.changeTextAreaProperties(eventIsHappening);
+
+            roundText.setText("     ");
+            eventIsHappening.setText("     ");
+
+        } else {
+
+            // bottom
+
+            this.invalidMove = new BackgroundScoreArea();
+
+            invalidMove.setText("    ");
+
+        }
+
+        this.setLayout(new GridBagLayout());
+
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        if (top) {
+
+
+            gbc.insets = new Insets(0,0,0,0);
+            gbc.anchor = GridBagConstraints.PAGE_START;
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            this.add(roundText, gbc);
+
+            gbc.insets = new Insets(0,0,0,0);
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            this.add(eventIsHappening, gbc);
+
+
+        } else {
+
+            gbc.insets = new Insets(0,0,0,0);
+            gbc.anchor = GridBagConstraints.PAGE_START;
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            this.add(invalidMove, gbc);
+        }
     }
 
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(top) {
+            this.board.changeX(1);
+        } else {
+            this.board.changeX(-1);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }

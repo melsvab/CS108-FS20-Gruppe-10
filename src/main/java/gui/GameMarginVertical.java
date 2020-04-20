@@ -3,23 +3,62 @@ package gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class GameMarginVertical extends JTextArea {
+public class GameMarginVertical extends BackgroundTurtles implements MouseListener {
+
+    public GameGUI board;
+    boolean left;
 
 
-    public GameMarginVertical(){
+    public GameMarginVertical(boolean left, GameGUI board){
+        this.left = left;
+        this.board = board;
 
-        BackgroundPanelArea verticalPanel = new BackgroundPanelArea();
+        this.setPreferredSize(new Dimension( 600, 60) );
+        this.setMinimumSize(new Dimension(600,60));
+        BackgroundTurtles verticalPanel = new BackgroundTurtles();
 
-        this.setLayout(new BorderLayout());
 
-        this.setPreferredSize(new Dimension( 60, 720) );
+        setLayout(new GridBagLayout());
 
-        //create TextArea
-        verticalPanel.setBackground(new Color(1,1,1, (float) 0.01));
-        this.add(verticalPanel);
+        //this.setLayout(new GridBagLayout());
+        //GridBagConstraints gbc = new GridBagConstraints();
+
+
+
     }
 
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (left) {
+            this.board.changeY(1);
+        } else {
+            this.board.changeY(-1);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }

@@ -11,13 +11,13 @@ import java.io.IOException;
 import game.*;
 import javafx.scene.transform.Affine;
 
-public class GameGUI extends JPanel {
+public class GameGUI extends BackgroundPanelArea {
 
-    private static final int WIDTH = 540;
-    private static final int HEIGHT = 540;
+    private static final int WIDTH = 920;
+    private static final int HEIGHT = 600;
     private BufferedImage turtleBlue;
     private BufferedImage turtleGreen;
-    private BufferedImage turtleViolett;
+    private BufferedImage turtleViolet;
     private BufferedImage turtleYellow;
     private BufferedImage waterField;
     private BufferedImage normalField;
@@ -27,6 +27,11 @@ public class GameGUI extends JPanel {
     private BufferedImage mainScreen;
     private BufferedImage startPosition;
     Board board = null;
+
+    int rescaleX = 150;
+    int rescaleY = 0;
+
+    int actualBoardSize;
 
     GameGUI() throws IOException {
 
@@ -48,7 +53,7 @@ public class GameGUI extends JPanel {
 
         turtleGreen = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen.png"));
 
-        turtleViolett = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett.png"));
+        turtleViolet = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett.png"));
 
         turtleYellow = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow.png"));
 
@@ -61,6 +66,9 @@ public class GameGUI extends JPanel {
 
     public void setBoard(Board board) {
         this.board = board;
+        actualBoardSize = board.boardSize + 2;
+        rescaleX = (WIDTH - board.boardSize * 60) / 2;
+        rescaleY = (HEIGHT - board.boardSize * 60) /2;
     }
 
     @Override
@@ -75,42 +83,44 @@ public class GameGUI extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         if (board != null) {
-            int widthField = WIDTH / (board.boardSize - 1);
-            int heightField = HEIGHT / (board.boardSize - 1);
-            for (int y = 0; y < board.boardSize - 1; y++) {
-                for (int x = 0; x < board.boardSize - 1; x++) {
+            int widthField = 60;
+            int heightField = 60;
+            for (int y = 0; y < board.boardSize; y++) {
+                for (int x = 0; x < board.boardSize; x++) {
+                    int xValue = widthField * x + rescaleX;
+                    int yValue = heightField * ((board.boardSize - 1) - y) + rescaleY;
                     if (board.board[x+1][y+1].isStartPosition) {
-                        g2d.drawImage(startPosition, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                        g2d.drawImage(startPosition, null, xValue , yValue);
                     }
                     else if (board.board[x+1][y+1].isFlood) {
-                        g2d.drawImage(waterField, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                        g2d.drawImage(waterField, null, xValue , yValue);
                     }
                     else if (board.board[x+1][y+1].isQuake) {
-                        g2d.drawImage(earthquake, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                        g2d.drawImage(earthquake, null, xValue , yValue);
                     }
                     else if (board.board[x+1][y+1].steppedOn) {
-                        g2d.drawImage(usedField, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                        g2d.drawImage(usedField, null,  xValue , yValue);
                     } else {
-                        g2d.drawImage(normalField, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                        g2d.drawImage(normalField, null,  xValue , yValue);
                     }
                     if (board.board[x+1][y+1].hasCoin) {
-                        g2d.drawImage(coin, null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                        g2d.drawImage(coin, null,  xValue , yValue);
                     }
                     //placeholder while there is no color attributed to the turtle
                     if (board.board[x+1][y+1].turtle != null) {
                         int direction = board.board[x+1][y+1].turtle.direction;
                         switch (board.board[x+1][y+1].turtle.num) {
                             case 0:
-                                g2d.drawImage(rotateImage(turtleBlue, direction), null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                g2d.drawImage(rotateImage(turtleBlue, direction), null,  xValue , yValue);
                                 break;
                             case 1:
-                                g2d.drawImage(rotateImage(turtleGreen, direction), null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                g2d.drawImage(rotateImage(turtleGreen, direction), null,  xValue , yValue);
                                 break;
                             case 2:
-                                g2d.drawImage(rotateImage(turtleViolett, direction), null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                g2d.drawImage(rotateImage(turtleViolet, direction), null,  xValue , yValue);
                                 break;
                             case 3:
-                                g2d.drawImage(rotateImage(turtleYellow, direction), null, widthField * x, heightField * ((board.boardSize - 2) - y));
+                                g2d.drawImage(rotateImage(turtleYellow, direction), null,  xValue , yValue);
                                 break;
 
                         }
@@ -120,7 +130,7 @@ public class GameGUI extends JPanel {
             }
         }
         else {
-            g2d.drawImage(mainScreen, null, 0, 0);
+            g2d.drawImage(mainScreen, null, WIDTH/2 - (mainScreen.getWidth()/2 + 10), 0);
         }
     }
 
@@ -146,6 +156,21 @@ public class GameGUI extends JPanel {
         AffineTransform xx = AffineTransform.getRotateInstance(rotation, x, y);
         AffineTransformOp op = new AffineTransformOp(xx, AffineTransformOp.TYPE_BILINEAR);
         return op.filter(turtle, null);
+    }
+
+    public synchronized void changeX (int value) {
+        for (int i = 0; i<60; i++) {
+            rescaleX += value;
+            repaint();
+        }
+    }
+
+
+    public synchronized void changeY (int value) {
+        for (int i = 0; i<60; i++) {
+            rescaleY += value;
+            repaint();
+        }
     }
 
 

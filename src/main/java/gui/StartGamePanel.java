@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class StartGamePanel extends BackgroundTextArea {
+public class StartGamePanel extends BackgroundScoreArea {
 
     JSpinner boardSize;
     JSpinner coinOccurence;
