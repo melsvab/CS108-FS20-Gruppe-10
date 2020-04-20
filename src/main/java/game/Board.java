@@ -78,26 +78,23 @@ public class Board {
      * Function creates random spawning coins on the board.
      * Occurrence according to this.CoinOccurrence
      */
+
     public String spawnRandomCoins() {
         String coinAt = "";
-        for (int x = 0; x < this.boardSize + 2; x++) {
-            for (int y = 0; y < this.boardSize + 2; y++) {
-                if (!this.board[x][y].isFlood && !this.board[x][y].isBoundary
-                        && !this.board[x][y].isStartPosition && !this.board[x][y].isTaken) {
-                    this.board[x][y].hasCoin = this.board[x][y].coins(this.coinOccurrence);
-                    //make sure, not too much coins are on the board
-                    if (this.board[x][y].hasCoin && (this.coinsOnBoard <= this.maxCoinsInGame)) {
-                        this.coinsOnBoard++;
-                        coinAt += ":" + x + "-" + y;
+        for (int x = 1; x < this.boardSize + 1; x++) { //x = 0 is border (already flooded)
+            for (int y = 1; y < this.boardSize + 1; y++) { //y = 0 is border (already flooded)
+                Random random = new Random();
+                int number = random.nextInt(100) + 3;
+                if (number <= this.coinOccurrence && !this.board[x][y].isStartPosition) {
+                    this.board[x][y].hasCoin = true;
+                    coinAt += ":" + x + "-" + y;
 
-                    } else {
-                        this.board[x][y].hasCoin = false;
-                    }
                 }
             }
         }
         return coinAt;
     }
+
 
     /**
      * If a turtle is hit by an event, it will be reset to a startposition.

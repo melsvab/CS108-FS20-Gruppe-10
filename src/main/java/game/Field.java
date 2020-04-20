@@ -73,7 +73,7 @@ public class Field {
 
     public boolean coins(int probabilityForCoin) {
         Random random = new Random();
-        int x = random.nextInt(100);
+        int x = random.nextInt(60);
         return x <= probabilityForCoin;
     }
 
