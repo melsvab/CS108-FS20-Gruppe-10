@@ -84,9 +84,9 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
     @Override
     public void mouseClicked(MouseEvent e) {
         if(top) {
-            this.board.changeX(1);
+            this.board.changeY(1);
         } else {
-            this.board.changeX(-1);
+            this.board.changeY(-1);
         }
     }
 

@@ -36,9 +36,9 @@ public class GameMarginVertical extends BackgroundTurtles implements MouseListen
     @Override
     public void mouseClicked(MouseEvent e) {
         if (left) {
-            this.board.changeY(1);
+            this.board.changeX(1);
         } else {
-            this.board.changeY(-1);
+            this.board.changeX(-1);
         }
     }
 
