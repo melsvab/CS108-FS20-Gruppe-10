@@ -59,15 +59,12 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
 
             this.setLayout(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
-            gbc.insets = new Insets(0,0,0,0);
             gbc.anchor = GridBagConstraints.PAGE_START;
             gbc.gridx = 0;
             gbc.gridy = 0;
             this.add(roundText, gbc);
 
-            gbc.insets = new Insets(0,0,0,0);
             gbc.anchor = GridBagConstraints.CENTER;
-            gbc.gridx = 0;
             gbc.gridy = 1;
             this.add(eventIsHappening, gbc);
 

@@ -64,7 +64,6 @@ public class StartGamePanel extends BackgroundScoreArea {
 
         // The spinner for the board size is on the right top.
         gbc.gridx = 1;
-        gbc.gridy = 0;
         this.add(boardSize, gbc);
 
         // The text about the coin occurrence is on the left bottom.
@@ -74,7 +73,6 @@ public class StartGamePanel extends BackgroundScoreArea {
 
         // The spinner for the coin occurrence is on the right bottom.
         gbc.gridx = 1;
-        gbc.gridy = 1;
         this.add(coinOccurrence, gbc);
 
         // The send button is at the left bottom underneath the text for the coin occurrence

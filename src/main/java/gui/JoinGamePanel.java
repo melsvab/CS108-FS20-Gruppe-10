@@ -53,7 +53,6 @@ public class JoinGamePanel extends BackgroundScoreArea {
         this.add(gameNumberText, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 0;
         this.add(gameNumber, gbc);
 
         gbc.gridx = 0;
@@ -61,7 +60,6 @@ public class JoinGamePanel extends BackgroundScoreArea {
         this.add(spectateText, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 1;
         this.add(spectate, gbc);
 
 

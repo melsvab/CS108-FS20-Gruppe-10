@@ -69,32 +69,23 @@ public class ScorePanel extends BackgroundTurtles {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
+
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridx = 0;
         gbc.gridy = 0;
         this.add(upLeft, gbc);
 
-        gbc.insets = new Insets(0,0,0,0);
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.gridx = 0;
         gbc.gridy = 1;
         this.add(left, gbc);
         // board can be moved to the right by clicking on this panel
         left.addMouseListener(left);
 
-        gbc.insets = new Insets(0,0,0,0);
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.gridx = 0;
         gbc.gridy = 2;
         this.add(downLeft, gbc);
 
-        gbc.insets = new Insets(0,0,0,0);
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.gridx = 1;
         gbc.gridy = 0;
         this.add(top, gbc);
@@ -102,46 +93,32 @@ public class ScorePanel extends BackgroundTurtles {
         top.addMouseListener(top);
 
 
-        gbc.insets = new Insets(0,0,0,0);
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridx = 1;
         gbc.gridy = 1;
         this.add(game, gbc);
         this.add(start, gbc);
         this.add(join, gbc);
         this.add(name, gbc);
 
-        gbc.insets = new Insets(0,0,0,0);
-        gbc.fill = GridBagConstraints.BOTH;
+
         gbc.anchor = GridBagConstraints.PAGE_END;
-        gbc.gridx = 1;
         gbc.gridy = 2;
         this.add(bottom, gbc);
         // board can be moved up by clicking on this panel
         bottom.addMouseListener(bottom);
 
-        gbc.insets = new Insets(0,0,0,0);
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridx = 2;
         gbc.gridy = 0;
         this.add(upRight, gbc);
 
-        gbc.insets = new Insets(0,0,0,0);
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.gridx = 2;
         gbc.gridy = 1;
         this.add(right, gbc);
         // board can be moved to the left by clicking on this panel
         right.addMouseListener(right);
 
-        gbc.insets = new Insets(0,0,0,0);
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.gridx = 2;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         this.add(downRight, gbc);
 
 

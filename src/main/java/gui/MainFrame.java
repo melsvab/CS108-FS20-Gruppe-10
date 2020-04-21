@@ -58,8 +58,8 @@ public class MainFrame extends BackgroundScoreArea {
          * a better way I dont know exactly
          */
 
-        gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;
+
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.weightx = 0;
         gbc.weighty = 1;
@@ -67,16 +67,11 @@ public class MainFrame extends BackgroundScoreArea {
         gbc.gridy = 0;
         this.add(chat, gbc);
 
-        gbc.insets = new Insets(0,0,0,0);
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.LAST_LINE_START;
-        gbc.weightx = 0.;
         gbc.weighty = 0;
-        gbc.gridx = 0;
         gbc.gridy = 1;
         this.add(buttonsClient, gbc);
 
-        gbc.insets = new Insets(0,0,0,0);
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 2;
         gbc.weighty = 2;

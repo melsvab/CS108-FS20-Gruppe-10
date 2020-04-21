@@ -34,7 +34,7 @@ public class NamePanel extends BackgroundScoreArea {
         this.setBorder(BorderFactory.createTitledBorder(("Choose your nickname:")));
 
         this.setLayout(new GridBagLayout());
-        GridBagConstraints gbc=new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.insets = new Insets(15,15,15,15);
         gbc.anchor = GridBagConstraints.WEST;
@@ -46,7 +46,6 @@ public class NamePanel extends BackgroundScoreArea {
 
         // The input for the nickname is on the right top.
         gbc.gridx = 1;
-        gbc.gridy = 0;
         this.add(nameInput, gbc);
 
         // Error-Message if the input contains ":" "." or spaces.
@@ -57,10 +56,8 @@ public class NamePanel extends BackgroundScoreArea {
         this.add(wrongInput, gbc);
 
         // The send button is at the left bottom underneath the text for the coin occurrence
-        gbc.gridwidth = 2;
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
         send.addActionListener(this::actionPerformed);
         this.add(send, gbc);
 
