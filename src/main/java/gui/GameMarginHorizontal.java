@@ -49,18 +49,16 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
 
             ScorePanel.changeTextAreaProperties(invalidMove);
 
-            invalidMove.setText("  Text Text  ");
+            invalidMove.setText("    ");
 
         }
 
-        this.setLayout(new GridBagLayout());
-
-
-        GridBagConstraints gbc = new GridBagConstraints();
 
         if (top) {
 
 
+            this.setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
             gbc.insets = new Insets(0,0,0,0);
             gbc.anchor = GridBagConstraints.PAGE_START;
             gbc.gridx = 0;
@@ -76,11 +74,8 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
 
         } else {
 
-            gbc.insets = new Insets(0,0,0,0);
-            gbc.anchor = GridBagConstraints.PAGE_START;
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            this.add(invalidMove, gbc);
+            invalidMove.setAlignmentX(BackgroundScoreArea.CENTER_ALIGNMENT);
+            this.add(invalidMove);
 
             ActionListener task = new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
@@ -88,7 +83,7 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
                 }
             };
 
-            this.tmr = new Timer(2000, task);
+            tmr = new Timer(2000, task);
 
         }
     }
