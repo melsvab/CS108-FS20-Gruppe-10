@@ -3,6 +3,7 @@ package server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -302,7 +303,7 @@ public class Server implements Runnable {
             logger.info("Serversocket closed");
 
         } catch (IOException exception) {
-            System.err.println(exception.toString());
+            System.err.println(exception);
             System.exit(1);
         }
     }

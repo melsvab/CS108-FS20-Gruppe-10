@@ -10,69 +10,41 @@ public class GameCorners extends BackgroundTurtles {
 
     public BackgroundTurtles panelArea;
 
-    public BackgroundScoreArea player1Score;
-    public BackgroundScoreArea player2Score;
-    public BackgroundScoreArea player3Score;
-    public BackgroundScoreArea player4Score;
+    public BackgroundScoreArea player;
+    public BackgroundScoreArea score;
 
-    public GameCorners(int player){
+
+    public GameCorners(){
         this.setPreferredSize(new Dimension( 60, 60) );
         this.setMinimumSize(new Dimension( 60, 60) );
         panelArea = new BackgroundTurtles();
 
-        switch (player) {
-            case 0:
-                this.player1Score = new BackgroundScoreArea();
-                ScorePanel.changeTextAreaProperties(player1Score);
 
-                player1Score.setText("     ");
+        this.player = new BackgroundScoreArea();
+        this.score = new BackgroundScoreArea();
+        ScorePanel.changeTextAreaProperties(player);
+        ScorePanel.changeTextAreaProperties(score);
 
-                break;
-            case 1:
-                this.player2Score = new BackgroundScoreArea();
-                ScorePanel.changeTextAreaProperties(player2Score);
-                player2Score.setText("     ");
-                break;
-            case 2:
-                this.player3Score = new BackgroundScoreArea();
-                ScorePanel.changeTextAreaProperties(player3Score);
+        player.setText("     ");
+        score.setText("     ");
 
-
-                player3Score.setText("     ");
-
-                break;
-            case 3:
-                this.player4Score = new BackgroundScoreArea();
-                ScorePanel.changeTextAreaProperties(player4Score);
-                player4Score.setText("     ");
-                break;
-        }
 
         this.setLayout(new GridBagLayout());
-
 
         GridBagConstraints gbc = new GridBagConstraints();
 
 
-            gbc.insets = new Insets(0,0,0,0);
-            gbc.anchor = GridBagConstraints.CENTER;
-            gbc.gridx = 0;
-            gbc.gridy = 0;
+        gbc.insets = new Insets(0,0,0,0);
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        this.add(player, gbc);
 
-            switch (player) {
-                case 0:
-                    this.add(player1Score, gbc);
-                    break;
-                case 1:
-                    this.add(player2Score, gbc);
-                    break;
-                case 2:
-                    this.add(player3Score, gbc);
-                    break;
-                case 3:
-                    this.add(player4Score, gbc);
-                    break;
-            }
+        gbc.insets = new Insets(0,0,0,0);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        this.add(score, gbc);
 
 
     }

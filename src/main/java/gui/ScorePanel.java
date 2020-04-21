@@ -52,16 +52,16 @@ public class ScorePanel extends BackgroundTurtles {
         bottom = new GameMarginHorizontal(false, this.game);
 
         //corner up left
-        upLeft = new GameCorners(0);
+        upLeft = new GameCorners();
 
         //corner up right
-        upRight = new GameCorners(1);
+        upRight = new GameCorners();
 
         //corner down left
-        downLeft = new GameCorners(2);
+        downLeft = new GameCorners();
 
         //corner down left
-        downRight = new GameCorners(3);
+        downRight = new GameCorners();
 
 
         this.setLayout(new GridBagLayout());
@@ -154,20 +154,22 @@ public class ScorePanel extends BackgroundTurtles {
         if (turtles.length > 1) {
             if (turtles[0] != null) {
                 String nickname = turtles[0].turtlename.substring(0, turtles[0].turtlename.length() - 7);
-                upLeft.player1Score.setText
-                (nickname + ": " + turtles[0].points);
+                upLeft.player.setText(nickname + ": ");
+                upLeft.score.setText("" + turtles[0].points);
             }
         }
         if (turtles.length > 2) {
             if (turtles[1] != null) {
                 String nickname = turtles[1].turtlename.substring(0, turtles[1].turtlename.length() - 7);
-                upRight.player2Score.setText(nickname + ": " + turtles[1].points);
+                upRight.player.setText(nickname + ": ");
+                upRight.score.setText("" + turtles[1].points);
             }
         }
         if (turtles.length > 3) {
             if (turtles[2] != null) {
                 String nickname = turtles[2].turtlename.substring(0, turtles[2].turtlename.length() - 7);
-                downLeft.player3Score.setText(nickname + ": " + turtles[2].points);
+                upRight.player.setText(nickname + ": ");
+                upRight.score.setText("" + turtles[2].points);
             }
         }
 
@@ -175,7 +177,8 @@ public class ScorePanel extends BackgroundTurtles {
 
             if (turtles[3] != null) {
                 String nickname = turtles[3].turtlename.substring(0, turtles[3].turtlename.length() - 7);
-                downRight.player4Score.setText(nickname + ": " + turtles[3].points);
+                upRight.player.setText(nickname + ": ");
+                upRight.score.setText("" + turtles[3].points);
             }
         }
 

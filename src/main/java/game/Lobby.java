@@ -181,11 +181,11 @@ public class Lobby extends Thread {
         board = new Board(boardSize);
 
         //max coins = 500; determine the probability for coins on the board.
-        if (maxCoins > 500) {
-            maxCoins = 500;
+        if (maxCoins > 100) {
+            maxCoins = 100;
         }
 
-        board.coinOccurrence =  boardSize + (maxCoins / 10);
+        board.coinOccurrence =  boardSize + maxCoins;
         board.maxCoinsInGame = maxCoins;
         writeToAll(Protocol.STR1 + ":" + boardSize + ":" + numberOfPlayers);
     }
