@@ -21,6 +21,7 @@ public class ScorePanel extends BackgroundTurtles {
     public GameGUI game;
     public StartGamePanel start;
     public JoinGamePanel join;
+    public NamePanel name;
 
     public GameMarginHorizontal top;
     public GameMarginVertical right;
@@ -38,6 +39,7 @@ public class ScorePanel extends BackgroundTurtles {
         this.game = new GameGUI();
         this.start = new StartGamePanel(dos);
         this.join = new JoinGamePanel(dos);
+        this.name = new NamePanel(dos);
 
         // panel on top
         top = new GameMarginHorizontal(true, this.game);
@@ -108,6 +110,7 @@ public class ScorePanel extends BackgroundTurtles {
         this.add(game, gbc);
         this.add(start, gbc);
         this.add(join, gbc);
+        this.add(name, gbc);
 
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.BOTH;

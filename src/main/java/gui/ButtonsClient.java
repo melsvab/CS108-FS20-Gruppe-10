@@ -20,6 +20,7 @@ public class ButtonsClient extends JPanel{
     JButton quit;
     JButton start;
     JButton join;
+    JButton name;
     DataOutputStream dos;
     Profil profile;
     Logger logger;
@@ -39,6 +40,7 @@ public class ButtonsClient extends JPanel{
         this.back = new JButton("Leave Lobby");
         this.start = new JButton("Start");
         this.join = new JButton("Join Game");
+        this.name = new JButton("Change Name");
 
         //creates a GridLayout with 4 rows, and 2 colums. Buttons get their place depending of the order of panel.add(something).
         this.setLayout(new GridLayout(5,2));
@@ -58,6 +60,7 @@ public class ButtonsClient extends JPanel{
         quit.addActionListener(this::actionPerformed);
         start.addActionListener(this::actionPerformed);
         join.addActionListener(this::actionPerformed);
+        name.addActionListener(this::actionPerformed);
 
         //adds button to the panel
         this.add(create);
@@ -66,18 +69,13 @@ public class ButtonsClient extends JPanel{
         this.add(gamelist);
         this.add(playerlist);
         this.add(highscore);
+        this.add(name);
         this.add(back);
         this.add(quit);
         this.add(help);
     }
 
     public void actionPerformed(ActionEvent e1) {
-        /*
-         * To Do: Add the DataOutPutStream to the ActionEvent like ClientChatGUI.
-         * Change in the ClientReaderThread System.out.println to ccg.append(msg).
-         * Change the help-message so only Join:number, str1:number:number, spectatormode,
-         * appear or find another way how to implement something which needs an individual input.
-         */
         try {
             if (e1.getSource().equals(playerlist)) {
                 logger.info("asked for PlayerList");
@@ -144,6 +142,9 @@ public class ButtonsClient extends JPanel{
                 else {
                     profile.mainFrame.score.join.setVisible(true);
                 }
+
+            } else if (e1.getSource().equals(name)) {
+                profile.mainFrame.score.name.setVisible(true);
 
             } else { //equals quit
                     logger.info("Quitting");

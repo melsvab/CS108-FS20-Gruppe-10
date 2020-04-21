@@ -47,7 +47,9 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
 
             this.invalidMove = new BackgroundScoreArea();
 
-            invalidMove.setText("    ");
+            ScorePanel.changeTextAreaProperties(invalidMove);
+
+            invalidMove.setText("  Text Text  ");
 
         }
 
@@ -86,7 +88,7 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
                 }
             };
 
-            tmr = new Timer(2000, task);
+            this.tmr = new Timer(2000, task);
 
         }
     }
