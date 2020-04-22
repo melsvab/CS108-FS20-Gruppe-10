@@ -123,9 +123,9 @@ public class ClientChatGUI extends JPanel {
      */
     public void changeToErrorMessage(boolean change) {
         if (change) {
-            chatArea.setForeground(Color.BLACK);
-        } else {
             chatArea.setForeground(Color.RED);
+        } else {
+            chatArea.setForeground(Color.BLACK);
         }
 
     }
