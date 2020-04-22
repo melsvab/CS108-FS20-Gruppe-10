@@ -39,14 +39,18 @@ public class ClientChatGUI extends JPanel {
     /**
      * Instantiates a new Client Chat Gui.
      */
-    ClientChatGUI(DataOutputStream dos) {
+    ClientChatGUI(DataOutputStream dos, boolean chat) {
         this.dos = dos;
         this.chatArea = new BackgroundTextArea();
         this.message = new JTextField();
-        this.dimScroll = new Dimension(240, 10);
+        this.dimScroll = new Dimension(120, 10);
 
         this.setLayout(new BorderLayout());
-        this.setBorder(BorderFactory.createTitledBorder(("Messages")));
+        if(chat) {
+            this.setBorder(BorderFactory.createTitledBorder(("Messages")));
+        } else {
+            this.setBorder(BorderFactory.createTitledBorder(("Chat")));
+        }
         //panel.setPreferredSize(new Dimension( 500, 300 ) );
 
         //create TextArea
@@ -56,17 +60,19 @@ public class ClientChatGUI extends JPanel {
         chatArea.setWrapStyleWord(true); //gets cut of by words
         this.add(chatArea);
 
-        //create scrollpane
+        //create scroll panel
         JScrollPane scroll = new JScrollPane(chatArea); //chat is scrollable
         scroll.setVerticalScrollBarPolicy(scroll.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scroll.setPreferredSize(new Dimension(240, 300));
+        scroll.setPreferredSize(new Dimension(120, 300));
         this.add(scroll);
 
-        //create TextField
-        message.setEditable(true);
-        message.addActionListener(this::actionPerformed);
-        message.requestFocusInWindow();
-        this.add(message, BorderLayout.PAGE_END);
+       if (chat) {
+           //create TextField
+           message.setEditable(true);
+           message.addActionListener(this::actionPerformed);
+           message.requestFocusInWindow();
+           this.add(message, BorderLayout.PAGE_END);
+       }
     }
 
     /**

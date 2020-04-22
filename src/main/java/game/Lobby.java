@@ -273,18 +273,16 @@ public class Lobby extends Thread {
             pleaseWait(2);
             Random randomEvent = new Random();
             int whichEvent = randomEvent.nextInt(10);
-            // To do: chance for random coins
+
             if (whichEvent < 7) {
                 Random howOften = new Random();
                 int randomOften = howOften.nextInt(5) + 1;
                 String flood = this.board.floodBoard(randomOften, this);
                 writeToAll(Protocol.WATR.name() + ":1" + flood);
-                //System.out.println(this.board.printBoard());
                 pleaseWait(2);
                 this.board.afterEvent();
                 writeToAll(Protocol.RSET.name());
-                //System.out.println(this.board.printBoard());
-            } else if (whichEvent == 300) {
+            } else if (whichEvent == 8) {
                 // all positions that have coins now -> should be impossible right now
                 String coin = board.spawnRandomCoins();
                 // "1" for new coins that spawn. "2" would be for coins that were taken.
@@ -294,11 +292,9 @@ public class Lobby extends Thread {
                 int magnitude = howStrong.nextInt(30) + 5;
                 String quake = this.board.earthquake(magnitude, this);
                 writeToAll(Protocol.QUAK.name() + ":1" + quake);
-                //System.out.println(this.board.printBoard());
                 pleaseWait(2);
                 this.board.afterEvent();
                 writeToAll(Protocol.RSET.name());
-                //System.out.println(this.board.printBoard());
             }
             pleaseWait(2);
             for (ServerThreadForClient aPlayer : players) {

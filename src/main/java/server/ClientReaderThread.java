@@ -112,7 +112,7 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             System.out.println("\nWelcome to the server!\n\n");
-                            profile.mainFrame.chat.receiveMsg("\nWelcome to the server!\n\n");
+                            profile.mainFrame.messages.receiveMsg("\nWelcome to the server!\n\n");
                             break;
 
                         case HELP:
@@ -157,7 +157,7 @@ public class ClientReaderThread implements Runnable {
 
                             if (checkMessage(original)) {
                                 System.out.println(original.substring(5));
-                                profile.mainFrame.chat.receiveMsg(original.substring(5));
+                                profile.mainFrame.messages.receiveMsg(original.substring(5));
                             } else {
                                 System.out.println(Message.garbage + " *1");
                             }
@@ -175,7 +175,7 @@ public class ClientReaderThread implements Runnable {
                             if (checkMessage(original)) {
                                 String errorText = original.substring(5);
                                 System.out.println(errorText);
-                                profile.mainFrame.chat.receiveMsg(errorText);
+                                profile.mainFrame.messages.receiveMsg(errorText);
                             } else {
                                 System.out.println(Message.garbage + " *2");
                             }
@@ -202,7 +202,7 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             if (checkMessage(original)) {
-                                profile.mainFrame.chat.receiveMsg(original.substring(5));
+                                profile.mainFrame.messages.receiveMsg(original.substring(5));
                             } else {
                                 System.out.println(Message.garbage + " *1.5");
                             }
@@ -224,7 +224,7 @@ public class ClientReaderThread implements Runnable {
                                 String[] words = original.split(":");
                                 int lobbyNumber = Integer.parseInt(words[1]);
 
-                                profile.mainFrame.chat.receiveMsg("You entered lobby number " + lobbyNumber + "!");
+                                profile.mainFrame.messages.receiveMsg("You entered lobby number " + lobbyNumber + "!");
                             } else {
                                 System.out.println(Message.garbage + " *3");
                             }
@@ -239,7 +239,7 @@ public class ClientReaderThread implements Runnable {
                             profile.mainFrame.leaveGame();
 
                             //Client went out of a lobby / game
-                            profile.mainFrame.chat.receiveMsg("You are not in a lobby anymore!");
+                            profile.mainFrame.messages.receiveMsg("You are not in a lobby anymore!");
                             break;
 
                         case STR1:
@@ -279,7 +279,7 @@ public class ClientReaderThread implements Runnable {
                             int i = original.indexOf(":", 5);
                             String winner = original.substring(5, i);
                             String points = original.substring(i + 1);
-                            profile.mainFrame.chat.receiveMsg("The winner is: " + winner + " with " + points
+                            profile.mainFrame.messages.receiveMsg("The winner is: " + winner + " with " + points
                                     + " points!");
                             break;
 

@@ -176,10 +176,23 @@ public class ScorePanel extends BackgroundTurtles {
     }
 
     /**
+     * changes visibility of the corners where
+     * the names of the players and their score is shown
+     */
+    public void changeVisibilityCorners(boolean change) {
+        upLeft.setVisible(change);
+        upRight.setVisible(change);
+        downLeft.setVisible(change);
+        downRight.setVisible(change);
+
+    }
+
+    /**
      * This method gives the board to all the graphical classes that need them
      */
     public void getGame(Board game) {
         this.game.setBoard(game);
+        changeVisibilityCorners(true);
         this.game.repaint();
     }
 
@@ -190,7 +203,9 @@ public class ScorePanel extends BackgroundTurtles {
     public void resetGame() {
         this.game.resetBoard();
         top.roundText.setText(" ");
+        changeVisibilityCorners(false);
         this.game.repaint();
+
 
     }
 

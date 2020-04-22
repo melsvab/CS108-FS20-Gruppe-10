@@ -22,8 +22,8 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
 
 
     public GameMarginHorizontal(boolean top, GameGUI board){
-        this.setPreferredSize(new Dimension( 60, 920) );
-        this.setMinimumSize(new Dimension( 60, 920) );
+        this.setPreferredSize(new Dimension( 60, 800) );
+        this.setMinimumSize(new Dimension( 60, 800) );
         panelArea = new BackgroundTurtles();
         this.board = board;
         this.top = top;
@@ -114,4 +114,5 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
     public void mouseExited(MouseEvent e) {
 
     }
+
 }

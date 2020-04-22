@@ -15,8 +15,8 @@ public class GameCorners extends BackgroundTurtles {
 
 
     public GameCorners(){
-        this.setPreferredSize(new Dimension( 60, 60) );
-        this.setMinimumSize(new Dimension( 60, 60) );
+        this.setPreferredSize(new Dimension( 60, 120) );
+        this.setMinimumSize(new Dimension( 60, 120) );
         panelArea = new BackgroundTurtles();
 
 
@@ -42,6 +42,8 @@ public class GameCorners extends BackgroundTurtles {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridy = 1;
         this.add(score, gbc);
+
+        this.setVisible(true);
 
 
     }

@@ -18,6 +18,7 @@ public class MainFrame extends BackgroundScoreArea {
 
     JFrame frame;
     public ClientChatGUI chat;
+    public ClientChatGUI messages;
     public ButtonsClient buttonsClient;
     public ScorePanel score;
     public Keyboard keyboard = null;
@@ -27,7 +28,8 @@ public class MainFrame extends BackgroundScoreArea {
 
     public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException{
         this.frame = new JFrame("The Floor is Java");
-        this.chat = new ClientChatGUI(dos);
+        this.chat = new ClientChatGUI(dos, true);
+        this.messages = new ClientChatGUI(dos, false);
         this.buttonsClient = new ButtonsClient(dos, profile, logger);
         this.score = new ScorePanel(dos);
         this.dos = dos;
@@ -65,11 +67,18 @@ public class MainFrame extends BackgroundScoreArea {
         gbc.weighty = 1;
         gbc.gridx = 0;
         gbc.gridy = 0;
+        this.add(messages, gbc);
+
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.weightx = 0;
+        gbc.weighty = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         this.add(chat, gbc);
 
-        gbc.anchor = GridBagConstraints.LAST_LINE_START;
+        gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.weighty = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         this.add(buttonsClient, gbc);
 
         gbc.anchor = GridBagConstraints.CENTER;
@@ -77,7 +86,7 @@ public class MainFrame extends BackgroundScoreArea {
         gbc.weighty = 2;
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.gridheight = 2;
+        gbc.gridheight = 3;
         this.add(score,gbc);
 
         frame.addWindowListener(new WindowAdapter() {
@@ -117,6 +126,7 @@ public class MainFrame extends BackgroundScoreArea {
     public void gameIsHere(Board game) {
         score.getGame(game);
         keyboard.addGame();
+
     }
 
 
@@ -127,6 +137,7 @@ public class MainFrame extends BackgroundScoreArea {
         score.resetGame();
         keyboard.deleteGame();
     }
+
     /**
     /**
      * closes chat
