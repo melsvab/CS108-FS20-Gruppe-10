@@ -260,7 +260,8 @@ public class Lobby extends Thread {
 
         //game has started.
         int rounds = 1;
-        while (rounds <= 10) {
+        boolean definitwinner = false;
+        while (!definitwinner) {
             writeToAll(Protocol.RNDS.name() + ":" + rounds);
             pleaseWait(20);
             for (ServerThreadForClient aPlayer : players) {
@@ -307,6 +308,32 @@ public class Lobby extends Thread {
                     writeToPlayer(Protocol.GMSG.name() + ":You survived!", aPlayer);
                 }
             }
+            if(rounds >= 10) {
+                int pointscounter = -100;
+                String placeholder = "";
+                for (ServerThreadForClient aPlayer : players) {
+                    if (aPlayer.profil.myTurtle.points > pointscounter) {
+                        pointscounter = aPlayer.profil.myTurtle.points;
+                        placeholder = aPlayer.profil.nickname;
+
+                    }
+                }
+                int counter = 1;
+                for (ServerThreadForClient aPlayer : players) {
+                    if (!(placeholder.equals(aPlayer.profil.nickname))) {
+                        if (pointscounter == aPlayer.profil.myTurtle.points) {
+                            counter++;
+                        }
+                    }
+                }
+                if(counter > 1){
+                    definitwinner = false;
+                    counter = 1;
+                } else {
+                    definitwinner = true;
+                }
+            }
+
             rounds += 1;
         }
 
