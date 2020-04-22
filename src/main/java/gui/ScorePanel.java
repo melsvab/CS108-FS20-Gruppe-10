@@ -184,6 +184,17 @@ public class ScorePanel extends BackgroundTurtles {
     }
 
     /**
+     * This method informs all other classes
+     * that the player is not playing the game anymore.
+     */
+    public void resetGame() {
+        this.game.resetBoard();
+        top.roundText.setText(" ");
+        this.game.repaint();
+
+    }
+
+    /**
      * changes given text area
      */
     public static void changeTextAreaProperties(BackgroundScoreArea textArea) {

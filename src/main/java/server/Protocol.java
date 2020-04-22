@@ -151,11 +151,6 @@ public enum Protocol {
     WINR("Informs client who has won"),
 
     /**
-     * Client gets message from lobby
-     */
-    LOBY("Client gets message from lobby"),
-
-    /**
      * Message from server to client to inform of the location of new coins
      */
     COIN("Message from server to client to inform of the location of new coins"),

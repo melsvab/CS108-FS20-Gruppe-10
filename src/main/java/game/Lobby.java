@@ -175,8 +175,8 @@ public class Lobby extends Thread {
         //boardSize: min = 10, max = 20.
         if (boardSize < 10) {
             boardSize = 10;
-        } else if (boardSize > 20) {
-            boardSize = 20;
+        } else if (boardSize > 50) {
+            boardSize = 50;
         }
         board = new Board(boardSize);
 
@@ -185,7 +185,7 @@ public class Lobby extends Thread {
             maxCoins = 100;
         }
 
-        board.coinOccurrence =  boardSize + maxCoins;
+        board.coinOccurrence =  boardSize + maxCoins/3;
         board.maxCoinsInGame = maxCoins;
         writeToAll(Protocol.STR1 + ":" + boardSize + ":" + numberOfPlayers);
     }
@@ -239,14 +239,16 @@ public class Lobby extends Thread {
         gamestate = 2;
 
 
-        //Show Startboard to server (for tests)
-        System.out.println(board.printBoard());
+        /*
+        * Show Startboard to server (for tests)
+        * // System.out.println(board.printBoard());
+        */
 
         //countdown before the game starts.
         for (ServerThreadForClient aPlayer : players) {
             aPlayer.profil.waitingForEvent = true;
         }
-        pleaseWait(4);
+        pleaseWait(2);
         writeToAll(Protocol.GMSG.name() + ":Game starts in ");
         pleaseWait(2);
         for (int i = 5; i >= 0; i--) {
@@ -260,15 +262,15 @@ public class Lobby extends Thread {
 
         //game has started.
         int rounds = 1;
-        boolean definitwinner = false;
-        while (!definitwinner) {
+        boolean definivWinner = false;
+        while (!definivWinner) {
             writeToAll(Protocol.RNDS.name() + ":" + rounds);
-            pleaseWait(20);
+            pleaseWait(30);
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = true;
             }
             writeToAll(Protocol.GMSG.name() + ":An Event has started!");
-            pleaseWait(5);
+            pleaseWait(2);
             Random randomEvent = new Random();
             int whichEvent = randomEvent.nextInt(10);
             // To do: chance for random coins
@@ -277,11 +279,11 @@ public class Lobby extends Thread {
                 int randomOften = howOften.nextInt(5) + 1;
                 String flood = this.board.floodBoard(randomOften, this);
                 writeToAll(Protocol.WATR.name() + ":1" + flood);
-                System.out.println(this.board.printBoard());
-                pleaseWait(4);
+                //System.out.println(this.board.printBoard());
+                pleaseWait(2);
                 this.board.afterEvent();
                 writeToAll(Protocol.RSET.name());
-                System.out.println(this.board.printBoard());
+                //System.out.println(this.board.printBoard());
             } else if (whichEvent == 300) {
                 // all positions that have coins now -> should be impossible right now
                 String coin = board.spawnRandomCoins();
@@ -292,13 +294,13 @@ public class Lobby extends Thread {
                 int magnitude = howStrong.nextInt(30) + 5;
                 String quake = this.board.earthquake(magnitude, this);
                 writeToAll(Protocol.QUAK.name() + ":1" + quake);
-                System.out.println(this.board.printBoard());
-                pleaseWait(4);
+                //System.out.println(this.board.printBoard());
+                pleaseWait(2);
                 this.board.afterEvent();
                 writeToAll(Protocol.RSET.name());
-                System.out.println(this.board.printBoard());
+                //System.out.println(this.board.printBoard());
             }
-            pleaseWait(4);
+            pleaseWait(2);
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = false;
                 if (aPlayer.profil.myTurtle.wasHitByEvent) {
@@ -309,11 +311,11 @@ public class Lobby extends Thread {
                 }
             }
             if(rounds >= 10) {
-                int pointscounter = -100;
+                int pointsCounter = -100;
                 String placeholder = "";
                 for (ServerThreadForClient aPlayer : players) {
-                    if (aPlayer.profil.myTurtle.points > pointscounter) {
-                        pointscounter = aPlayer.profil.myTurtle.points;
+                    if (aPlayer.profil.myTurtle.points > pointsCounter) {
+                        pointsCounter = aPlayer.profil.myTurtle.points;
                         placeholder = aPlayer.profil.nickname;
 
                     }
@@ -321,16 +323,16 @@ public class Lobby extends Thread {
                 int counter = 1;
                 for (ServerThreadForClient aPlayer : players) {
                     if (!(placeholder.equals(aPlayer.profil.nickname))) {
-                        if (pointscounter == aPlayer.profil.myTurtle.points) {
+                        if (pointsCounter == aPlayer.profil.myTurtle.points) {
                             counter++;
                         }
                     }
                 }
                 if(counter > 1){
-                    definitwinner = false;
+                    definivWinner = false;
                     counter = 1;
                 } else {
-                    definitwinner = true;
+                    definivWinner = true;
                 }
             }
 
@@ -341,7 +343,7 @@ public class Lobby extends Thread {
         int maxPoints = -100;
         String winner = "";
         for (ServerThreadForClient aPlayer : players) {
-            writeToAll(Protocol.LOBY.name() + ":" + aPlayer.profil.nickname + " has "
+            writeToAll(Protocol.MSSG.name() + ":" + aPlayer.profil.nickname + " has "
                     + aPlayer.profil.myTurtle.points + " points");
             if (aPlayer.profil.myTurtle.points > maxPoints) {
                 maxPoints = aPlayer.profil.myTurtle.points;

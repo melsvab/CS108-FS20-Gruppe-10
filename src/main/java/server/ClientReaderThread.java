@@ -236,6 +236,7 @@ public class ClientReaderThread implements Runnable {
                             profile.isSpectator = false;
                             game = null;
                             turtles = null;
+                            profile.mainFrame.leaveGame();
 
                             //Client went out of a lobby / game
                             profile.mainFrame.chat.receiveMsg("You are not in a lobby anymore!");
@@ -280,25 +281,6 @@ public class ClientReaderThread implements Runnable {
                             String points = original.substring(i + 1);
                             profile.mainFrame.chat.receiveMsg("The winner is: " + winner + " with " + points
                                     + " points!");
-                            break;
-
-                        case LOBY:
-                            /*
-                             * Client prints out information about the board
-                             * (that will have a graphical impact later)
-                             *
-                             *
-                             * info: this is identical with case ERRO right now,
-                             * but that will change soon due to the fact that information from the lobby
-                             * will have a different design soon.
-                             */
-                            if (checkMessage(original)) {
-                                String message = original.substring(5);
-                                System.out.println(message);
-                                profile.mainFrame.chat.receiveMsg(message);
-                            } else {
-                                System.out.println(Message.garbage + " *4");
-                            }
                             break;
 
                         case COIN:

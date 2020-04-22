@@ -72,18 +72,9 @@ public class NamePanel extends BackgroundScoreArea {
  */
     public void actionPerformed(ActionEvent e) {
         String input = "NAME:" + nameInput.getText();
-        boolean doesNotContain;
-        int x = input.indexOf(" ");
-        int y = input.indexOf(".");
-        int z = input.indexOf(",");
-        if (x == -1 && y == -1 && z == -1) {
-            doesNotContain = true;
-        }
-        else {
-            doesNotContain = false;
-        }
+
         Parameter name = new Parameter(input, 3);
-        if (name.isCorrect && doesNotContain) {
+        if (name.isCorrect) {
             String newNickname = name.wordOne;
 
             /*
@@ -100,16 +91,15 @@ public class NamePanel extends BackgroundScoreArea {
             try {
                 dos.writeUTF(Protocol.NAME.name() + ":" + newNickname);
             } catch (IOException f) {
-                System.err.toString();
+                System.err.println(f.toString());
             }
 
             wrongInput.setText("");
             nameInput.setText("");
             this.setVisible(false);
             game.setVisible(true);
-        }
-        else {
-            wrongInput.setText("You cannot use \": \", \".\" or spaces!");
+        } else {
+            wrongInput.setText("You cannot use \": \" or spaces!");
         }
     }
 }

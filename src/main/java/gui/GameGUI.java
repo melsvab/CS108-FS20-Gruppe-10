@@ -15,6 +15,7 @@ public class GameGUI extends BackgroundPanelArea {
 
     private static final int WIDTH = 920;
     private static final int HEIGHT = 600;
+    private static final int PICTURE_SIZE = 60;
     private BufferedImage turtleBlue;
     private BufferedImage turtleGreen;
     private BufferedImage turtleViolet;
@@ -66,8 +67,13 @@ public class GameGUI extends BackgroundPanelArea {
     public void setBoard(Board board) {
         this.board = board;
         actualBoardSize = board.boardSize + 2;
-        rescaleX = (WIDTH - board.boardSize * 60) / 2;
-        rescaleY = (HEIGHT - board.boardSize * 60) /2;
+        rescaleX = (WIDTH - board.boardSize * PICTURE_SIZE) / 2;
+        rescaleY = (HEIGHT - board.boardSize * PICTURE_SIZE) /2;
+    }
+
+    public void resetBoard() {
+        this.board = null;
+        actualBoardSize = 0;
     }
 
     @Override
@@ -82,8 +88,8 @@ public class GameGUI extends BackgroundPanelArea {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         if (board != null) {
-            int widthField = 60;
-            int heightField = 60;
+            int widthField = PICTURE_SIZE;
+            int heightField = PICTURE_SIZE;
             for (int y = 0; y < board.boardSize; y++) {
                 for (int x = 0; x < board.boardSize; x++) {
                     int xValue = widthField * x + rescaleX;
@@ -127,8 +133,7 @@ public class GameGUI extends BackgroundPanelArea {
                     }
                 }
             }
-        }
-        else {
+        } else {
             g2d.drawImage(mainScreen, null, WIDTH/2 - (mainScreen.getWidth()/2 + 10), 0);
         }
     }
@@ -158,7 +163,13 @@ public class GameGUI extends BackgroundPanelArea {
     }
 
     public synchronized void changeX (int value) {
-        for (int i = 0; i<60; i++) {
+        value *= 5;
+        for (int i = 0; i<PICTURE_SIZE/5; i++) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             rescaleX += value;
             repaint();
         }
@@ -166,7 +177,13 @@ public class GameGUI extends BackgroundPanelArea {
 
 
     public synchronized void changeY (int value) {
-        for (int i = 0; i<60; i++) {
+        value *= 5;
+        for (int i = 0; i<PICTURE_SIZE/5; i++) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             rescaleY += value;
             repaint();
         }

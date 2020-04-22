@@ -116,13 +116,25 @@ public class MainFrame extends BackgroundScoreArea {
      */
     public void gameIsHere(Board game) {
         score.getGame(game);
-        keyboard.addGame(game);
+        keyboard.addGame();
     }
+
+
+    /**
+     * gives the board to all the classes that need it.
+     */
+    public void leaveGame() {
+        score.resetGame();
+        keyboard.deleteGame();
+    }
+    /**
     /**
      * closes chat
      */
     public void closeFrame() {
-        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); //automatic closing you can use in code
+        //automatic closing you can use in code
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+
     }
 
 

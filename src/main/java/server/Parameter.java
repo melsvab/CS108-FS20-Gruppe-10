@@ -45,12 +45,12 @@ public class Parameter {
 
             case 3:
                // is used for names (no ":" or " ")
-                isCorrect = checkForName(message);
+                isCorrect = checkForWord(message, true);
                 break;
 
             case 4:
                 // is used for one string
-                isCorrect = checkForWord(message);
+                isCorrect = checkForWord(message, false);
                 break;
 
             case 5:
@@ -130,29 +130,6 @@ public class Parameter {
         }
     }
 
-    /**
-     * An example of an input: KEYW:name (without any further ":")
-     * <p>
-     * Check if there is only one ":". (So if you split the string at ":", there will be two
-     * substrings) Why? Because names cannot have a ":" in them.
-     *
-     * @param original the original
-     * @return boolean boolean
-     */
-    public boolean checkForName(String original) {
-
-        if (checkForWord(original)) {
-            String[] words = original.split(":");
-            if (words.length == 2) {
-                wordOne = original.substring(5);
-                return true;
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }
-
 
     /**
      * An example of an input: KEYW:word
@@ -162,13 +139,23 @@ public class Parameter {
      * @param original the original
      * @return boolean boolean
      */
-    public boolean checkForWord(String original) {
-        int lenghtInput = original.length();
-        if (lenghtInput > 5 && original.contains(":")) {
+    public boolean checkForWord(String original, boolean name) {
+        int lengthInput = original.length();
+        if (lengthInput > 5 && original.contains(":")) {
 
-            return original.indexOf(':') == 4;
+            if (name && original.indexOf(':') == 4) {
+                //for names
+                wordOne = original.substring(5);
+                //names cannot have spaces or ':'
+                wordOne = wordOne.replaceAll(" ", "");
+                wordOne = wordOne.replaceAll(":","");
+                return wordOne.length() > 0;
+            } else {
+                return original.indexOf(':') == 4;
+            }
         } else {
             return false;
+
         }
     }
 
@@ -180,7 +167,7 @@ public class Parameter {
      * @return boolean boolean
      */
     public boolean checkForNumber(String original) {
-        if (checkForWord(original)) {
+        if (checkForWord(original, false)) {
             String[] words = original.split(":");
 
             try {

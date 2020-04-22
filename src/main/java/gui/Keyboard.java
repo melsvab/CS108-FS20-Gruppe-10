@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import game.Board;
@@ -20,7 +21,7 @@ public class Keyboard extends KeyAdapter implements KeyListener {
      */
     DataOutputStream dos;
     Profil profile;
-    Board game = null;
+    boolean gameExists;
 
 
     /**
@@ -35,12 +36,14 @@ public class Keyboard extends KeyAdapter implements KeyListener {
 
     }
 
-    public void addGame(Board board) { this.game = board;}
+    public void addGame() { this.gameExists = true;}
 
+    public void deleteGame() { this.gameExists = false;}
 
 
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
 
     @Override
@@ -50,6 +53,11 @@ public class Keyboard extends KeyAdapter implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         myKeyEvt(e);
+        try{
+            Thread.sleep(50);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -58,7 +66,7 @@ public class Keyboard extends KeyAdapter implements KeyListener {
     private void myKeyEvt(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if (profile.isInGame && !profile.isSpectator && game != null) {
+        if (profile.isInGame && !profile.isSpectator && gameExists) {
 
             try {
 

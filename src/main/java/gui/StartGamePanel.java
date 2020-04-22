@@ -38,7 +38,7 @@ public class StartGamePanel extends BackgroundScoreArea {
         this.game = game;
 
         // Spinners are used for a player to choose a board size and the coin occurrence.
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(10, 10, 20,1);
+        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(10, 10, 50,1);
         this.boardSize = new JSpinner(spinnerModel);
         SpinnerNumberModel spinnerModel2 = new SpinnerNumberModel(0, 0, 100,1);
         this.coinOccurrence = new JSpinner(spinnerModel2);
