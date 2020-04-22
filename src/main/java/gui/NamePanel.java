@@ -16,20 +16,22 @@ public class NamePanel extends BackgroundScoreArea {
      DataOutputStream dos;
      JButton send;
      JLabel wrongInput;
+     GameGUI game;
 
-     NamePanel (DataOutputStream dos) {
+     NamePanel (DataOutputStream dos, GameGUI game) {
 
         this.dos = dos;
 
         // Text with information next to the Textfield, so the player knows what he or she is deciding about.
         this.nameText = new JLabel("Enter your new nickname:  ");
-        this.nameInput = new JTextField(25);
+        this.nameInput = new JTextField(30);
         this.send = new JButton("Send");
         this.wrongInput = new JLabel("     ");
+        this.game = game;
 
 
         //settings for the layout
-        this.setPreferredSize(new Dimension(350,250));
+        this.setMinimumSize(new Dimension(920,600));
         this.setBackground(new Color(1,1,1,(float)0.01));
         this.setBorder(BorderFactory.createTitledBorder(("Choose your nickname:")));
 
@@ -104,6 +106,7 @@ public class NamePanel extends BackgroundScoreArea {
             wrongInput.setText("");
             nameInput.setText("");
             this.setVisible(false);
+            game.setVisible(true);
         }
         else {
             wrongInput.setText("You cannot use \": \", \".\" or spaces!");

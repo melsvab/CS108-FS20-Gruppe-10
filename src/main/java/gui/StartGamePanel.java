@@ -23,6 +23,7 @@ public class StartGamePanel extends BackgroundScoreArea {
     JSpinner boardSize;
     JSpinner coinOccurrence;
     DataOutputStream dos;
+    GameGUI game;
 
     /**
      * Instantiates a new panel to start a game
@@ -30,9 +31,11 @@ public class StartGamePanel extends BackgroundScoreArea {
      * @param dos  the data out put stream
      */
 
-    StartGamePanel(DataOutputStream dos) {
+    StartGamePanel(DataOutputStream dos, GameGUI game) {
         // Data output stream will be saved to send a message later
         this.dos = dos;
+
+        this.game = game;
 
         // Spinners are used for a player to choose a board size and the coin occurrence.
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(10, 10, 20,1);
@@ -47,7 +50,7 @@ public class StartGamePanel extends BackgroundScoreArea {
 
 
         //settings for the layout
-        this.setPreferredSize(new Dimension(350,250));
+        this.setMinimumSize(new Dimension(920,600));
         this.setBackground(new Color(1,1,1, (float) 0.01));
         this.setBorder(BorderFactory.createTitledBorder(("Choose game settings:")));
 
@@ -97,6 +100,7 @@ public class StartGamePanel extends BackgroundScoreArea {
             System.err.println(f.toString());
         }
         this.setVisible(false);
+        game.setVisible(true);
     }
 
 }

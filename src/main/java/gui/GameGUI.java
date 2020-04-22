@@ -36,7 +36,6 @@ public class GameGUI extends BackgroundPanelArea {
     GameGUI() throws IOException {
 
         this.setLayout(new BorderLayout()); //BorderLayout is chosen at the moment. Could be changed later
-        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setMaximumSize(new Dimension(WIDTH, HEIGHT));
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 

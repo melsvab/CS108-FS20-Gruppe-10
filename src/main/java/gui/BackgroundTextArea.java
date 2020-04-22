@@ -12,6 +12,7 @@ public class BackgroundTextArea extends JTextArea {
 
     public BackgroundTextArea(){
         super();
+        this.setEditable(false);
         try {
             chatBackground = ImageIO.read(getClass().getResourceAsStream("/img/ChatBackground.png"));
         } catch (IOException e) {

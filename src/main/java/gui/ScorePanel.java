@@ -37,9 +37,9 @@ public class ScorePanel extends BackgroundTurtles {
 
         //center
         this.game = new GameGUI();
-        this.start = new StartGamePanel(dos);
-        this.join = new JoinGamePanel(dos);
-        this.name = new NamePanel(dos);
+        this.start = new StartGamePanel(dos, game);
+        this.join = new JoinGamePanel(dos, game);
+        this.name = new NamePanel(dos, game);
 
         // panel on top
         top = new GameMarginHorizontal(true, this.game);

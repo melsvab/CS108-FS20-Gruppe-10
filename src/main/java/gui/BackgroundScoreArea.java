@@ -12,6 +12,7 @@ public class BackgroundScoreArea extends JTextArea {
 
     public BackgroundScoreArea(){
         super();
+        this.setEditable(false);
         try {
             waterBackground = ImageIO.read(getClass().getResourceAsStream("/img/WaterBackground2.png"));
         } catch (IOException e) {

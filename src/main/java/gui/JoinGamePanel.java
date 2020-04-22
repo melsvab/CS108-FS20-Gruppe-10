@@ -20,16 +20,18 @@ public class JoinGamePanel extends BackgroundScoreArea {
     private JSpinner gameNumber;
     private JRadioButton spectate;
     DataOutputStream dos;
+    GameGUI game;
 
     /**
      * Initialises a new join a game panel
      * that is invisible until someone presses the join a game button
      */
 
-    JoinGamePanel(DataOutputStream dos) {
+    JoinGamePanel(DataOutputStream dos, GameGUI game) {
         // Data output stream will be saved to send a message later
         this.dos = dos;
 
+        this.game = game;
 
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, 100,1);
         this.gameNumber = new JSpinner(spinnerModel);
@@ -38,7 +40,7 @@ public class JoinGamePanel extends BackgroundScoreArea {
         this.spectate = new JRadioButton();
         JLabel spectateText = new JLabel("Spectator mode:   ");
 
-        this.setPreferredSize(new Dimension(350,250));
+        this.setMinimumSize(new Dimension(920,600));
         this.setBackground(new Color(1,1,1, (float) 0.01));
 
         this.setBorder(BorderFactory.createTitledBorder(("Join the game:")));
@@ -88,6 +90,7 @@ public class JoinGamePanel extends BackgroundScoreArea {
             System.err.println(f.toString());
         }
         this.setVisible(false);
+        game.setVisible(true);
     }
 
 }
