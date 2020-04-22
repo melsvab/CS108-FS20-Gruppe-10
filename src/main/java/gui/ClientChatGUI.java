@@ -18,23 +18,21 @@ import javax.swing.*;
 public class ClientChatGUI extends JPanel {
 
     /**
-     * The Chat area.
+     * The chat area.
      */
     BackgroundTextArea chatArea;
     /**
-     * The Message.
+     * The message.
      */
     JTextField message;
     /**
-     * The Dos.
+     * The data output stream to send messages to the server
      */
     DataOutputStream dos;
     /**
-     * The Dim scroll.
+     * The dim scroll.
      */
     Dimension dimScroll;
-
-    private BufferedImage chatBackground;
 
     /**
      * Instantiates a new Client Chat Gui.
@@ -47,9 +45,9 @@ public class ClientChatGUI extends JPanel {
 
         this.setLayout(new BorderLayout());
         if(chat) {
-            this.setBorder(BorderFactory.createTitledBorder(("Messages")));
-        } else {
             this.setBorder(BorderFactory.createTitledBorder(("Chat")));
+        } else {
+            this.setBorder(BorderFactory.createTitledBorder(("Messages")));
         }
         //panel.setPreferredSize(new Dimension( 500, 300 ) );
 
@@ -63,7 +61,7 @@ public class ClientChatGUI extends JPanel {
         //create scroll panel
         JScrollPane scroll = new JScrollPane(chatArea); //chat is scrollable
         scroll.setVerticalScrollBarPolicy(scroll.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scroll.setPreferredSize(new Dimension(120, 300));
+        scroll.setPreferredSize(new Dimension(105, 300));
         this.add(scroll);
 
        if (chat) {
@@ -78,7 +76,7 @@ public class ClientChatGUI extends JPanel {
     /**
      * Action performed.
      *
-     * @param e the e
+     * @param e the happened event
      */
     public void actionPerformed(ActionEvent e) {
         //differentiates between normal chat-message, whisperchat and broadcast
@@ -104,7 +102,7 @@ public class ClientChatGUI extends JPanel {
     }
 
     /**
-     * Receive msg.
+     * Receives a message
      *
      * @param msg the msg
      */
@@ -116,5 +114,19 @@ public class ClientChatGUI extends JPanel {
         chatArea.setPreferredSize(dimScroll);
         chatArea.revalidate();
         chatArea.setCaretPosition(chatArea.getText().length());
+    }
+
+    /**
+     * Changes the color of the text red or black.
+     *
+     * @param change is true if the message is an error message
+     */
+    public void changeToErrorMessage(boolean change) {
+        if (change) {
+            chatArea.setForeground(Color.BLACK);
+        } else {
+            chatArea.setForeground(Color.RED);
+        }
+
     }
 }

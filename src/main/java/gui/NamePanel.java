@@ -9,15 +9,49 @@ import java.awt.event.ActionEvent;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * @author Melanie
+ * This layer is shown if a player presses
+ * the 'change name' button.
+ */
+
 public class NamePanel extends BackgroundScoreArea {
 
+    /*
+    * The name input
+    */
      JTextField nameInput;
+
+    /*
+     * A label for the text next to the
+     * text field where players can type
+     * in their preferred nickname
+     */
      JLabel nameText;
+
+    /*
+     * A data output stream to send
+     * the chosen nickname to the server
+     */
      DataOutputStream dos;
+
+    /*
+     * A button to press if the
+     * player has typed in the nickname
+     */
      JButton send;
-     JLabel wrongInput;
+
+    /*
+     * The game panel
+     */
      GameGUI game;
 
+    /**
+     * Instantiates a new name panel
+     *
+     * @param dos  the data output stream
+     * @param game  the panel with the game
+     */
      NamePanel (DataOutputStream dos, GameGUI game) {
 
         this.dos = dos;
@@ -26,7 +60,6 @@ public class NamePanel extends BackgroundScoreArea {
         this.nameText = new JLabel("Enter your new nickname:  ");
         this.nameInput = new JTextField(30);
         this.send = new JButton("Send");
-        this.wrongInput = new JLabel("     ");
         this.game = game;
 
 
@@ -50,12 +83,6 @@ public class NamePanel extends BackgroundScoreArea {
         gbc.gridx = 1;
         this.add(nameInput, gbc);
 
-        // Error-Message if the input contains ":" "." or spaces.
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        this.add(wrongInput, gbc);
 
         // The send button is at the left bottom underneath the text for the coin occurrence
         gbc.gridx = 0;
@@ -64,42 +91,39 @@ public class NamePanel extends BackgroundScoreArea {
         this.add(send, gbc);
 
         this.setVisible(false);
-        }
+     }
 
-/*
- *  This method automatically starts if a client presses the send button
- *  and sends the input written in the JTextField.
- */
+    /*
+    *  This method automatically starts if a client presses the send button
+    *  and sends the input written in the JTextField.
+    */
     public void actionPerformed(ActionEvent e) {
         String input = "NAME:" + nameInput.getText();
 
         Parameter name = new Parameter(input, 3);
-        if (name.isCorrect) {
-            String newNickname = name.wordOne;
 
-            /*
-             * if the answer is <YEAH> the nickname is change to the
-             * system username. If the answer is something else,
-             * this input will be used as the nickname.
-             */
+        String newNickname = name.wordOne;
 
-            if (newNickname.equalsIgnoreCase("YEAH")) {
-                newNickname = System.getProperty("user.name");
-            }
+        /*
+         * if the answer is <YEAH> the nickname is change to the
+         * system username. If the answer is something else,
+         * this input will be used as the nickname.
+         */
 
-            // sending the desired nickname to server
-            try {
-                dos.writeUTF(Protocol.NAME.name() + ":" + newNickname);
-            } catch (IOException f) {
-                System.err.println(f.toString());
-            }
-
-            wrongInput.setText("");
-            nameInput.setText("");
-            this.setVisible(false);
-            game.setVisible(true);
-        } else {
-            wrongInput.setText("You cannot use \": \" or spaces!");
+        if (newNickname.equalsIgnoreCase("YEAH")) {
+            newNickname = System.getProperty("user.name");
         }
+
+        // sending the desired nickname to server
+        try {
+            dos.writeUTF(Protocol.NAME.name() + ":" + newNickname);
+        } catch (IOException f) {
+            System.err.println(f.toString());
+        }
+
+        nameInput.setText("");
+        this.setVisible(false);
+        game.setVisible(true);
+
     }
 }

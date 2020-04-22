@@ -18,21 +18,75 @@ import java.io.IOException;
 
 public class ScorePanel extends BackgroundTurtles {
 
+    /**
+     * The game panel which shows the game state
+     * or the logo of the game.
+     */
     public GameGUI game;
+
+    /**
+     * The start game panel will be shown
+     * after a player presses the 'start game' button.
+     */
     public StartGamePanel start;
+
+    /**
+     * The join game panel will be shown after
+     * a player presses the 'join a game' button.
+     */
     public JoinGamePanel join;
+
+    /**
+     * The name panel will be shown after
+     * a player presses the 'change name' button.
+     */
     public NamePanel name;
 
+    /**
+     * The panel over the game
+     */
     public GameMarginHorizontal top;
+
+    /**
+     * The panel on the right side of the game
+     */
     public GameMarginVertical right;
+
+    /**
+     * The panel on the left side of the game
+     */
     public GameMarginVertical left;
+
+    /**
+     * The panel under the game
+     */
     public GameMarginHorizontal bottom;
 
+    /*
+    * The corner panel up left
+    */
     public GameCorners upLeft;
+
+    /*
+     * The corner panel up right
+     */
     public GameCorners upRight;
+
+    /*
+     * The corner panel down right
+     */
     public GameCorners downLeft;
+
+    /*
+     * The corner panel down right
+     */
     public GameCorners downRight;
 
+    /**
+     * Instantiates a new score panel
+     *
+     * @param dos  the data output stream
+     */
     ScorePanel(DataOutputStream dos) throws IOException {
 
         //center
@@ -188,7 +242,7 @@ public class ScorePanel extends BackgroundTurtles {
     }
 
     /**
-     * This method gives the board to all the graphical classes that need them
+     * This method gives the board to all the graphical classes that need them.
      */
     public void getGame(Board game) {
         this.game.setBoard(game);
@@ -210,7 +264,7 @@ public class ScorePanel extends BackgroundTurtles {
     }
 
     /**
-     * changes given text area
+     * changes setting of a given text area
      */
     public static void changeTextAreaProperties(BackgroundScoreArea textArea) {
         textArea.setEditable(false);

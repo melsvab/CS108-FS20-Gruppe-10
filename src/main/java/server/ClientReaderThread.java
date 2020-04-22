@@ -175,7 +175,9 @@ public class ClientReaderThread implements Runnable {
                             if (checkMessage(original)) {
                                 String errorText = original.substring(5);
                                 System.out.println(errorText);
+                                profile.mainFrame.messages.changeToErrorMessage(true);
                                 profile.mainFrame.messages.receiveMsg(errorText);
+                                profile.mainFrame.messages.changeToErrorMessage(false);
                             } else {
                                 System.out.println(Message.garbage + " *2");
                             }

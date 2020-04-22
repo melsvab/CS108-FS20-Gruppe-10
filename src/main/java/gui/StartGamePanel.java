@@ -20,15 +20,32 @@ import java.io.IOException;
 
 public class StartGamePanel extends BackgroundScoreArea {
 
+    /**
+     * This is a spinner for the board size.
+     */
     JSpinner boardSize;
+
+    /**
+     * This is a spinner for the coin occurrence.
+     */
     JSpinner coinOccurrence;
+
+    /**
+     * This is the data output stream to send
+     * the chosen numbers to the server.
+     */
     DataOutputStream dos;
+
+    /**
+     * This is the game layer
+     */
     GameGUI game;
 
     /**
      * Instantiates a new panel to start a game
      *
-     * @param dos  the data out put stream
+     * @param dos  the data output stream
+     * @param game  the panel with the game
      */
 
     StartGamePanel(DataOutputStream dos, GameGUI game) {

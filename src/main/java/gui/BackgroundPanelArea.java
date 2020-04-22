@@ -6,10 +6,22 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * @author Melanie
+ * This class is used for water backgrounds
+ */
+
 public class BackgroundPanelArea extends JPanel {
 
+    /*
+     * A buffered image that will be shown at the background
+     */
     BufferedImage panelBackground;
 
+    /**
+     * Instantiates a new background panel
+     * and gets the water background picture
+     */
     public BackgroundPanelArea(){
         super();
         try {
@@ -19,6 +31,9 @@ public class BackgroundPanelArea extends JPanel {
         }
     }
 
+    /**
+     * paints a water background
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

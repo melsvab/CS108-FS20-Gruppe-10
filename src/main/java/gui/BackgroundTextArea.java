@@ -6,10 +6,22 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * @author Melanie
+ * This class is used for turtle backgrounds in the chat area.
+ */
+
 public class BackgroundTextArea extends JTextArea {
 
+    /*
+     * A buffered image that will be shown at the background
+     */
     BufferedImage chatBackground;
 
+    /**
+     * Instantiates a new background text are
+     * and gets the small turtle picture
+     */
     public BackgroundTextArea(){
         super();
         this.setEditable(false);
@@ -20,6 +32,9 @@ public class BackgroundTextArea extends JTextArea {
         }
     }
 
+    /**
+     * paints a small turtle background
+     */
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;

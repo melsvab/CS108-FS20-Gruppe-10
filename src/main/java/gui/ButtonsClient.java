@@ -9,23 +9,82 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import server.*;
 
+/**
+ * @author Melanie
+ * This class is put on the right down corner of the main frame
+ * and includes all general buttons that can pressed by clients.
+ */
+
 public class ButtonsClient extends JPanel{
 
+    /**
+     * A button to see the player list
+     */
     JButton playerlist;
+
+    /**
+     * A button to create a new lobby
+     */
     JButton create;
+
+    /**
+     * A button to ask for help
+     */
     JButton help;
+
+    /**
+     * A button to leave a lobby and its game
+     */
     JButton back;
+
+    /**
+     * A button to see the game list
+     */
     JButton gamelist;
+
+    /**
+     * A button to see the highscore list
+     */
     JButton highscore;
+
+    /**
+     * A button to quit the program
+     */
     JButton quit;
+
+    /**
+     * A button to start a game
+     */
     JButton start;
+
+    /**
+     * A button to join a game
+     */
     JButton join;
+
+    /**
+     * A button to change the nickname
+     */
     JButton name;
+
+    /**
+     * The data output stream to send a message to the server
+     */
     DataOutputStream dos;
+
+    /**
+     * The profile of the player
+     */
     Profil profile;
+
+    /**
+     * The logger to check data
+     */
     Logger logger;
 
-
+    /**
+     * Instantiates the panel in the right corner with all buttons
+     */
     ButtonsClient(DataOutputStream dos, Profil profile, Logger logger) {
         this.dos = dos;
         this.profile = profile;
@@ -75,10 +134,14 @@ public class ButtonsClient extends JPanel{
         this.add(help);
     }
 
+    /**
+     * This method automatically starts if a player presses a button
+     */
+
     public void actionPerformed(ActionEvent e1) {
         try {
             if (e1.getSource().equals(playerlist)) {
-                logger.info("asked for PlayerList");
+                logger.info("asked for playerList");
                 /*
                  * Sends keyword to server.
                  * Here: client asks for the list of all players that are currently on the server
@@ -96,7 +159,7 @@ public class ButtonsClient extends JPanel{
                 dos.writeUTF(Protocol.GML1.name());
 
             } else if (e1.getSource().equals(create)) {
-                logger.info("created a new Lobby");
+                logger.info("created a new lobby");
                 // This keyword is used to create a new lobby.
                 if (profile.isInGame) {
                     // Clients cannot join a new lobby if they are already in one.
@@ -107,7 +170,7 @@ public class ButtonsClient extends JPanel{
                 }
 
             } else if (e1.getSource().equals(highscore)) {
-                logger.info("asking for Highscore");
+                logger.info("asking for highscore");
                 /*
                  * Sends keyword to server.
                  * Here: client asks for the high score list
@@ -117,14 +180,21 @@ public class ButtonsClient extends JPanel{
                 dos.writeUTF(Protocol.HSC1.name());
 
             } else if (e1.getSource().equals(help)) {
-                profile.mainFrame.chat.receiveMsg(Message.helpMessage);
+
+                /*
+                 * TO DO: if a player presses the help
+                 * button then a tutorial for the game
+                 * and all button will be shown.
+                 *
+                 */
+                System.out.println(Message.helpMessage);
 
             } else if (e1.getSource().equals(back)) {
                 // This keyword is used to go out of a lobby.
                 if (profile.isInGame) {
                     dos.writeUTF(Protocol.BACK.name());
                 } else {
-                    profile.mainFrame.chat.receiveMsg("You have not joined a lobby yet "
+                    profile.mainFrame.messages.receiveMsg("You have not joined a lobby yet "
                             + "so there is no need to go back!");
                 }
 
