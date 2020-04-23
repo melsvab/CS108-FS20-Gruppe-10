@@ -11,29 +11,106 @@ import java.io.IOException;
 import game.*;
 import javafx.scene.transform.Affine;
 
+/**
+ * @author Melanie, Natasha
+ * This class is used to show the nickname of a player
+ * as well as his or her score during the game.
+ */
 public class GameGUI extends BackgroundPanelArea {
 
+    /**
+     * The width of the panel
+     */
     private static final int WIDTH = 920;
+
+    /**
+     * The height of the panel
+     */
     private static final int HEIGHT = 600;
+
+    /**
+     * The size of one pictures in pixels
+     */
     private static final int PICTURE_SIZE = 60;
+
+    /**
+     * The picture of the blue turtle
+     */
     private BufferedImage turtleBlue;
+
+    /**
+     * The picture of the green turtle
+     */
     private BufferedImage turtleGreen;
+
+    /**
+     * The picture of the violet turtle
+     */
     private BufferedImage turtleViolet;
+
+    /**
+     * The picture of the yellow turtle
+     */
     private BufferedImage turtleYellow;
+
+    /**
+     * The picture of a water field
+     */
     private BufferedImage waterField;
+
+    /**
+     * The picture of a grass field
+     */
     private BufferedImage normalField;
+
+    /**
+     * The picture of a field that was stepped on
+     */
     private BufferedImage usedField;
+
+    /**
+     * The picture of a field with earthquake
+     */
     private BufferedImage earthquake;
+
+    /**
+     * The picture of a coin
+     */
     private BufferedImage coin;
+
+    /**
+     * The picture of the logo
+     */
     private BufferedImage mainScreen;
+
+    /**
+     * The picture of a field that is a start position
+     */
     private BufferedImage startPosition;
+
+    /**
+     * The board that will be interpreted graphically
+     */
     Board board = null;
 
-    int rescaleX = 150;
+    /**
+     * An index to rescale the x values of the whole board
+     */
+    int rescaleX = 0;
+
+    /**
+     * An index to rescale the y values of the whole board
+     */
     int rescaleY = 0;
 
+    /**
+     * The actual board size
+     */
     int actualBoardSize;
 
+    /**
+     * Instantiates a new game gui.
+     */
     GameGUI() throws IOException {
 
         this.setLayout(new BorderLayout()); //BorderLayout is chosen at the moment. Could be changed later
@@ -63,7 +140,11 @@ public class GameGUI extends BackgroundPanelArea {
 
         startPosition = ImageIO.read(getClass().getResourceAsStream("/img/startPosition.png"));
     }
-
+    /**
+     * board was given by the main frame and the actual board size
+     * as well as the x and y values are calculated.
+     * @param board the board where the game occurs
+     */
     public void setBoard(Board board) {
         this.board = board;
         actualBoardSize = board.boardSize + 2;
@@ -76,24 +157,21 @@ public class GameGUI extends BackgroundPanelArea {
         actualBoardSize = 0;
     }
 
-    @Override
-    /*
-     *Overrides paintComponent. Draws the whole board. Not every Image is included in the method
-     *at the moment until its working properly. TO DO: When the player is choosing a turtle to add a color
-     *so the code "knows" which turtle to draw. TO DO: boardSize over ten should not draw so ugly at the corners.
-     *TO DO: implement this code into the game (note: "profile.mainFrame.game".redraw() could maybe used to draw
-     * the board again if there is a change. TO DO: y-spiegelverkehrt korrigieren.
+
+    /**
+     * Overrides paintComponent
+     * and draws the whole game field on a Graphics object.
+     * @param g the graphics
      */
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         if (board != null) {
-            int widthField = PICTURE_SIZE;
-            int heightField = PICTURE_SIZE;
             for (int y = 0; y < board.boardSize; y++) {
                 for (int x = 0; x < board.boardSize; x++) {
-                    int xValue = widthField * x + rescaleX;
-                    int yValue = heightField * ((board.boardSize - 1) - y) + rescaleY;
+                    int xValue = PICTURE_SIZE * x + rescaleX;
+                    int yValue = PICTURE_SIZE * ((board.boardSize - 1) - y) + rescaleY;
                     if (board.board[x+1][y+1].isStartPosition) {
                         g2d.drawImage(startPosition, null, xValue , yValue);
                     }
@@ -138,6 +216,11 @@ public class GameGUI extends BackgroundPanelArea {
         }
     }
 
+    /**
+     * This method rotates turtles into the direction that they are walking.
+     * @param turtle the image of the turtle
+     * @param direction the direction that the turtle is facing
+     */
     public static BufferedImage rotateImage(BufferedImage turtle, int direction) {
         int degree = 0;
         switch(direction) {
@@ -155,41 +238,50 @@ public class GameGUI extends BackgroundPanelArea {
                 break;
         }
         double rotation = Math.toRadians(degree);
-        double x = turtle.getWidth() / 2;
-        double y = turtle.getHeight() / 2;
+        int x = turtle.getWidth() / 2;
+        int y = turtle.getHeight() / 2;
         AffineTransform xx = AffineTransform.getRotateInstance(rotation, x, y);
         AffineTransformOp op = new AffineTransformOp(xx, AffineTransformOp.TYPE_BILINEAR);
         return op.filter(turtle, null);
     }
 
-    public synchronized void changeX (int value) {
-        value *= 5;
+    /**
+     * This method changes the x values of the whole game
+     * @param valueX the value that changes at the x coordinates
+     */
+    public synchronized void changeX (int valueX) {
         for (int i = 0; i<PICTURE_SIZE/5; i++) {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            rescaleX += value;
+            rescaleX += valueX;
             repaint();
         }
     }
 
 
-    public synchronized void changeY (int value) {
-        value *= 5;
+    /**
+     * This method changes the y values of the whole game.
+     * @param valueY the value that changes at the x coordinates
+     */
+    public synchronized void changeY (int valueY) {
         for (int i = 0; i<PICTURE_SIZE/5; i++) {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            rescaleY += value;
+            rescaleY += valueY;
             repaint();
         }
     }
 
 
+    /*
+     * This method is used to test the game gui panel.
+     */
     public static void main (String[] args) throws IOException {
         gui.GameGUI game = new gui.GameGUI();
         JFrame frame = new JFrame();

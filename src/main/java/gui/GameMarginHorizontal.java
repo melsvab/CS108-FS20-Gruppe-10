@@ -8,19 +8,58 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * @author Melanie, Natasha
+ * This class is used for the vertical game margin.
+ */
+
 public class GameMarginHorizontal extends BackgroundTurtles implements MouseListener {
 
+    /**
+     * boolean to determine whether the object is used
+     * for the top or bottom panel next to the game.
+     */
     public boolean top;
+
+    /**
+     * The panel if the game
+     */
     public GameGUI board;
+
+    /**
+     * A background with turtles
+     */
     public BackgroundTurtles panelArea;
 
+    /**
+     * A background with turtles to show the current rounds
+     */
     public BackgroundScoreArea roundText;
+
+    /**
+     * A background with turtles to place a message
+     * if an event is happening
+     */
     public BackgroundScoreArea eventIsHappening;
+
+    /**
+     * A background with turtles to place a message
+     * if a move is invalid
+     */
     public BackgroundScoreArea invalidMove;
 
+    /**
+     * A timer to delete the text
+     * about the invalid moves after some time
+     */
     public Timer tmr;
 
 
+    /**
+     * Instantiates a new game margin vertical.
+     * @param top a boolean to determine whether this object is used on the top or bottom
+     * @param board the board for the game
+     */
     public GameMarginHorizontal(boolean top, GameGUI board){
         this.setPreferredSize(new Dimension( 60, 800) );
         this.setMinimumSize(new Dimension( 60, 800) );
@@ -86,30 +125,56 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
     }
 
 
+    /**
+     * A method that will be activated if someone clicks on the panel
+     * TO DO: can turn on/off animation that will be seen at the game
+     * @param e the event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(top) {
-            this.board.changeY(1);
-        } else {
-            this.board.changeY(-1);
-        }
+
     }
 
+    /**
+     * TO DO: Will be used to start music if there is no game.
+     * @param e the event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
 
     }
 
+    /**
+     * A method that will be activated if the mouse is released
+     * @param e the event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /**
+     * A method that will be activated if the mouse enters the panel.
+     * rescales y to the right direction depending on
+     * the fact whether this object is used
+     * for the panel next on top or on the bottom to the game.
+     * @param e the event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
+        if (board != null) {
+            if (top) {
+                this.board.changeY(5);
+            } else {
+                this.board.changeY(-5);
+            }
+        }
 
     }
 
+    /**
+     * A method that will be activated if the mouse exits the panel.
+     */
     @Override
     public void mouseExited(MouseEvent e) {
 

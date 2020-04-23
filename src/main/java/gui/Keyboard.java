@@ -36,20 +36,38 @@ public class Keyboard extends KeyAdapter implements KeyListener {
 
     }
 
+    /**
+     * changes boolean 'game exists' to true
+     */
     public void addGame() { this.gameExists = true;}
 
+    /**
+     * changes boolean 'game exists' to false
+     */
     public void deleteGame() { this.gameExists = false;}
 
 
+    /**
+     * A method that will be activated if a key from the keyboard is pressed.
+     * @param e for a key event
+     */
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
+    /**
+     * A method that will be activated if a key from the keyboard is released.
+     * @param e for a key event
+     */
     @Override
     public void keyReleased(KeyEvent e) {
     }
 
+    /**
+     * A method that will be activated if a key from the keyboard is pressed.
+     * @param e for a key event
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         myKeyEvt(e);
@@ -62,6 +80,7 @@ public class Keyboard extends KeyAdapter implements KeyListener {
 
     /**
      * Analyses what key was pressed and sends message to the server.
+     * @param e for a key event
      */
     private void myKeyEvt(KeyEvent e) {
         int key = e.getKeyCode();

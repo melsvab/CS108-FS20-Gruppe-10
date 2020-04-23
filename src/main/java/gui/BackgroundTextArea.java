@@ -33,7 +33,8 @@ public class BackgroundTextArea extends JTextArea {
     }
 
     /**
-     * paints a small turtle background
+     * Paints a small turtle background
+     * @param g the graphics
      */
     @Override
     protected void paintComponent(Graphics g) {

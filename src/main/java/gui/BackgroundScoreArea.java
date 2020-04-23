@@ -32,7 +32,8 @@ public class BackgroundScoreArea extends JTextArea {
     }
 
     /**
-     * paints a big turtle background
+     * Paints a big turtle background
+     * @param g the graphics
      */
     @Override
     protected void paintComponent(Graphics g) {

@@ -32,7 +32,8 @@ public class BackgroundPanelArea extends JPanel {
     }
 
     /**
-     * paints a water background
+     * Paints a water background
+     * @param g the graphics
      */
     @Override
     protected void paintComponent(Graphics g) {

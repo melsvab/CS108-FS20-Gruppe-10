@@ -17,16 +17,35 @@ import java.io.IOException;
 
 public class JoinGamePanel extends BackgroundScoreArea {
 
+    /**
+     * The spinner with the game number
+     */
     private JSpinner gameNumber;
+
+    /**
+     * The spinner with the spectator button
+     */
     private JRadioButton spectate;
+
+    /**
+     * The data output stream to send messages to the server
+     */
     DataOutputStream dos;
+
+    /**
+     * The score panel to set visibility for all other panels
+     * that are at the same spot as this panel here.
+     */
     ScorePanel score;
 
     /**
-     * Initialises a new join a game panel
+     * Initialises a new join a game panel.
      * that is invisible until someone presses the join a game button
+     *
+     * @param dos the data output stream
+     * @param score the score panel where this panel is in
+     *
      */
-
     JoinGamePanel(DataOutputStream dos, ScorePanel score) {
         // Data output stream will be saved to send a message later
         this.dos = dos;
@@ -76,14 +95,14 @@ public class JoinGamePanel extends BackgroundScoreArea {
     }
 
     /**
-     * sends the decision of a game number to the server
+     * Sends the decision of a game number to the server
+     * @param e an event because someone pressed the 'send' button
      */
     public void actionPerformed(ActionEvent e) {
         try {
             if (spectate.isSelected()) {
                 dos.writeUTF(Protocol.SPEC.name() + ":" + gameNumber.getValue());
-            }
-            else {
+            } else {
                 dos.writeUTF(Protocol.JOIN.name() + ":" + gameNumber.getValue());
             }
         } catch (IOException f) {

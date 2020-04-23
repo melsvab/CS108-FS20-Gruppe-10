@@ -145,8 +145,9 @@ public class Profil {
         this.lobby.writeToAll(Protocol.TURT.name() + ":" + this.myTurtle.num + ":" + direction);
 
         this.lobby.writeToAll(Protocol.POIN.name() + ":" + this.myTurtle.num + ":" + this.myTurtle.points);
-        System.out.println(this.lobby.board.printBoard() +
+        /*System.out.println(this.lobby.board.printBoard() +
                 "\n" + this.nickname + " has " + this.myTurtle.points + " points!");
+         */
     }
 
 }

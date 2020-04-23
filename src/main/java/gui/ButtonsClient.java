@@ -84,6 +84,9 @@ public class ButtonsClient extends JPanel{
 
     /**
      * Instantiates the panel in the right corner with all buttons
+     * @param dos the data output stream to send messages to the server
+     * @param profile the profile of the player
+     * @param logger the logger to collect data
      */
     ButtonsClient(DataOutputStream dos, Profil profile, Logger logger) {
         this.dos = dos;
@@ -136,8 +139,8 @@ public class ButtonsClient extends JPanel{
 
     /**
      * This method automatically starts if a player presses a button
+     * @param e1 the event that someone pressed a button
      */
-
     public void actionPerformed(ActionEvent e1) {
         try {
             if (e1.getSource().equals(playerlist)) {
@@ -166,6 +169,7 @@ public class ButtonsClient extends JPanel{
                     profile.mainFrame.messages.changeToErrorMessage(true);
                     profile.mainFrame.messages.receiveMsg(Message.inLobbyAlready);
                 } else {
+                    profile.mainFrame.score.makeAllCenterPanelsInvisibleExcept(0);
                     dos.writeUTF(Protocol.CRE1.name());
                     dos.writeUTF(Protocol.CHAT.name() + ":" + Message.enterLobby);
                 }
@@ -196,7 +200,7 @@ public class ButtonsClient extends JPanel{
                     dos.writeUTF(Protocol.BACK.name());
                 } else {
                     profile.mainFrame.messages.changeToErrorMessage(true);
-                    profile.mainFrame.messages.receiveMsg("You have not joined a lobby yet "
+                    profile.mainFrame.messages.receiveMsg("You have not joined a lobby yet \n"
                             + "so there is no need to go back!");
                 }
 
@@ -206,7 +210,7 @@ public class ButtonsClient extends JPanel{
                 } else {
                     profile.mainFrame.messages.changeToErrorMessage(true);
                     profile.mainFrame.messages.receiveMsg(
-                            "You must be in a lobby open for new players to start a game!\n");
+                            "You must be in a lobby \n that is open for new players \nto start a game!\n");
                 }
 
             } else if (e1.getSource().equals(join)) {

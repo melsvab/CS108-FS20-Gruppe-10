@@ -13,20 +13,69 @@ import org.slf4j.Logger;
 import server.Profil;
 import server.Protocol;
 
-
+/**
+ * @author Melanie
+ * This class puts all panel for the main frame in order
+ */
 public class MainFrame extends BackgroundScoreArea {
 
+    /**
+     * The frame
+     */
     JFrame frame;
+
+    /**
+     * A panel for the chat
+     */
     public ClientChatGUI chat;
+
+    /**
+     * A panel for messages from the server
+     */
     public ClientChatGUI messages;
+
+    /**
+     * A panel filled with buttons
+     */
     public ButtonsClient buttonsClient;
+
+    /**
+     * A panel with the game or our logo
+     */
     public ScorePanel score;
+
+    /**
+     * A keyboard listener to react to inputs from the keyboard
+     */
     public Keyboard keyboard = null;
+
+    /**
+     * A data output stream to send messages to the server
+     */
     DataOutputStream dos;
+
+    /**
+     * A logger to collect data
+     */
     Logger logger;
+
+    /**
+     * A profile of the client
+     */
     Profil profile;
+
+    /**
+     * A boolean to check if there is a game or not
+     */
     public Boolean gameExists = false;
 
+    /**
+     * Instantiates a new main frame
+     * @param dos the data output stream to send messages to the server
+     * @param profile the profile of the client
+     * @param logger the logger to collect data
+     *
+     */
     public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException{
         this.frame = new JFrame("The Floor is Java");
         this.chat = new ClientChatGUI(dos, true);
@@ -46,6 +95,11 @@ public class MainFrame extends BackgroundScoreArea {
     }
 
 
+    /**
+     * A method to set the different panels into order
+     * and change or define the settings for the frame.
+     *
+     */
     public void createMainFrame() {
         this.setLayout(new GridBagLayout());
         this.setSize(1280,720);
@@ -124,7 +178,8 @@ public class MainFrame extends BackgroundScoreArea {
     }
 
     /**
-     * gives the board to all the classes that need it.
+     * Gives the board to all the classes that need it.
+     * @param game to give the game to the panels
      */
     public void gameIsHere(Board game) {
         score.getGame(game);

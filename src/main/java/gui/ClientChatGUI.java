@@ -43,6 +43,8 @@ public class ClientChatGUI extends JPanel {
 
     /**
      * Instantiates a new Client Chat Gui.
+     * @param dos the data output stream to send messages to the server
+     * @param chat a boolean to determine whether this object is used for the chat or not
      */
     ClientChatGUI(DataOutputStream dos, boolean chat) {
         this.dos = dos;

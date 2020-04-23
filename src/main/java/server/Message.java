@@ -41,7 +41,7 @@ public class Message {
     /**
      * The constant inLobbyAlready.
      */
-    public static String inLobbyAlready = ("You are in a lobby already. If you want to exit," + "write >BACK<.");
+    public static String inLobbyAlready = ("You are in a lobby already. \nIf you want to exit, write >BACK<.");
     /**
      * The constant enterLobby.
      */
@@ -64,7 +64,7 @@ public class Message {
      * The constant playerDoesNotExist.
      */
     public static String playerDoesNotExist = (
-            "\n The message could not be sent. There is no player with this name.");
+            "\n The message could not be sent. \nThere is no player with this name.");
 
     /**
      * The constant youCannotDoThat.

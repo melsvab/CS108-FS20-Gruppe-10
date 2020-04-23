@@ -95,9 +95,10 @@ public class NamePanel extends BackgroundScoreArea {
 
         this.setVisible(false);
      }
-     /*
-      *  This method automatically starts if a client presses the send button
-      *  and sends the input written in the JTextField.
+     /**
+      * This method automatically starts if a client presses the send button
+      * and sends the input written in the JTextField.
+      * @param e the event occurs if someone presses the send button
       */
      public void actionPerformed(ActionEvent e) {
          String input = "NAME:" + nameInput.getText();

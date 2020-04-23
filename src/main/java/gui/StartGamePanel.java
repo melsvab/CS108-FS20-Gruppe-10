@@ -106,9 +106,10 @@ public class StartGamePanel extends BackgroundScoreArea {
         this.setVisible(false);
     }
 
-    /*
-    *  This method automatically starts if a client presses the send button
-    *  and sends the input given by the spinners to the server.
+    /**
+    * This method automatically starts if a client presses the send button
+    * and sends the input given by the spinners to the server.
+    * @param e an event that occurs if someone presses the send button
     */
     public void actionPerformed(ActionEvent e) {
         try {

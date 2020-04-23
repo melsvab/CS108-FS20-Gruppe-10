@@ -244,6 +244,10 @@ public class ScorePanel extends BackgroundTurtles {
      */
     public void resetGame() {
         makeAllCenterPanelsInvisibleExcept(0);
+        top.board = null;
+        bottom.board = null;
+        left.board = null;
+        right.board = null;
         this.game.resetBoard();
         top.roundText.setText(" ");
         changeVisibilityCorners(false);
@@ -255,6 +259,7 @@ public class ScorePanel extends BackgroundTurtles {
     /**
      * This method changes all panels in the center of the score panel
      * invisible except of the one that we want to show
+     * @param aCase four different cases for four different panels that are at the same place
      */
     public void makeAllCenterPanelsInvisibleExcept(int aCase) {
         // all panels are set to invisibility first
@@ -288,6 +293,7 @@ public class ScorePanel extends BackgroundTurtles {
     /**
      * changes visibility of the corners where
      * the names of the players and their score is shown
+     * @param change to set the visibility to true or false
      */
     public void changeVisibilityCorners(boolean change) {
         upLeft.setVisible(change);
@@ -300,6 +306,7 @@ public class ScorePanel extends BackgroundTurtles {
 
     /**
      * changes setting of a given text area
+     * @param textArea the area that needs to be changed
      */
     public static void changeTextAreaProperties(BackgroundScoreArea textArea) {
         textArea.setEditable(false);
