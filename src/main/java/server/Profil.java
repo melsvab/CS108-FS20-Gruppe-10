@@ -2,7 +2,6 @@ package server;
 
 import game.Lobby;
 import game.PlayerTurtle;
-import game.Field;
 import gui.MainFrame;
 
 import java.io.IOException;

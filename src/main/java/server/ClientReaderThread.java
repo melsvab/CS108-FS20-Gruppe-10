@@ -112,6 +112,7 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             System.out.println("\nWelcome to the server!\n\n");
+                            profile.mainFrame.messages.changeToErrorMessage(false);
                             profile.mainFrame.messages.receiveMsg("\nWelcome to the server!\n\n");
                             break;
 
@@ -157,6 +158,7 @@ public class ClientReaderThread implements Runnable {
 
                             if (checkMessage(original)) {
                                 System.out.println(original.substring(5));
+                                profile.mainFrame.messages.changeToErrorMessage(false);
                                 profile.mainFrame.messages.receiveMsg(original.substring(5));
                             } else {
                                 System.out.println(Message.garbage + " *1");
@@ -177,7 +179,7 @@ public class ClientReaderThread implements Runnable {
                                 System.out.println(errorText);
                                 profile.mainFrame.messages.changeToErrorMessage(true);
                                 profile.mainFrame.messages.receiveMsg(errorText);
-                                profile.mainFrame.messages.changeToErrorMessage(false);
+
                             } else {
                                 System.out.println(Message.garbage + " *2");
                             }
@@ -226,6 +228,7 @@ public class ClientReaderThread implements Runnable {
                                 String[] words = original.split(":");
                                 int lobbyNumber = Integer.parseInt(words[1]);
 
+                                profile.mainFrame.messages.changeToErrorMessage(false);
                                 profile.mainFrame.messages.receiveMsg("You entered lobby number " + lobbyNumber + "!");
                             } else {
                                 System.out.println(Message.garbage + " *3");
@@ -241,6 +244,7 @@ public class ClientReaderThread implements Runnable {
                             profile.mainFrame.leaveGame();
 
                             //Client went out of a lobby / game
+                            profile.mainFrame.messages.changeToErrorMessage(false);
                             profile.mainFrame.messages.receiveMsg("You are not in a lobby anymore!");
                             break;
 

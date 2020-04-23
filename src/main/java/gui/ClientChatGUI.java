@@ -35,6 +35,13 @@ public class ClientChatGUI extends JPanel {
     Dimension dimScroll;
 
     /**
+     * A boolean to determine
+     * whether the message is an error
+     * message or not
+     */
+    Boolean anError = false;
+
+    /**
      * Instantiates a new Client Chat Gui.
      */
     ClientChatGUI(DataOutputStream dos, boolean chat) {
@@ -108,6 +115,13 @@ public class ClientChatGUI extends JPanel {
      */
     public void receiveMsg(String msg) {
         //adds the message to the TextArea and adjusts the scrollbar in relationship to the occurrence of \n
+
+        if (anError) {
+            chatArea.setForeground(Color.RED);
+        } else {
+            chatArea.setForeground(Color.BLACK);
+        }
+
         chatArea.append(msg + "\n");
         int count = msg.length() - msg.replaceAll("\n", "").length();
         dimScroll.height += 16.5 * (count + 1);
@@ -122,11 +136,7 @@ public class ClientChatGUI extends JPanel {
      * @param change is true if the message is an error message
      */
     public void changeToErrorMessage(boolean change) {
-        if (change) {
-            chatArea.setForeground(Color.RED);
-        } else {
-            chatArea.setForeground(Color.BLACK);
-        }
+        anError = change;
 
     }
 }

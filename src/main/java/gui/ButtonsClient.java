@@ -194,6 +194,7 @@ public class ButtonsClient extends JPanel{
                 if (profile.isInGame) {
                     dos.writeUTF(Protocol.BACK.name());
                 } else {
+                    profile.mainFrame.messages.changeToErrorMessage(true);
                     profile.mainFrame.messages.receiveMsg("You have not joined a lobby yet "
                             + "so there is no need to go back!");
                 }
