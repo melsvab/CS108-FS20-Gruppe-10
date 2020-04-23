@@ -37,22 +37,22 @@ public class StartGamePanel extends BackgroundScoreArea {
     DataOutputStream dos;
 
     /**
-     * This is the game layer
+     * This is the score layer
      */
-    GameGUI game;
+    ScorePanel score;
 
     /**
      * Instantiates a new panel to start a game
      *
      * @param dos  the data output stream
-     * @param game  the panel with the game
+     * @param score  the panel with the game
      */
 
-    StartGamePanel(DataOutputStream dos, GameGUI game) {
+    StartGamePanel(DataOutputStream dos, ScorePanel score) {
         // Data output stream will be saved to send a message later
         this.dos = dos;
 
-        this.game = game;
+        this.score = score;
 
         // Spinners are used for a player to choose a board size and the coin occurrence.
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(10, 10, 50,1);
@@ -116,8 +116,7 @@ public class StartGamePanel extends BackgroundScoreArea {
         } catch (IOException f) {
             System.err.println(f.toString());
         }
-        this.setVisible(false);
-        game.setVisible(true);
+        score.makeAllCenterPanelsInvisibleExcept(0);
     }
 
 }

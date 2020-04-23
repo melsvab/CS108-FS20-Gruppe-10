@@ -41,26 +41,29 @@ public class NamePanel extends BackgroundScoreArea {
      */
      JButton send;
 
-    /*
-     * The game panel
+    /**
+     * This is the score layer
      */
-     GameGUI game;
+    ScorePanel score;
 
     /**
      * Instantiates a new name panel
      *
      * @param dos  the data output stream
-     * @param game  the panel with the game
+     * @param score  the panel with the game
      */
-     NamePanel (DataOutputStream dos, GameGUI game) {
+     NamePanel (DataOutputStream dos, ScorePanel score) {
 
         this.dos = dos;
 
-        // Text with information next to the Textfield, so the player knows what he or she is deciding about.
+        /*
+         * A text with information next to the textfield,
+         * so the player knows what he or she is deciding about.
+         */
         this.nameText = new JLabel("Enter your new nickname:  ");
         this.nameInput = new JTextField(30);
         this.send = new JButton("Send");
-        this.game = game;
+        this.score = score;
 
 
         //settings for the layout
@@ -92,38 +95,37 @@ public class NamePanel extends BackgroundScoreArea {
 
         this.setVisible(false);
      }
+     /*
+      *  This method automatically starts if a client presses the send button
+      *  and sends the input written in the JTextField.
+      */
+     public void actionPerformed(ActionEvent e) {
+         String input = "NAME:" + nameInput.getText();
 
-    /*
-    *  This method automatically starts if a client presses the send button
-    *  and sends the input written in the JTextField.
-    */
-    public void actionPerformed(ActionEvent e) {
-        String input = "NAME:" + nameInput.getText();
+         Parameter name = new Parameter(input, 3);
 
-        Parameter name = new Parameter(input, 3);
+         String newNickname = name.wordOne;
 
-        String newNickname = name.wordOne;
+         /*
+          * if the answer is <YEAH> the nickname is change to the
+          * system username. If the answer is something else,
+          * this input will be used as the nickname.
+          */
 
-        /*
-         * if the answer is <YEAH> the nickname is change to the
-         * system username. If the answer is something else,
-         * this input will be used as the nickname.
-         */
+         if (newNickname.equalsIgnoreCase("YEAH")) {
+             newNickname = System.getProperty("user.name");
+         }
 
-        if (newNickname.equalsIgnoreCase("YEAH")) {
-            newNickname = System.getProperty("user.name");
-        }
+         // sending the desired nickname to server
+         try {
+             dos.writeUTF(Protocol.NAME.name() + ":" + newNickname);
+         } catch (IOException f) {
+             System.err.println(f.toString());
+         }
 
-        // sending the desired nickname to server
-        try {
-            dos.writeUTF(Protocol.NAME.name() + ":" + newNickname);
-        } catch (IOException f) {
-            System.err.println(f.toString());
-        }
+         nameInput.setText("");
+         score.makeAllCenterPanelsInvisibleExcept(0);
 
-        nameInput.setText("");
-        this.setVisible(false);
-        game.setVisible(true);
+     }
 
-    }
 }

@@ -206,6 +206,7 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             if (checkMessage(original)) {
+                                profile.mainFrame.messages.changeToErrorMessage(false);
                                 profile.mainFrame.messages.receiveMsg(original.substring(5));
                             } else {
                                 System.out.println(Message.garbage + " *1.5");

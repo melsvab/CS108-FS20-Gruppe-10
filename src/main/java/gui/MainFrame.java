@@ -25,6 +25,7 @@ public class MainFrame extends BackgroundScoreArea {
     DataOutputStream dos;
     Logger logger;
     Profil profile;
+    public Boolean gameExists = false;
 
     public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException{
         this.frame = new JFrame("The Floor is Java");
@@ -89,6 +90,8 @@ public class MainFrame extends BackgroundScoreArea {
         gbc.gridheight = 3;
         this.add(score,gbc);
 
+
+
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -126,6 +129,7 @@ public class MainFrame extends BackgroundScoreArea {
     public void gameIsHere(Board game) {
         score.getGame(game);
         keyboard.addGame();
+        gameExists = true;
 
     }
 
@@ -134,6 +138,7 @@ public class MainFrame extends BackgroundScoreArea {
      * gives the board to all the classes that need it.
      */
     public void leaveGame() {
+        gameExists = false;
         score.resetGame();
         keyboard.deleteGame();
     }

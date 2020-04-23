@@ -20,18 +20,18 @@ public class JoinGamePanel extends BackgroundScoreArea {
     private JSpinner gameNumber;
     private JRadioButton spectate;
     DataOutputStream dos;
-    GameGUI game;
+    ScorePanel score;
 
     /**
      * Initialises a new join a game panel
      * that is invisible until someone presses the join a game button
      */
 
-    JoinGamePanel(DataOutputStream dos, GameGUI game) {
+    JoinGamePanel(DataOutputStream dos, ScorePanel score) {
         // Data output stream will be saved to send a message later
         this.dos = dos;
 
-        this.game = game;
+        this.score = score;
 
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, 100,1);
         this.gameNumber = new JSpinner(spinnerModel);
@@ -89,8 +89,7 @@ public class JoinGamePanel extends BackgroundScoreArea {
         } catch (IOException f) {
             System.err.println(f.toString());
         }
-        this.setVisible(false);
-        game.setVisible(true);
+        score.makeAllCenterPanelsInvisibleExcept(0);
     }
 
 }

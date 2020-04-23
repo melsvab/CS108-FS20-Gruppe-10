@@ -163,7 +163,8 @@ public class ButtonsClient extends JPanel{
                 // This keyword is used to create a new lobby.
                 if (profile.isInGame) {
                     // Clients cannot join a new lobby if they are already in one.
-                    profile.mainFrame.chat.receiveMsg(Message.inLobbyAlready);
+                    profile.mainFrame.messages.changeToErrorMessage(true);
+                    profile.mainFrame.messages.receiveMsg(Message.inLobbyAlready);
                 } else {
                     dos.writeUTF(Protocol.CRE1.name());
                     dos.writeUTF(Protocol.CHAT.name() + ":" + Message.enterLobby);
@@ -184,7 +185,7 @@ public class ButtonsClient extends JPanel{
                 /*
                  * TO DO: if a player presses the help
                  * button then a tutorial for the game
-                 * and all button will be shown.
+                 * and all buttons will be shown.
                  *
                  */
                 System.out.println(Message.helpMessage);
@@ -200,25 +201,24 @@ public class ButtonsClient extends JPanel{
                 }
 
             } else if (e1.getSource().equals(start)) {
-                if (profile.isInGame) {
-                    profile.mainFrame.score.game.setVisible(false);
-                    profile.mainFrame.score.start.setVisible(true);
+                if (profile.isInGame && !profile.mainFrame.gameExists) {
+                    profile.mainFrame.score.makeAllCenterPanelsInvisibleExcept(1);
                 } else {
-                    profile.mainFrame.chat.receiveMsg("You must be in a lobby to start a game!\n");
+                    profile.mainFrame.messages.changeToErrorMessage(true);
+                    profile.mainFrame.messages.receiveMsg(
+                            "You must be in a lobby open for new players to start a game!\n");
                 }
 
             } else if (e1.getSource().equals(join)) {
                 if (profile.isInGame) {
-                    profile.mainFrame.chat.receiveMsg(Message.inLobbyAlready);
-                }
-                else {
-                    profile.mainFrame.score.game.setVisible(false);
-                    profile.mainFrame.score.join.setVisible(true);
+                    profile.mainFrame.messages.changeToErrorMessage(true);
+                    profile.mainFrame.messages.receiveMsg(Message.inLobbyAlready);
+                } else {
+                    profile.mainFrame.score.makeAllCenterPanelsInvisibleExcept(2);
                 }
 
             } else if (e1.getSource().equals(name)) {
-                profile.mainFrame.score.game.setVisible(false);
-                profile.mainFrame.score.name.setVisible(true);
+                profile.mainFrame.score.makeAllCenterPanelsInvisibleExcept(3);
 
             } else { //equals quit
                     logger.info("Quitting");

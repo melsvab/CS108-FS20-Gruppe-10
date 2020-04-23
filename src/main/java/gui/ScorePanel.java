@@ -91,9 +91,9 @@ public class ScorePanel extends BackgroundTurtles {
 
         //center
         this.game = new GameGUI();
-        this.start = new StartGamePanel(dos, game);
-        this.join = new JoinGamePanel(dos, game);
-        this.name = new NamePanel(dos, game);
+        this.start = new StartGamePanel(dos, this);
+        this.join = new JoinGamePanel(dos, this);
+        this.name = new NamePanel(dos, this);
 
         // panel on top
         top = new GameMarginHorizontal(true, this.game);
@@ -230,18 +230,6 @@ public class ScorePanel extends BackgroundTurtles {
     }
 
     /**
-     * changes visibility of the corners where
-     * the names of the players and their score is shown
-     */
-    public void changeVisibilityCorners(boolean change) {
-        upLeft.setVisible(change);
-        upRight.setVisible(change);
-        downLeft.setVisible(change);
-        downRight.setVisible(change);
-
-    }
-
-    /**
      * This method gives the board to all the graphical classes that need them.
      */
     public void getGame(Board game) {
@@ -255,6 +243,7 @@ public class ScorePanel extends BackgroundTurtles {
      * that the player is not playing the game anymore.
      */
     public void resetGame() {
+        makeAllCenterPanelsInvisibleExcept(0);
         this.game.resetBoard();
         top.roundText.setText(" ");
         changeVisibilityCorners(false);
@@ -262,6 +251,52 @@ public class ScorePanel extends BackgroundTurtles {
 
 
     }
+
+    /**
+     * This method changes all panels in the center of the score panel
+     * invisible except of the one that we want to show
+     */
+    public void makeAllCenterPanelsInvisibleExcept(int aCase) {
+        // all panels are set to invisibility first
+        game.setVisible(false);
+        start.setVisible(false);
+        join.setVisible(false);
+        name.setVisible(false);
+
+        // then one of them is changed again
+        switch (aCase) {
+            case 0:
+                //game is shown
+                game.setVisible(true);
+                break;
+            case 1:
+                //start panel is shown
+                start.setVisible(true);
+                break;
+            case 2:
+                //join panel is shown
+                join.setVisible(true);
+                break;
+            case 3:
+                //name panel is shown
+                name.setVisible(true);
+                break;
+        }
+
+    }
+
+    /**
+     * changes visibility of the corners where
+     * the names of the players and their score is shown
+     */
+    public void changeVisibilityCorners(boolean change) {
+        upLeft.setVisible(change);
+        upRight.setVisible(change);
+        downLeft.setVisible(change);
+        downRight.setVisible(change);
+
+    }
+
 
     /**
      * changes setting of a given text area
