@@ -265,7 +265,7 @@ public class Lobby extends Thread {
         boolean defineWinner = false;
         while (!defineWinner) {
             writeToAll(Protocol.RNDS.name() + ":" + rounds);
-            pleaseWait(30);
+            pleaseWait(20);
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = true;
             }
@@ -306,7 +306,7 @@ public class Lobby extends Thread {
                     writeToPlayer(Protocol.GMSG.name() + ":You survived!", aPlayer);
                 }
             }
-            if(rounds >= 5) {
+            if(rounds >= 10) {
                 int pointsCounter = -100;
                 String placeholder = "";
                 for (ServerThreadForClient aPlayer : players) {

@@ -96,6 +96,7 @@ public class Board {
     }
 
 
+
     /**
      * If a turtle is hit by an event, it will be reset to a startposition.
      * @param x x-coordinate where turtle was hit
@@ -161,7 +162,7 @@ public class Board {
             int howStrong = randomFlood.nextInt(this.boardSize - 3 + 1) + 3; //at least three fields
 
             switch (whichSide) {
-                case 0: //unten
+                case 0: //down
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][i].isStartPosition) {
                             this.board[position][i].isFlood = true;
@@ -173,7 +174,7 @@ public class Board {
                     }
                     break;
 
-                case 1: //oben
+                case 1: //up
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[position][this.boardSize + 1 - i].isStartPosition) {
                             this.board[position][this.boardSize + 1 - i].isFlood = true;
@@ -185,7 +186,7 @@ public class Board {
                     }
                     break;
 
-                case 2: //links
+                case 2: //left
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[i][position].isStartPosition) {
                             this.board[i][position].isFlood = true;
@@ -197,7 +198,7 @@ public class Board {
                     }
                     break;
 
-                case 3: //rechts
+                case 3: //right
                     for (int i = 0; i < howStrong; i++) {
                         if (!this.board[this.boardSize + 1 - i][position].isStartPosition) {
                             this.board[this.boardSize + 1 - i][position].isFlood = true;
@@ -210,7 +211,98 @@ public class Board {
                     break;
             }
         }
-        return flood;
+        return secondWave(flood,lobby);
+    }
+
+
+    /**
+     * Function calculates neighbors of a field
+     * and decides to change field to isFlood if there are many neighbors.
+     */
+
+    public String secondWave(String firstWave, Lobby lobby) {
+        boolean[][] copyBoard = new boolean[boardSize + 2][boardSize + 2];
+        for (int x = 1; x < boardSize + 1; x++) {
+            for (int y = 1; y < boardSize + 1; y++) {
+                if (!board[x][y].isStartPosition) {
+                    boolean getsFlooded = false;
+                    int neighbors = getWaterNeighbors(x, y);
+
+                    Random random = new Random();
+                    int number = random.nextInt(10);
+                    if (neighbors >= 7) {
+                        if (number < 9) {
+                            getsFlooded = true;
+                        }
+                    } else if (neighbors >= 6) {
+                        if (number < 8) {
+                            getsFlooded = true;
+                        }
+                    } else if (neighbors >= 5) {
+                        if (number < 7) {
+                            getsFlooded = true;
+                        }
+                    } else if (neighbors >= 3) {
+                        // fields next to the beach
+                        if (number < 8) {
+                            getsFlooded = true;
+                        }
+                    }
+
+                    if (getsFlooded) {
+                        if (this.board[x][y].isTaken) {
+                            turtleOnXYtoStart(x, y, lobby);
+                            copyBoard[x][y] = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int x = 1; x < boardSize + 1; x++) {
+            for (int y = 1; y < boardSize + 1; y++) {
+                if (copyBoard[x][y]) {
+                    board[x][y].isFlood = true;
+                    firstWave += ":" + x + "-" + y;
+                }
+
+            }
+        }
+        return firstWave;
+    }
+
+    /**
+     * Function calculates neighbors of a field
+     * and decides to change field to isFlood if there are many neighbors.
+     */
+
+    public int getWaterNeighbors(int x, int y) {
+        int neighbors = 0;
+
+        if (board[x][y].isFlood) {
+            //There is no need to calculate for a field that was already flooded.
+            return 0;
+        }
+
+        for (int i = -1; i < 2; i++) {
+            //upper three fields
+            if (board[x+i][y-1].isFlood) {
+                neighbors++;
+            }
+            // three fields under
+            if (board[x+i][y+1].isFlood) {
+                neighbors++;
+            }
+        }
+
+        if (board[x-1][y].isFlood) {
+            neighbors++;
+        }
+        if (board[x+1][y].isFlood) {
+            neighbors++;
+        }
+
+        return neighbors;
     }
 
     /**

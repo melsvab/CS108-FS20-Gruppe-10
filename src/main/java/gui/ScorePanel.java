@@ -62,26 +62,6 @@ public class ScorePanel extends BackgroundTurtles {
      */
     public GameMarginHorizontal bottom;
 
-    /*
-    * The corner panel up left
-    */
-    public GameCorners upLeft;
-
-    /*
-     * The corner panel up right
-     */
-    public GameCorners upRight;
-
-    /*
-     * The corner panel down right
-     */
-    public GameCorners downLeft;
-
-    /*
-     * The corner panel down right
-     */
-    public GameCorners downRight;
-
     /**
      * Instantiates a new score panel
      *
@@ -107,38 +87,18 @@ public class ScorePanel extends BackgroundTurtles {
         // panel on the bottom
         bottom = new GameMarginHorizontal(false, this.game);
 
-        //corner up left
-        upLeft = new GameCorners();
-
-        //corner up right
-        upRight = new GameCorners();
-
-        //corner down left
-        downLeft = new GameCorners();
-
-        //corner down left
-        downRight = new GameCorners();
-
-
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.fill = GridBagConstraints.BOTH;
 
-        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        this.add(upLeft, gbc);
 
         gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.gridx = 0;
         gbc.gridy = 1;
         this.add(left, gbc);
         // board can be moved to the right by clicking on this panel
         left.addMouseListener(left);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        this.add(downLeft, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -161,19 +121,12 @@ public class ScorePanel extends BackgroundTurtles {
         // board can be moved up by clicking on this panel
         bottom.addMouseListener(bottom);
 
-        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        this.add(upRight, gbc);
-
         gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.gridx = 2;
         gbc.gridy = 1;
         this.add(right, gbc);
         // board can be moved to the left by clicking on this panel
         right.addMouseListener(right);
-
-        gbc.gridy = 2;
-        this.add(downRight, gbc);
 
 
     }
@@ -188,22 +141,22 @@ public class ScorePanel extends BackgroundTurtles {
         if (turtles.length >= 1) {
             if (turtles[0] != null) {
                 String nickname = turtles[0].turtlename.substring(0, turtles[0].turtlename.length() - 7);
-                upLeft.player.setText(nickname + ": ");
-                upLeft.score.setText("" + turtles[0].points);
+                top.firstPlayer.setText(nickname + ": ");
+                top.firstScore.setText("" + turtles[0].points);
             }
         }
         if (turtles.length >= 2) {
             if (turtles[1] != null) {
                 String nickname = turtles[1].turtlename.substring(0, turtles[1].turtlename.length() - 7);
-                upRight.player.setText(nickname + ": ");
-                upRight.score.setText("" + turtles[1].points);
+                top.secondPlayer.setText(nickname + ": ");
+                top.secondScore.setText("" + turtles[1].points);
             }
         }
         if (turtles.length >= 3) {
             if (turtles[2] != null) {
                 String nickname = turtles[2].turtlename.substring(0, turtles[2].turtlename.length() - 7);
-                downLeft.player.setText(nickname + ": ");
-                downLeft.score.setText("" + turtles[2].points);
+                bottom.firstPlayer.setText(nickname + ": ");
+                bottom.firstScore.setText("" + turtles[2].points);
             }
         }
 
@@ -211,8 +164,8 @@ public class ScorePanel extends BackgroundTurtles {
 
             if (turtles[3] != null) {
                 String nickname = turtles[3].turtlename.substring(0, turtles[3].turtlename.length() - 7);
-                downRight.player.setText(nickname + ": ");
-                downRight.score.setText("" + turtles[3].points);
+                bottom.secondPlayer.setText(nickname + ": ");
+                bottom.secondScore.setText("" + turtles[3].points);
             }
         }
 
@@ -235,7 +188,6 @@ public class ScorePanel extends BackgroundTurtles {
     public void getGame(Board game) {
         this.game.setBoard(game);
         changeVisibilityMargin(true);
-
         this.game.repaint();
     }
 
@@ -247,9 +199,7 @@ public class ScorePanel extends BackgroundTurtles {
         makeAllCenterPanelsInvisibleExcept(0);
         changeVisibilityMargin(false);
         this.game.resetBoard();
-        top.roundText.setText(" ");
         this.game.repaint();
-
 
     }
 
@@ -258,20 +208,12 @@ public class ScorePanel extends BackgroundTurtles {
      */
     public void changeVisibilityMargin(boolean change) {
         if (!change) {
-        top.board = null;
-        top.roundText.setText(" ");
-        top.eventIsHappening.setText(" ");
-        bottom.board = null;
-        left.board = null;
-        right.board = null;
-
+            left.board = null;
+            right.board = null;
         }
-        changeVisibilityCorners(change);
 
-        if (!change)
-
-        this.game.repaint();
-
+        top.changeAllTextVisible(change);
+        bottom.changeAllTextVisible(change);
     }
 
     /**
@@ -304,30 +246,6 @@ public class ScorePanel extends BackgroundTurtles {
                 //name panel is shown
                 name.setVisible(true);
                 break;
-        }
-
-    }
-
-    /**
-     * changes visibility of the corners where
-     * the names of the players and their score is shown
-     * @param change to set the visibility to true or false
-     */
-    public void changeVisibilityCorners(boolean change) {
-        upLeft.setVisible(change);
-        upRight.setVisible(change);
-        downLeft.setVisible(change);
-        downRight.setVisible(change);
-
-        if(!change) {
-            upLeft.player.setText(" ");
-            upLeft.score.setText(" ");
-            upRight.player.setText(" ");
-            upRight.score.setText(" ");
-            downLeft.player.setText(" ");
-            downLeft.score.setText(" ");
-            downRight.player.setText(" ");
-            downRight.score.setText(" ");
         }
 
     }

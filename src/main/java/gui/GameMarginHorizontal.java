@@ -27,6 +27,30 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
     public GameGUI board;
 
     /**
+     * The turtle score area
+     * for the first player's nickname
+     */
+    public BackgroundScoreArea firstPlayer;
+
+    /**
+     * The turtle score area
+     * for the first player's score
+     */
+    public BackgroundScoreArea firstScore;
+
+    /**
+     * The turtle score area
+     * for the second player's nickname
+     */
+    public BackgroundScoreArea secondPlayer;
+
+    /**
+     * The turtle score area
+     * for the second player's score
+     */
+    public BackgroundScoreArea secondScore;
+
+    /**
      * A background with turtles
      */
     public BackgroundTurtles panelArea;
@@ -49,6 +73,12 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
     public BackgroundScoreArea invalidMove;
 
     /**
+     * This String is used to calculate the length
+     * of the invalid move text in spaces
+     */
+    String invalidText = "";
+
+    /**
      * A timer to delete the text
      * about the invalid moves after some time
      */
@@ -61,8 +91,8 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
      * @param board the board for the game
      */
     public GameMarginHorizontal(boolean top, GameGUI board){
-        this.setPreferredSize(new Dimension( 800, 60) );
-        this.setMinimumSize(new Dimension( 800, 60) );
+        this.setPreferredSize(new Dimension( 920, 60) );
+        this.setMinimumSize(new Dimension( 920, 60) );
         panelArea = new BackgroundTurtles();
         this.board = board;
         this.top = top;
@@ -73,6 +103,8 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
 
             this.roundText = new BackgroundScoreArea();
             this.eventIsHappening = new BackgroundScoreArea();
+
+
 
             ScorePanel.changeTextAreaProperties(roundText);
             ScorePanel.changeTextAreaProperties(eventIsHappening);
@@ -85,42 +117,106 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
             // bottom
 
             this.invalidMove = new BackgroundScoreArea();
+            for (int i = 0; i < 29; i++) {
+                invalidText += " ";
+            }
 
             ScorePanel.changeTextAreaProperties(invalidMove);
-
-            invalidMove.setText("    ");
+            invalidMove.setText(invalidText);
 
         }
+
+        // sets background of the player and score
+        this.firstPlayer = new BackgroundScoreArea();
+        this.firstScore = new BackgroundScoreArea();
+        this.secondPlayer = new BackgroundScoreArea();
+        this.secondScore = new BackgroundScoreArea();
+        ScorePanel.changeTextAreaProperties(firstPlayer);
+        ScorePanel.changeTextAreaProperties(firstScore);
+        ScorePanel.changeTextAreaProperties(secondPlayer);
+        ScorePanel.changeTextAreaProperties(secondScore);
+
+        // sets texts to spaces until there is another text
+        firstPlayer.setText("     ");
+        firstScore.setText("     ");
+        secondPlayer.setText("     ");
+        secondScore.setText("     ");
+
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+
+        gbc.insets = new Insets(0,50,0,50);
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        this.add(firstPlayer, gbc);
+
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.gridy = 1;
+        this.add(firstScore, gbc);
 
 
         if (top) {
 
-
-            this.setLayout(new GridBagLayout());
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.anchor = GridBagConstraints.PAGE_START;
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            this.add(roundText, gbc);
-
             gbc.anchor = GridBagConstraints.CENTER;
+            gbc.gridx = 1;
             gbc.gridy = 1;
             this.add(eventIsHappening, gbc);
 
+            gbc.anchor = GridBagConstraints.PAGE_START;
+            gbc.gridy = 0;
+            this.add(roundText, gbc);
 
         } else {
 
-            invalidMove.setAlignmentX(BackgroundScoreArea.CENTER_ALIGNMENT);
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.gridx = 1;
+            gbc.gridy = 1;
             this.add(invalidMove);
 
             ActionListener task = new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
-                    invalidMove.setText("");
+                    invalidMove.setText(invalidText);
                 }
             };
 
             tmr = new Timer(2000, task);
 
+        }
+
+        gbc.anchor = GridBagConstraints.FIRST_LINE_END;
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        this.add(secondPlayer, gbc);
+
+        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.gridy = 1;
+        this.add(secondScore, gbc);
+    }
+
+
+    /**
+     * makes all necessary text fields (in)visible
+     */
+    public void changeAllTextVisible(boolean change) {
+        if  (!change) {
+            //game has ended
+            board = null;
+            firstPlayer.setText(" ");
+            firstScore.setText(" ");
+            secondPlayer.setText(" ");
+            secondScore.setText(" ");
+        }
+
+
+        if (top && !change) {
+            roundText.setText(" ");
+            eventIsHappening.setText(" ");
+
+        } else if (!top && !change) {
+
+            invalidMove.setText(invalidText);
         }
     }
 
