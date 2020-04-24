@@ -22,7 +22,7 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
     public boolean top;
 
     /**
-     * The panel if the game
+     * The panel for the game
      */
     public GameGUI board;
 

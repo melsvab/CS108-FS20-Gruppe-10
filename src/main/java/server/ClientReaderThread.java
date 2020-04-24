@@ -411,7 +411,7 @@ public class ClientReaderThread implements Runnable {
                         case DRAW:
 
                             /*
-                             * This is used for earth quakes
+                             * This is used to change a field to 'stepped on'
                              */
                             if (game != null) {
                                 Parameter paint = new Parameter(original, 7);

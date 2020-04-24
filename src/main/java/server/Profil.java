@@ -70,7 +70,7 @@ public class Profil {
     //constructor for a client
 
     /**
-     * Instantiates a new Profil.
+     * Instantiates a new profile.
      */
     public Profil() throws IOException {
         this.clientIsOnline = true;
@@ -103,7 +103,7 @@ public class Profil {
      *
      * @param direction the direction
      */
-    public void moveTurtle(int direction) {
+    public synchronized void moveTurtle(int direction) {
         this.myTurtle.turtleposition.isTaken = false;
         this.myTurtle.turtleposition.turtle = null;
 

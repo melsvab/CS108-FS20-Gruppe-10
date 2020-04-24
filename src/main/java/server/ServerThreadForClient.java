@@ -435,6 +435,8 @@ public class ServerThreadForClient implements Runnable {
                                 dos.writeUTF(Protocol.MSSG.name()
                                     + ":CHEAT CODE USED! YOU RECEIVED " + cheatPlus + " POINTS!");
                                 profil.myTurtle.points += cheatPlus;
+                                profil.lobby.writeToAll(Protocol.POIN.name() + ":"
+                                        + profil.myTurtle.num + ":" + profil.myTurtle.points);
                             } else {
                                 dos.writeUTF(Protocol.MSSG.name() + ":STOP THAT!");
                             }

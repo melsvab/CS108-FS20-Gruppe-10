@@ -240,7 +240,7 @@ public class Lobby extends Thread {
 
 
         /*
-        * Show Startboard to server (for tests)
+        * Show start board to server (for tests)
         * // System.out.println(board.printBoard());
         */
 
@@ -262,8 +262,8 @@ public class Lobby extends Thread {
 
         //game has started.
         int rounds = 1;
-        boolean definivWinner = false;
-        while (!definivWinner) {
+        boolean defineWinner = false;
+        while (!defineWinner) {
             writeToAll(Protocol.RNDS.name() + ":" + rounds);
             pleaseWait(30);
             for (ServerThreadForClient aPlayer : players) {
@@ -325,10 +325,10 @@ public class Lobby extends Thread {
                     }
                 }
                 if(counter > 1){
-                    definivWinner = false;
+                    defineWinner = false;
                     counter = 1;
                 } else {
-                    definivWinner = true;
+                    defineWinner = true;
                 }
             }
 
