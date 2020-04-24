@@ -185,34 +185,34 @@ public class ScorePanel extends BackgroundTurtles {
     public void setTextInTextArea (PlayerTurtle[] turtles) {
 
 
-        if (turtles.length > 1) {
+        if (turtles.length >= 1) {
             if (turtles[0] != null) {
                 String nickname = turtles[0].turtlename.substring(0, turtles[0].turtlename.length() - 7);
                 upLeft.player.setText(nickname + ": ");
                 upLeft.score.setText("" + turtles[0].points);
             }
         }
-        if (turtles.length > 2) {
+        if (turtles.length >= 2) {
             if (turtles[1] != null) {
                 String nickname = turtles[1].turtlename.substring(0, turtles[1].turtlename.length() - 7);
                 upRight.player.setText(nickname + ": ");
                 upRight.score.setText("" + turtles[1].points);
             }
         }
-        if (turtles.length > 3) {
+        if (turtles.length >= 3) {
             if (turtles[2] != null) {
                 String nickname = turtles[2].turtlename.substring(0, turtles[2].turtlename.length() - 7);
-                upRight.player.setText(nickname + ": ");
-                upRight.score.setText("" + turtles[2].points);
+                downLeft.player.setText(nickname + ": ");
+                downLeft.score.setText("" + turtles[2].points);
             }
         }
 
-        if (turtles.length > 4) {
+        if (turtles.length >= 4) {
 
             if (turtles[3] != null) {
                 String nickname = turtles[3].turtlename.substring(0, turtles[3].turtlename.length() - 7);
-                upRight.player.setText(nickname + ": ");
-                upRight.score.setText("" + turtles[3].points);
+                downRight.player.setText(nickname + ": ");
+                downRight.score.setText("" + turtles[3].points);
             }
         }
 
@@ -234,7 +234,8 @@ public class ScorePanel extends BackgroundTurtles {
      */
     public void getGame(Board game) {
         this.game.setBoard(game);
-        changeVisibilityCorners(true);
+        changeVisibilityMargin(true);
+
         this.game.repaint();
     }
 
@@ -244,15 +245,32 @@ public class ScorePanel extends BackgroundTurtles {
      */
     public void resetGame() {
         makeAllCenterPanelsInvisibleExcept(0);
+        changeVisibilityMargin(false);
+        this.game.resetBoard();
+        top.roundText.setText(" ");
+        this.game.repaint();
+
+
+    }
+
+    /**
+     * This method changes the visibility of the panels around the game
+     */
+    public void changeVisibilityMargin(boolean change) {
+        if (!change) {
         top.board = null;
+        top.roundText.setText(" ");
+        top.eventIsHappening.setText(" ");
         bottom.board = null;
         left.board = null;
         right.board = null;
-        this.game.resetBoard();
-        top.roundText.setText(" ");
-        changeVisibilityCorners(false);
-        this.game.repaint();
 
+        }
+        changeVisibilityCorners(change);
+
+        if (!change)
+
+        this.game.repaint();
 
     }
 
@@ -300,6 +318,17 @@ public class ScorePanel extends BackgroundTurtles {
         upRight.setVisible(change);
         downLeft.setVisible(change);
         downRight.setVisible(change);
+
+        if(!change) {
+            upLeft.player.setText(" ");
+            upLeft.score.setText(" ");
+            upRight.player.setText(" ");
+            upRight.score.setText(" ");
+            downLeft.player.setText(" ");
+            downLeft.score.setText(" ");
+            downRight.player.setText(" ");
+            downRight.score.setText(" ");
+        }
 
     }
 

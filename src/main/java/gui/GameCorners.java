@@ -12,7 +12,7 @@ import java.io.IOException;
  * as well as his or her score during the game.
  */
 
-public class GameCorners extends BackgroundTurtles {
+public class GameCorners extends JPanel {
 
     /**
      * The turtle background
@@ -37,8 +37,8 @@ public class GameCorners extends BackgroundTurtles {
      */
     public GameCorners(){
         // sets sizes for the panel
-        this.setPreferredSize(new Dimension( 60, 120) );
-        this.setMinimumSize(new Dimension( 60, 120) );
+        this.setPreferredSize(new Dimension( 120, 60) );
+        this.setMinimumSize(new Dimension( 120, 60) );
         // sets background
         panelArea = new BackgroundTurtles();
         // sets background of the player and score
@@ -57,13 +57,13 @@ public class GameCorners extends BackgroundTurtles {
         GridBagConstraints gbc = new GridBagConstraints();
 
         // the text with the player's nickname is on top
-        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridx = 0;
         gbc.gridy = 0;
         this.add(player, gbc);
 
         // the text with the player's score is on the bottom
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.anchor = GridBagConstraints.LINE_START;
         gbc.gridy = 1;
         this.add(score, gbc);
 

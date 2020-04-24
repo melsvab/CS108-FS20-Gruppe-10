@@ -35,8 +35,8 @@ public class GameMarginVertical extends BackgroundTurtles implements MouseListen
         this.left = left;
         this.board = board;
 
-        this.setPreferredSize(new Dimension( 600, 60) );
-        this.setMinimumSize(new Dimension(600,60));
+        this.setPreferredSize(new Dimension( 60, 650) );
+        this.setMinimumSize(new Dimension(60,600));
         BackgroundTurtles verticalPanel = new BackgroundTurtles();
 
 

@@ -114,7 +114,8 @@ public class GameGUI extends BackgroundPanelArea {
     GameGUI() throws IOException {
 
         this.setLayout(new BorderLayout()); //BorderLayout is chosen at the moment. Could be changed later
-        this.setMaximumSize(new Dimension(WIDTH, HEIGHT));
+        this.setMaximumSize(new Dimension(WIDTH*2, HEIGHT*2));
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
         //import the files and saves them in a BufferedImage. Get resources from src/main/ressources/img

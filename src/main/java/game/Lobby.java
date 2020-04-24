@@ -306,7 +306,7 @@ public class Lobby extends Thread {
                     writeToPlayer(Protocol.GMSG.name() + ":You survived!", aPlayer);
                 }
             }
-            if(rounds >= 1) {
+            if(rounds >= 5) {
                 int pointsCounter = -100;
                 String placeholder = "";
                 for (ServerThreadForClient aPlayer : players) {

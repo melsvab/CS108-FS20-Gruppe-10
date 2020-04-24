@@ -272,9 +272,9 @@ public class Server implements Runnable {
             String serverIP = Inet4Address.getLocalHost().getHostAddress();
             String serverName = Inet4Address.getLocalHost().getHostName();
             ServerSocket serverSocket = new ServerSocket(port);
-            logger.info("connecting to Client");
+            logger.info("Connecting to Client");
             System.out.println("\n\n\nServerSocket at port " + port + " successfully build.\n\n"
-                    + "Server IP-Adrdress: " + serverIP + "\n"
+                    + "Server IP-Address: " + serverIP + "\n"
                     + "Servername: " + serverName + "\n\n\n"
                     + "Now waiting for a connection to this IP/name by a Client...\n\n\n");
             //Server is online now
@@ -286,9 +286,9 @@ public class Server implements Runnable {
                 Socket socket = serverSocket.accept();
                 logger.info("connected to Client");
                 //Connection to one client established
-                System.out.println("\nClient #" + ++clientConnections + " is connected to the Server.\n");
+                System.out.println("\nClient #" + ++clientConnections + " is connected to the server.\n");
                 //Create In- & Ouputstreams for reading and sending Strings
-                logger.info("get Input and Outputstream");
+                logger.info("get input and output stream");
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                 /*
