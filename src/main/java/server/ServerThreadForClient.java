@@ -268,8 +268,14 @@ public class ServerThreadForClient implements Runnable {
                         case HSC1:
 
                             //Under Construction: Sends the current highscore to the player
+                            if (Highscore.file.exists()) {
+                                dos.writeUTF(Protocol.LIST.name() + ":" +
+                                        "HIGHSCORES:\n" +
+                                        Highscore.highscoreList.writeHiscoreList());
+                            } else {
+                                dos.writeUTF(Protocol.LIST.name() + ":This list is empty.");
+                            }
 
-                            dos.writeUTF(Protocol.LIST.name() + ":This list is empty.");
                             break;
 
                         case CRE1:

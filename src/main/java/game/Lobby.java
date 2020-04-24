@@ -306,7 +306,7 @@ public class Lobby extends Thread {
                     writeToPlayer(Protocol.GMSG.name() + ":You survived!", aPlayer);
                 }
             }
-            if(rounds >= 10) {
+            if(rounds >= 1) {
                 int pointsCounter = -100;
                 String placeholder = "";
                 for (ServerThreadForClient aPlayer : players) {
@@ -348,6 +348,10 @@ public class Lobby extends Thread {
         }
 
         writeToAll(Protocol.WINR.name() + ":" + winner + ":" + maxPoints);
+
+        HighscorePlayer highscorePlayer = new HighscorePlayer(winner, maxPoints);
+
+        Highscore.highscoreList.saveHighscore(highscorePlayer);
 
         gamestate = 3;
 
