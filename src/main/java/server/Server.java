@@ -267,6 +267,7 @@ public class Server implements Runnable {
      * Builds a server and gives feedback as long as the server is online.
      */
     public void run() {
+
         try {
             String serverIP = Inet4Address.getLocalHost().getHostAddress();
             String serverName = Inet4Address.getLocalHost().getHostName();
@@ -277,6 +278,9 @@ public class Server implements Runnable {
                     + "Servername: " + serverName + "\n\n\n"
                     + "Now waiting for a connection to this IP/name by a Client...\n\n\n");
             //Server is online now
+
+            Highscore.getHighscores();
+
             while (serverIsOnline) {
                 //Waits for a connection to the server by a client
                 Socket socket = serverSocket.accept();
