@@ -30,6 +30,10 @@ public class ClientChatGUI extends JPanel {
      */
     DataOutputStream dos;
     /**
+     * JButton for broadcast.
+     */
+    JButton broadcast;
+    /**
      * The dim scroll.
      */
     Dimension dimScroll;
@@ -51,6 +55,7 @@ public class ClientChatGUI extends JPanel {
         this.chatArea = new BackgroundTextArea();
         this.message = new JTextField();
         this.dimScroll = new Dimension(120, 10);
+        this.broadcast = new JButton("BC");
 
         this.setLayout(new BorderLayout());
         if(chat) {
@@ -78,7 +83,18 @@ public class ClientChatGUI extends JPanel {
            message.setEditable(true);
            message.addActionListener(this::actionPerformed);
            message.requestFocusInWindow();
-           this.add(message, BorderLayout.PAGE_END);
+           broadcast.addActionListener(this::actionPerformed);
+
+           //placeholder panel to organize TextField and JButton
+           JPanel placeholder = new JPanel(new GridBagLayout());
+           GridBagConstraints gbc = new GridBagConstraints();
+           gbc.fill = GridBagConstraints.HORIZONTAL;
+           gbc.weightx = 1;
+           placeholder.add(message, gbc);
+           gbc.weightx = 0;
+           placeholder.add(broadcast, gbc);
+
+           this.add(placeholder, BorderLayout.PAGE_END);
        }
     }
 
@@ -90,19 +106,23 @@ public class ClientChatGUI extends JPanel {
     public void actionPerformed(ActionEvent e) {
         //differentiates between normal chat-message, whisperchat and broadcast
         try {
+            if (e.getSource().equals(broadcast)) {
+                dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText() + " ");
+            }
+            else {
+                String msgType = message.getText() + "000"; //000 is professional bug fixing
 
-            String msgType = message.getText() + "000"; //000 is professional bug fixing
-
-            switch (msgType.substring(0, 3)) {
-                case "/b ":
-                    dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText().substring(3) + " ");
-                    break;
-                case "/w ":
-                    dos.writeUTF(Protocol.WHP1.name() + ":" + message.getText().substring(3) + " ");
-                    break;
-                default:
-                    dos.writeUTF(Protocol.CHAT.name() + ":" + message.getText());
-                    break;
+                switch (msgType.substring(0, 3)) {
+                    /*case "/b ":
+                        dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText().substring(3) + " ");
+                        break;*/
+                    case "/w ":
+                        dos.writeUTF(Protocol.WHP1.name() + ":" + message.getText().substring(3) + " ");
+                        break;
+                    default:
+                        dos.writeUTF(Protocol.CHAT.name() + ":" + message.getText());
+                        break;
+                }
             }
         } catch (IOException f) {
             System.err.println(f.toString());
