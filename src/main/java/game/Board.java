@@ -211,6 +211,9 @@ public class Board {
                     break;
             }
         }
+        if (boardSize >= 15) {
+            flood = secondWave(flood,lobby);
+        }
         return secondWave(flood,lobby);
     }
 
@@ -231,20 +234,16 @@ public class Board {
                     Random random = new Random();
                     int number = random.nextInt(10);
                     if (neighbors >= 7) {
-                        if (number < 9) {
+                        if (number < 4) {
                             getsFlooded = true;
                         }
                     } else if (neighbors >= 6) {
-                        if (number < 8) {
+                        if (number < 3) {
                             getsFlooded = true;
                         }
-                    } else if (neighbors >= 5) {
-                        if (number < 7) {
-                            getsFlooded = true;
-                        }
-                    } else if (neighbors >= 3) {
+                    } else if (neighbors >= 2) {
                         // fields next to the beach
-                        if (number < 8) {
+                        if (number < 4) {
                             getsFlooded = true;
                         }
                     }
@@ -252,8 +251,8 @@ public class Board {
                     if (getsFlooded) {
                         if (this.board[x][y].isTaken) {
                             turtleOnXYtoStart(x, y, lobby);
-                            copyBoard[x][y] = true;
                         }
+                        copyBoard[x][y] = true;
                     }
                 }
             }
