@@ -30,13 +30,18 @@ public class ClientChatGUI extends JPanel {
      */
     DataOutputStream dos;
     /**
-     * JButton for broadcast.
-     */
-    JButton broadcast;
-    /**
      * The dim scroll.
      */
     Dimension dimScroll;
+    /**
+     * String[] choices with broadcast or chat
+     */
+    String[] choices;
+    /**
+     * JComboBox choicesList
+     */
+    JComboBox choicesList;
+
 
     /**
      * A boolean to determine
@@ -55,7 +60,6 @@ public class ClientChatGUI extends JPanel {
         this.chatArea = new BackgroundTextArea();
         this.message = new JTextField();
         this.dimScroll = new Dimension(120, 10);
-        this.broadcast = new JButton("BC");
 
         this.setLayout(new BorderLayout());
         if(chat) {
@@ -83,7 +87,11 @@ public class ClientChatGUI extends JPanel {
            message.setEditable(true);
            message.addActionListener(this::actionPerformed);
            message.requestFocusInWindow();
-           broadcast.addActionListener(this::actionPerformed);
+
+           choices = new String[]{"Chat", "BC"};
+
+           choicesList = new JComboBox(choices);
+           choicesList.setSelectedIndex(0);
 
            //placeholder panel to organize TextField and JButton
            JPanel placeholder = new JPanel(new GridBagLayout());
@@ -92,7 +100,7 @@ public class ClientChatGUI extends JPanel {
            gbc.weightx = 1;
            placeholder.add(message, gbc);
            gbc.weightx = 0;
-           placeholder.add(broadcast, gbc);
+           placeholder.add(choicesList, gbc);
 
            this.add(placeholder, BorderLayout.PAGE_END);
        }
@@ -106,12 +114,11 @@ public class ClientChatGUI extends JPanel {
     public void actionPerformed(ActionEvent e) {
         //differentiates between normal chat-message, whisperchat and broadcast
         try {
-            if (e.getSource().equals(broadcast)) {
-                dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText() + " ");
-            }
-            else {
-                String msgType = message.getText() + "000"; //000 is professional bug fixing
+            String msgType = message.getText() + "000"; //000 is professional bug fixing
 
+            if (choicesList.getSelectedItem().equals("BC")) {
+                dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText().substring(3) + " ");
+            } else {
                 switch (msgType.substring(0, 3)) {
                     /*case "/b ":
                         dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText().substring(3) + " ");
