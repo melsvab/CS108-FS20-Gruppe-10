@@ -232,7 +232,7 @@ public class Parameter {
      * @param direction the direction
      * @param turtle the turtle that moves
      */
-    public void moveTurtle(Board board, int direction, PlayerTurtle turtle) {
+    public synchronized void  moveTurtle(Board board, int direction, PlayerTurtle turtle) {
         turtle.direction = direction;
 
 
@@ -269,7 +269,7 @@ public class Parameter {
 
     }
 
-    public void changeTurtlePosition(Board board, boolean isX, int xPos, int yPos, int change) {
+    public synchronized void changeTurtlePosition(Board board, boolean isX, int xPos, int yPos, int change) {
         PlayerTurtle placeholder = board.board[xPos][yPos].turtle;
         board.board[xPos][yPos].turtle = null;
 

@@ -29,6 +29,13 @@ public class GameMarginVertical extends BackgroundTurtles implements MouseListen
 
 
     /**
+     * This is a boolean to determine whether
+     * there is a game or not
+     */
+    public boolean gameHasStarted = false;
+
+
+    /**
      * Instantiates a new game margin vertical.
      */
     public GameMarginVertical(boolean left, GameGUI board){
@@ -78,7 +85,7 @@ public class GameMarginVertical extends BackgroundTurtles implements MouseListen
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-        if(board != null) {
+        if(gameHasStarted) {
             if (left) {
                 this.board.changeX(5);
             } else {

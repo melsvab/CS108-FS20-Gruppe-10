@@ -27,6 +27,11 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
     public GameGUI board;
 
     /**
+     * A boolean to know the game state
+     */
+    public boolean gameHasStarted = false;
+
+    /**
      * The turtle score area
      * for the first player's nickname
      */
@@ -202,11 +207,14 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
     public void changeAllTextVisible(boolean change) {
         if  (!change) {
             //game has ended
-            board = null;
+            gameHasStarted = false;
             firstPlayer.setText(" ");
             firstScore.setText(" ");
             secondPlayer.setText(" ");
             secondScore.setText(" ");
+        } else {
+            gameHasStarted = true;
+
         }
 
 
@@ -258,7 +266,7 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (board != null) {
+        if (gameHasStarted) {
             if (top) {
                 this.board.changeY(5);
             } else {

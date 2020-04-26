@@ -181,7 +181,7 @@ public class MainFrame extends BackgroundScoreArea {
      * Gives the board to all the classes that need it.
      * @param game to give the game to the panels
      */
-    public void gameIsHere(Board game) {
+    public synchronized void gameIsHere(Board game) {
         score.getGame(game);
         keyboard.addGame();
         gameExists = true;
@@ -192,7 +192,7 @@ public class MainFrame extends BackgroundScoreArea {
     /**
      * gives the board to all the classes that need it.
      */
-    public void leaveGame() {
+    public synchronized void leaveGame() {
         gameExists = false;
         score.resetGame();
         keyboard.deleteGame();

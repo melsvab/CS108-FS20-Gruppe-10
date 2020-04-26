@@ -301,7 +301,9 @@ public class ClientReaderThread implements Runnable {
                                 if (coins.isCorrect) {
                                     coins.changeBoard(game, 2);
 
-                                    profile.mainFrame.score.game.repaint();
+                                    synchronized (this) {
+                                        profile.mainFrame.score.game.repaint();
+                                    }
                                 }
                             }
 
@@ -324,7 +326,9 @@ public class ClientReaderThread implements Runnable {
                                     turtles[startPos.numberOne] = turtle;
                                     game.board[x][y].turtle = turtle;
 
-                                    profile.mainFrame.score.game.repaint();
+                                    synchronized (this) {
+                                        profile.mainFrame.score.game.repaint();
+                                    }
                                 }
                             }
 
@@ -351,7 +355,9 @@ public class ClientReaderThread implements Runnable {
                                     turtle.yPos = respawnParameters.positions[0][1];
                                     game.board[turtle.xPos][turtle.yPos].turtle = turtle;
 
-                                    profile.mainFrame.score.game.repaint();
+                                    synchronized (this) {
+                                        profile.mainFrame.score.game.repaint();
+                                    }
                                 }
 
                             }
@@ -376,7 +382,9 @@ public class ClientReaderThread implements Runnable {
                                             game, turtleNumberAndDirection.numberTwo,
                                             turtles[turtleNumberAndDirection.numberOne]);
 
-                                    profile.mainFrame.score.game.repaint();
+                                    synchronized (this) {
+                                        profile.mainFrame.score.game.repaint();
+                                    }
                                 }
                             }
 
@@ -418,7 +426,9 @@ public class ClientReaderThread implements Runnable {
                                 if (paint.isCorrect) {
                                     paint.changeBoard(game, 0);
 
-                                    profile.mainFrame.score.game.repaint();
+                                    synchronized (this) {
+                                        profile.mainFrame.score.game.repaint();
+                                    }
                                 }
                             }
                             break;
@@ -433,7 +443,9 @@ public class ClientReaderThread implements Runnable {
                                 if (quake.isCorrect) {
                                     quake.changeBoard(game, 3);
 
-                                    profile.mainFrame.score.game.repaint();
+                                    synchronized (this) {
+                                        profile.mainFrame.score.game.repaint();
+                                    }
 
                                 }
                             }
@@ -452,7 +464,9 @@ public class ClientReaderThread implements Runnable {
                                 if (flood.isCorrect) {
                                     flood.changeBoard(game, 1);
 
-                                    profile.mainFrame.score.game.repaint();
+                                    synchronized (this) {
+                                        profile.mainFrame.score.game.repaint();
+                                    }
                                 }
                             }
                             break;
@@ -465,7 +479,9 @@ public class ClientReaderThread implements Runnable {
                             if (game != null) {
                                 game.afterEvent();
 
-                                profile.mainFrame.score.game.repaint();
+                                synchronized (this) {
+                                    profile.mainFrame.score.game.repaint();
+                                }
                             }
                             break;
 

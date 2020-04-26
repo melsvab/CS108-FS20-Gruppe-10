@@ -188,6 +188,7 @@ public class ScorePanel extends BackgroundTurtles {
     public void getGame(Board game) {
         this.game.setBoard(game);
         changeVisibilityMargin(true);
+
         this.game.repaint();
     }
 
@@ -198,6 +199,7 @@ public class ScorePanel extends BackgroundTurtles {
     public void resetGame() {
         makeAllCenterPanelsInvisibleExcept(0);
         changeVisibilityMargin(false);
+
         this.game.resetBoard();
         this.game.repaint();
 
@@ -207,13 +209,10 @@ public class ScorePanel extends BackgroundTurtles {
      * This method changes the visibility of the panels around the game
      */
     public void changeVisibilityMargin(boolean change) {
-        if (!change) {
-            left.board = null;
-            right.board = null;
-        }
-
         top.changeAllTextVisible(change);
         bottom.changeAllTextVisible(change);
+        left.gameHasStarted = change;
+        right.gameHasStarted = change;
     }
 
     /**
