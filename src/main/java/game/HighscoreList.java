@@ -3,16 +3,33 @@ package game;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * The class represents the Highscore list.
+ */
 public class HighscoreList {
 
+    /**
+     * Pointer to the beginning of the list (1. place).
+     */
     HighscorePlayer head;
+    /**
+     * Pointer to the last player.
+     */
     HighscorePlayer tail;
 
+    /**
+     * Instantiates a new Highscore list (empty).
+     */
     public HighscoreList() {
         this.head = null;
         this.tail = null;
     }
 
+    /**
+     * This method returns the hiscore list as a string.
+     *
+     * @return the string
+     */
     public String writeHiscoreList() {
         String higscoreListString = "";
         int counter = 0;
@@ -31,6 +48,12 @@ public class HighscoreList {
         return higscoreListString;
     }
 
+    /**
+     * Save Player to the highscorelist in correct order.
+     * Also write to file or create highscore.txt
+     *
+     * @param hsPlayer the player who has won the game.
+     */
     public void saveHighscore(HighscorePlayer hsPlayer) {
 
         if (this.head == null) {
@@ -65,6 +88,12 @@ public class HighscoreList {
 
     }
 
+    /**
+     * For reading an existig highscorelist.
+     * Adds an entry to the tail of the highscorelist.
+     *
+     * @param hsPlayer the hs player
+     */
     public void addEntryToTail(HighscorePlayer hsPlayer) {
         if (this.head == null) {
             this.head = hsPlayer;

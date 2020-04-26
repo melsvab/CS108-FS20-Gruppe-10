@@ -6,12 +6,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * This class handles the HighscoreList at the start..
+ */
 public class Highscore {
 
     public static File file = new File("highscore.txt");
     public static int entries = 10;
     public static HighscoreList highscoreList = new HighscoreList();
 
+    /**
+     * At the start read highscores.txt if file exists already and
+     * save it to the highscorelist.
+     */
     public static void getHighscores() {
 
         try {
@@ -26,8 +33,6 @@ public class Highscore {
                 HighscorePlayer hsp = new HighscorePlayer(inputs[1], Integer.parseInt(inputs[2]));
 
                 highscoreList.addEntryToTail(hsp);
-
-                //System.out.println(highscoreList.writeHiscoreList());
 
                 try {
                     FileWriter writer = new FileWriter(Highscore.file.getName());
