@@ -117,7 +117,7 @@ public class ClientChatGUI extends JPanel {
             String msgType = message.getText() + "000"; //000 is professional bug fixing
 
             if (choicesList.getSelectedItem().equals("BC")) {
-                dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText().substring(3) + " ");
+                dos.writeUTF(Protocol.BRC1.name() + ":" + message.getText() + " ");
             } else {
                 switch (msgType.substring(0, 3)) {
                     /*case "/b ":
