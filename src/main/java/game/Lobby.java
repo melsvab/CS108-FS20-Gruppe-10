@@ -32,7 +32,6 @@ public class Lobby extends Thread {
      * @param number every lobby gets an number / ID.
      */
     public Lobby(ServerThreadForClient aUser, int number) {
-        setDaemon(true);
         players.add(aUser);
         gamestate = 1;
         lobbyNumber = number;
