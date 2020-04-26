@@ -184,6 +184,7 @@ public class Server implements Runnable {
                         aUser.sendMessage(Protocol.SPEC.name());
                     } else {
                         lobby.addPlayer(aUser);
+                        aUser.profil.isInGame = true;
                     }
                     aUser.profil.lobby = lobby;
                     return true;

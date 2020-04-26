@@ -93,6 +93,7 @@ public class Lobby extends Thread {
             // the new client will be a player
             numberOfPlayers++;
             players.add(aUser);
+            aUser.profil.isInGame = true;
         }
     }
 
