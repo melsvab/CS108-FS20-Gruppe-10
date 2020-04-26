@@ -90,8 +90,8 @@ public class Server implements Runnable {
     public static synchronized String checkForDuplicate(String desiredName, ServerThreadForClient aUser) {
         int position = desiredName.length();
         if (checkForName(desiredName, aUser)) {
-            aUser.sendMessage(Protocol.ERRO.name() +
-                    ":\nYour desired name exists already!\n");
+            aUser.sendMessage(Protocol.ERRO.name()
+                + ":\nYour desired name exists already!\n");
             int i = 1;
             if (!desiredName.endsWith("_0")) {
                 desiredName += "_0";
@@ -208,7 +208,7 @@ public class Server implements Runnable {
             for (Lobby lobby: games) {
                 //undefined should be impossible
                 String status = "undefined";
-                if(lobby.gamestate == 1) {
+                if (lobby.gamestate == 1) {
                     status = "open";
                 } else if (lobby.gamestate == 2) {
                     status = "ongoing";

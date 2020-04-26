@@ -3,26 +3,52 @@ package game;
 import java.util.Random;
 
 /**
+ * The type Field.
+ *
  * @author Dennis
  * This class represents a field on the board and includes several attributes.
  */
 public class Field {
 
-    public Field up, right , down , left;
+
+    public Field up, right, down, left;
 
     public PlayerTurtle turtle;
 
+    /**
+     * The Is flood.
+     */
     public boolean isFlood,
-            hasCoin,
-            isQuake,
-            steppedOn,
-            isTaken,
-            isBoundary,
-            isStartPosition;
+    /**
+     * The Has coin.
+     */
+    hasCoin,
+    /**
+     * The Is quake.
+     */
+    isQuake,
+    /**
+     * The Stepped on.
+     */
+    steppedOn,
+    /**
+     * The Is taken.
+     */
+    isTaken,
+    /**
+     * The Is boundary.
+     */
+    isBoundary,
+    /**
+     * The Is start position.
+     */
+    isStartPosition;
 
     /**
-     * Instantiates a new Field with a probability of a coin.
-     *  the probability for a coin on this field.
+     * Instantiates a new Field with a probability of a coin. the probability for a coin on this
+     * field.
+     *
+     * @param option the option
      */
     public Field(int option) {
         // to create a board
@@ -58,6 +84,9 @@ public class Field {
 
     }
 
+    /**
+     * Instantiates a new Field.
+     */
     public Field() {
         // to copy a field
         isBoundary = false;
@@ -71,6 +100,12 @@ public class Field {
 
     }
 
+    /**
+     * Coins boolean.
+     *
+     * @param probabilityForCoin the probability for coin
+     * @return the boolean
+     */
     public boolean coins(int probabilityForCoin) {
         Random random = new Random();
         int x = random.nextInt(60);
@@ -89,6 +124,7 @@ public class Field {
 
     /**
      * Function to copy a field.
+     *
      * @param copyThis Field to copy
      * @return new field which is a copy of the field given
      */

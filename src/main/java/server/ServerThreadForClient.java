@@ -269,9 +269,9 @@ public class ServerThreadForClient implements Runnable {
 
                             //Under Construction: Sends the current highscore to the player
                             if (Highscore.file.exists()) {
-                                dos.writeUTF(Protocol.LIST.name() + ":" +
-                                        "HIGHSCORES:\n" +
-                                        Highscore.highscoreList.writeHiscoreList());
+                                dos.writeUTF(Protocol.LIST.name() + ":"
+                                    + "HIGHSCORES:\n"
+                                    + Highscore.highscoreList.writeHiscoreList());
                             } else {
                                 dos.writeUTF(Protocol.LIST.name() + ":This list is empty.");
                             }
@@ -353,8 +353,8 @@ public class ServerThreadForClient implements Runnable {
                                     }
                                 } else {
                                     // should be impossible because it is checked at the client class
-                                    logger.info("input to start a game is not correct or " +
-                                            "client's boolean isInGame is wrong");
+                                    logger.info("input to start a game is not correct or "
+                                        + "client's boolean isInGame is wrong");
                                 }
                             } else {
                                 // should be impossible because it is checked at the client class
@@ -368,9 +368,11 @@ public class ServerThreadForClient implements Runnable {
                                 if (profil.myTurtle.turtleposition.up.isTaken
                                         || profil.myTurtle.turtleposition.up.isFlood
                                         || profil.myTurtle.turtleposition.up.isBoundary) {
-                                    dos.writeUTF(Protocol.INVM.name() + ":" + Message.invalidMove);
+                                    dos.writeUTF(Protocol.INVM.name() + ":"
+                                        + Message.invalidMove);
                                 } else if (profil.waitingForEvent) {
-                                    dos.writeUTF(Protocol.INVM.name() + ":" + profil.myTurtle.turtlename + Message.tooScaredToMove);
+                                    dos.writeUTF(Protocol.INVM.name() + ":"
+                                        + profil.myTurtle.turtlename + Message.tooScaredToMove);
                                 } else {
                                     profil.moveTurtle(0);
                                 }
@@ -423,9 +425,11 @@ public class ServerThreadForClient implements Runnable {
                                 if (profil.myTurtle.turtleposition.right.isTaken
                                         || profil.myTurtle.turtleposition.right.isFlood
                                         || profil.myTurtle.turtleposition.right.isBoundary) {
-                                    dos.writeUTF(Protocol.INVM.name() + ":" + Message.invalidMove);
+                                    dos.writeUTF(Protocol.INVM.name() + ":"
+                                        + Message.invalidMove);
                                 } else if (profil.waitingForEvent) {
-                                    dos.writeUTF(Protocol.INVM.name() + ":" + profil.myTurtle.turtlename + Message.tooScaredToMove);
+                                    dos.writeUTF(Protocol.INVM.name() + ":"
+                                        + profil.myTurtle.turtlename + Message.tooScaredToMove);
                                 } else {
                                     profil.moveTurtle(1);
                                 }

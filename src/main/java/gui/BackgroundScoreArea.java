@@ -1,10 +1,13 @@
 package gui;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.swing.*;
+
+
+
 
 /**
  * @author Melanie
@@ -21,7 +24,7 @@ public class BackgroundScoreArea extends JTextArea {
      * Instantiates a background score area
      * and gets the turtle image.
      */
-    public BackgroundScoreArea(){
+    public BackgroundScoreArea() {
         super();
         this.setEditable(false);
         try {

@@ -62,7 +62,7 @@ public class ClientChatGUI extends JPanel {
         this.dimScroll = new Dimension(120, 10);
 
         this.setLayout(new BorderLayout());
-        if(chat) {
+        if (chat) {
             this.setBorder(BorderFactory.createTitledBorder(("Chat")));
         } else {
             this.setBorder(BorderFactory.createTitledBorder(("Messages")));

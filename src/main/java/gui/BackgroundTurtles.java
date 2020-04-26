@@ -1,10 +1,11 @@
 package gui;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.swing.*;
+
 
 /**
  * @author Melanie, Natasha
@@ -21,7 +22,7 @@ public class BackgroundTurtles extends JPanel {
      * Instantiates a new background turtle panel
      * and gets the turtles background picture
      */
-    public BackgroundTurtles(){
+    public BackgroundTurtles() {
         super();
         try {
             panelBackground = ImageIO.read(getClass().getResourceAsStream("/img/turtles.png"));

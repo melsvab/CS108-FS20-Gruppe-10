@@ -1,6 +1,7 @@
 package gui;
 
 import org.slf4j.Logger;
+
 import server.Profil;
 import server.Protocol;
 

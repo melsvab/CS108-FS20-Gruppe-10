@@ -1,23 +1,24 @@
 package gui;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.*;
+
 
 /**
+ * The type Game margin horizontal.
+ *
  * @author Melanie, Natasha
  * This class is used for the vertical game margin.
  */
-
 public class GameMarginHorizontal extends BackgroundTurtles implements MouseListener {
 
     /**
-     * boolean to determine whether the object is used
-     * for the top or bottom panel next to the game.
+     * boolean to determine whether the object is used for the top or bottom panel next to the game.
      */
     public boolean top;
 
@@ -32,26 +33,22 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
     public boolean gameHasStarted = false;
 
     /**
-     * The turtle score area
-     * for the first player's nickname
+     * The turtle score area for the first player's nickname
      */
     public BackgroundScoreArea firstPlayer;
 
     /**
-     * The turtle score area
-     * for the first player's score
+     * The turtle score area for the first player's score
      */
     public BackgroundScoreArea firstScore;
 
     /**
-     * The turtle score area
-     * for the second player's nickname
+     * The turtle score area for the second player's nickname
      */
     public BackgroundScoreArea secondPlayer;
 
     /**
-     * The turtle score area
-     * for the second player's score
+     * The turtle score area for the second player's score
      */
     public BackgroundScoreArea secondScore;
 
@@ -66,36 +63,33 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
     public BackgroundScoreArea roundText;
 
     /**
-     * A background with turtles to place a message
-     * if an event is happening
+     * A background with turtles to place a message if an event is happening
      */
     public BackgroundScoreArea eventIsHappening;
 
     /**
-     * A background with turtles to place a message
-     * if a move is invalid
+     * A background with turtles to place a message if a move is invalid
      */
     public BackgroundScoreArea invalidMove;
 
     /**
-     * This String is used to calculate the length
-     * of the invalid move text in spaces
+     * This String is used to calculate the length of the invalid move text in spaces
      */
     String invalidText = "";
 
     /**
-     * A timer to delete the text
-     * about the invalid moves after some time
+     * A timer to delete the text about the invalid moves after some time
      */
     public Timer tmr;
 
 
     /**
      * Instantiates a new game margin vertical.
-     * @param top a boolean to determine whether this object is used on the top or bottom
+     *
+     * @param top   a boolean to determine whether this object is used on the top or bottom
      * @param board the board for the game
      */
-    public GameMarginHorizontal(boolean top, GameGUI board){
+    public GameMarginHorizontal(boolean top, GameGUI board) {
         this.setPreferredSize(new Dimension( 920, 60) );
         this.setMinimumSize(new Dimension( 920, 60) );
         panelArea = new BackgroundTurtles();
@@ -203,6 +197,8 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
 
     /**
      * makes all necessary text fields (in)visible
+     *
+     * @param change the change
      */
     public void changeAllTextVisible(boolean change) {
         if  (!change) {

@@ -13,11 +13,18 @@ import org.slf4j.LoggerFactory;
 
 
 /**
+ * The type Client.
+ *
  * @author Dennis, Natasha, Melanie, Rohail
- * This class represents a client which connects to the server.
- * In here, client inputs will be sent to the server and will be processed.
+ *
+ * This class represents a client which connects to the
+ * server. In here, client inputs will be sent to the server and will be processed.
  */
 public class Client implements Runnable {
+
+    /**
+     * The constant logger.
+     */
     public static final Logger logger = LoggerFactory.getLogger(Client.class);
 
     /**
@@ -37,6 +44,7 @@ public class Client implements Runnable {
      * creates a client constructor
      *
      * @param name the name
+     * @throws IOException the io exception
      */
     public Client(String ... name) throws IOException {
         this.serverIpServerName = name[0];

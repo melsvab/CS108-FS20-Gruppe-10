@@ -1,10 +1,10 @@
 package gui;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import javax.swing.*;
+
 
 import org.slf4j.Logger;
 import server.*;
@@ -15,7 +15,7 @@ import server.*;
  * and includes all general buttons that can pressed by clients.
  */
 
-public class ButtonsClient extends JPanel{
+public class ButtonsClient extends JPanel {
 
     /**
      * A button to see the player list
@@ -95,7 +95,7 @@ public class ButtonsClient extends JPanel{
 
         this.playerlist = new JButton("Playerlist");
         this.gamelist = new JButton("Gamelist");
-        this.highscore= new JButton("Highscore");
+        this.highscore = new JButton("Highscore");
         this.create = new JButton("Create Game");
         this.quit = new JButton("Quit");
         this.help = new JButton("Help");
@@ -104,12 +104,15 @@ public class ButtonsClient extends JPanel{
         this.join = new JButton("Join Game");
         this.name = new JButton("Change Name");
 
-        //creates a GridLayout with 4 rows, and 2 colums. Buttons get their place depending of the order of panel.add(something).
+        //creates a GridLayout with 4 rows, and 2 colums.
+        // Buttons get their place depending of the order of panel.add(something).
         this.setLayout(new GridLayout(5,2));
-        //sets PreferredSize(can sometimes not work properly in the MainFrame because of the other panels.
+        //sets PreferredSize(can sometimes not work properly in the MainFrame because of
+        // the other panels.
         this.setPreferredSize(new Dimension( 240, 150 ) );
 
-        /* adds an ActionListener, so the button does something when you click on it. The ActionPerformed is not implemented right now,
+        /* adds an ActionListener, so the button does something when you click on it.
+        The ActionPerformed is not implemented right now,
          *so nothing is happening.
          */
 
@@ -224,21 +227,22 @@ public class ButtonsClient extends JPanel{
             } else if (e1.getSource().equals(name)) {
                 profile.mainFrame.score.makeAllCenterPanelsInvisibleExcept(3);
 
-            } else { //equals quit
-                    logger.info("Quitting");
-                    /*
-                     * Informing server about his / her choice.
-                     * If player is not active he / she cannot write anymore.
-                     */
-                    profile.mainFrame.closeFrame();
-                    dos.writeUTF(Protocol.QUIT.name());
-                    System.out.println("\nClosing program...\n");
-                    profile.clientIsOnline = false;
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        System.err.println(e.toString());
-                    }
+            } else {
+                //equals quit
+                // logger.info("Quitting");
+                /*
+                * Informing server about his / her choice.
+                * If player is not active he / she cannot write anymore.
+                * */
+                profile.mainFrame.closeFrame();
+                dos.writeUTF(Protocol.QUIT.name());
+                System.out.println("\nClosing program...\n");
+                profile.clientIsOnline = false;
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    System.err.println(e.toString());
+                }
             }
         } catch (IOException f) {
             System.err.println(f.toString());

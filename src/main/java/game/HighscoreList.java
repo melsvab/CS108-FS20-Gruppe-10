@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
+ * @author  Dennis
  * The class represents the Highscore list.
  */
 public class HighscoreList {
@@ -34,11 +35,11 @@ public class HighscoreList {
         String higscoreListString = "";
         int counter = 0;
         HighscorePlayer hsp = this.head;
-        while(hsp != null) {
-            higscoreListString += ++counter +
-                    ": " + hsp.nicknameHS +
-                    ": " + hsp.pointsHS +
-                    " points!\n";
+        while (hsp != null) {
+            higscoreListString += ++counter
+                + ": " + hsp.nicknameHS
+                + ": " + hsp.pointsHS
+                + " points!\n";
             if (hsp.nextPlayer == null) {
                 break;
             } else {

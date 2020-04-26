@@ -4,13 +4,17 @@ import java.io.*;
 import game.Board;
 import game.PlayerTurtle;
 import gui.MainFrame;
+
 import org.slf4j.Logger;
 
 
 /**
+ * The type Client reader thread.
+ *
  * @author Natasha, Dennis, Melanie, Rohail
- * This thread is for reading and processing input coming from the server.
- * If a message from the ServerThreadForClient is send from different methods,
+ *
+ * This thread is for reading and processing input coming
+ * from the server. If a message from the ServerThreadForClient is send from different methods,
  * there will be a specific keyword.Otherwise there are general keywords that are used by different
  * methods that send a message only once.
  */
@@ -28,15 +32,22 @@ public class ClientReaderThread implements Runnable {
      * The Profile.
      */
     Profil profile;
+    /**
+     * The Game.
+     */
     Board game = null;
+    /**
+     * The Turtles.
+     */
     PlayerTurtle[] turtles = null;
 
     /**
      * Instantiates a new Client reader thread.
      *
-     * @param dis    the dis
-     * @param dos    the dos
+     * @param dis     the dis
+     * @param dos     the dos
      * @param profile the profile
+     * @param logger  the logger
      */
     public ClientReaderThread(DataInputStream dis, DataOutputStream dos, Profil profile, Logger logger) {
         this.dis = dis;
@@ -71,7 +82,7 @@ public class ClientReaderThread implements Runnable {
      * Check message boolean.
      *
      * @param original the original
-     * @return boolean
+     * @return boolean boolean
      */
     public boolean checkMessage(String original) {
 

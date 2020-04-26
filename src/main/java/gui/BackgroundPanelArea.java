@@ -1,10 +1,11 @@
 package gui;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+
 
 /**
  * @author Melanie
@@ -22,7 +23,7 @@ public class BackgroundPanelArea extends JPanel {
      * Instantiates a new background panel
      * and gets the water background picture
      */
-    public BackgroundPanelArea(){
+    public BackgroundPanelArea() {
         super();
         try {
             panelBackground = ImageIO.read(getClass().getResourceAsStream("/img/WaterBackground.png"));

@@ -1,23 +1,40 @@
 package game;
-
+import java.util.Random;
 import server.Protocol;
 
-import java.util.Random;
+
 
 /**
+ * The type Board.
  * @author Dennis, Melanie
  * This class represents the board made out of Fields.
  */
 public class Board {
 
+    /**
+     * The Board size.
+     */
     public int boardSize;
+    /**
+     * The Board.
+     */
     public Field[][] board;
+    /**
+     * The Max coins in game.
+     */
     public int maxCoinsInGame;
+    /**
+     * The Coin occurrence.
+     */
     public int coinOccurrence;
+    /**
+     * The Coins on board.
+     */
     int coinsOnBoard = 0;
 
     /**
      * Constructor creates a board with connected fields. Floods area around board.
+     *
      * @param desiredBoardSize size of board where players can move (between 10 and 20).
      */
     public Board(int desiredBoardSize) {
@@ -36,16 +53,16 @@ public class Board {
             for (int y = 0; y < desiredBoardSize; y++) {
                 if (x == 0 || x == desiredBoardSize - 1 || y == 0 || y == desiredBoardSize - 1) {
                     board[x][y] = new Field(1);
-                } else if ((x == middle && y == middle)){
+                } else if ((x == middle && y == middle)) {
                     // start position in the right top
                     board[x][y] = new Field(2);
-                } else if ((x == middle - 1 && y == middle)){
+                } else if ((x == middle - 1 && y == middle)) {
                     // start position in the left top
                     board[x][y] = new Field(2);
-                } else if ((x == middle && y == middle - 1)){
+                } else if ((x == middle && y == middle - 1)) {
                     // start position in the right bottom
                     board[x][y] = new Field(2);
-                } else if ((x == middle - 1 && y == middle - 1)){
+                } else if ((x == middle - 1 && y == middle - 1)) {
                     // start position in the left bottom
                     board[x][y] = new Field(2);
                 } else {
@@ -75,10 +92,11 @@ public class Board {
     }
 
     /**
-     * Function creates random spawning coins on the board.
-     * Occurrence according to this.CoinOccurrence
+     * Function creates random spawning coins on the board. Occurrence according to
+     * this.CoinOccurrence
+     *
+     * @return the string
      */
-
     public String spawnRandomCoins() {
         String coinAt = "";
         for (int x = 1; x < this.boardSize + 1; x++) { //x = 0 is border (already flooded)
@@ -96,11 +114,12 @@ public class Board {
     }
 
 
-
     /**
      * If a turtle is hit by an event, it will be reset to a startposition.
-     * @param x x-coordinate where turtle was hit
-     * @param y y-coordinate where turtle was hit
+     *
+     * @param x     x-coordinate where turtle was hit
+     * @param y     y-coordinate where turtle was hit
+     * @param lobby the lobby
      */
     public void turtleOnXYtoStart(int x, int y, Lobby lobby) {
         String turtleMove = Protocol.TUST.name();
@@ -127,7 +146,10 @@ public class Board {
 
     /**
      * Function for an earthquake hitting the board.
+     *
      * @param magnitude how strong (how many fields are effected by) is the earthquake
+     * @param lobby     the lobby
+     * @return the string
      */
     public String earthquake(int magnitude, Lobby lobby) {
         String quake = "";
@@ -149,7 +171,10 @@ public class Board {
 
     /**
      * Function for a flood hitting the board
+     *
      * @param timesFlood more than one flood for a crazy time!
+     * @param lobby      the lobby
+     * @return the string
      */
     public String floodBoard(int timesFlood, Lobby lobby) {
         String flood = "";
@@ -219,10 +244,13 @@ public class Board {
 
 
     /**
-     * Function calculates neighbors of a field
-     * and decides to change field to isFlood if there are many neighbors.
+     * Function calculates neighbors of a field and decides to change field to isFlood if there are
+     * many neighbors.
+     *
+     * @param firstWave the first wave
+     * @param lobby     the lobby
+     * @return the string
      */
-
     public String secondWave(String firstWave, Lobby lobby) {
         boolean[][] copyBoard = new boolean[boardSize + 2][boardSize + 2];
         for (int x = 1; x < boardSize + 1; x++) {
@@ -271,10 +299,13 @@ public class Board {
     }
 
     /**
-     * Function calculates neighbors of a field
-     * and decides to change field to isFlood if there are many neighbors.
+     * Function calculates neighbors of a field and decides to change field to isFlood if there are
+     * many neighbors.
+     *
+     * @param x the x
+     * @param y the y
+     * @return the water neighbors
      */
-
     public int getWaterNeighbors(int x, int y) {
         int neighbors = 0;
 
@@ -285,19 +316,19 @@ public class Board {
 
         for (int i = -1; i < 2; i++) {
             //upper three fields
-            if (board[x+i][y-1].isFlood) {
+            if (board[x + i][y - 1].isFlood) {
                 neighbors++;
             }
             // three fields under
-            if (board[x+i][y+1].isFlood) {
+            if (board[x + i][y + 1].isFlood) {
                 neighbors++;
             }
         }
 
-        if (board[x-1][y].isFlood) {
+        if (board[x - 1][y].isFlood) {
             neighbors++;
         }
-        if (board[x+1][y].isFlood) {
+        if (board[x + 1][y].isFlood) {
             neighbors++;
         }
 
@@ -320,6 +351,7 @@ public class Board {
 
     /**
      * Returns the board (Field[][]) as a complete String. Each field is represented differently.
+     *
      * @return board and its field as a String.
      */
     public String printBoard() {
@@ -351,6 +383,7 @@ public class Board {
 
     /**
      * main function only for testing reasons.
+     *
      * @param args not used.
      */
     public static void main(String[] args) {

@@ -7,28 +7,53 @@ import java.util.Set;
 import server.*;
 
 /**
- * @author Natasha, Melanie, Dennis
- * In this class, a lobby is created where the players are collected and the gamestate and
- * board is saved.
+ * The type Lobby.
+ *
+ * @author Natasha, Melanie, Dennis, Rohail
+ * In this class, a lobby is created where the players are
+ * collected and the gamestate and board is saved.
  */
 public class Lobby extends Thread {
+
+    /**
+     * The Gamestate.
+     */
     /*
      * one for an open game
      * two for an ongoing game
      * three for a finished game
      */
     public int gamestate;
+    /**
+     * The Lobby number.
+     */
     public int lobbyNumber;
+    /**
+     * The Number of players.
+     */
     public int numberOfPlayers;
+    /**
+     * The Board.
+     */
     public Board board;
+    /**
+     * The Players.
+     */
     public Set<ServerThreadForClient> players = new HashSet<>();
+    /**
+     * The Spectators.
+     */
     public Set<ServerThreadForClient> spectators = new HashSet<>();
 
+    /**
+     * The Turtles.
+     */
     public PlayerTurtle[] turtles;
 
     /**
      * Instantiates a new Lobby and adds clients to the players-set
-     * @param aUser the user who creates the lobby is added to the set of players
+     *
+     * @param aUser  the user who creates the lobby is added to the set of players
      * @param number every lobby gets an number / ID.
      */
     public Lobby(ServerThreadForClient aUser, int number) {
@@ -40,6 +65,7 @@ public class Lobby extends Thread {
 
     /**
      * Function often used. Let thread wait several seconds
+     *
      * @param seconds how many seconds to wait.
      */
     public void pleaseWait(int seconds) {
@@ -52,6 +78,7 @@ public class Lobby extends Thread {
 
     /**
      * Function sends a message to all players in this lobby.
+     *
      * @param message to send.
      */
     public synchronized void writeToAll(String message) {
@@ -65,6 +92,7 @@ public class Lobby extends Thread {
 
     /**
      * Function to send a message to a specific client.
+     *
      * @param message to send.
      * @param aPerson client who receives Message
      */
@@ -74,6 +102,7 @@ public class Lobby extends Thread {
 
     /**
      * Functions adds a player to the lobby.
+     *
      * @param aUser player to be added.
      */
     public synchronized void addPlayer(ServerThreadForClient aUser) {
@@ -98,6 +127,7 @@ public class Lobby extends Thread {
 
     /**
      * Adds a Client to the set of spectators.
+     *
      * @param aUser client to be added.
      */
     public synchronized void addSpectators(ServerThreadForClient aUser) {
@@ -132,6 +162,7 @@ public class Lobby extends Thread {
 
     /**
      * Removes a client or spectator from the list / set and from the lobby.
+     *
      * @param aUser client to be removed.
      */
     public synchronized void deletePlayer(ServerThreadForClient aUser) {
@@ -150,8 +181,9 @@ public class Lobby extends Thread {
     }
 
     /**
-     * Changes the state of the game (one for an open game /
-     * two for an ongoing game / three for a finished game)
+     * Changes the state of the game (one for an open game / two for an ongoing game / three for a
+     * finished game)
+     *
      * @param state to change to.
      */
     public synchronized void changeGameState(int state) {
@@ -160,6 +192,7 @@ public class Lobby extends Thread {
 
     /**
      * Returns the number / ID of the lobby.
+     *
      * @return lobby int.
      */
     public synchronized int getLobbyNumber() {
@@ -168,7 +201,9 @@ public class Lobby extends Thread {
 
     /**
      * Creates a new board object.
+     *
      * @param boardSize size of the board (Field[][]).
+     * @param maxCoins  the max coins
      */
     public synchronized void createGame(int boardSize, int maxCoins) {
         //Create a board out of fields and assert attributes.
@@ -185,14 +220,14 @@ public class Lobby extends Thread {
             maxCoins = 100;
         }
 
-        board.coinOccurrence =  boardSize + maxCoins/3;
+        board.coinOccurrence =  boardSize + maxCoins / 3;
         board.maxCoinsInGame = maxCoins;
         writeToAll(Protocol.STR1 + ":" + boardSize + ":" + numberOfPlayers);
     }
 
 
     /**
-     *
+     * Handles the game
      */
     public void run() {
         /*
@@ -306,7 +341,7 @@ public class Lobby extends Thread {
                     writeToPlayer(Protocol.GMSG.name() + ":You survived!", aPlayer);
                 }
             }
-            if(rounds >= 10) {
+            if (rounds >= 10) {
                 int pointsCounter = -100;
                 String placeholder = "";
                 for (ServerThreadForClient aPlayer : players) {
@@ -324,7 +359,7 @@ public class Lobby extends Thread {
                         }
                     }
                 }
-                if(counter > 1){
+                if (counter > 1) {
                     defineWinner = false;
                     counter = 1;
                 } else {

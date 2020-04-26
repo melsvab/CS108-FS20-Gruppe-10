@@ -1,20 +1,24 @@
 package gui;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.swing.*;
+
 
 import game.*;
 import javafx.scene.transform.Affine;
 
 /**
+ * The type Game gui.
+ *
  * @author Melanie, Natasha
- * This class is used to show the nickname of a player
- * as well as his or her score during the game.
+ *
+ * This class is used to show the nickname of a player as well as his or
+ * her score during the game.
  */
 public class GameGUI extends BackgroundPanelArea {
 
@@ -110,11 +114,13 @@ public class GameGUI extends BackgroundPanelArea {
 
     /**
      * Instantiates a new game gui.
+     *
+     * @throws IOException the io exception
      */
     GameGUI() throws IOException {
 
         this.setLayout(new BorderLayout()); //BorderLayout is chosen at the moment. Could be changed later
-        this.setMaximumSize(new Dimension(WIDTH*2, HEIGHT*2));
+        this.setMaximumSize(new Dimension(WIDTH * 2, HEIGHT * 2));
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
@@ -141,18 +147,23 @@ public class GameGUI extends BackgroundPanelArea {
 
         startPosition = ImageIO.read(getClass().getResourceAsStream("/img/startPosition.png"));
     }
+
     /**
-     * board was given by the main frame and the actual board size
-     * as well as the x and y values are calculated.
+     * board was given by the main frame and the actual board size as well as the x and y values are
+     * calculated.
+     *
      * @param board the board where the game occurs
      */
     public void setBoard(Board board) {
         this.board = board;
         actualBoardSize = board.boardSize + 2;
         rescaleX = (WIDTH - board.boardSize * PICTURE_SIZE) / 2;
-        rescaleY = (HEIGHT - board.boardSize * PICTURE_SIZE) /2;
+        rescaleY = (HEIGHT - board.boardSize * PICTURE_SIZE) / 2;
     }
 
+    /**
+     * Reset board.
+     */
     public void resetBoard() {
         this.board = null;
         actualBoardSize = 0;
@@ -173,27 +184,24 @@ public class GameGUI extends BackgroundPanelArea {
                 for (int x = 0; x < board.boardSize; x++) {
                     int xValue = PICTURE_SIZE * x + rescaleX;
                     int yValue = PICTURE_SIZE * ((board.boardSize - 1) - y) + rescaleY;
-                    if (board.board[x+1][y+1].isStartPosition) {
+                    if (board.board[x + 1][y + 1].isStartPosition) {
                         g2d.drawImage(startPosition, null, xValue , yValue);
-                    }
-                    else if (board.board[x+1][y+1].isFlood) {
+                    } else if (board.board[x + 1][y + 1].isFlood) {
                         g2d.drawImage(waterField, null, xValue , yValue);
-                    }
-                    else if (board.board[x+1][y+1].isQuake) {
+                    } else if (board.board[x + 1][y + 1].isQuake) {
                         g2d.drawImage(earthquake, null, xValue , yValue);
-                    }
-                    else if (board.board[x+1][y+1].steppedOn) {
+                    } else if (board.board[x + 1][y + 1].steppedOn) {
                         g2d.drawImage(usedField, null,  xValue , yValue);
                     } else {
                         g2d.drawImage(normalField, null,  xValue , yValue);
                     }
-                    if (board.board[x+1][y+1].hasCoin) {
+                    if (board.board[x + 1][y + 1].hasCoin) {
                         g2d.drawImage(coin, null,  xValue , yValue);
                     }
                     //placeholder while there is no color attributed to the turtle
-                    if (board.board[x+1][y+1].turtle != null) {
-                        int direction = board.board[x+1][y+1].turtle.direction;
-                        switch (board.board[x+1][y+1].turtle.num) {
+                    if (board.board[x + 1][y + 1].turtle != null) {
+                        int direction = board.board[x + 1][y + 1].turtle.direction;
+                        switch (board.board[x + 1][y + 1].turtle.num) {
                             case 0:
                                 g2d.drawImage(rotateImage(turtleBlue, direction), null,  xValue , yValue);
                                 break;
@@ -213,14 +221,16 @@ public class GameGUI extends BackgroundPanelArea {
                 }
             }
         } else {
-            g2d.drawImage(mainScreen, null, WIDTH/2 - (mainScreen.getWidth()/2 + 10), 0);
+            g2d.drawImage(mainScreen, null, WIDTH / 2 - (mainScreen.getWidth() / 2 + 10), 0);
         }
     }
 
     /**
      * This method rotates turtles into the direction that they are walking.
-     * @param turtle the image of the turtle
+     *
+     * @param turtle    the image of the turtle
      * @param direction the direction that the turtle is facing
+     * @return the buffered image
      */
     public static BufferedImage rotateImage(BufferedImage turtle, int direction) {
         int degree = 0;
@@ -248,10 +258,11 @@ public class GameGUI extends BackgroundPanelArea {
 
     /**
      * This method changes the x values of the whole game
+     *
      * @param valueX the value that changes at the x coordinates
      */
-    public synchronized void changeX (int valueX) {
-        for (int i = 0; i<PICTURE_SIZE/5; i++) {
+    public synchronized void changeX(int valueX) {
+        for (int i = 0; i < PICTURE_SIZE / 5; i++) {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
@@ -265,10 +276,11 @@ public class GameGUI extends BackgroundPanelArea {
 
     /**
      * This method changes the y values of the whole game.
+     *
      * @param valueY the value that changes at the x coordinates
      */
-    public synchronized void changeY (int valueY) {
-        for (int i = 0; i<PICTURE_SIZE/5; i++) {
+    public synchronized void changeY(int valueY) {
+        for (int i = 0; i < PICTURE_SIZE / 5; i++) {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
@@ -280,10 +292,14 @@ public class GameGUI extends BackgroundPanelArea {
     }
 
 
-    /*
-     * This method is used to test the game gui panel.
+    /**
+     * The entry point of application.
+     * this method is used to test the game gui panel.
+     * @param args the input arguments
+     * @throws IOException the io exception
      */
-    public static void main (String[] args) throws IOException {
+
+    public static void main(String[] args) throws IOException {
         gui.GameGUI game = new gui.GameGUI();
         JFrame frame = new JFrame();
         Board boardDemo = new Board(10);

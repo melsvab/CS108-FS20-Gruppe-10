@@ -1,18 +1,20 @@
 package gui;
-
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+
+
+import javax.swing.*;
 
 /**
+ * The type Game margin vertical.
+ *
  * @author Melanie, Natasha
  * This class is used for the vertical game margin.
  */
-
 public class GameMarginVertical extends BackgroundTurtles implements MouseListener {
 
     /**
@@ -21,24 +23,25 @@ public class GameMarginVertical extends BackgroundTurtles implements MouseListen
     public GameGUI board;
 
     /**
-     * This is a boolean to determine whether
-     * this class is for the left or right side
-     * next to the game
+     * This is a boolean to determine whether this class is for the left or right side next to the
+     * game
      */
     boolean left;
 
 
     /**
-     * This is a boolean to determine whether
-     * there is a game or not
+     * This is a boolean to determine whether there is a game or not
      */
     public boolean gameHasStarted = false;
 
 
     /**
      * Instantiates a new game margin vertical.
+     *
+     * @param left  the left
+     * @param board the board
      */
-    public GameMarginVertical(boolean left, GameGUI board){
+    public GameMarginVertical(boolean left, GameGUI board) {
         this.left = left;
         this.board = board;
 
@@ -85,7 +88,7 @@ public class GameMarginVertical extends BackgroundTurtles implements MouseListen
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-        if(gameHasStarted) {
+        if (gameHasStarted) {
             if (left) {
                 this.board.changeX(5);
             } else {

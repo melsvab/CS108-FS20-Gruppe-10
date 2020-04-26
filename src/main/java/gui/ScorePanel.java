@@ -11,34 +11,32 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
+ * The type Score panel.
+ *
  * @author Melanie
- * This class has all layors of the game
- * and puts them on the places that they are supposed to be.
+ *
+ * This class has all layors of the game and puts them on the places that they are
+ * supposed to be.
  */
-
 public class ScorePanel extends BackgroundTurtles {
 
     /**
-     * The game panel which shows the game state
-     * or the logo of the game.
+     * The game panel which shows the game state or the logo of the game.
      */
     public GameGUI game;
 
     /**
-     * The start game panel will be shown
-     * after a player presses the 'start game' button.
+     * The start game panel will be shown after a player presses the 'start game' button.
      */
     public StartGamePanel start;
 
     /**
-     * The join game panel will be shown after
-     * a player presses the 'join a game' button.
+     * The join game panel will be shown after a player presses the 'join a game' button.
      */
     public JoinGamePanel join;
 
     /**
-     * The name panel will be shown after
-     * a player presses the 'change name' button.
+     * The name panel will be shown after a player presses the 'change name' button.
      */
     public NamePanel name;
 
@@ -65,7 +63,8 @@ public class ScorePanel extends BackgroundTurtles {
     /**
      * Instantiates a new score panel
      *
-     * @param dos  the data output stream
+     * @param dos the data output stream
+     * @throws IOException the io exception
      */
     ScorePanel(DataOutputStream dos) throws IOException {
 
@@ -133,9 +132,10 @@ public class ScorePanel extends BackgroundTurtles {
 
     /**
      * This method updates the score of all players depending on the amount of turtles
+     *
+     * @param turtles the turtles
      */
-
-    public void setTextInTextArea (PlayerTurtle[] turtles) {
+    public void setTextInTextArea(PlayerTurtle[] turtles) {
 
 
         if (turtles.length >= 1) {
@@ -173,6 +173,8 @@ public class ScorePanel extends BackgroundTurtles {
 
     /**
      * This method updates the current round while playing the game
+     *
+     * @param rounds the rounds
      */
     public void setTextForRound (int rounds) {
         if (rounds <= 9) {
@@ -184,6 +186,8 @@ public class ScorePanel extends BackgroundTurtles {
 
     /**
      * This method gives the board to all the graphical classes that need them.
+     *
+     * @param game the game
      */
     public void getGame(Board game) {
         this.game.setBoard(game);
@@ -193,8 +197,7 @@ public class ScorePanel extends BackgroundTurtles {
     }
 
     /**
-     * This method informs all other classes
-     * that the player is not playing the game anymore.
+     * This method informs all other classes that the player is not playing the game anymore.
      */
     public void resetGame() {
         makeAllCenterPanelsInvisibleExcept(0);
@@ -207,6 +210,8 @@ public class ScorePanel extends BackgroundTurtles {
 
     /**
      * This method changes the visibility of the panels around the game
+     *
+     * @param change the change
      */
     public void changeVisibilityMargin(boolean change) {
         top.changeAllTextVisible(change);
@@ -216,8 +221,9 @@ public class ScorePanel extends BackgroundTurtles {
     }
 
     /**
-     * This method changes all panels in the center of the score panel
-     * invisible except of the one that we want to show
+     * This method changes all panels in the center of the score panel invisible except of the one
+     * that we want to show
+     *
      * @param aCase four different cases for four different panels that are at the same place
      */
     public void makeAllCenterPanelsInvisibleExcept(int aCase) {
@@ -252,13 +258,14 @@ public class ScorePanel extends BackgroundTurtles {
 
     /**
      * changes setting of a given text area
+     *
      * @param textArea the area that needs to be changed
      */
     public static void changeTextAreaProperties(BackgroundScoreArea textArea) {
         textArea.setEditable(false);
         textArea.setBackground(new Color(1,1,1, (float) 0.01));
         Font f = textArea.getFont();
-        Font f2 = new Font(f.getFontName(), f.getStyle(), f.getSize()+5);
+        Font f2 = new Font(f.getFontName(), f.getStyle(), f.getSize() + 5);
         textArea.setFont(f2.deriveFont(Font.BOLD));
     }
 

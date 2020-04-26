@@ -7,8 +7,9 @@ import gui.MainFrame;
 import java.io.IOException;
 
 /**
- * @author Natasha, Dennis, Melanie, Rohail
+ * The type Profil.
  *
+ * @author Natasha, Dennis, Melanie, Rohail
  * This class is for the server and the client to know
  * about states and other specific  information concerning a client.
  */
@@ -71,6 +72,8 @@ public class Profil {
 
     /**
      * Instantiates a new profile.
+     *
+     * @throws IOException the io exception
      */
     public Profil() throws IOException {
         this.clientIsOnline = true;
@@ -92,12 +95,18 @@ public class Profil {
         Server.userThreads.remove(aUser);
     }
 
+    /**
+     * Game is ready boolean.
+     *
+     * @return the boolean
+     */
     public boolean gameIsReady() {
         if (isInGame && lobby != null) {
             return lobby.gamestate == 2;
         }
         return false;
     }
+
     /**
      * to move the turtle one field
      *
@@ -136,8 +145,8 @@ public class Profil {
             this.myTurtle.turtleposition.hasCoin = false;
         }
 
-        if (!this.myTurtle.turtleposition.steppedOn &&
-                !this.myTurtle.turtleposition.isStartPosition) {
+        if (!this.myTurtle.turtleposition.steppedOn
+            && !this.myTurtle.turtleposition.isStartPosition) {
             this.myTurtle.points++;
             this.myTurtle.turtleposition.steppedOn = true;
 

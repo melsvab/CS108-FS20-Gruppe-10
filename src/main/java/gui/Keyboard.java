@@ -3,9 +3,11 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+
 import game.Board;
-import server.Protocol;
 import server.Profil;
+import server.Protocol;
+
 
 
 /**
@@ -39,12 +41,16 @@ public class Keyboard extends KeyAdapter implements KeyListener {
     /**
      * changes boolean 'game exists' to true
      */
-    public void addGame() { this.gameExists = true;}
+    public void addGame() {
+        this.gameExists = true;
+    }
 
     /**
      * changes boolean 'game exists' to false
      */
-    public void deleteGame() { this.gameExists = false;}
+    public void deleteGame() {
+        this.gameExists = false;
+    }
 
 
     /**
@@ -71,7 +77,7 @@ public class Keyboard extends KeyAdapter implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         myKeyEvt(e);
-        try{
+        try {
             Thread.sleep(50);
         } catch (InterruptedException ex) {
             ex.printStackTrace();

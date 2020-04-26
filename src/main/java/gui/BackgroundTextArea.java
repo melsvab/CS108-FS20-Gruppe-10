@@ -1,10 +1,12 @@
 package gui;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.swing.*;
+
+
 
 /**
  * @author Melanie
@@ -22,7 +24,7 @@ public class BackgroundTextArea extends JTextArea {
      * Instantiates a new background text are
      * and gets the small turtle picture
      */
-    public BackgroundTextArea(){
+    public BackgroundTextArea() {
         super();
         this.setEditable(false);
         try {

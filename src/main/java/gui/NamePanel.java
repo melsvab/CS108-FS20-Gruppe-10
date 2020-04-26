@@ -52,7 +52,7 @@ public class NamePanel extends BackgroundScoreArea {
      * @param dos  the data output stream
      * @param score  the panel with the game
      */
-     NamePanel (DataOutputStream dos, ScorePanel score) {
+     NamePanel(DataOutputStream dos, ScorePanel score) {
 
         this.dos = dos;
 
@@ -101,31 +101,31 @@ public class NamePanel extends BackgroundScoreArea {
       * @param e the event occurs if someone presses the send button
       */
      public void actionPerformed(ActionEvent e) {
-         String input = "NAME:" + nameInput.getText();
+       String input = "NAME:" + nameInput.getText();
 
-         Parameter name = new Parameter(input, 3);
+       Parameter name = new Parameter(input, 3);
 
-         String newNickname = name.wordOne;
+       String newNickname = name.wordOne;
 
-         /*
-          * if the answer is <YEAH> the nickname is change to the
-          * system username. If the answer is something else,
-          * this input will be used as the nickname.
-          */
+       /*
+        * if the answer is <YEAH> the nickname is change to the
+        * system username. If the answer is something else,
+        * this input will be used as the nickname.
+        */
 
-         if (newNickname.equalsIgnoreCase("YEAH")) {
+       if (newNickname.equalsIgnoreCase("YEAH")) {
              newNickname = System.getProperty("user.name");
-         }
+       }
 
          // sending the desired nickname to server
-         try {
-             dos.writeUTF(Protocol.NAME.name() + ":" + newNickname);
-         } catch (IOException f) {
-             System.err.println(f.toString());
-         }
+       try {
+         dos.writeUTF(Protocol.NAME.name() + ":" + newNickname);
+       } catch (IOException f) {
+         System.err.println(f.toString());
+       }
 
-         nameInput.setText("");
-         score.makeAllCenterPanelsInvisibleExcept(0);
+       nameInput.setText("");
+       score.makeAllCenterPanelsInvisibleExcept(0);
 
      }
 

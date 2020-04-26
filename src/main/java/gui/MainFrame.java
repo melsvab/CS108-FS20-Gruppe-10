@@ -1,19 +1,23 @@
 package gui;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import javax.swing.*;
+
 
 import game.Board;
 import game.PlayerTurtle;
+
 import org.slf4j.Logger;
+
 import server.Profil;
 import server.Protocol;
 
 /**
+ * The type Main frame.
+ *
  * @author Melanie
  * This class puts all panel for the main frame in order
  */
@@ -71,12 +75,13 @@ public class MainFrame extends BackgroundScoreArea {
 
     /**
      * Instantiates a new main frame
-     * @param dos the data output stream to send messages to the server
-     * @param profile the profile of the client
-     * @param logger the logger to collect data
      *
+     * @param dos     the data output stream to send messages to the server
+     * @param profile the profile of the client
+     * @param logger  the logger to collect data
+     * @throws IOException the io exception
      */
-    public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException{
+    public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException {
         this.frame = new JFrame("The Floor is Java");
         this.chat = new ClientChatGUI(dos, true);
         this.messages = new ClientChatGUI(dos, false);
@@ -96,9 +101,8 @@ public class MainFrame extends BackgroundScoreArea {
 
 
     /**
-     * A method to set the different panels into order
-     * and change or define the settings for the frame.
-     *
+     * A method to set the different panels into order and change or define the settings for the
+     * frame.
      */
     public void createMainFrame() {
         this.setLayout(new GridBagLayout());
@@ -106,10 +110,12 @@ public class MainFrame extends BackgroundScoreArea {
         GridBagConstraints gbc = new GridBagConstraints();
 
         /*See ButtonsGame for a basic explanation of GridBagLayout
-         *gbc.fill will fill the object for the whole Grid. this is needed if for example the size of the chat is to small
+         *gbc.fill will fill the object for the whole Grid.
+         *this is needed if for example the size of the chat is to small
          *so it fills the whole space.
          *gbc.insets creates distance to the other panels.
-         *gbc.anchor is used if you change the size of the frame/screen which appears so the chat for example stays on
+         *gbc.anchor is used if you change the size of the frame/screen
+         *which appears so the chat for example stays on
          *the upper left corner
          * gbc.weightx/weighty is used so the gamePanel is larger than the other things. Why this works like that or if there is
          * a better way I dont know exactly
@@ -179,6 +185,7 @@ public class MainFrame extends BackgroundScoreArea {
 
     /**
      * Gives the board to all the classes that need it.
+     *
      * @param game to give the game to the panels
      */
     public synchronized void gameIsHere(Board game) {

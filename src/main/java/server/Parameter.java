@@ -6,6 +6,8 @@ import game.Field;
 
 
 /**
+ * The type Parameter.
+ *
  * @author Natasha, Dennis, Melanie, Rohail
  *
  * This class is for the server and the client to know
@@ -14,13 +16,31 @@ import game.Field;
 public class Parameter {
 
 
+    /**
+     * The Is correct.
+     */
     public boolean isCorrect;
 
+    /**
+     * The Number one.
+     */
     public int numberOne;
+    /**
+     * The Number two.
+     */
     public int numberTwo;
+    /**
+     * The Positions.
+     */
     public int[][] positions;
 
+    /**
+     * The Word one.
+     */
     public String wordOne;
+    /**
+     * The Word two.
+     */
     public String wordTwo;
 
 
@@ -28,9 +48,9 @@ public class Parameter {
      * Instantiates a new Parameter.
      *
      * @param message the message given
-     * @param aCase this depends on what we want to check
+     * @param aCase   this depends on what we want to check
      */
-    public Parameter (String message, int aCase) {
+    public Parameter(String message, int aCase) {
         switch (aCase) {
 
             case 1:
@@ -74,7 +94,6 @@ public class Parameter {
     }
 
 
-
     /**
      * Check for two int boolean.
      *
@@ -85,7 +104,7 @@ public class Parameter {
         //an example of an input:
         //KEYW:5:355
 
-        if(checkForTwoWords(original)) {
+        if (checkForTwoWords(original)) {
             String[] words = original.split(":");
             //check if it is possible to transfer the words into numbers
             try {
@@ -137,6 +156,7 @@ public class Parameter {
      * Check for usage of ":" and minimum input of "KEYW:a".
      *
      * @param original the original
+     * @param name     the name
      * @return boolean boolean
      */
     public boolean checkForWord(String original, boolean name) {
@@ -182,8 +202,14 @@ public class Parameter {
         }
     }
 
+    /**
+     * Check for turtle set up boolean.
+     *
+     * @param original the original
+     * @return the boolean
+     */
     public boolean checkForTurtleSetUp(String original) {
-        if(checkForNumber(original)) {
+        if (checkForNumber(original)) {
             // numberOne will be used for turtle number
             String[] words = original.split(":");
 
@@ -204,6 +230,12 @@ public class Parameter {
         return false;
     }
 
+    /**
+     * Check for numbers boolean.
+     *
+     * @param original the original
+     * @return the boolean
+     */
     public boolean checkForNumbers(String original) {
         try {
             String[] words = original.split(":");
@@ -215,8 +247,8 @@ public class Parameter {
 
             for (int i = 2; i < words.length; i++) {
                 String[] numbers = words[i].split("-");
-                positions[i-2][0] = Integer.parseInt(numbers[0]);
-                positions[i-2][1] = Integer.parseInt(numbers[1]);
+                positions[i - 2][0] = Integer.parseInt(numbers[0]);
+                positions[i - 2][1] = Integer.parseInt(numbers[1]);
             }
 
             return true;
@@ -228,9 +260,10 @@ public class Parameter {
 
     /**
      * This method is used to move a turtle one field up, down, left or right.
-     * @param board the game board
+     *
+     * @param board     the game board
      * @param direction the direction
-     * @param turtle the turtle that moves
+     * @param turtle    the turtle that moves
      */
     public synchronized void  moveTurtle(Board board, int direction, PlayerTurtle turtle) {
         turtle.direction = direction;
@@ -269,6 +302,15 @@ public class Parameter {
 
     }
 
+    /**
+     * Change turtle position.
+     *
+     * @param board  the board
+     * @param isX    the is x
+     * @param xPos   the x pos
+     * @param yPos   the y pos
+     * @param change the change
+     */
     public synchronized void changeTurtlePosition(Board board, boolean isX, int xPos, int yPos, int change) {
         PlayerTurtle placeholder = board.board[xPos][yPos].turtle;
         board.board[xPos][yPos].turtle = null;
@@ -294,6 +336,12 @@ public class Parameter {
     }
 
 
+    /**
+     * Change board.
+     *
+     * @param board the board
+     * @param aCase the a case
+     */
     public void changeBoard(Board board, int aCase) {
         boolean change = false;
         if (numberOne == 1) {

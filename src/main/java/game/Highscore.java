@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
+ * @author Dennis
  * This class handles the HighscoreList at the start..
  */
 public class Highscore {

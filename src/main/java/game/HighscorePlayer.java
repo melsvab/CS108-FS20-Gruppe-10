@@ -1,6 +1,7 @@
 package game;
 
 /**
+ * @author  Dennis
  * This class represents a player which will be
  * saved in the highscorelist.
  */
