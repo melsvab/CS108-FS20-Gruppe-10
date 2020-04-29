@@ -4,12 +4,16 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import javax.swing.*;
 
 
 import game.Board;
 import game.PlayerTurtle;
 
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import org.slf4j.Logger;
 
 import server.Profil;
@@ -74,6 +78,10 @@ public class MainFrame extends BackgroundScoreArea {
     public Boolean gameExists = false;
 
     /**
+     * Media Player for playing the music
+     */
+    private MediaPlayer mediaPlayer;
+    /**
      * Instantiates a new main frame
      *
      * @param dos     the data output stream to send messages to the server
@@ -95,6 +103,7 @@ public class MainFrame extends BackgroundScoreArea {
         requestFocusInWindow();
         keyboard = new Keyboard(dos, profile);
         addKeyListener(keyboard);
+
         createMainFrame();
 
     }
@@ -181,7 +190,16 @@ public class MainFrame extends BackgroundScoreArea {
         frame.setSize(1280,720); //standard size of the window which opens
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //If you click on the red x in the window, the programm stops automaticaly
+        final JFXPanel fxPanel = new JFXPanel();
+
+        URL url = this.getClass().getClassLoader().getResource("msc/Tropical-Island.mp3");
+
+        Media music = new Media(String.valueOf(url));
+        mediaPlayer = new MediaPlayer(music);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
     }
+
 
     /**
      * Gives the board to all the classes that need it.
