@@ -220,7 +220,6 @@ public class GameGUI extends BackgroundPanelArea {
                                 } else {
                                     g2d.drawImage(rotateImage(turtleBlue2, direction), null, xValue, yValue);
                                 }
-                                System.out.println(board.board[x + 1][y + 1].turtle.animation);
                                 break;
 
                             case 1:
