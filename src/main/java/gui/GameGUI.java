@@ -40,22 +40,26 @@ public class GameGUI extends BackgroundPanelArea {
     /**
      * The picture of the blue turtle
      */
-    private BufferedImage turtleBlue;
+    private BufferedImage turtleBlue1;
+    private BufferedImage turtleBlue2;
 
     /**
      * The picture of the green turtle
      */
-    private BufferedImage turtleGreen;
+    private BufferedImage turtleGreen1;
+    private BufferedImage turtleGreen2;
 
     /**
      * The picture of the violet turtle
      */
-    private BufferedImage turtleViolet;
+    private BufferedImage turtleViolet1;
+    private BufferedImage turtleViolet2;
 
     /**
      * The picture of the yellow turtle
      */
-    private BufferedImage turtleYellow;
+    private BufferedImage turtleYellow1;
+    private BufferedImage turtleYellow2;
 
     /**
      * The picture of a water field
@@ -133,13 +137,21 @@ public class GameGUI extends BackgroundPanelArea {
 
         earthquake = ImageIO.read(getClass().getResourceAsStream("/img/earthquake.png"));
 
-        turtleBlue = ImageIO.read(getClass().getResourceAsStream("/img/turtleBlue.png"));
+        turtleBlue1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleBlue(1).png"));
 
-        turtleGreen = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen.png"));
+        turtleGreen1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen(1).png"));
 
-        turtleViolet = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett.png"));
+        turtleViolet1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett(1).png"));
 
-        turtleYellow = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow.png"));
+        turtleYellow1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow(1).png"));
+
+        turtleBlue2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleBlue(2).png"));
+
+        turtleGreen2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen(2).png"));
+
+        turtleViolet2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett(2).png"));
+
+        turtleYellow2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow(2).png"));
 
         coin = ImageIO.read(getClass().getResourceAsStream("/img/apple.png"));
 
@@ -203,20 +215,37 @@ public class GameGUI extends BackgroundPanelArea {
                         int direction = board.board[x + 1][y + 1].turtle.direction;
                         switch (board.board[x + 1][y + 1].turtle.num) {
                             case 0:
-                                g2d.drawImage(rotateImage(turtleBlue, direction), null,  xValue , yValue);
+                                if (board.board[x + 1][y + 1].turtle.animation % 2 == 0) {
+                                    g2d.drawImage(rotateImage(turtleBlue1, direction), null, xValue, yValue);
+                                } else {
+                                    g2d.drawImage(rotateImage(turtleBlue2, direction), null, xValue, yValue);
+                                }
+                                System.out.println(board.board[x + 1][y + 1].turtle.animation);
                                 break;
+
                             case 1:
-                                g2d.drawImage(rotateImage(turtleGreen, direction), null,  xValue , yValue);
+                                if (board.board[x + 1][y + 1].turtle.animation % 2 == 0) {
+                                    g2d.drawImage(rotateImage(turtleGreen1, direction), null, xValue, yValue);
+                                } else {
+                                    g2d.drawImage(rotateImage(turtleGreen2, direction), null, xValue, yValue);
+                                }
                                 break;
                             case 2:
-                                g2d.drawImage(rotateImage(turtleViolet, direction), null,  xValue , yValue);
+                                if (board.board[x + 1][y + 1].turtle.animation % 2 == 0) {
+                                    g2d.drawImage(rotateImage(turtleViolet1, direction), null,  xValue , yValue);
+                                } else {
+                                    g2d.drawImage(rotateImage(turtleViolet2, direction), null, xValue, yValue);
+                                }
                                 break;
                             case 3:
-                                g2d.drawImage(rotateImage(turtleYellow, direction), null,  xValue , yValue);
+                                if (board.board[x + 1][y + 1].turtle.animation % 2 == 0) {
+                                    g2d.drawImage(rotateImage(turtleYellow1, direction), null, xValue, yValue);
+                                } else {
+                                    g2d.drawImage(rotateImage(turtleYellow2, direction), null, xValue, yValue);
+                                }
                                 break;
 
                         }
-
                     }
                 }
             }

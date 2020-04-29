@@ -267,6 +267,7 @@ public class Parameter {
      */
     public synchronized void  moveTurtle(Board board, int direction, PlayerTurtle turtle) {
         turtle.direction = direction;
+        turtle.animation += 1;
 
 
         switch (direction) {

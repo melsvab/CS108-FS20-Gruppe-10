@@ -33,6 +33,10 @@ public class PlayerTurtle {
      */
     public int direction;
 
+    /**
+     * The Animation
+     */
+    public int animation;
 
     /**
      * The Num.
@@ -56,6 +60,7 @@ public class PlayerTurtle {
     public PlayerTurtle(String turtlename) {
         this.turtlename = turtlename;
         this.direction = 0;
+        this.animation = 0;
     }
 
 
