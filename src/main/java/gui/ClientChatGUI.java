@@ -3,7 +3,6 @@ package gui;
 import server.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import javax.swing.*;
@@ -150,6 +149,9 @@ public class ClientChatGUI extends JPanel {
         } else {
             chatArea.setForeground(Color.BLACK);
         }
+
+        Parameter sentences = new Parameter(msg, 8);
+        msg = sentences.wordOne;
 
         chatArea.append(msg + "\n");
         int count = msg.length() - msg.replaceAll("\n", "").length();

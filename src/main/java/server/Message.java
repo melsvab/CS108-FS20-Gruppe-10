@@ -57,14 +57,14 @@ public class Message {
      * The constant nobodyHearsYou.
      */
     public static String nobodyHearsYou = ("\nNobody can hear you here.\n"
-                    + "Write /b yourMessage for broadcast,\n"
-                    + " /w playername yourMessage for \nwhisper or join a Lobby!\n");
+                    + "Change to BC for the broadcast chat or write\n"
+                    + " /w playername yourMessage for the \nwhisper chat or join a lobby!\n");
 
     /**
      * The constant playerDoesNotExist.
      */
     public static String playerDoesNotExist = (
-            "\n The message could not be sent.\nThere is no player with this name.");
+            "\nThe message could not be sent.\nThere is no player with this name.");
 
     /**
      * The constant youCannotDoThat.

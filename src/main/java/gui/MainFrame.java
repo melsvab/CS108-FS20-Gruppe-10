@@ -164,23 +164,25 @@ public class MainFrame extends BackgroundScoreArea {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
-                logger.info("Quitting");
-                try {
-                    dos.writeUTF(Protocol.QUIT.name());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                /*
-                 * Informing server about his / her choice.
-                 * If player is not active he / she cannot write anymore.
-                 */
-                System.out.println("\nClosing program...\n");
-                profile.clientIsOnline = false;
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ey) {
-                    System.err.println(ey.toString());
+                if (profile.clientIsOnline) {
+                    super.windowClosing(e);
+                    logger.info("Quitting");
+                    try {
+                        dos.writeUTF(Protocol.QUIT.name());
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    /*
+                     * Informing server about his / her choice.
+                     * If player is not active he / she cannot write anymore.
+                     */
+                    System.out.println("\nClosing program...\n");
+                    profile.clientIsOnline = false;
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ey) {
+                        System.err.println(ey.toString());
+                    }
                 }
             }
         });

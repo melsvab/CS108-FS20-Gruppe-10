@@ -213,7 +213,7 @@ public class ButtonsClient extends JPanel {
                 } else {
                     profile.mainFrame.messages.changeToErrorMessage(true);
                     profile.mainFrame.messages.receiveMsg(
-                            "You must be in a lobby \n that is open for new players \nto start a game!\n");
+                            "You must be in a lobby that is open \nfor new players to start a game!\n");
                 }
 
             } else if (e1.getSource().equals(join)) {

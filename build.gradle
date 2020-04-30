@@ -12,8 +12,8 @@ configurations {
     checkstyleConfig
 }
 javafx {
-    version = "11.0.2"
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.base']
+    version = "11.0.2+"
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.base', 'javafx.media', 'javafx.swing']
 }
 jar {
     manifest {

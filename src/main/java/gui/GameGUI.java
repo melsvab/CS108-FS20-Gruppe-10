@@ -141,7 +141,7 @@ public class GameGUI extends BackgroundPanelArea {
 
         turtleGreen1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen(1).png"));
 
-        turtleViolet1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett(1).png"));
+        turtleViolet1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolet(1).png"));
 
         turtleYellow1 = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow(1).png"));
 
@@ -149,7 +149,7 @@ public class GameGUI extends BackgroundPanelArea {
 
         turtleGreen2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleGreen(2).png"));
 
-        turtleViolet2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolett(2).png"));
+        turtleViolet2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleViolet(2).png"));
 
         turtleYellow2 = ImageIO.read(getClass().getResourceAsStream("/img/turtleYellow(2).png"));
 
@@ -249,7 +249,7 @@ public class GameGUI extends BackgroundPanelArea {
                 }
             }
         } else {
-            g2d.drawImage(mainScreen, null, WIDTH / 2 - (mainScreen.getWidth() / 2 + 10), 0);
+            g2d.drawImage(mainScreen, null, WIDTH / 2 - (mainScreen.getWidth() / 2 + 10), 60);
         }
     }
 

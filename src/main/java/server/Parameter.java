@@ -88,6 +88,11 @@ public class Parameter {
                 isCorrect = checkForNumbers(message);
                 break;
 
+            case 8:
+                // is used for input concerning the board
+                wordOne = changeToChatMessageFormat(message);
+                break;
+
             default:
                 //this is impossible!
         }
@@ -374,6 +379,37 @@ public class Parameter {
         }
 
 
+    }
+
+    /**
+     * Change board.
+     *
+     * @param original the original message
+     * @return originalWithMoreLines a String that has lines so the message is displace in the right way
+     */
+    public String changeToChatMessageFormat(String original) {
+        String originalWithMoreLines = "";
+        int numberOfCharsPerLine = 36;
+        int numberOfCharsAtTheMoment = 0;
+
+        String[] words = original.split(" ");
+
+        for(int i = 0; i < words.length; i++) {
+            numberOfCharsAtTheMoment += words[i].length();
+
+            if (words[i].contains("\n")) {
+                numberOfCharsAtTheMoment = 0;
+            } else if (words[i].contains("?") || words[i].contains("!")
+                    || words[i].contains(".")) {
+                words[i] =  words[i] + "\n";
+                numberOfCharsAtTheMoment = 0;
+            } else if (numberOfCharsAtTheMoment > numberOfCharsPerLine) {
+                words[i] = "\n" + words[i] + " ";
+            }
+            originalWithMoreLines += words[i] + " ";
+        }
+
+        return originalWithMoreLines;
     }
 
 
