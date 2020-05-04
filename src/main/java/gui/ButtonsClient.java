@@ -195,6 +195,8 @@ public class ButtonsClient extends JPanel {
                  * and all buttons will be shown.
                  *
                  */
+                profile.mainFrame.messages.changeToErrorMessage(false);
+                profile.mainFrame.messages.receiveMsg(Message.gameMessage);
                 System.out.println(Message.helpMessage);
 
             } else if (e1.getSource().equals(back)) {
@@ -203,7 +205,7 @@ public class ButtonsClient extends JPanel {
                     dos.writeUTF(Protocol.BACK.name());
                 } else {
                     profile.mainFrame.messages.changeToErrorMessage(true);
-                    profile.mainFrame.messages.receiveMsg("You have not joined a lobby yet \n"
+                    profile.mainFrame.messages.receiveMsg("You have not joined a lobby yet "
                             + "so there is no need to go back!");
                 }
 
@@ -213,7 +215,7 @@ public class ButtonsClient extends JPanel {
                 } else {
                     profile.mainFrame.messages.changeToErrorMessage(true);
                     profile.mainFrame.messages.receiveMsg(
-                            "You must be in a lobby that is open \nfor new players to start a game!\n");
+                            "You must be in a lobby that is open for new players to start a game!");
                 }
 
             } else if (e1.getSource().equals(join)) {

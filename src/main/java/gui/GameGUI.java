@@ -291,11 +291,6 @@ public class GameGUI extends BackgroundPanelArea {
      */
     public synchronized void changeX(int valueX) {
         for (int i = 0; i < PICTURE_SIZE / 5; i++) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             rescaleX += valueX;
             repaint();
         }
@@ -309,11 +304,6 @@ public class GameGUI extends BackgroundPanelArea {
      */
     public synchronized void changeY(int valueY) {
         for (int i = 0; i < PICTURE_SIZE / 5; i++) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             rescaleY += valueY;
             repaint();
         }

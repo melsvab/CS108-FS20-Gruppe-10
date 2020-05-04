@@ -12,19 +12,24 @@ public class Message {
      */
     public static String helpMessage = (
         "\nWhat would you like to do?\n\n"
-                + "enter >NAME:desiredName< to change your nickname to your desiredName\n"
-                + "enter >NAME:yeah< to change your nickname to the name of your system\n"
-                + "enter >IDKW< to do something else.\n"
-                + "enter >PLL1< to see a list of currently connected players.\n"
-                + "enter >GML1< to see a list of open, ongoing and finished games. \n"
-                + "enter >HSC1< to see the current highscore. \n"
-                + "enter >CRE1< to create a lobby for a new game. \n"
-                + "enter >JOIN:lobbyNumber< to join a lobby. \n"
-                + "enter >SPEC:lobbyNumber< to join a lobby as a spectator \n"
-                + "enter >STR1:boardSize:maxCoins< to start a game with its personalized board. \n"
-                + "enter >HELP< to see this message again.\n"
-                + "enter >QUIT< to end this program.\n");
+                + "Enter >NAME:desiredName< to change your nickname to your desiredName\n"
+                + "Enter >NAME:yeah< to change your nickname to the name of your system\n"
+                + "Enter >IDKW< to do something else.\n"
+                + "Enter >PLL1< to see a list of currently connected players.\n"
+                + "Enter >GML1< to see a list of open, ongoing and finished games. \n"
+                + "Enter >HSC1< to see the current highscore. \n"
+                + "Enter >CRE1< to create a lobby for a new game. \n"
+                + "Enter >JOIN:lobbyNumber< to join a lobby. \n"
+                + "Enter >SPEC:lobbyNumber< to join a lobby as a spectator \n"
+                + "Enter >STR1:boardSize:maxCoins< to start a game with its personalized board. \n"
+                + "Enter >HELP< to see this message again.\n"
+                + "Enter >QUIT< to end this program.\n");
 
+    public static String gameMessage = (
+            "\nYou can used the buttons in the left corner to use the program.\n\n"
+                    + "To move your turtle during the game, press the arrow keys in the desired direction. \n"
+                    + "To see more of the map during the game, move your mouse to the panels around the board.\n"
+                    );
     /**
      * The constant underConstruction.
      */

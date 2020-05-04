@@ -335,7 +335,7 @@ public class Lobby extends Thread {
             for (ServerThreadForClient aPlayer : players) {
                 aPlayer.profil.waitingForEvent = false;
                 if (aPlayer.profil.myTurtle.wasHitByEvent) {
-                    writeToPlayer(Protocol.GMSG.name() + ":You got hit and lost xx points!", aPlayer);
+                    writeToPlayer(Protocol.GMSG.name() + ":You got hit and lost some points!", aPlayer);
                     aPlayer.profil.myTurtle.wasHitByEvent = false;
                 } else {
                     writeToPlayer(Protocol.GMSG.name() + ":You survived!", aPlayer);

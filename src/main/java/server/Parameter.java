@@ -389,7 +389,7 @@ public class Parameter {
      */
     public String changeToChatMessageFormat(String original) {
         String originalWithMoreLines = "";
-        int numberOfCharsPerLine = 36;
+        int numberOfCharsPerLine = 25;
         int numberOfCharsAtTheMoment = 0;
 
         String[] words = original.split(" ");
@@ -404,10 +404,12 @@ public class Parameter {
                 words[i] =  words[i] + "\n";
                 numberOfCharsAtTheMoment = 0;
             } else if (numberOfCharsAtTheMoment > numberOfCharsPerLine) {
-                words[i] = "\n" + words[i] + " ";
+                words[i] = "\n" + words[i];
+                numberOfCharsAtTheMoment = words[i].length();
             }
             originalWithMoreLines += words[i] + " ";
         }
+        originalWithMoreLines += "\n";
 
         return originalWithMoreLines;
     }

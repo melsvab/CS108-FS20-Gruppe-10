@@ -131,6 +131,9 @@ public class Board {
                     this.board[x][y].turtle = null;
                     this.board[a][b].isTaken = true;
                     this.board[a][b].turtle.points -= 5;
+                    String points = Protocol.POIN.name();
+                    points += ":" + this.board[a][b].turtle.num + ":" + this.board[a][b].turtle.points;
+                    lobby.writeToAll(points);
                     this.board[a][b].turtle.wasHitByEvent = true;
                     this.board[x][y].isTaken = false;
                     this.board[a][b].turtle.xPos = a;
