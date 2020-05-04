@@ -1,12 +1,15 @@
 package gui;
 
-import javax.imageio.ImageIO;
+import server.Protocol;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.*;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 
 /**
@@ -31,6 +34,11 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
      * A boolean to know the game state
      */
     public boolean gameHasStarted = false;
+
+    /**
+     * The data output stream to send messages to the server
+     */
+    DataOutputStream dos;
 
     /**
      * The turtle score area for the first player's nickname
@@ -89,12 +97,13 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
      * @param top   a boolean to determine whether this object is used on the top or bottom
      * @param board the board for the game
      */
-    public GameMarginHorizontal(boolean top, GameGUI board) {
+    public GameMarginHorizontal(boolean top, GameGUI board, DataOutputStream dos) {
         this.setPreferredSize(new Dimension( 920, 60) );
         this.setMinimumSize(new Dimension( 920, 60) );
         panelArea = new BackgroundTurtles();
         this.board = board;
         this.top = top;
+        this.dos = dos;
 
 
 
@@ -227,16 +236,21 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
 
     /**
      * A method that will be activated if someone clicks on the panel
-     * TO DO: can turn on/off animation that will be seen at the game
+     *
      * @param e the event
      */
     @Override
     public void mouseClicked(MouseEvent e) {
+        try {
+            dos.writeUTF(Protocol.IDKW.name());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
     }
 
     /**
-     * TO DO: Will be used to start music if there is no game.
+     *
      * @param e the event
      */
     @Override

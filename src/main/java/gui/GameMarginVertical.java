@@ -1,5 +1,8 @@
 package gui;
+import server.Protocol;
+
 import java.awt.image.BufferedImage;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -36,14 +39,21 @@ public class GameMarginVertical extends BackgroundTurtles implements MouseListen
 
 
     /**
+     * The data output stream to send messages to the server
+     */
+    DataOutputStream dos;
+
+
+    /**
      * Instantiates a new game margin vertical.
      *
      * @param left  the left
      * @param board the board
      */
-    public GameMarginVertical(boolean left, GameGUI board) {
+    public GameMarginVertical(boolean left, GameGUI board, DataOutputStream dos) {
         this.left = left;
         this.board = board;
+        this.dos = dos;
 
         this.setPreferredSize(new Dimension( 60, 650) );
         this.setMinimumSize(new Dimension(60,600));
@@ -57,7 +67,7 @@ public class GameMarginVertical extends BackgroundTurtles implements MouseListen
 
     /**
      * A method that will be activated if someone clicks on the panel
-     * TO DO: can turn on/off animation that will be seen at the game
+     * @param e the event
      */
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -65,10 +75,16 @@ public class GameMarginVertical extends BackgroundTurtles implements MouseListen
     }
 
     /**
-     * TO DO: Will be used to start music if there is no game.
+     * A method that will be activated if someone keeps the moused pressed on the panel
+     * @param e the event
      */
     @Override
     public void mousePressed(MouseEvent e) {
+        try {
+            dos.writeUTF(Protocol.IDKW.name());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
     }
 

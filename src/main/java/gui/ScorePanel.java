@@ -75,16 +75,16 @@ public class ScorePanel extends BackgroundTurtles {
         this.name = new NamePanel(dos, this);
 
         // panel on top
-        top = new GameMarginHorizontal(true, this.game);
+        top = new GameMarginHorizontal(true, this.game, dos);
 
         // panel on the right
-        right = new GameMarginVertical(false, this.game);
+        right = new GameMarginVertical(false, this.game, dos);
 
         // panel on the left
-        left = new GameMarginVertical(true, this.game);
+        left = new GameMarginVertical(true, this.game, dos);
 
         // panel on the bottom
-        bottom = new GameMarginHorizontal(false, this.game);
+        bottom = new GameMarginHorizontal(false, this.game, dos);
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
