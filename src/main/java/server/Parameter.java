@@ -19,7 +19,7 @@ public class Parameter {
     /**
      * The Is correct.
      */
-    public boolean isCorrect;
+    public boolean isCorrect = false;
 
     /**
      * The Number one.
