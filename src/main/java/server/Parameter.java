@@ -271,7 +271,7 @@ public class Parameter {
      * @param direction the direction
      * @param turtle    the turtle that moves
      */
-    public synchronized void  moveTurtle(Board board, int direction, PlayerTurtle turtle) {
+    public synchronized void  moveTurtle(Board board, int direction, PlayerTurtle turtle, GameMusic gmsc) {
         turtle.direction = direction;
         turtle.animation += 1;
 
@@ -281,27 +281,27 @@ public class Parameter {
             case 0:
                 //case >up<
 
-                changeTurtlePosition(board, false, turtle.xPos, turtle.yPos, 1);
+                changeTurtlePosition(board, false, turtle.xPos, turtle.yPos, 1, gmsc);
                 turtle.yPos += 1;
 
                 break;
             case 1:
                 //case >right<
 
-                changeTurtlePosition(board, true, turtle.xPos, turtle.yPos, 1);
+                changeTurtlePosition(board, true, turtle.xPos, turtle.yPos, 1, gmsc);
                 turtle.xPos += 1;
                 break;
             case 2:
                 //case >down<
 
-                changeTurtlePosition(board, false, turtle.xPos, turtle.yPos, -1);
+                changeTurtlePosition(board, false, turtle.xPos, turtle.yPos, -1, gmsc);
                 turtle.yPos -= 1;
                 break;
 
             case 3:
                 //case >left<
 
-                changeTurtlePosition(board, true, turtle.xPos, turtle.yPos, -1);
+                changeTurtlePosition(board, true, turtle.xPos, turtle.yPos, -1, gmsc);
                 turtle.xPos -= 1;
                 break;
 
@@ -318,7 +318,7 @@ public class Parameter {
      * @param yPos   the y pos
      * @param change the change
      */
-    public synchronized void changeTurtlePosition(Board board, boolean isX, int xPos, int yPos, int change) {
+    public synchronized void changeTurtlePosition(Board board, boolean isX, int xPos, int yPos, int change, GameMusic gmsc) {
         PlayerTurtle placeholder = board.board[xPos][yPos].turtle;
         board.board[xPos][yPos].turtle = null;
 
@@ -338,8 +338,7 @@ public class Parameter {
         }
         // coin will be collected if a turtle steps on a field with coins
         if (board.board[xPos][yPos].hasCoin) {
-            GameMusic x = new GameMusic();
-            x.createCoinSound();
+            gmsc.createCoinSound();
             board.board[xPos][yPos].hasCoin = false;
         }
     }

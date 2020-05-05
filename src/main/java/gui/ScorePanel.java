@@ -63,11 +63,6 @@ public class ScorePanel extends BackgroundTurtles {
     public GameMarginHorizontal bottom;
 
     /**
-     * A profile of the client
-     */
-    Profil profile;
-
-    /**
      * Instantiates a new score panel
      *
      * @param dos the data output stream

@@ -394,7 +394,7 @@ public class ClientReaderThread implements Runnable {
 
                                     turtleNumberAndDirection.moveTurtle(
                                             game, turtleNumberAndDirection.numberTwo,
-                                            turtles[turtleNumberAndDirection.numberOne]);
+                                            turtles[turtleNumberAndDirection.numberOne], profile.gmsc);
 
                                     profile.gmsc.createMoveSound();
 
