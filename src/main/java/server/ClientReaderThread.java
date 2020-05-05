@@ -524,6 +524,14 @@ public class ClientReaderThread implements Runnable {
 
                         case GMSG:
 
+                            if (original.substring(5).equals("5") || original.substring(5).equals("4")
+                                    || original.substring(5).equals("3") || original.substring(5).equals("2")
+                                    || original.substring(5).equals("1") || original.substring(5).equals("0")) {
+                                gmsc.createCountDown();
+                            }
+                            if (original.substring(5).equals("GO!")) {
+                                gmsc.createStartSound();
+                            }
                             profile.mainFrame.score.top.eventIsHappening.setText(original.substring(5));
 
                             break;
