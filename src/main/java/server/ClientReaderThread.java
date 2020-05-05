@@ -5,6 +5,7 @@ import game.Board;
 import game.PlayerTurtle;
 import gui.MainFrame;
 
+import msc.GameMusic;
 import org.slf4j.Logger;
 
 
@@ -42,6 +43,11 @@ public class ClientReaderThread implements Runnable {
     PlayerTurtle[] turtles = null;
 
     /**
+     * GameMusic
+     */
+    GameMusic gmsc;
+
+    /**
      * Instantiates a new Client reader thread.
      *
      * @param dis     the dis
@@ -53,8 +59,9 @@ public class ClientReaderThread implements Runnable {
         this.dis = dis;
         this.dos = dos;
         this.profile = profile;
+        this.gmsc = new GameMusic();
         try {
-            profile.mainFrame = new MainFrame(dos, profile, logger);
+            profile.mainFrame = new MainFrame(dos, profile, logger, gmsc);
         } catch (IOException e) {
             System.out.println("Something went wrong with your window...");
         }
@@ -392,6 +399,8 @@ public class ClientReaderThread implements Runnable {
                                     turtleNumberAndDirection.moveTurtle(
                                             game, turtleNumberAndDirection.numberTwo,
                                             turtles[turtleNumberAndDirection.numberOne]);
+
+                                    gmsc.createMoveSound();
 
                                     synchronized (this) {
                                         profile.mainFrame.score.game.repaint();

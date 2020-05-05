@@ -14,6 +14,7 @@ import game.PlayerTurtle;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import msc.GameMusic;
 import org.slf4j.Logger;
 
 import server.Profil;
@@ -31,6 +32,11 @@ public class MainFrame extends BackgroundScoreArea {
      * The frame
      */
     JFrame frame;
+
+    /**
+     * GameMusic
+     */
+    public GameMusic gmsc;
 
     /**
      * A panel for the chat
@@ -78,10 +84,6 @@ public class MainFrame extends BackgroundScoreArea {
     public Boolean gameExists = false;
 
     /**
-     * Media Player for playing the music
-     */
-    private MediaPlayer mediaPlayer;
-    /**
      * Instantiates a new main frame
      *
      * @param dos     the data output stream to send messages to the server
@@ -89,7 +91,7 @@ public class MainFrame extends BackgroundScoreArea {
      * @param logger  the logger to collect data
      * @throws IOException the io exception
      */
-    public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException {
+    public MainFrame(DataOutputStream dos, Profil profile, Logger logger, GameMusic gmsc) throws IOException {
         this.frame = new JFrame("The Floor is Java");
         this.chat = new ClientChatGUI(dos, true);
         this.messages = new ClientChatGUI(dos, false);
@@ -98,6 +100,7 @@ public class MainFrame extends BackgroundScoreArea {
         this.dos = dos;
         this.logger = logger;
         this.profile = profile;
+        this.gmsc = gmsc;
 
         setFocusable(true);
         requestFocusInWindow();
@@ -192,14 +195,8 @@ public class MainFrame extends BackgroundScoreArea {
         frame.setSize(1280,720); //standard size of the window which opens
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //If you click on the red x in the window, the programm stops automaticaly
-        final JFXPanel fxPanel = new JFXPanel();
 
-        URL url = this.getClass().getClassLoader().getResource("msc/Tropical-Island.mp3");
-
-        Media music = new Media(String.valueOf(url));
-        mediaPlayer = new MediaPlayer(music);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
+        gmsc.createTropicalSound();
     }
 
 
