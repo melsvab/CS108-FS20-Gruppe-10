@@ -1,5 +1,6 @@
 package gui;
 
+import msc.GameMusic;
 import org.slf4j.Logger;
 
 import server.Profil;
@@ -43,15 +44,21 @@ public class StartGamePanel extends BackgroundScoreArea {
     ScorePanel score;
 
     /**
+     * GameMusic
+     */
+    public GameMusic gmsc;
+
+    /**
      * Instantiates a new panel to start a game
      *
      * @param dos  the data output stream
      * @param score  the panel with the game
      */
 
-    StartGamePanel(DataOutputStream dos, ScorePanel score) {
+    StartGamePanel(DataOutputStream dos, ScorePanel score, GameMusic gmsc) {
         // Data output stream will be saved to send a message later
         this.dos = dos;
+        this.gmsc = gmsc;
 
         this.score = score;
 
@@ -113,6 +120,7 @@ public class StartGamePanel extends BackgroundScoreArea {
     * @param e an event that occurs if someone presses the send button
     */
     public void actionPerformed(ActionEvent e) {
+        gmsc.createButtonSound();
         try {
             dos.writeUTF(Protocol.STR1.name() + ":" + boardSize.getValue() + ":" + coinOccurrence.getValue());
         } catch (IOException f) {

@@ -1,5 +1,6 @@
 package gui;
 
+import msc.GameMusic;
 import server.Parameter;
 import server.Protocol;
 
@@ -47,15 +48,20 @@ public class NamePanel extends BackgroundScoreArea {
     ScorePanel score;
 
     /**
+     * GameMusic
+     */
+    public GameMusic gmsc;
+
+    /**
      * Instantiates a new name panel
      *
      * @param dos  the data output stream
      * @param score  the panel with the game
      */
-     NamePanel(DataOutputStream dos, ScorePanel score) {
+     NamePanel(DataOutputStream dos, ScorePanel score, GameMusic gmsc) {
 
         this.dos = dos;
-
+        this.gmsc = gmsc;
         /*
          * A text with information next to the textfield,
          * so the player knows what he or she is deciding about.
@@ -102,10 +108,12 @@ public class NamePanel extends BackgroundScoreArea {
       */
      public void actionPerformed(ActionEvent e) {
        String input = "NAME:" + nameInput.getText();
+       gmsc.createButtonSound();
 
        Parameter name = new Parameter(input, 3);
 
        String newNickname = name.wordOne;
+
 
        /*
         * if the answer is <YEAH> the nickname is change to the

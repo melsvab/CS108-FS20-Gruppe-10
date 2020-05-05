@@ -13,11 +13,13 @@ public class GameMusic {
     URL coin;
     URL countDown;
     URL start;
+    URL buttons;
     MediaPlayer mediaTropical;
     MediaPlayer mediaMovement;
     MediaPlayer mediaCoin;
     MediaPlayer mediaCountDown;
     MediaPlayer mediaStart;
+    MediaPlayer mediaButtons;
 
     public GameMusic() {
         final JFXPanel fxPanel = new JFXPanel();
@@ -26,6 +28,7 @@ public class GameMusic {
         coin = this.getClass().getClassLoader().getResource("msc/coin.mp3");
         countDown = this.getClass().getClassLoader().getResource("msc/countDown.mp3");
         start = this.getClass().getClassLoader().getResource("msc/startSound.mp3");
+        buttons = this.getClass().getClassLoader().getResource("msc/buttons.mp3");
     }
     public void createTropicalSound() {
         Media music = new Media(String.valueOf(tropical));
@@ -56,5 +59,11 @@ public class GameMusic {
         Media music = new Media(String.valueOf(coin));
         mediaCoin = new MediaPlayer(music);
         mediaCoin.play();
+    }
+
+    public void createButtonSound() {
+        Media music = new Media(String.valueOf(buttons));
+        mediaButtons = new MediaPlayer(music);
+        mediaButtons.play();
     }
 }

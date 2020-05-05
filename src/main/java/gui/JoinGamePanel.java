@@ -1,5 +1,6 @@
 package gui;
 
+import msc.GameMusic;
 import server.Message;
 import server.Protocol;
 
@@ -39,6 +40,11 @@ public class JoinGamePanel extends BackgroundScoreArea {
     ScorePanel score;
 
     /**
+     * GameMusic
+     */
+    public GameMusic gmsc;
+
+    /**
      * Initialises a new join a game panel.
      * that is invisible until someone presses the join a game button
      *
@@ -46,9 +52,10 @@ public class JoinGamePanel extends BackgroundScoreArea {
      * @param score the score panel where this panel is in
      *
      */
-    JoinGamePanel(DataOutputStream dos, ScorePanel score) {
+    JoinGamePanel(DataOutputStream dos, ScorePanel score, GameMusic gmsc) {
         // Data output stream will be saved to send a message later
         this.dos = dos;
+        this.gmsc = gmsc;
 
         this.score = score;
 
@@ -99,6 +106,7 @@ public class JoinGamePanel extends BackgroundScoreArea {
      * @param e an event because someone pressed the 'send' button
      */
     public void actionPerformed(ActionEvent e) {
+        gmsc.createButtonSound();
         try {
             if (spectate.isSelected()) {
                 dos.writeUTF(Protocol.SPEC.name() + ":" + gameNumber.getValue());

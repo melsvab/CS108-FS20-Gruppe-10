@@ -2,6 +2,7 @@ package gui;
 
 import game.Board;
 import game.PlayerTurtle;
+import msc.GameMusic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,18 +62,23 @@ public class ScorePanel extends BackgroundTurtles {
     public GameMarginHorizontal bottom;
 
     /**
+     * GameMusic
+     */
+    public GameMusic gmsc;
+
+    /**
      * Instantiates a new score panel
      *
      * @param dos the data output stream
      * @throws IOException the io exception
      */
-    ScorePanel(DataOutputStream dos) throws IOException {
+    ScorePanel(DataOutputStream dos, GameMusic gmsc) throws IOException {
 
         //center
         this.game = new GameGUI();
-        this.start = new StartGamePanel(dos, this);
-        this.join = new JoinGamePanel(dos, this);
-        this.name = new NamePanel(dos, this);
+        this.start = new StartGamePanel(dos, this, gmsc);
+        this.join = new JoinGamePanel(dos, this, gmsc);
+        this.name = new NamePanel(dos, this, gmsc);
 
         // panel on top
         top = new GameMarginHorizontal(true, this.game, dos);

@@ -95,8 +95,8 @@ public class MainFrame extends BackgroundScoreArea {
         this.frame = new JFrame("The Floor is Java");
         this.chat = new ClientChatGUI(dos, true);
         this.messages = new ClientChatGUI(dos, false);
-        this.buttonsClient = new ButtonsClient(dos, profile, logger);
-        this.score = new ScorePanel(dos);
+        this.buttonsClient = new ButtonsClient(dos, profile, logger, gmsc);
+        this.score = new ScorePanel(dos, gmsc);
         this.dos = dos;
         this.logger = logger;
         this.profile = profile;
