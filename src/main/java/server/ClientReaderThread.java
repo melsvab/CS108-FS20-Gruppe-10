@@ -523,6 +523,7 @@ public class ClientReaderThread implements Runnable {
 
                         case INVM:
 
+                            gmsc.createInvalidSoud();
                             profile.mainFrame.score.bottom.invalidMove.setText(original.substring(5));
                             profile.mainFrame.score.bottom.tmr.start();
 

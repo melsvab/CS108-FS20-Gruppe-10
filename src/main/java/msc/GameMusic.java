@@ -16,6 +16,7 @@ public class GameMusic {
     URL buttons;
     URL earthquake;
     URL flood;
+    URL invalidMove;
     MediaPlayer mediaTropical;
     MediaPlayer mediaMovement;
     MediaPlayer mediaCoin;
@@ -24,6 +25,7 @@ public class GameMusic {
     MediaPlayer mediaButtons;
     MediaPlayer mediaQuake;
     MediaPlayer mediaFlood;
+    MediaPlayer mediaInvalidMove;
 
     public GameMusic() {
         final JFXPanel fxPanel = new JFXPanel();
@@ -35,6 +37,7 @@ public class GameMusic {
         buttons = this.getClass().getClassLoader().getResource("msc/buttons.mp3");
         earthquake = this.getClass().getClassLoader().getResource("msc/earthquake.mp3");
         flood = this.getClass().getClassLoader().getResource("msc/flood.mp3");
+        invalidMove = this.getClass().getClassLoader().getResource("msc/invalid.mp3");
     }
     public void createTropicalSound() {
         Media music = new Media(String.valueOf(tropical));
@@ -83,5 +86,11 @@ public class GameMusic {
         Media music = new Media(String.valueOf(flood));
         mediaFlood = new MediaPlayer(music);
         mediaFlood.play();
+    }
+
+    public void createInvalidSoud() {
+        Media music = new Media(String.valueOf(invalidMove));
+        mediaInvalidMove = new MediaPlayer(music);
+        mediaInvalidMove.play();
     }
 }
