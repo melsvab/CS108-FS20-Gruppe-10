@@ -319,6 +319,8 @@ public class ClientReaderThread implements Runnable {
                                 if (coins.isCorrect) {
                                     coins.changeBoard(game, 2);
 
+                                    gmsc.createCoinSound();
+
                                     synchronized (this) {
                                         profile.mainFrame.score.game.repaint();
                                     }
@@ -463,6 +465,8 @@ public class ClientReaderThread implements Runnable {
                                 if (quake.isCorrect) {
                                     quake.changeBoard(game, 3);
 
+                                    gmsc.createEarthquakeSound();
+
                                     synchronized (this) {
                                         profile.mainFrame.score.game.repaint();
                                     }
@@ -483,6 +487,8 @@ public class ClientReaderThread implements Runnable {
                                 Parameter flood = new Parameter(original, 7);
                                 if (flood.isCorrect) {
                                     flood.changeBoard(game, 1);
+
+                                    gmsc.createFloodSound();
 
                                     synchronized (this) {
                                         profile.mainFrame.score.game.repaint();
