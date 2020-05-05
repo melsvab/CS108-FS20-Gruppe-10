@@ -3,6 +3,7 @@ package server;
 import game.Board;
 import game.PlayerTurtle;
 import game.Field;
+import msc.GameMusic;
 
 
 /**
@@ -337,6 +338,8 @@ public class Parameter {
         }
         // coin will be collected if a turtle steps on a field with coins
         if (board.board[xPos][yPos].hasCoin) {
+            GameMusic x = new GameMusic();
+            x.createCoinSound();
             board.board[xPos][yPos].hasCoin = false;
         }
     }

@@ -2,6 +2,7 @@ package gui;
 
 import msc.GameMusic;
 import server.Parameter;
+import server.Profil;
 import server.Protocol;
 
 import javax.swing.*;
@@ -48,9 +49,9 @@ public class NamePanel extends BackgroundScoreArea {
     ScorePanel score;
 
     /**
-     * GameMusic
+     * A profile of the client
      */
-    public GameMusic gmsc;
+    Profil profile;
 
     /**
      * Instantiates a new name panel
@@ -58,10 +59,10 @@ public class NamePanel extends BackgroundScoreArea {
      * @param dos  the data output stream
      * @param score  the panel with the game
      */
-     NamePanel(DataOutputStream dos, ScorePanel score, GameMusic gmsc) {
+     NamePanel(DataOutputStream dos, ScorePanel score, Profil profile) {
 
         this.dos = dos;
-        this.gmsc = gmsc;
+        this.profile = profile;
         /*
          * A text with information next to the textfield,
          * so the player knows what he or she is deciding about.
@@ -108,7 +109,7 @@ public class NamePanel extends BackgroundScoreArea {
       */
      public void actionPerformed(ActionEvent e) {
        String input = "NAME:" + nameInput.getText();
-       gmsc.createButtonSound();
+       profile.gmsc.createButtonSound();
 
        Parameter name = new Parameter(input, 3);
 

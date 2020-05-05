@@ -83,10 +83,6 @@ public class ButtonsClient extends JPanel {
      */
     Logger logger;
 
-    /**
-     * GameMusic
-     */
-    GameMusic gmsc;
 
     /**
      * Instantiates the panel in the right corner with all buttons
@@ -94,11 +90,10 @@ public class ButtonsClient extends JPanel {
      * @param profile the profile of the player
      * @param logger the logger to collect data
      */
-    ButtonsClient(DataOutputStream dos, Profil profile, Logger logger, GameMusic gmsc) {
+    ButtonsClient(DataOutputStream dos, Profil profile, Logger logger) {
         this.dos = dos;
         this.profile = profile;
         this.logger = logger;
-        this.gmsc = gmsc;
 
         this.playerlist = new JButton("Playerlist");
         this.gamelist = new JButton("Gamelist");
@@ -152,7 +147,7 @@ public class ButtonsClient extends JPanel {
      * @param e1 the event that someone pressed a button
      */
     public void actionPerformed(ActionEvent e1) {
-        gmsc.createButtonSound();
+        profile.gmsc.createButtonSound();
         try {
             if (e1.getSource().equals(playerlist)) {
                 logger.info("asked for playerList");

@@ -91,16 +91,15 @@ public class MainFrame extends BackgroundScoreArea {
      * @param logger  the logger to collect data
      * @throws IOException the io exception
      */
-    public MainFrame(DataOutputStream dos, Profil profile, Logger logger, GameMusic gmsc) throws IOException {
+    public MainFrame(DataOutputStream dos, Profil profile, Logger logger) throws IOException {
         this.frame = new JFrame("The Floor is Java");
         this.chat = new ClientChatGUI(dos, true);
         this.messages = new ClientChatGUI(dos, false);
-        this.buttonsClient = new ButtonsClient(dos, profile, logger, gmsc);
-        this.score = new ScorePanel(dos, gmsc);
+        this.buttonsClient = new ButtonsClient(dos, profile, logger);
+        this.score = new ScorePanel(dos, profile);
         this.dos = dos;
         this.logger = logger;
         this.profile = profile;
-        this.gmsc = gmsc;
 
         setFocusable(true);
         requestFocusInWindow();
@@ -196,7 +195,7 @@ public class MainFrame extends BackgroundScoreArea {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //If you click on the red x in the window, the programm stops automaticaly
 
-        gmsc.createTropicalSound();
+        profile.gmsc.createTropicalSound();
     }
 
 

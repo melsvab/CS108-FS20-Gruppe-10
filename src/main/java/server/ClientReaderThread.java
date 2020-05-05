@@ -43,11 +43,6 @@ public class ClientReaderThread implements Runnable {
     PlayerTurtle[] turtles = null;
 
     /**
-     * GameMusic
-     */
-    GameMusic gmsc;
-
-    /**
      * Instantiates a new Client reader thread.
      *
      * @param dis     the dis
@@ -59,9 +54,8 @@ public class ClientReaderThread implements Runnable {
         this.dis = dis;
         this.dos = dos;
         this.profile = profile;
-        this.gmsc = new GameMusic();
         try {
-            profile.mainFrame = new MainFrame(dos, profile, logger, gmsc);
+            profile.mainFrame = new MainFrame(dos, profile, logger);
         } catch (IOException e) {
             System.out.println("Something went wrong with your window...");
         }
@@ -319,7 +313,7 @@ public class ClientReaderThread implements Runnable {
                                 if (coins.isCorrect) {
                                     coins.changeBoard(game, 2);
 
-                                    gmsc.createCoinSound();
+                                    profile.gmsc.createCoinSound();
 
                                     synchronized (this) {
                                         profile.mainFrame.score.game.repaint();
@@ -402,7 +396,7 @@ public class ClientReaderThread implements Runnable {
                                             game, turtleNumberAndDirection.numberTwo,
                                             turtles[turtleNumberAndDirection.numberOne]);
 
-                                    gmsc.createMoveSound();
+                                    profile.gmsc.createMoveSound();
 
                                     synchronized (this) {
                                         profile.mainFrame.score.game.repaint();
@@ -465,7 +459,7 @@ public class ClientReaderThread implements Runnable {
                                 if (quake.isCorrect) {
                                     quake.changeBoard(game, 3);
 
-                                    gmsc.createEarthquakeSound();
+                                    profile.gmsc.createEarthquakeSound();
 
                                     synchronized (this) {
                                         profile.mainFrame.score.game.repaint();
@@ -488,7 +482,7 @@ public class ClientReaderThread implements Runnable {
                                 if (flood.isCorrect) {
                                     flood.changeBoard(game, 1);
 
-                                    gmsc.createFloodSound();
+                                    profile.gmsc.createFloodSound();
 
                                     synchronized (this) {
                                         profile.mainFrame.score.game.repaint();
@@ -523,7 +517,7 @@ public class ClientReaderThread implements Runnable {
 
                         case INVM:
 
-                            gmsc.createInvalidSoud();
+                            profile.gmsc.createInvalidSoud();
                             profile.mainFrame.score.bottom.invalidMove.setText(original.substring(5));
                             profile.mainFrame.score.bottom.tmr.start();
 
@@ -534,10 +528,10 @@ public class ClientReaderThread implements Runnable {
                             if (original.substring(5).equals("5") || original.substring(5).equals("4")
                                     || original.substring(5).equals("3") || original.substring(5).equals("2")
                                     || original.substring(5).equals("1") || original.substring(5).equals("0")) {
-                                gmsc.createCountDown();
+                                profile.gmsc.createCountDown();
                             }
                             if (original.substring(5).equals("GO!")) {
-                                gmsc.createStartSound();
+                                profile.gmsc.createStartSound();
                             }
                             profile.mainFrame.score.top.eventIsHappening.setText(original.substring(5));
 

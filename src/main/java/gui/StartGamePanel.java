@@ -44,9 +44,9 @@ public class StartGamePanel extends BackgroundScoreArea {
     ScorePanel score;
 
     /**
-     * GameMusic
+     * A profile of the client
      */
-    public GameMusic gmsc;
+    Profil profile;
 
     /**
      * Instantiates a new panel to start a game
@@ -55,10 +55,10 @@ public class StartGamePanel extends BackgroundScoreArea {
      * @param score  the panel with the game
      */
 
-    StartGamePanel(DataOutputStream dos, ScorePanel score, GameMusic gmsc) {
+    StartGamePanel(DataOutputStream dos, ScorePanel score, Profil profile) {
         // Data output stream will be saved to send a message later
         this.dos = dos;
-        this.gmsc = gmsc;
+        this.profile = profile;
 
         this.score = score;
 
@@ -120,7 +120,7 @@ public class StartGamePanel extends BackgroundScoreArea {
     * @param e an event that occurs if someone presses the send button
     */
     public void actionPerformed(ActionEvent e) {
-        gmsc.createButtonSound();
+        profile.gmsc.createButtonSound();
         try {
             dos.writeUTF(Protocol.STR1.name() + ":" + boardSize.getValue() + ":" + coinOccurrence.getValue());
         } catch (IOException f) {

@@ -3,6 +3,7 @@ package server;
 import game.Lobby;
 import game.PlayerTurtle;
 import gui.MainFrame;
+import msc.GameMusic;
 
 import java.io.IOException;
 
@@ -52,6 +53,11 @@ public class Profil {
      * The Ccg.
      */
     public MainFrame mainFrame;
+
+    /**
+     * GameMusic
+     */
+    public GameMusic gmsc = new GameMusic();;
 
 
     //constructor for the ServerThreadForClient

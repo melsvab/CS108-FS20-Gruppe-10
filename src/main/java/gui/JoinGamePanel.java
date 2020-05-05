@@ -2,6 +2,7 @@ package gui;
 
 import msc.GameMusic;
 import server.Message;
+import server.Profil;
 import server.Protocol;
 
 import javax.swing.*;
@@ -40,9 +41,9 @@ public class JoinGamePanel extends BackgroundScoreArea {
     ScorePanel score;
 
     /**
-     * GameMusic
+     * A profile of the client
      */
-    public GameMusic gmsc;
+    Profil profile;
 
     /**
      * Initialises a new join a game panel.
@@ -52,10 +53,10 @@ public class JoinGamePanel extends BackgroundScoreArea {
      * @param score the score panel where this panel is in
      *
      */
-    JoinGamePanel(DataOutputStream dos, ScorePanel score, GameMusic gmsc) {
+    JoinGamePanel(DataOutputStream dos, ScorePanel score, Profil profile) {
         // Data output stream will be saved to send a message later
         this.dos = dos;
-        this.gmsc = gmsc;
+        this.profile = profile;
 
         this.score = score;
 
@@ -106,7 +107,7 @@ public class JoinGamePanel extends BackgroundScoreArea {
      * @param e an event because someone pressed the 'send' button
      */
     public void actionPerformed(ActionEvent e) {
-        gmsc.createButtonSound();
+        profile.gmsc.createButtonSound();
         try {
             if (spectate.isSelected()) {
                 dos.writeUTF(Protocol.SPEC.name() + ":" + gameNumber.getValue());
