@@ -114,9 +114,10 @@ public class Lobby extends Thread {
                 aUser.sendMessage(Protocol.ERRO.name()
                         + ":This lobby has four players already! You were added as a spectator.");
             }
-            addSpectators(aUser);
             aUser.sendMessage(Protocol.SPEC.name());
             aUser.profil.isSpectator = true;
+            addSpectators(aUser);
+
         } else {
             // the new client will be a player
             numberOfPlayers++;
@@ -173,7 +174,9 @@ public class Lobby extends Thread {
             if (aUser.profil.myTurtle != null) {
                 aUser.profil.myTurtle = null;
             }
-            numberOfPlayers--;
+            if (gamestate == 1) {
+                numberOfPlayers--;
+            }
             players.remove(aUser);
         }
         aUser.profil.isInGame = false;

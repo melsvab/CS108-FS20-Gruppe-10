@@ -440,7 +440,7 @@ public class ServerThreadForClient implements Runnable {
 
                         case IDKW:
                             // secret cheat code
-                            if (profil.gameIsReady()) {
+                            if (profil.gameIsReady() && !profil.isSpectator) {
                                 int cheatPlus = 10;
                                 dos.writeUTF(Protocol.MSSG.name()
                                     + ":CHEAT CODE USED! YOU RECEIVED " + cheatPlus + " POINTS!");

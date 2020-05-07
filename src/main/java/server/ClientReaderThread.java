@@ -96,11 +96,10 @@ public class ClientReaderThread implements Runnable {
     public void run() {
         InputStreamReader keyBoardInputStream = new InputStreamReader(System.in);
         BufferedReader readKeyBoard = new BufferedReader(keyBoardInputStream);
-        boolean threadIsRunning = true;
 
         try {
 
-            while (threadIsRunning) {
+            while (profile.clientIsOnline) {
 
 
                 // Get message from server (in LETTERS)
@@ -206,7 +205,7 @@ public class ClientReaderThread implements Runnable {
                             turtles = null;
                             game = null;
 
-                            threadIsRunning = false;
+                            profile.clientIsOnline = false;
                             break;
 
                         case LIST:

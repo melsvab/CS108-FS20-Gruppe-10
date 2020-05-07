@@ -239,10 +239,10 @@ public class ButtonsClient extends JPanel {
                 * Informing server about his / her choice.
                 * If player is not active he / she cannot write anymore.
                 * */
+                profile.clientIsOnline = false;
                 profile.mainFrame.closeFrame();
                 dos.writeUTF(Protocol.QUIT.name());
                 System.out.println("\nClosing program...\n");
-                profile.clientIsOnline = false;
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
