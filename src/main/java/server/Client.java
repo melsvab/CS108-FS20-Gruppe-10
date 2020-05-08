@@ -54,6 +54,7 @@ public class Client implements Runnable {
         } else {
             profile.nickname = System.getProperty("user.name");
         }
+        profile.clientIsOnline = true;
 
     }
 
