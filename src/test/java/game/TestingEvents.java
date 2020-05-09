@@ -1,13 +1,9 @@
 package game;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import server.Server;
-import server.ServerThreadForClient;
 
 
 public class TestingEvents {
@@ -36,6 +32,7 @@ public class TestingEvents {
 
   @Test
   public void checkForNoEarthQuake() {
+    // It should be impossible to get a negative number for the magnitude.
     game.earthquake(-1, lobby);
     boolean check = checkForQuake();
     Assert.assertFalse(check);
@@ -66,7 +63,7 @@ public class TestingEvents {
 
   @Test
   public void checkForAFlood() {
-    //is always possible
+    // There will always be a flood no matter what.
     game.floodBoard(-30,lobby);
     boolean check = checkForFlood();
     Assert.assertTrue(check);
@@ -98,7 +95,7 @@ public class TestingEvents {
 
   @Test
   public void checkForCoins() {
-    //is always possible
+    // There will always be a coins no matter what.
     game.spawnRandomCoins();
     boolean check = checkForCoinsOnBoard();
     Assert.assertTrue(check);
@@ -107,7 +104,7 @@ public class TestingEvents {
 
   @Test
   public void checkCoinsAfterEvent() {
-    //coins should stay
+    //Coins should stay
     game.spawnRandomCoins();
     game.afterEvent();
     boolean check = checkForCoinsOnBoard();
@@ -118,7 +115,7 @@ public class TestingEvents {
 
   @Test
   public void checkCoinsAfterFlood() {
-    //coins disappear with floods
+    //Coins disappear with floods
     boolean lessCoins = false;
     for (int i = 0; i < 4; i++) {
       game.spawnRandomCoins();
@@ -137,7 +134,7 @@ public class TestingEvents {
 
   @Test
   public void checkCoinsAfterEarthQuake() {
-    //coins disappear with earth quakes
+    //Coins disappear with earth quakes
     boolean lessCoins = false;
     for (int i = 0; i < 4; i++) {
       game.spawnRandomCoins();
@@ -171,7 +168,7 @@ public class TestingEvents {
 
   @Test
   public void checkSteppedOnFieldsAfterEvent() {
-    //steppedOnFields should stay
+    //Fields that are stepped on should stay on board after event
     changeFieldsToSteppedOn();
     checkForFieldsThatAreSteppedOn();
     int steppedOnFieldsBefore = countSteppedOnFields;
@@ -189,7 +186,7 @@ public class TestingEvents {
 
   @Test
   public void checkSteppedOnFieldsAfterFlood() {
-    //coins disappear with floods
+    // Fields that are stepped on disappear with floods
     changeFieldsToSteppedOn();
     checkForFieldsThatAreSteppedOn();
     int steppedOnFieldsBefore = countSteppedOnFields;
@@ -208,7 +205,7 @@ public class TestingEvents {
 
   @Test
   public void checkSteppedOnFieldsAfterEarthQuake() {
-    //coins disappear with earth quakes
+    // Fields that are stepped on disappear with earth quakes
     changeFieldsToSteppedOn();
     checkForFieldsThatAreSteppedOn();
     int steppedOnFieldsBefore = countSteppedOnFields;
@@ -231,18 +228,15 @@ public class TestingEvents {
     }
   }
 
-  public boolean checkForFieldsThatAreSteppedOn() {
+  public void checkForFieldsThatAreSteppedOn() {
     countSteppedOnFields = 0;
-    boolean atLeastOneField = false;
     for (int i = 1; i < game.boardSize + 1; i++) {
       for (int j = 1; j < game.boardSize + 1; j++) {
         if (game.board[i][j].steppedOn) {
-          atLeastOneField  = true;
           countSteppedOnFields++;
         }
       }
     }
-    return atLeastOneField;
   }
 
 

@@ -53,6 +53,8 @@ public class TestServerAndClient {
 
   }
 
+
+
   @Test
   public void checkForUsername() throws IOException {
 
@@ -65,6 +67,7 @@ public class TestServerAndClient {
     Assert.assertEquals("rohail_0", user2.profil.nickname);
 
   }
+
 
   @Test
   public void checkForPlayerList() throws Exception {
@@ -137,6 +140,9 @@ public class TestServerAndClient {
     Assert.assertFalse(tester.profil.isInGame);
 
   }
+
+
+
 
 
 }

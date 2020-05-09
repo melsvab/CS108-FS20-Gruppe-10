@@ -28,6 +28,7 @@ public class TestingInterpretationOfEvents {
     countSteppedOnFields = 0;
   }
 
+
   @Test
   public void checkForInterpretationOfAnEarthQuake() {
 
@@ -49,7 +50,6 @@ public class TestingInterpretationOfEvents {
 
   @Test
   public void checkForInterpretationOfAFlood() {
-    //is always possible
     // This string will be sent from the server to all clients in the lobby
     String s = game.floodBoard(3, lobby);
     s += Protocol.QUAK.name() + ":" + s;
@@ -84,12 +84,28 @@ public class TestingInterpretationOfEvents {
   }
 
 
+  @Test
+  public void checkForNoString() {
+
+    /* Client's side
+     * This should never happen in our program.
+     */
+    Parameter coins = new Parameter(null, 7);
+    if (coins.isCorrect) {
+      coins.changeBoard(game, 2);
+    }
+
+    Assert.assertFalse(coins.isCorrect);
+  }
+
+
   public boolean compareTwoBoards(Board game, Board board) {
     if (board.boardSize == game.boardSize) {
       for (int i = 1; i < board.boardSize+1; i++) {
         for (int j = 1; j < board.boardSize+1; j++) {
           if (game.board[i][j].isQuake != game.board[i][j].isQuake
-                  ||  game.board[i][j].isFlood != game.board[i][j].isFlood) {
+                  ||  game.board[i][j].isFlood != game.board[i][j].isFlood
+                  || game.board[i][j].hasCoin != game.board[i][j].hasCoin) {
             return false;
           }
         }
@@ -101,6 +117,8 @@ public class TestingInterpretationOfEvents {
     }
 
   }
+
+
 
 
 }

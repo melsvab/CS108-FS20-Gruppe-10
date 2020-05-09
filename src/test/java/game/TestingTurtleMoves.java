@@ -82,6 +82,7 @@ public class TestingTurtleMoves {
 
   @Test
   public void checkMoveTurtleNoRealDirection() {
+    // This should never occur in our program because of how we wrote our code
     int x = user1.profil.myTurtle.xPos;
     int y = user1.profil.myTurtle.yPos;
 
@@ -92,6 +93,7 @@ public class TestingTurtleMoves {
 
   @Test
   public void checkMoveTurtleOffBoard() {
+    // This should never occur in our program because of how we wrote our code
     boolean checkTheImpossibleCase = false;
 
     try {
