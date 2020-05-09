@@ -49,6 +49,7 @@ public class GameMarginVertical extends BackgroundTurtles implements MouseListen
      *
      * @param left  the left
      * @param board the board
+     * @param dos the data output to write to the server if a client uses the cheat code
      */
     public GameMarginVertical(boolean left, GameGUI board, DataOutputStream dos) {
         this.left = left;

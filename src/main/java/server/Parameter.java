@@ -270,6 +270,7 @@ public class Parameter {
      * @param board     the game board
      * @param direction the direction
      * @param turtle    the turtle that moves
+     * @param gmsc the sound effects if a turtle moves
      */
     public synchronized void  moveTurtle(Board board, int direction, PlayerTurtle turtle, GameMusic gmsc) {
         turtle.direction = direction;
@@ -317,8 +318,10 @@ public class Parameter {
      * @param xPos   the x pos
      * @param yPos   the y pos
      * @param change the change
+     * @param gmsc the sound effects if a turtle moves to a completely new place
      */
-    public synchronized void changeTurtlePosition(Board board, boolean isX, int xPos, int yPos, int change, GameMusic gmsc) {
+    public synchronized void changeTurtlePosition(
+            Board board, boolean isX, int xPos, int yPos, int change, GameMusic gmsc) {
         PlayerTurtle placeholder = board.board[xPos][yPos].turtle;
         board.board[xPos][yPos].turtle = null;
 

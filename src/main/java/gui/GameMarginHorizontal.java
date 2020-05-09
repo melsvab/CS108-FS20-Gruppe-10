@@ -96,6 +96,8 @@ public class GameMarginHorizontal extends BackgroundTurtles implements MouseList
      *
      * @param top   a boolean to determine whether this object is used on the top or bottom
      * @param board the board for the game
+     * @param dos the data output to write to the server if a client uses the cheat code
+     *
      */
     public GameMarginHorizontal(boolean top, GameGUI board, DataOutputStream dos) {
         this.setPreferredSize(new Dimension( 920, 60) );

@@ -308,14 +308,14 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             if (game != null) {
-                                Parameter coins = new Parameter(original, 7);
-                                if (coins.isCorrect) {
-                                    coins.changeBoard(game, 2);
+                                synchronized (this) {
+                                    Parameter coins = new Parameter(original, 7);
+                                    if (coins.isCorrect) {
+                                        coins.changeBoard(game, 2);
 
-                                    profile.gmsc.createCoinSound();
-
-                                    synchronized (this) {
+                                        profile.gmsc.createCoinSound();
                                         profile.mainFrame.score.game.repaint();
+
                                     }
                                 }
                             }
@@ -329,18 +329,17 @@ public class ClientReaderThread implements Runnable {
                              * This is a set up for the turtle start position
                              */
                             if (game != null) {
+                                synchronized (this) {
+                                    Parameter startPos = new Parameter(original, 6);
+                                    if (startPos.isCorrect) {
+                                        int x = startPos.positions[0][0];
+                                        int y = startPos.positions[0][1];
 
-                                Parameter startPos = new Parameter(original, 6);
-                                if (startPos.isCorrect) {
-                                    int x = startPos.positions[0][0];
-                                    int y = startPos.positions[0][1];
-
-                                    PlayerTurtle turtle = new PlayerTurtle(startPos.numberOne, startPos.wordOne, x, y);
-                                    turtles[startPos.numberOne] = turtle;
-                                    game.board[x][y].turtle = turtle;
-
-                                    synchronized (this) {
+                                        PlayerTurtle turtle = new PlayerTurtle(startPos.numberOne, startPos.wordOne, x, y);
+                                        turtles[startPos.numberOne] = turtle;
+                                        game.board[x][y].turtle = turtle;
                                         profile.mainFrame.score.game.repaint();
+
                                     }
                                 }
                             }
@@ -362,14 +361,14 @@ public class ClientReaderThread implements Runnable {
                                      * positions[0][0] = new x coordinate
                                      * positions[0][1] = new y coordinate
                                      */
-                                    PlayerTurtle turtle = turtles[respawnParameters.numberOne];
-                                    game.board[turtle.xPos][turtle.yPos].turtle = null;
-                                    turtle.xPos = respawnParameters.positions[0][0];
-                                    turtle.yPos = respawnParameters.positions[0][1];
-                                    game.board[turtle.xPos][turtle.yPos].turtle = turtle;
-
                                     synchronized (this) {
+                                        PlayerTurtle turtle = turtles[respawnParameters.numberOne];
+                                        game.board[turtle.xPos][turtle.yPos].turtle = null;
+                                        turtle.xPos = respawnParameters.positions[0][0];
+                                        turtle.yPos = respawnParameters.positions[0][1];
+                                        game.board[turtle.xPos][turtle.yPos].turtle = turtle;
                                         profile.mainFrame.score.game.repaint();
+
                                     }
                                 }
 
@@ -384,21 +383,21 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             if (game != null) {
-                                Parameter turtleNumberAndDirection = new Parameter(original, 1);
-                                if (turtleNumberAndDirection.isCorrect) {
-                                    /*
-                                     * numberOne == number of the turtle
-                                     * numberTwo == direction
-                                     */
+                                synchronized (this) {
+                                    Parameter turtleNumberAndDirection = new Parameter(original, 1);
+                                    if (turtleNumberAndDirection.isCorrect) {
+                                        /*
+                                         * numberOne == number of the turtle
+                                         * numberTwo == direction
+                                         */
 
-                                    turtleNumberAndDirection.moveTurtle(
-                                            game, turtleNumberAndDirection.numberTwo,
-                                            turtles[turtleNumberAndDirection.numberOne], profile.gmsc);
+                                        turtleNumberAndDirection.moveTurtle(
+                                                game, turtleNumberAndDirection.numberTwo,
+                                                turtles[turtleNumberAndDirection.numberOne], profile.gmsc);
 
-                                    profile.gmsc.createMoveSound();
-
-                                    synchronized (this) {
+                                        profile.gmsc.createMoveSound();
                                         profile.mainFrame.score.game.repaint();
+
                                     }
                                 }
                             }
@@ -437,12 +436,13 @@ public class ClientReaderThread implements Runnable {
                              * This is used to change a field to 'stepped on'
                              */
                             if (game != null) {
-                                Parameter paint = new Parameter(original, 7);
-                                if (paint.isCorrect) {
-                                    paint.changeBoard(game, 0);
+                                synchronized (this) {
+                                    Parameter paint = new Parameter(original, 7);
+                                    if (paint.isCorrect) {
+                                        paint.changeBoard(game, 0);
 
-                                    synchronized (this) {
                                         profile.mainFrame.score.game.repaint();
+
                                     }
                                 }
                             }
@@ -454,16 +454,17 @@ public class ClientReaderThread implements Runnable {
                              * This is used for earth quakes
                              */
                             if (game != null) {
-                                Parameter quake = new Parameter(original, 7);
-                                if (quake.isCorrect) {
-                                    quake.changeBoard(game, 3);
+                                synchronized (this) {
+                                    Parameter quake = new Parameter(original, 7);
+                                    if (quake.isCorrect) {
+                                        quake.changeBoard(game, 3);
 
-                                    profile.gmsc.createEarthquakeSound();
+                                        profile.gmsc.createEarthquakeSound();
 
-                                    synchronized (this) {
                                         profile.mainFrame.score.game.repaint();
-                                    }
 
+
+                                    }
                                 }
                             }
 
@@ -477,14 +478,15 @@ public class ClientReaderThread implements Runnable {
                              */
 
                             if (game != null) {
-                                Parameter flood = new Parameter(original, 7);
-                                if (flood.isCorrect) {
-                                    flood.changeBoard(game, 1);
+                                synchronized (this) {
+                                    Parameter flood = new Parameter(original, 7);
+                                    if (flood.isCorrect) {
+                                        flood.changeBoard(game, 1);
 
-                                    profile.gmsc.createFloodSound();
+                                        profile.gmsc.createFloodSound();
 
-                                    synchronized (this) {
                                         profile.mainFrame.score.game.repaint();
+
                                     }
                                 }
                             }
@@ -496,10 +498,9 @@ public class ClientReaderThread implements Runnable {
                              * changes fields with flood or earthquake back to normal
                              */
                             if (game != null) {
-                                game.afterEvent();
-
                                 synchronized (this) {
-                                    profile.mainFrame.score.game.repaint();
+                                game.afterEvent();
+                                profile.mainFrame.score.game.repaint();
                                 }
                             }
                             break;
