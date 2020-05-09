@@ -72,7 +72,7 @@ public class ClientChatGUI extends JPanel {
         chatArea.setEditable(false); //cannot write in the ChatArea anymore
         chatArea.setBackground(new Color(1,1,1, (float) 0.01));
         chatArea.setLineWrap(true); //prevents horizontal scrolling with long texts
-        chatArea.setWrapStyleWord(true); //gets cut of by words
+        //chatArea.setWrapStyleWord(true); //gets cut of by words
         this.add(chatArea);
 
         //create scroll panel

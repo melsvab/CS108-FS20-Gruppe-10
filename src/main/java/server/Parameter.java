@@ -394,13 +394,13 @@ public class Parameter {
      */
     public String changeToChatMessageFormat(String original) {
         String originalWithMoreLines = "";
-        int numberOfCharsPerLine = 25;
+        int numberOfCharsPerLine = 31;
         int numberOfCharsAtTheMoment = 0;
 
         String[] words = original.split(" ");
 
         for(int i = 0; i < words.length; i++) {
-            numberOfCharsAtTheMoment += words[i].length();
+            numberOfCharsAtTheMoment += words[i].length() + 1;
 
             if (words[i].contains("\n")) {
                 numberOfCharsAtTheMoment = 0;
