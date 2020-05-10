@@ -361,6 +361,7 @@ public class ClientReaderThread implements Runnable {
                                      * positions[0][0] = new x coordinate
                                      * positions[0][1] = new y coordinate
                                      */
+                                    profile.gmsc.createHitSound();
                                     synchronized (this) {
                                         PlayerTurtle turtle = turtles[respawnParameters.numberOne];
                                         game.board[turtle.xPos][turtle.yPos].turtle = null;
@@ -517,7 +518,7 @@ public class ClientReaderThread implements Runnable {
 
                         case INVM:
 
-                            profile.gmsc.createInvalidSoud();
+                            profile.gmsc.createInvalidSound();
                             profile.mainFrame.score.bottom.invalidMove.setText(original.substring(5));
                             profile.mainFrame.score.bottom.tmr.start();
 
