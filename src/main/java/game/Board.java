@@ -103,11 +103,14 @@ public class Board {
             for (int y = 1; y < this.boardSize + 1; y++) { //y = 0 is border (already flooded)
                 Random random = new Random();
                 int number = random.nextInt(100) + 3;
+                //DEMO REASONS
+                number = random.nextInt(100) - 10;
                 if (number <= this.coinOccurrence && !this.board[x][y].isStartPosition) {
                     this.board[x][y].hasCoin = true;
                     coinAt += ":" + x + "-" + y;
 
                 }
+
             }
         }
         return coinAt;

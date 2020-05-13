@@ -298,6 +298,105 @@ public class Lobby extends Thread {
             aPlayer.profil.waitingForEvent = false;
         }
 
+        //DEMO
+        int rounds = 1;
+        boolean defineWinner = false;
+        int whichEvent = 1;
+        while (!defineWinner) {
+            writeToAll(Protocol.RNDS.name() + ":" + rounds);
+            pleaseWait(20);
+            for (ServerThreadForClient aPlayer : players) {
+                aPlayer.profil.waitingForEvent = true;
+            }
+            writeToAll(Protocol.GMSG.name() + ":An Event has started!");
+            pleaseWait(2);
+
+            switch (whichEvent) {
+                case 1:
+                    Random howOften = new Random();
+                    int randomOften = howOften.nextInt(5) + 4;
+                    String flood = this.board.floodBoard(randomOften, this);
+                    writeToAll(Protocol.WATR.name() + ":1" + flood);
+                    pleaseWait(4);
+                    this.board.afterEvent();
+                    writeToAll(Protocol.RSET.name());
+                    whichEvent++;
+                    break;
+
+                case 2:
+                    Random howStrong = new Random();
+                    int magnitude = howStrong.nextInt(30) + 10;
+                    String quake = this.board.earthquake(magnitude, this);
+                    writeToAll(Protocol.QUAK.name() + ":1" + quake);
+                    pleaseWait(4);
+                    this.board.afterEvent();
+                    writeToAll(Protocol.RSET.name());
+                    whichEvent++;
+                    break;
+
+                case 3:
+                    // all positions that have coins now -> should be impossible right now
+                    String coin = board.spawnRandomCoins();
+                    // "1" for new coins that spawn. "2" would be for coins that were taken.
+                    writeToAll(Protocol.COIN.name() + ":1" + coin);
+                    whichEvent++;
+                    break;
+
+                case 4:
+                    Random howOften2 = new Random();
+                    int randomOften2 = howOften2.nextInt(5) + 4;
+                    String flood2 = this.board.floodBoard(randomOften2, this);
+                    writeToAll(Protocol.WATR.name() + ":1" + flood2);
+                    pleaseWait(4);
+                    this.board.afterEvent();
+                    writeToAll(Protocol.RSET.name());
+                    whichEvent++;
+                    break;
+            }
+
+
+
+            pleaseWait(2);
+            for (ServerThreadForClient aPlayer : players) {
+                aPlayer.profil.waitingForEvent = false;
+                if (aPlayer.profil.myTurtle.wasHitByEvent) {
+                    writeToPlayer(Protocol.GMSG.name() + ":You got hit and lost some points!", aPlayer);
+                    aPlayer.profil.myTurtle.wasHitByEvent = false;
+                } else {
+                    writeToPlayer(Protocol.GMSG.name() + ":You survived!", aPlayer);
+                }
+            }
+            if (rounds >= 4) {
+                int pointsCounter = -100;
+                String placeholder = "";
+                for (ServerThreadForClient aPlayer : players) {
+                    if (aPlayer.profil.myTurtle.points > pointsCounter) {
+                        pointsCounter = aPlayer.profil.myTurtle.points;
+                        placeholder = aPlayer.profil.nickname;
+
+                    }
+                }
+                int counter = 1;
+                for (ServerThreadForClient aPlayer : players) {
+                    if (!(placeholder.equals(aPlayer.profil.nickname))) {
+                        if (pointsCounter == aPlayer.profil.myTurtle.points) {
+                            counter++;
+                        }
+                    }
+                }
+                if (counter > 1) {
+                    defineWinner = false;
+                    counter = 1;
+                } else {
+                    defineWinner = true;
+                }
+            }
+
+            rounds += 1;
+        }
+
+        /* FOR DEMO REASONS
+
         //game has started.
         int rounds = 1;
         boolean defineWinner = false;
@@ -373,6 +472,8 @@ public class Lobby extends Thread {
             rounds += 1;
         }
 
+        FOR DEMO REASONS */
+
         writeToAll(Protocol.GMSG.name() + ":The game has ended!");
         int maxPoints = -100;
         String winner = "";
@@ -387,9 +488,10 @@ public class Lobby extends Thread {
 
         writeToAll(Protocol.WINR.name() + ":" + winner + ":" + maxPoints);
 
-        HighscorePlayer highscorePlayer = new HighscorePlayer(winner, maxPoints);
-
-        Highscore.highscoreList.saveHighscore(highscorePlayer);
+        if (maxPoints != -100) {
+            HighscorePlayer highscorePlayer = new HighscorePlayer(winner, maxPoints);
+            Highscore.highscoreList.saveHighscore(highscorePlayer);
+        }
 
         gamestate = 3;
 
