@@ -6,7 +6,12 @@ import javafx.scene.media.MediaPlayer;
 
 import java.net.URL;
 
+/**
+ * @author Melanie
+ * The  Game music.
+ */
 public class GameMusic {
+
 
     URL tropical;
     URL movement;
@@ -29,6 +34,9 @@ public class GameMusic {
     MediaPlayer mediaInvalidMove;
     MediaPlayer mediaHit;
 
+    /**
+     * Instantiates a new Game music.
+     */
     public GameMusic() {
         final JFXPanel fxPanel = new JFXPanel();
         tropical = this.getClass().getClassLoader().getResource("msc/Tropical-Island.mp3");
@@ -42,6 +50,10 @@ public class GameMusic {
         invalidMove = this.getClass().getClassLoader().getResource("msc/invalid.mp3");
         hit = this.getClass().getClassLoader().getResource("msc/hit.mp3");
     }
+
+    /**
+     * Create tropical sound.
+     */
     public void createTropicalSound() {
         Media music = new Media(String.valueOf(tropical));
         mediaTropical = new MediaPlayer(music);
@@ -49,54 +61,81 @@ public class GameMusic {
         mediaTropical.play();
     }
 
+    /**
+     * Create move sound.
+     */
     public void createMoveSound() {
         Media music = new Media(String.valueOf(movement));
         mediaMovement = new MediaPlayer(music);
         mediaMovement.play();
     }
 
+    /**
+     * Create count down.
+     */
     public void createCountDown() {
         Media music = new Media(String.valueOf(countDown));
         mediaCountDown = new MediaPlayer(music);
         mediaCountDown.play();
     }
 
+    /**
+     * Create start sound.
+     */
     public void createStartSound() {
         Media music = new Media(String.valueOf(start));
         mediaStart = new MediaPlayer(music);
         mediaStart.play();
     }
 
+    /**
+     * Create coin sound.
+     */
     public void createCoinSound() {
         Media music = new Media(String.valueOf(coin));
         mediaCoin = new MediaPlayer(music);
         mediaCoin.play();
     }
 
+    /**
+     * Create button sound.
+     */
     public void createButtonSound() {
         Media music = new Media(String.valueOf(buttons));
         mediaButtons = new MediaPlayer(music);
         mediaButtons.play();
     }
 
+    /**
+     * Create earthquake sound.
+     */
     public void createEarthquakeSound() {
         Media music = new Media(String.valueOf(earthquake));
         mediaQuake = new MediaPlayer(music);
         mediaQuake.play();
     }
 
+    /**
+     * Create flood sound.
+     */
     public void createFloodSound() {
         Media music = new Media(String.valueOf(flood));
         mediaFlood = new MediaPlayer(music);
         mediaFlood.play();
     }
 
+    /**
+     * Create invalid sound.
+     */
     public void createInvalidSound() {
         Media music = new Media(String.valueOf(invalidMove));
         mediaInvalidMove = new MediaPlayer(music);
         mediaInvalidMove.play();
     }
 
+    /**
+     * Create hit sound.
+     */
     public void createHitSound() {
         Media music = new Media(String.valueOf(hit));
         mediaHit = new MediaPlayer(music);
