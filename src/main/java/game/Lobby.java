@@ -298,6 +298,7 @@ public class Lobby extends Thread {
             aPlayer.profil.waitingForEvent = false;
         }
 
+        /*
         //DEMO
         int rounds = 1;
         boolean defineWinner = false;
@@ -395,7 +396,9 @@ public class Lobby extends Thread {
             rounds += 1;
         }
 
-        /* FOR DEMO REASONS
+
+         */
+
 
         //game has started.
         int rounds = 1;
@@ -472,7 +475,6 @@ public class Lobby extends Thread {
             rounds += 1;
         }
 
-        FOR DEMO REASONS */
 
         writeToAll(Protocol.GMSG.name() + ":The game has ended!");
         int maxPoints = -100;
