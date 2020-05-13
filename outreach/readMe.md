@@ -25,3 +25,10 @@ Zuletzt sollt ihr bei `game.developers` alle eure Entwickler_innen mit vollem Na
 Wir archivieren die Spiele des Programmierprojektes auf http://p9.dmi.unibas.ch/cs108/. Zu diesem Zweck brauchen wir von allen Gruppen ein HTML-File, welches Infos zum Spiel enthält (und ab 2020 dazu, wie das Spiel gespielt wird). 
 
 Passt alle Teile wie im `index.html` File beschrieben an.
+
+## Spielrechte:
+Das Team Eiländers besitzt alle Rechte für das Spiel
+
+## Download:
+Downloadlink:
+https://www.dropbox.com/s/yvaq5nwti3mhg4n/DerBodenistJava-0.0.1-ALPHA.jar?dl=0
