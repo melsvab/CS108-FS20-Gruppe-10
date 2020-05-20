@@ -42,7 +42,7 @@ public class GameMusic {
         tropical = this.getClass().getClassLoader().getResource("msc/Tropical-Island.mp3");
         movement = this.getClass().getClassLoader().getResource("msc/movements.mp3");
         coin = this.getClass().getClassLoader().getResource("msc/coin.mp3");
-        countDown = this.getClass().getClassLoader().getResource("msc/countDown.mp3");
+        countDown = this.getClass().getClassLoader().getResource("msc/countdown.mp3");
         start = this.getClass().getClassLoader().getResource("msc/startSound.mp3");
         buttons = this.getClass().getClassLoader().getResource("msc/buttons.mp3");
         earthquake = this.getClass().getClassLoader().getResource("msc/earthquake.mp3");
